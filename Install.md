@@ -178,11 +178,10 @@ variables for Qt. During the configure phase, we used the following command:
 ```./configure -static -fast```
 This ensures that a static Qt library file is built.
 
+3. Compiling ifREEDA
 The fREEDA GUI  will need to know the location of the Qt includes, libraries
 and qmake. These paths need to be in your PATH. The instructions for doing this
 properly are in the Qt INSTALL documentation.
-
-3. Compiling ifREEDA
 In the freeda-<version-number>/ifreeda directory, you must edit a file called
 ifreeda.pro. In that file are two variables called TSRC and TLIB. These point
 to your Trilinos library installation. 
