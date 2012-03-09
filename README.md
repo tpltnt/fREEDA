@@ -20,10 +20,22 @@ analysis. It also implements several device models including common three
 and four terminal transistors, transmission line, Foster's canonical form
 and diodes - electronic, optical and tunnel types.
 
+fREEDA(TM) can be downloaded at http://www.freeda.org
+
 #License
 LGPL
 
 #System Requirements
-- gcc, g++, g77 compilers ver. 4.0+
-- GNU make, flex, bison
-- bash shell
+- GNU Make
+- GNU C compiler gcc/g++ version 4.4.x 
+- GNU fortran compiler gfortran 4.4.x
+- GNU flex-2.5.xx and bison-2.4.x
+- The bash shell version 4.1.5
+- CMake 2.8.x for the Trilinos installation
+
+For ifreeda
+
+- Qt 4.5.0. This includes the qmake tool, and the associated toolkit library.
+
+It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
+tested.
