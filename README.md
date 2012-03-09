@@ -1,4 +1,5 @@
-#About
+About
+=====
 fREEDA is a multi-physics simulator that uses compact models. It can be 
 used as an alternative Spice circuit simulator and will read a Spice
 netlist as well as its own (better) native netlist with many more
@@ -26,7 +27,8 @@ fREEDA(TM) can be downloaded at http://www.freeda.org
 
 **License:** LGPL
 
-##System Requirements
+System Requirements
+-------------------
 - GNU Make
 - GNU C compiler gcc/g++ version 4.4.x 
 - GNU fortran compiler gfortran 4.4.x
@@ -41,10 +43,12 @@ For ifreeda
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
 
-#Documentation
+Documentation
+=============
 It can be found in freeda-<version-number>/doc
 
-#Adding a new element
+Adding a new element
+====================
 A new element contains a ElementName.cc and ElementName.h file. To read more
 about how to create an element, read the fREEDA programmer's manual in the
 doc directory.
@@ -72,7 +76,8 @@ iv) history - this folder contains previous versions of your element in case you
 
 - To add this element to the fREEDA GUI (ifreeda), see the file README_ GUI.
 
-#Developers
+Developers
+==========
 fREEDA has evolved because of the work of many people. Below is a list of
 people, many of whom are still actively involved. Please email Nikhil Kriplani
 at nkriplaniHERE-COMES-THE-AT-SIGNncsu.edu to become a developer or if your
