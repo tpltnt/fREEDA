@@ -160,40 +160,50 @@ Compiling and Installing the GUI (ifreeda)
 ------------------------------------------
 
 Acknowledgements: 
-The GUI packaged with fREEDA is based on a gui used in the software simulator Qucs. The Qucs project can be found at http://qucs.sourceforge.net/
+The GUI packaged with fREEDA is based on a gui used in the software simulator
+Qucs. The Qucs project can be found at http://qucs.sourceforge.net/
 The GUI is based on the Qt toolkit (http://qt.nokia.com)
 
 Before you can compile the GUI packaged with fREEDA you must do a few things first.
 
 1. Get Qt 4.5.0
-Download and install Qt version 4.5.0. You can find a package suitable for your platform at:
-ftp://ftp.trolltech.com/qt/source/
+Download and install Qt version 4.5.0. You can find a package suitable for your
+platform at: ftp://ftp.trolltech.com/qt/source/
 For example, on our Linux installation, we used the file qt-x11-opensource-src-4.5.0.tar.gz. 
 This is the only version that has been tested with the GUI.
 
 2. Install Qt 4.5.0
-Follow the INSTALL instructions for Qt. Specifically setting up the environment variables for Qt. During the configure phase, we used the following command:
-./configure -static -fast
+Follow the INSTALL instructions for Qt. Specifically setting up the environment
+variables for Qt. During the configure phase, we used the following command:
+```./configure -static -fast```
 This ensures that a static Qt library file is built.
 
-The fREEDA GUI  will need to know the location of the Qt includes, libraries and qmake. These paths need to be in your PATH. The instructions for doing this properly are in the Qt INSTALL documentation.
+The fREEDA GUI  will need to know the location of the Qt includes, libraries
+and qmake. These paths need to be in your PATH. The instructions for doing this
+properly are in the Qt INSTALL documentation.
 
 3. Compiling ifREEDA
-In the freeda-<version-number>/ifreeda directory, you must edit a file called ifreeda.pro. In that file are two variables called TSRC and TLIB. These point to your Trilinos library installation. 
-In our case, we have Trilinos 10.0.2 installed in the directory /opt. So these variables are named as
+In the freeda-<version-number>/ifreeda directory, you must edit a file called
+ifreeda.pro. In that file are two variables called TSRC and TLIB. These point
+to your Trilinos library installation. 
+In our case, we have Trilinos 10.0.2 installed in the directory /opt. So these
+variables are named as
 TSRC = /opt/trilinos-10.0.2-Source/packages
 TLIB = /opt/trilinos-10.0.2-Source/LINUX_SERIAL/packages
-You might choose a different path, in which case you will update these variables accordingly.
+You might choose a different path, in which case you will update these variables
+accordingly.
 
 Run the ./build_GUI script, which you will find in the freeda-<version-number> directory.
 
 This will create the ifreeda binary in the freeda-<version-number>/ifreeda directory.
 To run this, from the ifreeda directory, type
-$ ./ifreeda
+```$ ./ifreeda```
 
 
 Contact information
 -------------------
 This INSTALL file and the compilation process is maintained by Nikhil Kriplani.
-Please direct any issues and queries to nkriplani-HERE-COMES-THE-AT-SIGN-ncsu.edu. Getting the system to compile correctly is always a work in progress, so any feedback to help improve 
-the process is welcome. If the compilation is succesful, send a friendly note and let us know.
+Please direct any issues and queries to nkriplani-HERE-COMES-THE-AT-SIGN-ncsu.edu.
+Getting the system to compile correctly is always a work in progress, so any feedback
+to help improve the process is welcome. If the compilation is succesful, send a
+friendly note and let us know.
