@@ -1,6 +1,8 @@
 Last updated Nov 2010.
 
-This file contains information related to installation of fREEDA and ifreeda which is a GUI front-end to fREEDA. The README and README_GUI files contain useful usage information.
+This file contains information related to installation of fREEDA and
+ifreeda which is a GUI front-end to fREEDA. The README and
+README _ GUI files contain useful usage information.
 
 The use of the '$' symbol denotes the shell prompt.
 
@@ -14,7 +16,9 @@ System Requirements
 - CMake 2.8.x for the Trilinos installation
 
 For ifreeda
+
 - Qt 4.5.0. This includes the qmake tool, and the associated toolkit library.
+
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
 
@@ -37,7 +41,12 @@ freeda-<version-number> (main directory)
 
 Compiling and Installing fREEDA
 -------------------------------
-The first step is installing the Trilinos libraries and associated dependencies. Since we do not maintain Trilinos, we cannot provide support for installing it. However, we will provide the steps we took to installing Trilinos. Look at the official Trilinos instructions if you want to use options in addition to what we used. In order to get fREEDA working, you have to at least compile the portions of Trilinos that we use.
+The first step is installing the Trilinos libraries and associated
+dependencies. Since we do not maintain Trilinos, we cannot provide
+support for installing it. However, we will provide the steps we took to
+installing Trilinos. Look at the official Trilinos instructions if you
+want to use options in addition to what we used. In order to get fREEDA
+working, you have to at least compile the portions of Trilinos that we use.
 
 TRILINOS INSTALLATION
 
