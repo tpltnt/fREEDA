@@ -22,3 +22,8 @@ and diodes - electronic, optical and tunnel types.
 
 #License
 LGPL
+
+#System Requirements
+- gcc, g++, g77 compilers ver. 4.0+
+- GNU make, flex, bison
+- bash shell
