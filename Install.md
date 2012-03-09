@@ -117,7 +117,8 @@ cmake \
   -D Trilinos_ENABLE_Triutils:BOOL=ON \
   -D CMAKE_INSTALL_PREFIX:PATH=$TRILINOS_HOME/LINUX_SERIAL \
   $EXTRA_ARGS \
-  ${TRILINOS_HOME}```
+  ${TRILINOS_HOME}
+```
 
 
 This file contains all the Trilinos packages required by fREEDA. Save this
