@@ -40,6 +40,9 @@ For ifreeda
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
 
+#Documentation
+It can be found in freeda-<version-number>/doc
+
 #Adding a new element
 A new element contains a ElementName.cc and ElementName.h file. To read more
 about how to create an element, read the fREEDA programmer's manual in the
@@ -66,7 +69,7 @@ iv) history - this folder contains previous versions of your element in case you
 - Your element file will be compiled again and the fREEDA binary file  will be re-built,
   after which you can use your new element in a netlist.
 
-- To add this element to the fREEDA GUI (ifreeda), see the file README_GUI.
+- To add this element to the fREEDA GUI (ifreeda), see the file README_ GUI.
 
 #Developers
 fREEDA has evolved because of the work of many people. Below is a list of
