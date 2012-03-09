@@ -24,7 +24,7 @@ tested.
 
 Directory Structure
 -------------------
-freeda-<version-number> (main directory)
+- freeda-<version-number> (main directory)
 
 	- libs (containes the libraries that are linked with freeda)
 	- doc (freeda PDF documentation)
