@@ -51,21 +51,26 @@ working, you have to at least compile the portions of Trilinos that we use.
 TRILINOS INSTALLATION
 
 First ensure that BLAS (http://www.netlib.org/blas/) and Lapack
-(http://www.netlib.org/lapack/) are installed, make sure to compile them with the gfortran compiler. For AMD64 platforms, use the -fPIC option when compiling BLAS and Lapack.
+(http://www.netlib.org/lapack/) are installed, make sure to compile them
+with the gfortran compiler. For AMD64 platforms, use the -fPIC option when
+compiling BLAS and Lapack.
 
 For BLAS, unpack the blas.tgz archive and edit the file make.inc.
-Change all the g77 instances to gfortran. The run make, and cp the generated library file to /usr/lib.
+Change all the g77 instances to gfortran. The run make, and cp the generated
+library file to /usr/lib.
 
 $ make
 
-Copy the library file to the system-level folder. This makes it easy for Trilinos to find it.
+Copy the library file to the system-level folder. This makes it easy for
+Trilinos to find it.
 $ sudo cp blas_LINUX.a /usr/lib/libblas.a
 
 For LAPACK, unpack the lapack.tgz archive and use the commands
 $ cp make.inc.example make.inc
 $ make lapacklib 
 
-Copy the library file to the system-level folder. This makes it easy for Trilinos to find it.
+Copy the library file to the system-level folder. This makes it easy for
+Trilinos to find it.
 $ sudo cp lapack_LINUX.a /usr/lib/liblapack.a
 
 Ensure that g77 is not installed on your system. This will cause problem with the Trilinos installation.
