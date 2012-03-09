@@ -76,17 +76,25 @@ Copy the library file to the system-level folder. This makes it easy for
 Trilinos to find it.
 ```$ sudo cp lapack_LINUX.a /usr/lib/liblapack.a```
 
-Ensure that g77 is not installed on your system. This will cause problem with the Trilinos installation.
+Ensure that g77 is not installed on your system. This will cause problem
+with the Trilinos installation.
 
-Download Trilinos version 10.0.2 from http://trilinos.sandia.gov/download/trilinos-10.0.html. There are newer versions of Trilinos available but we have not tested fREEDA with them yet.
+Download Trilinos version 10.0.2 from http://trilinos.sandia.gov/download/trilinos-10.0.html.
+There are newer versions of Trilinos available but we have not tested fREEDA
+with them yet.
 
-Unpack the Trilinos archive into the /opt directory. This will create a directory called
-/opt/trilinos-10.0.2-Source. Note that for this and subsequent operations, you may need admin rights on your computer.
+Unpack the Trilinos archive into the /opt directory. This will create a
+directory called /opt/trilinos-10.0.2-Source. Note that for this and subsequent
+operations, you may need admin rights on your computer.
 
-Trilinos is designed to do both serial and parallel computations. To install the serial capabilities of Trilinos, create a directory under trilinos-10.0.2-Source called LINUX_SERIAL. The directory structure now looks like this:
+Trilinos is designed to do both serial and parallel computations. To install
+the serial capabilities of Trilinos, create a directory under trilinos-10.0.2-Source
+called LINUX_SERIAL. The directory structure now looks like this:
 /opt/trilinos-10.0.2-Source/LINUX_SERIAL.
-Inside the LINUX_SERIAL directory create a file named do-configure and it should contain the following lines:
+Inside the LINUX_SERIAL directory create a file named do-configure and it
+should contain the following lines:
 
+```
 #!/bin/sh
 # cmake script for a serial build of trilinos on 64-bit Linux
 
@@ -109,14 +117,15 @@ cmake \
   -D Trilinos_ENABLE_Triutils:BOOL=ON \
   -D CMAKE_INSTALL_PREFIX:PATH=$TRILINOS_HOME/LINUX_SERIAL \
   $EXTRA_ARGS \
-  ${TRILINOS_HOME}
+  ${TRILINOS_HOME}```
 
 
-This file contains all the Trilinos packages required by fREEDA. Save this file and make it executable by issuing the command
-$ chmod +x do-configure
+This file contains all the Trilinos packages required by fREEDA. Save this
+file and make it executable by issuing the command
+```$ chmod +x do-configure```
 
 Run this executable file.
-$ ./do-configure
+```$ ./do-configure```
 
 Then compile Trilinos.
 $ make
