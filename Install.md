@@ -128,9 +128,10 @@ Run this executable file.
 ```$ ./do-configure```
 
 Then compile Trilinos.
-$ make
+```$ make```
 
-When the Trilinos compilation  is finished, go to your freeda-<version-number>/simulator directory.
+When the Trilinos compilation  is finished, go to your freeda-<version-number>/simulator
+directory.
 
 Open the file makefile.defs in a text editor and update the variables FRHOME,
 TSRC and TLIB to indicate the path of your fREEDA and Trilinos installations
@@ -142,14 +143,16 @@ For example, if you have followed the instructions above, these variables would 
 TSRC = /opt/trilinos-10.0.2-Source/packages
 TLIB = /opt/trilinos-10.0.2-Source/LINUX_SERIAL/packages
 
-Save and exit this file, and go one level up to the freeda-<version-number> directory. Run the script build_fREEDA.
-$ cd ..
-$ ./build_fREEDA
+Save and exit this file, and go one level up to the freeda-<version-number> directory.
+Run the script build_fREEDA.
+``$ cd ..
+$ ./build_fREEDA```
 
-This will compile all of the fREEDA code. Once this completes succesfully, the freeda binary will be created
-in freeda-<version-number>/simulator. From there, you can run the simulator on any of the sample netlists in the test directory.
+This will compile all of the fREEDA code. Once this completes succesfully,
+the freeda binary will be created in freeda-<version-number>/simulator. From
+there, you can run the simulator on any of the sample netlists in the test directory.
 For example, from freeda-<version-number>/simulator:
-./freeda <netlist_name>
+```./freeda <netlist_name>```
 
 
 Compiling and Installing the GUI (ifreeda)
@@ -190,5 +193,6 @@ $ ./ifreeda
 
 Contact information
 -------------------
-This INSTALL file and the compilation process is maintained by Nikhil Kriplani. Please direct any issues and queries to  nkriplani@ncsu.edu. Getting the system to compile correctly is always a work in progress, so any feedback to help improve 
+This INSTALL file and the compilation process is maintained by Nikhil Kriplani.
+Please direct any issues and queries to nkriplani-HERE-COMES-THE-AT-SIGN-ncsu.edu. Getting the system to compile correctly is always a work in progress, so any feedback to help improve 
 the process is welcome. If the compilation is succesful, send a friendly note and let us know.
