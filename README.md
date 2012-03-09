@@ -2,7 +2,7 @@
 fREEDA is a multi-physics simulator that uses compact models. It can be 
 used as an alternative Spice circuit simulator and will read a Spice
 netlist as well as its own (better) native netlist with many more
-elemenbts supported. f REEDA uses uses state variables and many new
+elemenbts supported. fREEDA uses uses state variables and many new
 circuit concepts supporting multi physics modeling. It minimizes energy
 rather than minimizing current errors and so is much more robust than
 Spice and with high dynamic range. Many phenomena that Spice can never
