@@ -22,10 +22,13 @@ and diodes - electronic, optical and tunnel types.
 
 fREEDA(TM) can be downloaded at http://www.freeda.org
 
-#License
+##License
 LGPL
 
-#System Requirements
+##Version
+2.0
+
+##System Requirements
 - GNU Make
 - GNU C compiler gcc/g++ version 4.4.x 
 - GNU fortran compiler gfortran 4.4.x
