@@ -25,10 +25,12 @@ tested.
 Directory Structure
 -------------------
 freeda-<version-number> (main directory)
+
 	- libs (containes the libraries that are linked with freeda)
 	- doc (freeda PDF documentation)
 	- ifreeda (contains GUI code)
 	- simulator (the main freeda code)
+	
 		- analysis 
 		- compat
 		- elements
@@ -36,6 +38,7 @@ freeda-<version-number> (main directory)
 		- lib
 		- network
 		- projects (contains examples to test with the GUI)
+
 	- test (contains some sample netlists)
 
 
@@ -59,19 +62,19 @@ For BLAS, unpack the blas.tgz archive and edit the file make.inc.
 Change all the g77 instances to gfortran. The run make, and cp the generated
 library file to /usr/lib.
 
-$ make
+```$ make```
 
 Copy the library file to the system-level folder. This makes it easy for
 Trilinos to find it.
-$ sudo cp blas_LINUX.a /usr/lib/libblas.a
+```$ sudo cp blas_LINUX.a /usr/lib/libblas.a```
 
 For LAPACK, unpack the lapack.tgz archive and use the commands
-$ cp make.inc.example make.inc
-$ make lapacklib 
+```$ cp make.inc.example make.inc
+$ make lapacklib```
 
 Copy the library file to the system-level folder. This makes it easy for
 Trilinos to find it.
-$ sudo cp lapack_LINUX.a /usr/lib/liblapack.a
+```$ sudo cp lapack_LINUX.a /usr/lib/liblapack.a```
 
 Ensure that g77 is not installed on your system. This will cause problem with the Trilinos installation.
 
