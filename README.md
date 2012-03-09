@@ -39,3 +39,26 @@ For ifreeda
 
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
+
+#Developers
+fREEDA has evolved because of the work of many people. Below is a list of
+people, many of whom are still actively involved. Please email Nikhil Kriplani
+at nkriplaniHERE-COMES-THE-AT-SIGNncsu.edu to become a developer or if your
+name may have been mistakenly left out.
+
+Michael B Steer <mbsHERE-COMES-THE-AT-SIGNncsu.edu>
+Carlos Christoffersen <cechristHERE-COMES-THE-AT-SIGNvision.lakeheadu.ca>
+Nikhil Kriplani <nmkriplaHERE-COMES-THE-AT-SIGNunity.ncsu.edu>
+Senthil Velu <sveluHERE-COMES-THE-AT-SIGNunity.ncsu.edu>
+Sonali Luniya <srluniyaHERE-COMES-THE-AT-SIGNunity.ncsu.edu>
+Justin Lowry <jqlowryHERE-COMES-THE-AT-SIGNncsu.edu>
+Houssam Kanj <houssam_kanjHERE-COMES-THE-AT-SIGNyahoo.com>
+Frank Hart <fphartHERE-COMES-THE-AT-SIGNunity.ncsu.edu>
+Aaron Walker <alwalke3HERE-COMES-THE-AT-SIGNunity.ncsu.edu>
+Ramya Mohan <rmohanHERE-COMES-THE-AT-SIGNunity.ncsu.edu>
+Shubha Vijaychand <svijaycHERE-COMES-THE-AT-SIGNhotmail.com>
+Satish Uppathil <satish.uppathilHERE-COMES-THE-AT-SIGNericsson.com>
+T. Rob Harris <trharrisHERE-COMES-THE-AT-SIGNncsu.edu>
+Shivam Priyadarshi <spriyadHERE-COMES-THE-AT-SIGNncsu.edu>
+Chris Snowden
+Bill Batty
