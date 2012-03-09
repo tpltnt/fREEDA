@@ -22,8 +22,9 @@ and diodes - electronic, optical and tunnel types.
 
 fREEDA(TM) can be downloaded at http://www.freeda.org
 
-*Version:* 2.0
-*License:* LGPL
+**Version:** 2.0
+
+**License:** LGPL
 
 ##System Requirements
 - GNU Make
