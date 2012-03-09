@@ -1,0 +1,31 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* This uses lumped elements rather than a FosterNPortModel
+*
+* Compare to foster_one_complex_pole
+*
+
+.tran2 tstop=10 tstep=0.001
+
+*vsource:vin 1 0 vac = 1v  f = 0.1 phase=90
+
+vpulse:vin 1 0 v1=0 tr=0.001 v2=1 pw=10000
+
+r:source 1 port1 r=1
+r:l port1 port1a r=1
+l:l port1a port1b l=1 int_res=0
+r:2 port1b 0 r=1
+c:1 port1b 0 c=1
+
+
+.options gnuplot
+
+.out write term "port1" vt in "v1_tran.out"
+
+.options preamble="set term x11 font 'helvetica,13';
+         set title 'Voltage at Input of Foster 1 Port';
+         set xlabel 'TIME (s)'; set ylabel 'VOLTAGE' "
+.out plot term "port1" vt preamble in "v2_tran.out"
+
+
+.end

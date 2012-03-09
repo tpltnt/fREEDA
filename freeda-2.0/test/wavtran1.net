@@ -1,0 +1,46 @@
+**** Test netlist for mesfet models ****
+
+*.options f0 = \ 5e9 5.1e9 .1e9 \
+.options f0 = 5.1e9 jupdm=4 output=0 tol=1e-8
+
+*.svhb n_freqs = 15 fundamental = f0  steps=0 deriv=0
+
+.wavtran L=8 J=0 tf=1e-9 max_nw=5
+
+inductor:l1 1 2 l=1e-9 time_d=0
+*resistor:rfake3 1 2 r=1e6
+capacitor:c1 2 3 c=20e-11 time_d=0
+* resistor:fake1 2 3 r=1e6
+
+inductor:l2 3 7 l=15e-9 time_d=0 
+resistor:r2 7 8 r=100
+
+mesfetm:m1 3 4 123 idss = 0.06 vp0 = -1.906 gama = -0.015 e = 1.8 
++ sl = 0.0676 kg = 1.1 t = 7.0e-12 ss = 1.666e-3 ig0 = 7.13e-6 
++ afag = 38.46 r10 = 3.5 kr = 1.111 vbc = 12 ib0 = 7.13e-6 afab = 38.46 
++ c10 = 0.42e-12 k1 = 1.282 cf0 = 0.02e-12 kf = 1.282 
+
+resistor:rs 123 0 r=1.144
+
+*mesfetc:m1 3 4 123 0 a0=40.e-3 a1=.05 a2=0. a3=0. beta=0.04 t=0.
+*+ vt0=-1.2 gamma=1.5 
+*+ is=1e-17 n=1. cgs0=1e-14 cgd0=1e-14 
+
+* mesfetc:m2 3 4 123 0 a0 = .016542 a1 = .0500214 a2 = .02012 a3 = -.00806592
+* + gamma = 2.16505 t = 5e-12 beta = -.0394707 rds = 100e3 is = 1e-9
+* + vbd = 15 nr = 10 ib0 = 1e-9 cgs0 = .52785e-12 cgd0 = .087e-12 
+
+inductor:l3 4 5 l=15e-9 time_d=0 
+resistor:r3 5 6 r=10
+capacitor:cload 4 9 c=20e-12 time_d=0
+* resistor:rfake2 4 9 r=1e6
+resistor:rload 9 0 r=50.
+
+vsource:vbias 8 0  vdc = -.4
+vsource:vdrain 6 0 vdc = 3.
+resistor:rin 11 1 r = 50
+vsource:vs 11 0 f = f0 vac = 1.
+
+.out plot element "mesfetm:m1" 1 ut in "vds.wav"
+
+.end

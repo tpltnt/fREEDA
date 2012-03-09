@@ -1,0 +1,88 @@
+\section{A Note on the Eval Routines in fREEDA}
+
+\noindent Most nonlinear computations require the evaluation of first and higher
+derivatives of vector functions with $m$ components in $n$ real or complex
+variables. fREEDA uses the package ADOL-C which automatically
+computes the derivatives of non-linear functions by successive implementation
+of the chain rule. These calculation occur at a fraction of the time and is
+relatively free of truncation errors. The interface details to the ADOL-C
+library from within fREEDA can be found in
+path\_to\_freeda/simulator/network/NAdolcElement.cc.
+
+Every nonlinear element in fREEDA has an eval function that describes the
+constitutive equations for the particular element at any instant. This
+function is called from within NAdolcElement.cc during evaluation of the tape.
+For more details on the tape,  refer to ADOL-C documentation.
+
+\subsection{Parameterized Device Models}
+
+A non-linear device model can be described with the following set of equations
+\begin{equation}
+  \bf{v} ( t ) = \bf{v} ( x ( t ), dx / dt, \ldots,
+  d^m x / dt^{^m}, x_D ( t ))
+\end{equation}
+\begin{equation}
+  \bf{i} ( t ) = \bf{i} ( x ( t ), dx / dt, \ldots,
+  d^m x / dt^{^m}, x_D ( t ))
+\end{equation}
+where \textbf{v}(t) and \textbf{i}(t) are vectors of voltages and currents at
+the ports of the non-linear device, \textbf{x}(t) is a vector of parameters or
+state variables and $\bf{x_D}$(t) is a vector of time delayed state
+variables. There are several models like the microwave diode, the Gummel-Poon
+BJT and Berkeley's BSIM4 which for accurate modeling, require charge to be
+defined as a state variable. In some cases it may not be possible to find the
+voltage as a function of charge and the only alternative is to treat charge as
+a state variable.
+
+Consider a simplified model for the microwave diode shown in Figure~\ref{diode_schematic_eval}.
+\begin{figure}
+\centerline{\epsfbox{diode.ps}}
+\caption{\label{diode_schematic_eval}Simplified schematic for a diode model}
+\end{figure}
+The corresponding equations for this model are
+\begin{equation}
+i(v) = I_s (\exp( \alpha v ) - 1 )
+\end{equation}
+and
+\begin{eqnarray}
+c_j(v) = & C_{t0}(1 - {v / \phi})^{-\gamma} + C_{d0} \exp{(\alpha^{'}v)} & if\; v \leq .8\phi\\
+         & C_{t0}(.2) ^{-\gamma} + C_{d0} \exp{(\alpha^{'}v)} & if\; v \geq .8\phi
+\end{eqnarray}
+where $v$ is the junction voltage. The capacitor voltage $q_j$ is given by
+\begin{equation}
+q_j ( v ) = \int_0^v c_j ( u ) du
+\end{equation}
+Accurate transient analysis requires $q_j$ to be chosen as a state variable.
+We need $v$ to calculate $i_1( v )$ . Since it is
+not possible to solve analytically
+for $v ( q )$, the alternative is to model the diode with two state
+variables, namely $v$ and $q$ . The diode equations
+can now be formulated in two stages. Hence for this case, we
+will have two \emph{eval} functions; \emph{eval}1 and \emph{eval}2 .
+In \emph{eval}1, we will calculate $i(v)$ and
+$q(v)$, both are which are functions of voltage $v$. In this case, the
+values of $q(v)$ are passed to \emph{eval}2, which automatically calculates $d q /
+d t$. Hence we now have the current through the capacitor as
+\begin{equation}
+i_c = \frac{d q}{d t}
+\end{equation}
+All the code that performs the actual derivatives is outside the nonlinear
+model and is handled automatically. Currently in fREEDA, only three levels of
+eval are supported. This means that the highest order of derivatives possible
+is two. Most nonlinear elements do not require more than two levels of
+derivatives. The entire formulation can be generalized as follows:
+\begin{eqnarray}
+  \rm{stage} \, 1 & : & f_1 ( x, x_D ) \nonumber \\
+  &  & g_1 ( x, x_D )
+\end{eqnarray}
+\begin{eqnarray}
+  \rm{stage} \, 2 & : & f_2 ( f_1, d g_1 / d t ) \nonumber \\
+  &  & g_2 ( f_1, d g_1 / d t )
+\end{eqnarray}
+\begin{eqnarray}
+  \vdots &  & \nonumber
+\end{eqnarray}
+\begin{eqnarray}
+  \rm{stage} \, n & : & v_{} ( f_{n - 1}, d g_{n - 1} / d t ) \nonumber \\
+  &  & i ( f_{n - 1}, d g_{n - 1} / d t )
+\end{eqnarray}

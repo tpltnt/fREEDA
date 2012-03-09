@@ -1,0 +1,94 @@
+%This is a model template for any element that you write.
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{abmButterbpf10}%name of your element and the following is the
+%element's initial for referencing
+\hspace{\fill}\textbf{abmbutterbpf10}}\\
+\hrulefill \linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the filter figure
+\begin{figure}[h]
+\centerline{\epsfxsize=2.5in \epsfbox{butter10_fig.eps}}
+\caption{Butterbpf10 -- Butterworth bandpass filter, tenth-order.}
+%The figure of the element and its caption comes here
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm}\line(1,0){425}
+\newline %the way it is written in the netlist
+\textit{Form:} $\tt abmbutterbpf10$:$\langle \tt{instance\
+name}\rangle$ $n_1\ n_2\ n_3\ n_4\ $ $\langle \tt{parameter\
+list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive terminal of port 1, \\
+&  \\
+$n_2$ & is the negative terminal of port 1, \\
+&  \\
+$n_3$ & is the positive terminal of port 2, \\
+&  \\
+$n_4$ & is the negative terminal of port 2. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+%Parameter list
+\newline
+\textit{Parameters:}%list of parameters that you have in tabular form
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+f0: Filter center frequency (Hertz) & DOUBLE & N/A & yes \\
+\hline
+bw: Filter 3 dB bandwidth (Hertz) & DOUBLE & N/A & yes \\
+\par
+\hline
+\end{tabular}
+\end{table}
+%example in \FDA %FDA stands for fREEDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}%example of the way in which your element is mentioned in the netlist
+\newline
+\texttt{abmButterbpf10:f1\ 11\ 0\ 20\ 0\ f0=1e3 bw=200}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\ %any additional notes that you might like to add
+This element is a tenth-order Butterworth bandpass filter.  The
+transfer function is in the form of a transconductance so that the
+output of the filter is a current at port two, controlled by the
+voltage at port one.  The transfer function is expressed as sum of
+rational fractions of the following form:
+\begin{equation} H_i = \frac{a_is^3 + b_is^2 + c_is}{s^4 + d_is^3 + e_is^2 +
+f_is + h_i}
+\end{equation}
+The coefficients of each of the five rational fractions in the
+implementation of this filter are computed at object
+initialization from the user-defined center frequency and
+bandwidth.
+
+The element works in both Harmonic Balance and AC analysis
+simulations for any frequency, but due to limitations in the
+linear solver package, the time domain MNAM becomes unfactorable
+when the center frequency is set above 50 kHz.  Also, when
+performing simulations in the time domain, the trapezoidal
+integration method does not converge for this element so the
+backward Euler method must be used.
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:} 2003.05.15\\
+% Credits - authors of this element, their e-mail addresses and affiliation
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Aaron L. Walker & NC State University & April 2003 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+alwalke3@ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

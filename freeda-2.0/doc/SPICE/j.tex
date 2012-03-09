@@ -1,0 +1,446 @@
+\element{J}{Junction Field-Effect Transistor}
+\begin{figure}[h]
+\centering
+\ \pfig{j_spice.ps}
+\caption[J --- Junction field effect transistor element]{J --- Junction field effect
+transistor element: (a) {\it n} channel JFET; (b) {\it p} channel JFET.\label{j.ps}}
+\end{figure}
+
+\form{{\tt J}name NDrain NGate NSource ModelName
+ \B Area\E  \B {\tt OFF}\E  \B {\tt IC}=$V_{DS},V_{GS}$\E }
+
+\pspiceform{{\tt J}name NDrain NGate NSource ModelName \B Area\E }
+\example{J1 7 2 3 JM1 OFF}
+
+\begin{widelist}
+\item[{\it NDrain}] is the drain node
+\item[{\it NGate}] is the gate node
+\item[{\it NSource}] is the source node
+\item[{\tt ModelName}]  is  the  model name
+\item[{\it Area}] is the area factor.
+               (Units: none; Optional; Default: 1; Symbol: $Area$)
+\item[{\tt OFF}] indicates an (optional) initial condition on the device for
+\dc\ operating point analysis.
+If specified the \dc\ operating point is calculated with the terminal voltages
+set to zero.  Once convergence is obtained, the
+program continues to iterate to obtain the exact  value of
+the  terminal  voltages.  The OFF option is used to enforce the solution
+to  correspond  to  a  desired  state if the circuit has more than one stable
+state.
+\item[{\tt IC}] is the optional  initial condition specification.
+Using {\tt IC=}$V_{DS},V_{GS}$
+is intended for use with the {\tt UIC} option
+on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+starting from other than the quiescent operating point.
+Specification of the transient initial conditions using the {\tt .IC}
+statement (see page \pageref{.ICstatement}) is preferred and is more
+convenient.
+\end{widelist}
+
+\model{NJF}{N-Channel JFET Model}
+\model{PJF}{P-Channel JFET Model}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2.75in\pfig{jfet.ps}
+\caption[Schematic of the JFET model]{Schematic of the JFET model. \label{jfet}
+$V_{GS}$, $V_{DS}$, and $V_{GD}$ are intrinsic gate-source,
+drain-source and gate-drain voltages
+between the internal gate, drain, and source terminals designated
+$G$, $D$, and $C$ respectively.  }
+\end{figure}
+
+The parameters of the {\it n}-channel (NJF) and of
+the {\it p}-channel (PJF) models are the same and are given in table
+\ref{jtable}.
+
+The parameters of the JFET can be completely specified in the model
+{\it ModelName}. This facilitates the use of standard transistors by using
+absolute quantities in the model.  Alternatively scalable process parameters can
+be specified in the model {\it ModelName} and these scaled by the $Area$
+parameter on the JFET element line.   The parameters that can be scaled
+by $Area$ are
+{\tt BETA}, {\tt CGS}, {\tt CGD}, {\tt IS}, {\tt RD} and {\tt RS}.
+
+\begin{table}[h]
+\caption[NJF and PJF model keywords for the junction field effect transistor]{NJF
+and PJF model keywords for the junction field effect transistor.
+The Area column indicates parameters that are scaled by $Area$.
+\label{jtable}}
+\keywordtwotable{Area}{
+{\tt AF} & flicker noise exponent\sym{A_F}& -      & 1 &  \X
+{\tt BETA} & transconductance parameter
+      \sym{\beta}& $\mbox{A/V}^2$& 1.0E-4   &  \STAR\X
+{\tt CGS} & zero-bias G-S junction capacitance per unit area\sym{C'_{GS}}
+     & F      & 0        &  \STAR\X
+{\tt CGD} & zero-bias G-D junction capacitance per unit area\sym{C'_{GD}}
+     & F      & 0        &  \STAR\X
+{\tt FC} & coefficient for forward-bias depletion\newline capacitance formula\sym{F_C}
+       & -    &   0.5 &\X
+{\tt IS}&gate junction saturation current\sym{I_S}&A& 1.0E-14  &  \STAR\X
+{\tt KF} & flicker noise coefficient\sym{K_F}& -      & 0 &  \X
+{\tt LAMBDA}
+ & channel length modulation parameter\sym{\lambda}& 1/V &0  & \X
+{\tt PB} & gate junction potential\sym{\phi_J}& V      & 1        & \X
+{\tt RD} & drain ohmic sheet resistance\sym{R_D}&$\Omega$& 0&  \STAR\X
+{\tt RS} & source ohmic sheet resistance\sym{R_S}&$\Omega$& 0&  \STAR\X
+{\tt VTO} & threshold voltage (VT-oh)\sym{V_{T0}}\newline
+           {\tt VTO} $<$ 0 indicates a depletion mode JFET\newline
+           {\tt VTO} $\ge$ 0 indicates an enhancement mode JFET
+	  & V& -2.0     & \X
+{\tt BETATC}&temperature coefficient of the transconductance parameter {\tt BETA}
+                   \sym{T_{C,\beta}} & \%/$^\circ$C& 0\X
+{\tt M}    & gate {\it p-n} junction grading  coefficient
+                   \sym{M} & -   &   0.5 \X
+{\tt VTOTC}& temperature coefficient of threshold voltage {\tt VTO}
+                   \sym{T_{C,VT0}} & V/$^\circ$C &   0 \X
+}
+\end{table}
+
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzman's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+Absolute temperatures (in kelvins, K) are used.
+The thermal voltage
+\begin{equation}
+V_{\ms{TH}} = {{kT_{\ms{NOM}}} \over q} .
+\end{equation}
+\noindent The silicon bandgap energy
+\begin{equation}
+E_G = 1.16 - 0.000702{{4T_{\ms{NOM}}^2} \over {T_{\ms{NOM}}+1108}} .
+\end{equation}
+\noindent\underline{\sl \large Temperature Dependence}
+\index{JFET, Temperature Dependence}
+\index{Temperature Dependence, see JFET}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K).
+\begin{eqnarray}
+V_{\ms{TH}} & = & {{kT} \over q}\\
+I_S (T) & = & I_S e^{\left( \textstyle E_g(T) {T \over {T_{\ms{NOM}}}}
+ - E_G(T) \right) /(nV_{\ms{TH}})}\\
+V_{BI} (T) & = & V_{BI} {T \over {T_{\ms{NOM}}}}
+ - 3V_{\ms{TH}} \ln{ {T \over {T_{\ms{NOM}}}} }
+              + E_G (T_{\ms{NOM}}) {T \over {T_{\ms{NOM}}}} -E_G(T)\\
+C'_{GS} (T)&=&C'_{GS}\{1 + M [0.0004(T-T_{\ms{NOM}})+(1-V_{BI} (T)/V_{BI})]\} \\
+C'_{GD} (T)&=&C'_{GD}\{1 + M [0.0004(T-T_{\ms{NOM}})+(1-V_{BI} (T)/V_{BI})]\} \\
+\beta(T) &=& \beta 1.01^{T_{C,\beta}(T-T_{\ms{NOM}})}\\
+V_{T0}(T) &=& V_{T0} + T_{C,VT0}\left(T-T_{\ms{NOM}}\right)
+\end{eqnarray}
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see JFET}
+\index{JFET, \pspice\ Parasitic Resistance}
+\index{JFET, \pspice\ $R_S$}
+\index{JFET, \pspice\ $R_G$}
+\index{JFET, \pspice\ $R_D$}
+\index{Junction Field Effect Transistor, see JFET}
+The parasitic resistances
+are calculated from the sheet resistivities
+{\tt RS}, {\tt RG}, {\tt RD}, and the
+$Area$ specified on the element line.
+\begin{eqnarray}
+R_S & = & R'_S Area\\
+R_G & = & R'_G Area\\
+R_D & = & R'_D Area
+\end{eqnarray}
+
+The parasitic resistance parameter dependencies are summarized in
+figure \ref{jpara}.\\[0.2in]
+\begin{figure}[hbp]
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt RSH} \hfill $\RSH$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt NRS} \hfill $\NRS$\\
+{\tt NRD} \hfill $\NRD$\\
+{\tt NRG} \hfill $\NRG$\\
+{\tt NRB} \hfill $\NRB$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt RD} \hfill $\RD = f(\RSH, \NRD)$ \\
+{\tt RS} \hfill $\RS = f(\RSH, \NRS)$ \\
+{\tt RG} \hfill $\RG = f(\RSH, \NRG)$ \\
+{\tt RB} \hfill $\RB = f(\RSH, \NRB)$ \\
+\hline
+\end{tabular}
+\caption{JFET parasitic resistance parameter
+relationships. \label{jpara}}
+\end{figure}
+
+\noindent\underline{\sl \large Leakage Currents}\\[0.1in]
+\index{Leakage Currents, see JFET}
+\index{JFET, I/V Characteristics, Leakage Currents}
+\index{JFET, Leakage Currents}
+Current flows across the normally reverse biased source-bulk and drain-bulk
+junctions.
+The gate-source leakage current
+\begin{equation}
+I_{GS} = Area\,I_{S}e^{(\textstyle V_{GS}/V_{\ms{TH}} -1)}
+\end{equation}
+and the gate-source leakage current
+\begin{equation}
+I_{GD} = Area\,I_{S}e^{(\textstyle V_{GD}/V_{\ms{TH}} -1)}
+\end{equation}
+The dependencies of the parameters describing the leakage current
+in the JFET model are summarized in
+figure \ref{jleakage}.\\[0.2in]
+\begin{figure}[hbp]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt IS} \hfill $I_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill}$I_{GS} = f(I_S, Area)$\\
+\hspace*{\fill}$I_{GD} = f(I_S, Area)$\\
+\hline
+\end{tabular}
+\caption{JFET leakage current parameter dependecies. \label{jleakage}}
+\end{figure}
+
+\noindent\underline{\sl\large I/V Characteristics}\\[0.1in]
+The current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.\\[0.1in]
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions are as follows:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GS} < V_{T0}$\\
+linear region:&$V_{GS} \ge V_{T0}$
+and $V_{GS} > V_{DS}+V_{T0}$\\
+saturation region:&$V_{GS} \ge V_{T0}$
+and $V_{GS} \le V_{DS}+V_{T0}$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      Area\,\beta \left(1 + \lambda V_{DS}\right)V_{DS}
+      \left[2\left(V_{GS}-V_{T0}\right)-V_{DS}\right]
+         &\mbox{linear region}\\
+      Area\,\beta \left(1 + \lambda V_{DS}\right)
+      \left(V_{GS}-V_{T0}\right)^2
+         &\mbox{saturation region} \end{array} \right. %}
+      \label{jid}
+\end{equation}
+
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the JFET I/V characteristics are evaluated as in the
+normal mode (\ref{jid}) but with the drain and source subscripts
+exchanged.
+The relationships of the parameters describing the I/V
+characteristics are summarized in figure
+\ref{ji/v}.\\[0.1in]
+\begin{figure}[hbp]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill} -- \hspace*{\fill} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Optional} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\{$I_{D} = f(Area, \beta, \lambda, V_{T0}, \alpha)$\}\\
+\hline
+\end{tabular}
+\caption{I/V dependencies. \label{ji/v}}
+\end{figure}
+
+\underline{\sl\large Capacitances}\\[0.1in]
+The drain-source capacitance
+\begin{equation}
+C_{DS} = Area\,C'_{DS}
+\end{equation}
+The gate-source capacitance
+\begin{equation}
+C_{GS} = \left\{ \begin{array}{ll}
+         Area\,C'_{GS}\left(1 - {{\textstyle V_{GS}}\over{\textstyle \phi_J}}
+         \right)^{-M}
+         & V_{GS} \le F_C \phi_J\\
+         Area\,C'_{GS}\left(1 -F_C\right)^{-(1+M)}
+         \left[1-F_C(1+M)+M {{\textstyle V_{GS}}\over{\textstyle \phi_J}}
+         \right]^{-M}
+         & V_{GS} > F_C \phi_J
+         \end{array} \right. %}
+\end{equation}
+models charge storage at the gate-source depletion layer.
+The gate-drain capacitance
+\begin{equation}
+C_{GD} = \left\{ \begin{array}{ll}
+         Area\,C'_{GD}\left(1 - {{\textstyle V_{GD}}\over{\textstyle \phi_J}}
+         \right)^{-M}
+         & V_{GD} \le F_C \phi_J\\
+         Area\,C'_{GD}\left(1 -F_C\right)^{-(1+M)}
+         \left[1-F_C(1+M)+M {{\textstyle V_{GD}}\over{\textstyle \phi_J}}
+         \right]^{-M}
+         & V_{GD} > F_C \phi_J
+         \end{array} \right. %}
+\end{equation}
+models charge storage at the gate-drain depletion layer.
+The capacitance parameter dependencies are summarized in figure
+\ref{jcap}.\\[0.2in]
+\begin{figure}[hbp]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt FC} \hfill $F_C$\\
+{\tt M} \hfill $M$\\
+{\tt PB} \hfill $\phi_J$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill} -- \hspace*{\fill} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt CDS}\hfill$C'_{DS}$\\
+{\tt CGS}\hfill$C'_{GS}$\\
+{\tt CGD}\hfill$C'_{GD}$\\
+\{$C_{DS} = f(Area, C'_{DS})$\}\\
+\{$C_{GS} =$\newline\hspace*{\fill}$ f(Area, C'_{GS}, FC, M, PB)$\}\\
+\{$C_{GD} =$\newline\hspace*{\fill}$ f(Area, C'_{GD}, FC, M, PB)$\}\\
+\hline
+\end{tabular}
+\caption{JFET capacitance dependencies. \label{jcap}}
+\end{figure}
+
+\noindent\underline{\sl \large AC Analysis}\\[0.1in]
+\index{JFET, AC Analysis}
+The AC analysis uses the model of figure  \ref{m.ps} with the capacitor values
+evaluated at the \dc\ operating point with
+\begin{equation}
+g_m = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{GS}}}
+\end{equation}
+and
+\begin{equation}
+R_{DS} = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{DS}}}
+\end{equation}
+\noindent\underline{\large Noise Analysis}\\[0.1in]
+\index{JFET, Noise Model}
+\index{JFET, Noise Analysis}
+The JFET noise model accounts for thermal noise generated in the
+parasitic resistances and shot and flicker noise generated in the
+drain source current generator.  The rms (root-mean-square) values of
+thermal noise current generators shunting the four parasitic resistance
+$R_D$, $R_G$ and $R_S$ are
+\begin{eqnarray}
+I_{n,D} &=& \sqrt{4kT/R_D}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,S} &=& \sqrt{4kT/R_S}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+Shot and flicker noise are modeled by
+a noise current generator in series with the drain-source current generator.
+The rms value of this noise generator is
+\begin{equation}
+I_{n,DS} = \left( I_{\ms{SHOT},DS}^2 + I_{\ms{FLICKER},DS}^2
+                \right)
+\end{equation}
+\begin{eqnarray}
+I_{\ms{SHOT},DS} &=& \sqrt{4kTg_m\frac{2}{3}} ~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{FLICKER},DS} &=& \sqrt{{{\textstyle\KF I_{DS}^{\AF}} 
+                         \over {\textstyle f }}}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+where the transconductance
+\begin{equation}
+g_m = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{GS}}}
+\end{equation}
+is evaluated at the \dc\ operating point, and $f$ is the analysis frequency.

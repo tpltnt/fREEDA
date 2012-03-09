@@ -1,0 +1,15 @@
+* CMOS NOR Gate Test
+
+.dc sweep="vsource:Vin2" start=0 stop=5 step=0.1
+
+vsource:Vdd 1 0 vdc=5
+vsource:Vin1 2 0 vdc=0.5
+vsource:Vin2 3 0 
+
+cmosnor:nor 1 2 3 4 0
+resistor:R 4 0 r=1000000
+
+.out plot term 4 vt in "cmos_nor_dc.out"
+
+.end
+

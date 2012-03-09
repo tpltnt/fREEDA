@@ -1,0 +1,70 @@
+%This is a model template for any element that you write.
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Ideal Mixer}%name of your element and the following is the
+%element's initial for referencing
+\hspace{\fill}\textbf{AbmMixer}}\\
+\hrulefill \linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+% the amp figure
+\begin{figure}[h]
+\centerline{\epsfxsize=2.5in \epsfbox{mixer1.eps}} \caption{Ideal
+mixer element.}
+%The figure of the element and its caption comes here
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm}\line(1,0){425}
+\newline %the way it is written in the netlist
+\textit{Form:} $\tt abmMixer$:$\langle \tt{instance\ name}\rangle$
+$n1\ n2\ n3\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+instance name & is the model name, \\
+&  \\
+$n1$, $n2$ and $n3$ & are the element terminals. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+%Parameter list
+\newline
+\textit{Parameters:}%list of parameters that you have in tabular form
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+op: Arithmetic operator & INT & multiply & no \\
+\hline
+inputs: Number of inputs to the mixer & INT & 2 & no \\
+\par
+\hline
+\end{tabular}
+\end{table}
+%example in \FDA %FDA stands for fREEDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}%example of the way in which your element is mentioned in the netlist
+\newline
+\texttt{abmmixer:mix1\ 1\ 2\ 3\ 4\ 5\ 6\ 0\ op=2 inputs=5}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\ %any additional notes that you might like to add
+The mixer element is an ideal nonlinear behavioral model that
+provides multiplication, division, addition or subtraction of the
+input signals.  With two or more inputs, only multiplication and
+addition are valid modes of operation.  Division and subtraction
+are valid for two inputs only. The mixer is ideal.\\
+% Credits - authors of this element, their e-mail addresses and affiliation
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Mark Buff & NC State University & April 2003 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+pmbuff@unity.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

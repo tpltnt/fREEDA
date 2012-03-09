@@ -1,0 +1,14 @@
+* DC CMOS Inverter Test
+
+.dc sweep="vsource:Vin" start=0 stop=5 step=0.1
+
+vsource:Vdd 1 0 vdc=5
+vsource:Vin 2 0
+
+cmosinv:inverter 1 2 3 0 
+resistor:R 3 0 r=1000000
+
+.out plot term 3 vt in "CMOS_Inverter_DC.out"
+
+.end
+

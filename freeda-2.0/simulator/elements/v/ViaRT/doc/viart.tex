@@ -1,0 +1,138 @@
+%%%%%%%%InterconnectRT Document%%%%%%%%%%%%%
+\documentclass{article}
+\usepackage{here}
+\usepackage{verbatim}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Resistive Thermal Via}
+\hspace{\fill}\textbf{viart}}
+\myThickLine
+\normalsize
+\newline
+% the interconnect figure
+\begin{figure}[h]
+\centerline{\includegraphics[scale=1.5]{viart.eps}} \caption{viart --- Resistive
+electro-thermal via element.}
+\end{figure}
+\newline
+Author: Kai Li
+\newline
+\myThickLine
+\newline
+Description:\newline
+This element implements a via as an electro-thermal resistance.
+\newline
+\myThickLine
+\newline
+\textit{Form:}
+%\newline
+$\tt viart$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\bigskip
+\begin{tabular}{l}
+instance name is the model name,\\
+$n_1$, $n_2$, $n_3$ and $n_4$ are the element terminals, \\
+$n_1$ and $n_2$ are element electrical terminals, \\
+$n_3$ and $n_4$ are element thermal terminals, \\
+$n_2$ is the element local reference node,\\
+$n_4$ is the element thermal reference node. \\
+\end{tabular}
+% Parameter list
+\newline
+\myThickLine
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+d: Diameter of via (m) & DOUBLE &  1 $\mu m$ & no \\
+\hline
+h: Height of via (m) & DOUBLE & n/a & yes \\
+\hline
+tm: Thickness of metal layer (m) & DOUBLE & 0.3 $\mu m$  & no \\
+\hline
+rho: Resistivity of metal  ($\Omega-m$)& DOUBLE & n/a & no \\
+\hline
+metal: Metal (Silver, Copper, Gold, Aluminum) & STRING & copper & no \\
+\hline
+t: System temperature ($^0C$) & DOUBLE & 20 & no \\
+\hline
+tnom: Initial system temperature ($^0C$) & DOUBLE & 20 & no \\
+\hline
+tc: Temperature coefficient (1/$^0C$) & DOUBLE & 0 & no \\
+\hline
+pdr:  Thermal element flag & BOOLEAN & false & no \\
+%\\hline
+%idf: Ideality factor of resistance & DOUBLE & 0.8 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in FREEDA
+\noindent\myThickLine
+\newline
+\textit{Example:}
+\newline
+\texttt{viart:\ vrt1\ 2\ 0\ 3\ "tref" \ l = 20u \ metal = "copper"}
+\newline
+\myThickLine
+\textit{Details:}\\
+The resistive thermal via is modeled as resistive only, the metal via is made by a kind of metal, which includes silver, copper, gold, and aluminum that are predefined in the model. \\
+
+\noindent This is an electro-thermal element  is modeled differently depending on the setting of the Parameter \texttt{pdr}.\\[0.2in]
+\texttt{pdr} = false/true.\\[0.1in]
+ When  \texttt{pdr} is false (the default) the resistance of via is calculated as a resistor by giving height and resistivity or metal selection.\\
+ When  \texttt{pdr} is true, the resistance of via is modeled as electro-thermal resistor by giving height, resistivity or metal selection, and system temperature. The diameter and thickness of metal sheet are predefined in the model. Resistance calculation is based on the electrical parameters and system temperature. The power dissipation and heat flux are modeled with thermal terminals.\\[0.1in]
+ \newline
+ Resistance of the via:\\
+ $$A = \frac{\pi}{4} \cdot ( D^2_{outer} - D^2_{inner}  ), \,\,\,\, R\,=\, \frac{\rho \cdot h}{A}$$
+\newline
+Electro-thermal resistance of the via with temperature coefficient:
+$$R \,=\, \frac{\rho \cdot h}{A}  \cdot \left[  1\, + \, \beta \cdot  (\, t\, - t_0\,) \right] $$
+\begin{verbatim}
+viart: vrt1 2 0 3 "tref" h = 1u  metal = "copper"
+\end{verbatim}
+Here terminals `0' and `tref' are the local reference terminals of the element. Terminal `0' is the global ground.  Terminal 'tref' is a thermal local reference terminal of the element. An example netlist is:
+\begin{verbatim}
+.ref "tref"
+.ref 0
+
+vsource 1 0 vac = 1 f = 5GHz
+res:r1 1 2 r=50
+vrt:vrt1 2 0 1000 "tref" l = 1m metal = "copper" pdr=1
+\end{verbatim}
+~
+\myThickLine
+\textit{References:}\\
+\begin{enumerate}
+\item Houssam S.Kanj. fREEDA element ResistorT, $"elements\backslash r\backslash ResistorT$".
+\item Tony Mulder, Travis Lentz. fREEDA element CmosInvT, "$elements\backslash c\backslash CmosInvT$"
+\end{enumerate}
+~
+\myThickLine
+Example of Transient Analysis (.TRAN2) Fixed times steps, time-stepping nonlinear analysis.\\
+netlist file: viart.net:
+\verbatiminput{../test/viart.net}
+The output log file is
+\verbatiminput{../test/viart.out}
+\begin{figure}[h]
+\centerline{\includegraphics[width=4in]{trans_res.eps}}\caption{Transient Analysis - Resistance variation of thermal via}
+\centerline{\includegraphics[width=4in]{trans_temp.eps}}\caption{Transient Analysis - Temperature variation of via}
+\end{figure}
+\clearpage
+~
+\myThickLine
+\textit{Version:}\\
+2008.04.21 (2008 April 21) \\
+% Credits
+\myThickLine
+\medskip
+\textit{Credits:}\\
+\begin{tabular}{l  l  l  l}
+Name & Affiliation & Date & Links \\
+Kai Li & NC State University & April 2008 & \includegraphics[width=1in]{logo.eps}  \\
+kli@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

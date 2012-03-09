@@ -1,0 +1,34 @@
+*** Sample netlist for a MESFET using the Curtice model ***
+
+.options f0 = 5.1e9 jupdm=4 output=0
+
+.svhb n_freqs = 15 fundamental = f0  steps=0 deriv=0
+
+inductor:l1 1 2 l=1e-9 time_d=0
+capacitor:c1 2 3 c=20e-11 time_d=0
+
+inductor:l2 3 7 l=15e-9 time_d=0 
+resistor:r2 7 8 r=100
+
+inductor:l3 4 5 l=15e-9 time_d=0 
+resistor:r3 5 6 r=10
+capacitor:cload 4 9 c=20e-12 time_d=0
+resistor:rload 9 0 r=50.
+
+vsource:vbias 8 0  vdc = -.5
+vsource:vdrain 6 0 vdc = 3.
+resistor:rin 11 1 r = 50
+vsource:vs 11 0 f = f0 vac = .4
+
+resistor:rs 123 0 r=1.144
+
+*** Mesfet 
+mesfetc:m1 3 4 123
++ a0 = .016542 a1 = .0500214 a2 = .02012 a3 = -.00806592
++ gama = 2.16505 t = 5e-12 beta = -.0394707 is = 1e-9
++ vbd = 15 nr = 10 ib0 = 1e-9 cgs0 = .52785e-12 cgd0 = .087e-12 
+
+.out plot term 4 vf term 123 vf sub invfft 4 repeat in "out.vds"
+.out plot element "mesfetc:m1" 1 if invfft 4 repeat in "out.ids"
+
+.end

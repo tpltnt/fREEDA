@@ -1,0 +1,16 @@
+* CMOS Inverter Test 2
+* Transient Response
+
+.tran2 tstop=4e-6 tstep=10e-9 out_steps=1
+
+vsource:Vdd 1 0 vdc=5
+vpulse:Vin 2 0 v1=0 v2=5 per=2e-6 pw=1e-6 tr=0.05e-6 tf=0.05e-6 
+
+cmosinv:inverter 1 2 3 0 td=0.1e-6
+resistor:R 3 0 r=1000000
+
+.out plot term 1 vt in "vdd.out"
+.out plot term 2 vt in "input-to-inverter.out"
+.out plot term 3 vt in "output-from-inverter-with-delay.out"
+.end
+

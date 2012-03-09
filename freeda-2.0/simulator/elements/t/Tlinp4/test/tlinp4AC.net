@@ -1,0 +1,28 @@
+* AC tlinp4 test
+
+.ac start = 1 stop = 20GHz n_freqs=10000
+
+vsource:v2 202 0  vac= 5
+
+resistor:rs 1 202 r=75.
+
+tlinp4:t1  1 0 2 ref2
++ z0mag=75.00 length=0.03 k=7 tand=.1 fscale=1.e10 alpha=1 fmax=2e10
+
+resistor:rl 2 ref2  r=75.
+.ref "ref2"
+
+.options gnuplot
+
+* Get the magnitude of the voltage at terminal 2. This is with respect to ref2
+.options preamble1="set term x11 font 'helvetica,13';
+set xlabel 'FREQUENCY (GHz)'; set ylabel 'MAGNITUDE (VOLTS)"
+.out plot term 2 vf mag 1e-9 scalex preamble1 in "tlinp4.2.mag"
+
+* Get the phase of the voltage at terminal 2. This is with respect to ref2
+* prinphase gets the principal phase as opposed to the continuous phase.
+.options preamble2="set term x11 font 'helvetica,13';
+set xlabel 'FREQUENCY (GHz)'; set ylabel 'phase (DEGREES)"
+.out plot term 2 vf prinphase 1e-9 scalex rad2deg preamble2 in "tlinp4.2.phase"
+
+.end

@@ -1,0 +1,18 @@
+*** Nand based SR Latch 
+**This netlist is for Transient Analysis of Nand based SR Latch**
+.tran2 tstop=16e-6 tstep=10e-9
+vpulse:Vin2 2 0 v1=0 v2=5 td=1e-6  per=4e-6 pw=2e-6 tr=0.005e-6 tf=0.005e-6
+vpulse:Vin5 5 0 v1=0 v2=5  per=4e-6 pw=2e-6 tr=0.005e-6 tf=0.005e-6
+****** Vdd Connection
+vsource:Vdd 1 0 vdc=5
+****** Instantiation
+cmoslatchsrnand:latch 1 2 5 4 3 0
+*** Load Resistance and Capacitance
+r:R1 4 0 r=1000000
+r:R2 3 0 r=1000000
+
+.options gnuplot
+.out plot term 2 vt in "sb.out"
+.out plot term 5 vt in "rb.out"
+.out plot term 4 vt in "Q_output.out"
+.out plot term 3 vt in "Qbar_output.out"

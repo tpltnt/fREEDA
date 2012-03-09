@@ -1,0 +1,8 @@
+.model cpwd diode js=1.e-12 alfa=38.696 e=10 ct0=1.08e-15 
++r0=10. fi=0.643 gama=0.451
+
+.model cpw1 cpw s=.369e-3 w=1e-3 t=10e-6 er=10.8 tand=.001 
++length=7.5e-3
+
+.model cpwt tlinp z0mag=75.00 length=978.57e-6 k=7 tand=.01 
++fscale=1.e10 alpha=1.

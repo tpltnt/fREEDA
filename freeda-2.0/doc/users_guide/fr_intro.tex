@@ -1,0 +1,202 @@
+
+\chapter{Introduction}
+
+\section{Overview of fREEDA}
+
+fREEDA$^{\mathrm{TM}}$ is a multiphysics simulator that is based on the use of
+compact models as used in circuit simulators. fREEDA$^{TM}$ carries a Gnu
+Public License (GPL) and is available at \underline {http://www.freeda.org}. 
+
+ifREEDA$^{\mathrm{TM}}$ is a companion interactive GUI based on the QUCS schematic capture engine see http://qucs.sourceforge.net/ . ifREEDA$^{\mathrm{TM}}$ uses the Qt\textregistered\ is a registered trademark of Trolltech® AS in Norway, The United States of America, and other countries worldwide. See http://trolltech.com/copyright for their copyright restriction and http://trolltech.com/products/qt/licenses for licensing information.  ifREEDA$^{\mathrm{TM}}$ uses the Open Source Edition of Qt\textregistered.
+
+fREEDA$^{\mathrm{TM}}$ and ifREEDA$^{\mathrm{TM}}$ are released under the GPL license and so is open source software.  fREEDA$^{\mathrm{TM}}$ and ifREEDA$^{\mathrm{TM}}$ can be sold but developments that are commercialized must be made available as open source software.
+
+The community is welcome to extend the capabilities of \FDA\ particularly model development.  \FDA currently supports the following analyses: transient  (many types including high dynamic range capability), wavelet transient, harmonic balance, large signal noise analysis including phase noise, AC, DC. There are a large number of models available (there are at least 107 but the number grows all the time).  There is an extensive support for true electro-thermal modeling capturing long tail thermal effects.  We need to develop application notes to show how to use all the capabilities. Most of the developments have been reported in Master;s theses and PhD dissertations at North Carolina State University, University of Arizona, Queen's University. Contact Michael Steer at m.b.steer@ieee.org if you are interested in modifying \FDA\ .
+
+\section{A Multi-Physics Simulator}
+
+A number of concepts are supported that enable multiphysics modeling.
+The most important of these are
+
+\begin{enumerate}
+\item Local reference terminals supplanting universal ground [S13, S14]. (Different physics can have their own reference. High speed circuits and microwave circuits do not posses a global ground and so the distributed nature of high-speed circuits is naturally captured.
+\item Energy norm. fREEDA$^{TM}$ uses an energy norm in computing solutions [S12, S15]. Each terminal has two quantities potential and flux. This contrasts with the conventional circuit simulator paradigm of solving Kirchoff's Current Law which only addresses flux conservation. This solution does not work when there is no flux.
+\item fREEDA$^{TM}$ uses state-variables and parameterization [S16, S1] so that homotopy techniques do not need to be used to arrive at a solution. For example fREEDA can arrive at a solution starting from a zero initial guess. The modeling scope is far beyond the modeling capabilities of SPICE-like simulators. The modeling scope is defined by
+\end{enumerate}
+\[
+y(t)=F\left[ {\begin{array}{l}
+ x_1 (t),\ldots ,x_n (t),\frac{dx_1 (t)}{dt},\ldots ,\frac{dx_n (t)}{dt}, \\
+ \frac{d^2x_1 (t)}{dt^2},\ldots ,\frac{d^2x_n (t)}{dt^2},\frac{d^3x_1
+(t)}{dt^3},\ldots ,\frac{d^3x_n (t)}{dt^3}, \\
+ x_1 (t-\tau _1 ),\ldots ,x_n (t-\tau _1 ) \\
+ \end{array}} \right]
+\]
+where $F$[] can be nonlinear. Note that rue time-delays are supported.
+
+\begin{enumerate}
+\item fREEDA$^{TM}$ supports distributed circuits using UIUC developed technology to use frequency-domain characterizations in transient analysis. [S6]
+\item Electro-thermal modeling is supported and has been implemented and verified for microwave integrated circuits. Electro-thermal elements are based on a unique theory that captures thermal nonlinearities [S7], [S8]
+\item It is very easy to write a model in fREEDA. For example. The ekv FET model was added to fREEDA$^{TM}$ in May 2007. This took approximately four weeks with most of the time spent reverse engineering the ekv model to discover the smoothing algorithms used (this information was only available with an NDA). Turning the electrical model into a complete electro-thermal model took six hours. Making changes to the model takes an almost insignificant amount of time as manual derivatives do not need to be developed (uses automatic differentiation technology). Model code in fREEDA$^{TM}$ uses is typically 5 to 10{\%} of the code required to implement the model in SPICE. About 90{\%} of . fREEDA$^{TM}$ code is off-the-shelf numerical libraries. For example, ADOLC was modified to suit . fREEDA$^{TM}$ as at the time, in 2005, . fREEDA$^{TM}$ was regarded as the most sophisticated implementation of ADOLC.
+\item fREEDA$^{TM}$ currently supports 150 models, some of the more exotic are fully-physical models for molecular electronics [S4] and models that capture high-order fileters in transient analysis [S3].
+\item fREEDA$^{TM}$ supports many types of analyses including four main transient analyses each with particular attributes. For example, one has a dynamic range exceeding 140 dB and particularly useful in modeling RFICs. Wavelet transient analysis [S9] uses wavelet technology albeit somewhat disappointing because of matrix ill-conditioning. In time this will be addressed and further support multi-physics modeling.
+\end{enumerate}
+
+
+
+fREEDA$^{mathrm{TM}}$ has an input format that
+is similar to the SPICE input format with extensions for variables,
+sweeps, user defined models, and repetitive simulation. The program
+provides a variety of output data and plots. The netlist format
+(including output commands) is discussed in chapter \ref{ch_netlist}.
+
+The program supports several types of analyses, subcircuit instances,
+and local reference nodes. The harmonic balance approach in fREEDA is
+discussed in chapter \ref{ch_svhb}. The convolution transient is
+described in chapter \ref{ch_svtr}.
+
+fREEDA$^{\mathrm{TM}}$ supports two schematic and layout capture engines. One of these is iFREEDA$^{\mathrm{TM}}$ which is based on the QUCS engine and is intricately connected to fREEDA$^{\mathrm{TM}}$. iFREEDA$^{\mathrm{TM}}$ uses the same code tree as fREEDA$^{\mathrm{TM}}$. The other schematic engine is Electric (Editor) of the Electric VLSI Design System, http://www.staticfreesoft.com
+fREEDA$^{\mathrm{TM}}$ also provides an interactive interface (GUI) called iFREEDA.  Both Electric and iFREEDA$^{\mathrm{TM}}$ support local reference terminals
+
+fREEDA$^{\mathrm{TM}}$ and iFREEDA$^{\mathrm{TM}}$ are available from http://www.freeda.org
+
+fREEDA$^{mathrm{TM}}$ provides a graphical user interface which includes a netlist
+editor, a run manager and a output viewer.  Details are given
+in chapter \ref{ch_gui}. While this is no longer distributed with fREEDA it still exists.
+
+fREEDA$^{mathrm{TM}}$ allows the addition or removal of new circuit elements in a
+very simple way. It is designed so that new circuit elements can be
+coded and incorporated into the program without modification to the
+high-level simulator and editor. It is also quite simple to add a new
+analysis type. Some insight into the program architecture is given in
+chapter \ref{ch_arch}.
+
+
+\section{Supported Platforms}
+
+fREEDA$^{mathrm{TM}}$ has been developed using the GNU compilers. All platforms
+supported by these compilers should be able to run fREEDA$^{mathrm{TM}}$.  Most of
+the program is written in ANSI C++ using object-oriented techniques,
+but it also contains off-the-shelf libraries and routines written in C
+and FORTRAN. The user's interface is written in Java.
+
+fREEDA$^{mathrm{TM}}$ has been compiled and run successfully in Solaris,
+and HPUX, Linux, Windows/cygwin with virtually no alteration. The main development environment is linux but cygwin should work just as well.
+
+\section{Command Line Options}
+
+The syntax for the simulator engine invocation is \medskip \\
+{\tt freeda <{\it netlist file}> [<{\it output file}>]}\\
+or (on Cygwin)
+{\tt freeda.exe <{\it netlist file}> [<{\it output file}>]}
+\medskip \\
+where {\tt<{\it netlist file}>} is the input file name (normally ended
+with {\tt .net}) and {\tt<{\it output file}>} is the output file name
+(normally ended with {\tt .out}). If the output file name is omitted,
+the default output name is formed by replacing {\tt .net} with {\tt
+.out} in the input file name, or by just adding {\tt .out} if the
+input file name does not ends with {\tt .net}.
+
+When not running a netlist file, fREEDA$^{mathrm{TM}}$ accepts the following command
+line flags:
+\medskip \\
+\begin{tabular}{ll}
+{\bf Flag} & {\bf Description} \\
+{\tt -a}            & : generate analysis catalog files. \\
+{\tt -c, --catalog} & : generate element catalog files. \\
+{\tt -c} {\em elementName} & : generate catalog files for teh element {\em elementName} (must be lower case). \\
+{\tt -h, --help}    & : get help (this message). \\
+{\tt -l, --licence} & : show license information. \\
+{\tt -v, --version} & : print program version.
+\end{tabular}
+
+fREEDA is self-documenting for analyses and elements.  Data is taken from the data structures for the elements, authors of analyses and elements often provide more extensive documentations.
+
+\section{Release Notes}
+
+\subsection{Installation Notes}
+
+The installation instructions are located in the file {\tt
+README.install} in the {\tt src/} directory.
+
+\subsection{Directory Structure}
+
+The simulator assumes the directory structure
+\begin{itemize}
+\item
+\$USER/freeda
+\item
+\$USER/library (where the libraries reside and not overwritten by new releases)
+\item
+\$USER/freeda/projects (where the projects reside and not overwritten by new releases)
+\item
+\$USER/freeda/freeda-x.x (the release)
+\item
+ln -s freeda-x.x freeda (soft link to create \$USER/freeda/freeda )
+\item
+\$USER/freeda/freeda/bin
+\item
+\$USER/freeda/freeda/doc (documentation for this release)
+\item
+\$USER/freeda/freeda/simulator (top of source code tree for fREEDA and ifREEDA)
+\item
+\$USER/freeda/freeda/elements (top of source code tree for elements, used in generating element documentation)
+\end{itemize}
+
+These defaults can be overwritten by environment variables as discussed in Section \ref{sec:env:var}
+
+
+\subsection{Setting up the Cygwin Environment}
+
+
+\subsection{Setting Up .bash\_profile\label{sec:bash:profile}}
+
+It is important that users set up the .bash\_profile correctly. Here is a suitable {\tt .bash\_profile} script. Gets around the problem of spaces in the directory path.  This should be added to the file .bash\_profile in the login directory.  This is where you will go when you launch cygwin.
+\begin{verbatim}
+USER="mbs"
+USERNoSpaces="mbs"
+export HOME="/$USER"
+mount -f -s -b "C:/Documents and Settings/$USER" "/$USERNoSpaces"
+export PATH="/$USERNoSpaces/freeda/bin:$PATH"
+export HOMEPATH="/$USERNoSpaces"
+$FREEDA_HOME="/$USERNoSpaces/freeda"
+\end{verbatim}
+
+\subsection{Environment Variables\label{sec:env:var}}
+
+Generally the defaults will be fine for freeda and ifreeda users.  Environment variables are available to adapt to the local environment. These environment variables can be set in the .bash\_profile file, see Section \ref{sec:bash:profile}.
+
+{\centering\begin{tabular}{|l|l|l|}
+\hline
+{\bf Environment} & Internal & {\bf Default}\\
+{\bf Variable} &  {\bf Variable} & \\
+\hline
+\hline
+FREEDA\_HOME & env\_freeda\_home         & \$USER/freeda \\
+FREEDA\_LIBRARY & env\_freeda\_library   & \$FREEDA\_HOME/library \\
+FREEDA\_PROJECTS & env\_freeda\_projects & \$FREEDA\_HOME/projects\\
+FREEDA\_PATH     & env\_freeda\_path     & \$FREEDA\_HOME/freeda \\
+FREEDA\_BIN      & env\_freeda\_bin      & \$FREEDA\_PATH/bin \\
+FREEDA\_SIMULATOR&env\_freeda\_simulator & \$FREEDA\_PATH/simulator \\
+FREEDA\_ELEMENTS &env\_freeda\_elements  & \$FREEDA\_SIMULATOR/elements \\
+\multicolumn{2}{|l|}{FREEDA\_DOCUMENTATION} &/tmp  \\
+&\multicolumn{2}{l|}{env\_freeda\_documentation } \\
+ & \multicolumn{2}{p{3in}|}{Documentation developers should set the variable to \$FREEDA\_PATH/doc} \\
+\multicolumn{2}{|l|}{FREEDA\_WEB\_DOCUMENTATION} &http://www.freeda.org/doc \\
+&\multicolumn{2}{l|}{env\_freeda\_web\_documentation } \\
+ & \multicolumn{2}{p{3in}|}{Documentation developers should set the variable to \$FREEDA\_PATH/doc} \\
+FREEDA\_BROWSER  & env\_freeda\_browser  & cygstart \\
+ & \multicolumn{2}{p{3in}|}{default for CygWin, cygstart is not a browser but works this way in fREEDA as it uses the registry table to open the appropriate application for a file.}\\
+ FREEDA\_BROWSER  & env\_freeda\_browser  & firefox \\
+ & \multicolumn{2}{l|}{default if not CygWin environment.}\\
+ \hline
+\end{tabular}}
+
+
+\subsection{Known Bugs}
+
+A list of known simulator bugs is located in the file {\tt README.bugs} in the
+{\tt src/} directory. Known element model bugs are provided in the element documentation.
+
+\section{Help}
+
+If you need help contact one of the developers or send email to m.b.steer@ieee.org . Several groups use \FDA but these are early days for \FDA\ so you may have issues that have not been addressed.

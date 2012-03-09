@@ -1,0 +1,27 @@
+Simple mixing test
+
+*.ac start=.01e9 stop=20e9 n_freqs=100 *.tran2 tstop=1.5e-9
+tstep=.1ps
+
+.svhb n_freqs=32 fundamental=1e9 steps=4
+
+* Input sources, v1 is the RF, v2 is the LO
+vsource:v1 1 0 vac=2 f=20e9 vsource:v2 2 0 vac=2 f=5e9 vsource:v3
+3 0 vac=2 f=10e9 vsource:v4 4 0 vac=2 f=25e9 vsource:v5 5 0 vac=2
+f=1e9
+
+* Input resistors
+resistor:r0 1 0 r=1 resistor:r1 2 0 r=1 resistor:r2 3 0 r=1 resistor:r3 4 0 r=1 resistor:r4
+5 0 r=1
+
+* Mixer element
+abmmixer:mixer1 1 2 3 4 5 6 0 + op     = 2 + inputs = 5
+
+
+* Output resistor
+resistor:r5 6 0 r=1
+
+
+.out plot term 6 vf in "out.vhb"
+
+.end

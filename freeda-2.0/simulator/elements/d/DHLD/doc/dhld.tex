@@ -1,0 +1,809 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Double Heterojunction Laser Diode (Tucker Model)}\newline
+\hspace*{\fill}\textbf{DHLD}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+
+\begin{figure}[H]
+\centerline{\epsfxsize=1.5in\epsfbox{figures/dhld_circuit.eps}} \caption{DHLD --- Double Heterojunction Laser Diode (Tucker model).}
+\end{figure}
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{fREEDA Form:}
+$\tt DHLD $:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_3\ n_3\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the electrical anode terminal \\
+&  \\
+$n_2$ & is the electrical cathode or reference electrical \\
+&  \\
+$n_3$ & is the optical terminal \\
+& \\
+$n_3$ & is the optical reference terminal \\
+& \\
+parameter list & see table for parameter list
+\end{tabular}\\
+
+
+
+\noindent\textbf{Parameter Table}\\[0.1in]
+
+\begin{tabular}{|l| l| l| l|}
+\hline
+ \textbf{Parameters} & \textbf{Description} & \textbf{Values} & \textbf{Units} \\
+ \hline
+ {\tt $R_s$} &series resistance & 2 & $\Omega$ \\
+ {\tt $R_e$} &equivalent resistance due to carrier degeneracy & 0.468 & $\Omega$ \\
+ {\tt $I_{01}$} &equivalent Diode1 leakage current & 2.54e-25& A \\
+ {\tt $I_{02}$} &equivalent Diode2 leakage current & 18.13e-3& A \\
+ {\tt $b$} &current controlled current source gain & 6.92& A$^{-1}$ \\
+ {\tt $\tau_{ns}$} &equivalent recombination Lifetime & 2.25e-9& s \\
+ {\tt $C_0$} &diode zero-bias charge capacitance & 10e-12& F \\
+ {\tt $V_D$} &junction built-in potential & 1.65& V \\
+ {\tt $D$} &constant relating the radiative recombination & & \\
+         &current per unit volume to the optical gain& 1.79e-29&
+          V$^{-1}$A$^{-1}$m$^{6}$ \\
+ {\tt $a$} &fraction of equivalent recombination lifetime& & \\
+         &over low-level injection spontaneous& & \\
+         &recombination lifetime& 0.125& -\\
+ {\tt $R_p$} &equivalent optical resistor& 29.4& $\Omega$\\
+ {\tt $C_p$} &equivalent optical capacitor& 0.102e-12& F\\
+ {\tt $S_c$} &photon density normalization constant& 1e21& m$^{-3}$\\
+ {\tt $\beta$} &fraction of spontaneous emission coupled& & \\
+             &into the lasing mode& 1e-3& -\\
+\hline
+\end{tabular}
+
+\newpage
+
+
+\begin{figure}[H]
+\centerline{\epsfxsize=5in \epsfbox{figures/dh_structure.eps}}
+\caption{Double-heterostructure laser. The \textit{p-GaAs} active
+layer is usually less than 0.5 $\mu$m thick.
+After~\cite{casey:hetero:1978, coldren:diode:1995}.}
+\label{fig:dhld:dhs}
+\end{figure}
+
+\noindent The DHLD consists of a \textit{p}-type GaAs
+active layer of thickness \textit{d} sandwiched between
+\textit{n}-type and \textit{p}-type layers of higher bangap
+material as shown in Fig.~\ref{fig:dhld:dhs}. The circuit model
+for the DHLD is shown in Fig.~\ref{fig:dhld:cet}. It is similar in
+many ways to the structure described
+in~\cite{joyce:electrical:1978}. The laser diode model is based on
+the Tucker large-signal circuit model~\cite{tucker:circuit:1981,
+tucker:large:1981}. It is derived from the physics of the
+heterojunction and explicitly takes into account the effect of
+carrier degeneracy, high level injection, and nonradiative
+recombination. The modulation response is determined through the
+rate equations of the device's electro-optical dynamics. The
+model is described in Chapter 3 of Reference \cite{kanj:thesis}.
+
+\vspace*{0.1in}
+\noindent\textbf{Analysis}\newline
+\noindent Under the assumption that the thickness \textit{d} of
+the active layer is small compared to the carrier diffusion length
+and that the variation of carrier densities with position in the
+active layer is small enough~\cite{tucker:circuit:1981}, the
+carrier densities can be represented by average values. Then the
+average total electron density $N$ in the active layer is given by
+\begin{equation}
+N=N_0+n
+\end{equation}
+where $N_0$ is the equilibrium electron density and $n$ is the
+excess electron density. Corresponding notation can be used for
+hole densities.
+
+From the physics of the Heterostructure1
+lasers~\cite{joyce:electrical:1978, tucker:circuit:1981}, and
+under the above assumptions, the total radiative spontaneous
+recombination rate $R$ in the active layer is given by:
+\begin{equation}
+R=BNP
+\end{equation}
+where $B$ is a constant and $P$ is the average total hole density
+in the active layer~\cite{tucker:circuit:1981}. To obtain the
+diode current due to spontaneous radiative recombination, we
+define the excess spontaneous radiative recombination rate $r_e$
+as:
+\begin{equation}
+r_e=n/\tau_s + B_1n^2
+\end{equation}
+where $\tau_s$ is the low-level injection spontaneous
+recombination lifetime and $B_1$ is a constant defined
+in~\cite{tucker:circuit:1981}.
+
+Also, a significant contribution to the diode current arises from
+nonradiative recombination rate $r_n$ along the strip edges and at
+the heterointerfaces. Following the analysis
+in~\cite{joyce:electrical:1978}, it is assumed here that the
+nonradiative recombination rate is proportional to $n$, and is
+characterized by a lifetime $\tau_n$. Then the total excess
+recombination rate $r_t$ (including radiative and nonradiative
+components) is obtained by adding the nonradiative recombination
+rate $r_n = n/\tau_n$ to $r_e$:
+\begin{equation}
+\label{eqn:dhld:etrr}
+r_t=(1/\tau_n + 1/\tau_s)n + B_1n^2~.
+\end{equation}
+
+
+Again, since the active layer is assumed to be thin, the diode
+recombination current is obtained by multiplying $r_t$ by the
+active layer volume $v_a$ and the electron charge $q$. Adding to
+it the displacement-current term, we obtain the diode terminal
+current below threshold $I$:
+\begin{equation}
+\label{eqn:dhld:dtc}
+I = q v_a\left(r_t + \frac{dn}{dt}\right)~.
+\end{equation}
+Note that Eqn.~\ref{eqn:dhld:dtc} does not include the effects of
+space-charge capacitance. Substituting Eqn.~\ref{eqn:dhld:etrr} in
+Eqn.~\ref{eqn:dhld:dtc} gives:
+\begin{equation}
+I = I_1 + bI_1^2 + \tau_{ns} \frac{dI_1}{dt}
+\end{equation}
+where
+\begin{equation}
+\label{eqn:dhld:i1}
+I_1 = \frac{q v_a n}{\tau_{ns}}
+\end{equation}
+\begin{equation}
+b = \frac{B_1 \tau_{ns}^2}{q v_a}
+\end{equation}
+and
+\begin{equation}
+\tau_{ns} = (\tau_s^{-1} + \tau_n^{-1})^{-1}
+\end{equation}
+
+\vspace*{0.1in}
+\noindent\textbf{Current/Voltage characteristics}\newline
+\noindent The diode junction voltage $V_j$
+can be expressed in terms of the electron density in the active
+layer as a three series-connected voltage drops $V_1, V_2$, and
+$V_3$. That is:
+\begin{equation}
+V_j=V_1+V_2+V_3
+\end{equation}
+and
+\begin{eqnarray}
+\label{eqn:dhld:v1}
+V_1=V_T \ln(1 + n/N_0) \\
+\label{eqn:dhld:v2}
+V_2=V_T \ln\{1 + n/(N_A+N_0)\} \\
+\label{eqn:dhld:v3}
+V_3=V_T(\alpha_1 + \alpha_3)n
+\end{eqnarray}
+where $V_T=kT/q$ is the thermal voltage, $N_A$ is the acceptor
+impurity concentration, and $\alpha_1$ and $\alpha_2$ are constant
+defined in~\cite{tucker:circuit:1981}. The first two of these
+elements represent a classical Shockley \textit{p-n} junction
+diodes. With Eqn.~\ref{eqn:dhld:i1} substituted,
+Eqns.~\ref{eqn:dhld:v1} and~\ref{eqn:dhld:v2} become:
+\begin{equation}
+\label{eqn:dhld:i1exp}
+I_1=I_{01}\{\exp(V_1/V_T)-1\}
+\end{equation}
+and
+\begin{equation}
+I_1=I_{02}\{\exp(V_2/V_T)-1\}
+\end{equation}
+where $I_1$ is the current through the two diodes and the two
+diode leakage currents are given by:
+\begin{equation}
+I_{01}=q v_a N_0/\tau_{ns}
+\end{equation}
+and
+\begin{equation}
+I_{02}=q v_a (N_A+N_0)/\tau_{ns}
+\end{equation}
+The third series-connected element is given by
+Eqn.~\ref{eqn:dhld:v3}. Substituting Eqn.~\ref{eqn:dhld:i1} in
+Eqn.~\ref{eqn:dhld:v3} gives
+\begin{equation}
+I_1=V_3/R_e
+\end{equation}
+where
+\begin{equation}
+R_e=(\alpha_1+\alpha_3) N_0 V_T/I_{01}~.
+\end{equation}
+
+\vspace*{0.1in}
+\noindent\textbf{Rate Equations}\newline
+
+\noindent As mentioned earlier, the excess spontaneous
+recombination rate per unit volume $r_t$ can be written as the sum
+of two components $r_n$ and $r_e$:
+\begin{equation}
+r_t = r_n + r_e
+\end{equation}
+Then, the total diode current due to spontaneous recombination is
+$I_t = q v_a r_t$, which can be written in the form:
+\begin{equation}
+\label{eqn:dhld:it}
+I_t = I_1 + b I_1^2
+\end{equation}
+and the diode current due to radiative spontaneous recombination
+is $I_e = q v_a r_e$, which reduces to:
+\begin{equation}
+\label{eqn:dhld:ie}
+I_e = a I_1 + b I_1^2
+\end{equation}
+where
+\begin{equation}
+a = \tau_{ns}/\tau_s
+\end{equation}
+
+The single mode rate equations for an injection
+laser~\cite{tucker:large:1981} can be written in the form
+\begin{equation}
+\label{eqn:dhld:ren}
+qv_a\frac{dn}{dt}=I - I_t - qv_agS
+\end{equation}
+\begin{equation}
+\label{eqn:dhld:res}
+qv_a\frac{dS}{dt}=qv_agS - \frac{Sqv_a}{\tau_p}+\beta I_e
+\end{equation}
+where $I$ is the diode terminal current, $g$ is the optical gain,
+$S$ is the photon density in the active layer, $\tau_p$ is the
+photon lifetime, and $\beta$ is the fraction of spontaneous emission
+coupled into the lasing mode. Eqn.~\ref{eqn:dhld:ren} describes
+electron-injection and charge-storage effects in the active layer,
+and Eqn.~\ref{eqn:dhld:res} describes the corresponding injection
+and storage dynamics of photons. These equations form the basis of
+the equivalent large signal model. To account for the space-charge
+storage in the heterojunction layer, Eqn.~\ref{eqn:dhld:ren} is
+generalized to include space-charge capacitance term. Note that
+this effect is taken into account by a capacitor $C_s$ and is
+different from the charge-storage effect taken into account by the
+term $\tau_{ns}dI_1/dt$. Also, a normalized photon density $S_n$
+is introduced to obtain better numerical values. With the above
+modifications, and substituting
+Eqns.~\ref{eqn:dhld:it} and~\ref{eqn:dhld:ie}, the rate equations
+become:
+\begin{equation}
+\label{eqn:dhld:rei}
+I=I_1 + bI^2_1 + \tau_{ns}\frac{dI_1}{dt} + C_s\frac{dVj}{dt} + GS_n
+\end{equation}
+\begin{equation}
+\label{eqn:dhld:resn}
+GS_n+\beta(aI_1 + bI^2_1)=\frac{S_n}{R_p}+C_p\frac{dS_n}{dt}
+\end{equation}
+where $C_s=C_0(1-V_j/V_D)^{-1/2}$ is the space-charge capacitance,
+$V_J$ is the heterojunction voltage, $C_0$ is the zero bias
+space-charge capacitance, $V_D$ is the diode built-in potential,
+$C_P=qv_aS_c$, $G=gC_p$, $R_p=\tau_p/C_p$, and $S_n=S/S_c$, where
+$S_c$ is the photon-density normalization constant.
+
+\vspace*{0.1in}
+\noindent\textbf{Equivalent Large-signal Circuit Model}\newline
+
+\noindent The large-signal circuit model of the injection laser follows from
+the rate equations, Eqns.~\ref{eqn:dhld:rei} and~\ref{eqn:dhld:resn}, and
+from the current/voltage characteristics of the diode. The electrical equivalent model is shown
+to the left of the vertical broken line in
+Fig.~\ref{fig:dhld:cet}. It is important to note that the
+resistance $R_e$ in series with the two Shockley diodes arises
+from carrier degeneracy, and is not associated with the ohmic
+regions of the diode. Those regions are modelled by a series
+resistance $R_s$ which includes contributions from lead
+resistance, bulk resistance in the high-bandgap materials, and the
+effective resistance of the near-ohmic \textit{p-P} isotype
+heterojunction.
+\begin{figure}[ht]
+\centerline{\epsfxsize=5in \epsfbox{figures/circuit_equi_tucker.eps}}
+\caption{Large-signal two port circuit model of injection laser}
+\label{fig:dhld:cet}
+\end{figure}
+The resulting equivalent circuit model of the photon dynamics is
+shown to the right of the vertical broken line in
+Fig.~\ref{fig:dhld:cet} and is derived from
+Eqn.~\ref{eqn:dhld:resn}.
+where
+\begin{equation}
+I_{sp}=\beta(aI_1^2+bI_1^2)
+\end{equation}
+and
+\begin{equation}
+I_g=GS_n~.
+\end{equation}
+
+\vspace*{0.1in}
+\noindent\textbf{Diode Parameters}\newline
+\noindent The laser parameters used in the simulations are the
+same as the ones used
+in~\cite{tucker:circuit:1981,tucker:large:1981}, and are similar
+to the parameters used in~\cite{joyce:electrical:1978}. The excess
+electron density in the active layer is assumed to be
+$n_s=1.5\times10^{18}$~cm$^{-3}$, and the factor $qv_a$ is taken
+as $1.02\times10^{-25}$~mA~cm$^{3}~s$. Thus the threshold current
+$I_t$ is approximately $100$~mA. The active layer doping density
+is taken as $N_A=4\times10^{17}$~cm$^{-3}$, and the photon
+lifetime is $\tau_p=3.0$~ps.
+
+It is also assumed that the optical gain function $G$ has a
+square-law dependence on the radiative recombination current per
+unit volume $J_{nom}$ as described in~\cite{casey:hetero:1978}
+\begin{equation}
+\label{eqn:dhld:g}
+G=D(J_{nom}-2\times10^{13})^2
+\end{equation}
+where $D$ is a constant and $J_{nom}=I_e/v_a$~A/m$^3$.A numerical
+value of $D$ can be obtained by first determining $S_{n0}$, the
+steady-state normalized photon density, and then setting it to
+infinity at saturation, that is when $n=n_s$. The steady-state
+photon density is obtained by subsrituting $dS_n/dt=0$ in
+Eqn.~\ref{eqn:dhld:resn}
+\begin{equation}
+S_{n0}=\frac{\beta(aI_{10}+bI_{10}^2)}{1/R_p-G}
+\end{equation}
+where $I_{10}$ is the steady-state value of $I_1$. As we can see,
+$S_{n0}$ goes to infinity when $G=1/R_p$ which, when substituted
+in Eqn.~\ref{eqn:dhld:g}, yields
+\begin{equation}
+\label{eqn:dhld:d}
+D=R_p^{-1}(J_{noms}-2\times10^{13})^{-2}
+\end{equation}
+where $J_{noms}$ is the value of $J_{nom}$ at saturation, and is given by
+\begin{equation}
+\label{eqn:dhld:js}
+J_{noms}=\frac{qn_s}{\tau_{ns}}(a+b\frac{qv_an_s}{\tau_{ns}})
+\end{equation}
+with the known diode parameters substituted in
+Eqns.~\ref{eqn:dhld:js} and~\ref{eqn:dhld:g}, we obtain
+$J_{noms}=6.359\times10^{13}$ and
+$D=1.79\times10^{-29}$~V$^{-1}$~A$^{-1}$~m$^{6}$. Numerical values of
+other parameters of the circuit model are listed in
+Table~\ref{table:p:dh}.\\[0.1in]
+
+\vspace*{0.1in}
+\noindent\textbf{Implementation}\newline
+
+\noindent The key to the implementation of the model is to
+consider the voltage on one of the diodes in
+Fig.~\ref{fig:dhld:cet} as the first state variable, $V_1$ for
+example, and the normalized photon density $S_n$ as the second
+state variable, and then write the model equations as a function
+of these two state variables and there derivatives, \textit{i.e.}
+$dV_1/dt$ and $dS_n/dt$ .
+
+The relation between the drive input voltage $V$ and current $I$
+is given by:
+\begin{equation}
+\label{eqn:dhld:v}
+V=IR_s+V_j
+\end{equation}
+where $I$ can be expressed as:
+\begin{equation}
+\label{eqn:dhld:i}
+I=I_1+bI_1^2+\tau_{ns}\frac{dI_1}{dt}+C_s\frac{dV_j}{dt}+I_g
+\end{equation}
+To write Eqns.~\ref{eqn:dhld:v} and~\ref{eqn:dhld:i} in terms of
+the state variables and there derivatives, we need to find $I_1$,
+$dI_1/dt$, $V_j$, and $dV_j/dt$ in terms of these state variables.
+From Eqn.~\ref{eqn:dhld:i1exp}, we know that
+$I_1=I_{01}\{\exp{(V_1/V_T)}-1\}$, then
+\begin{equation}
+\label{eqn:dhld:di1dt}
+\frac{dI_1}{dt}=\frac{I_{01}}{V_T}\exp(V_1/V_T)\frac{dV_1}{dt}
+\end{equation}
+and $V_j$ can be expressed as:
+\begin{equation}
+\label{eqn:dhld:vj}
+V_j=V_1+V_2+V_3
+\end{equation}
+where
+\begin{equation}
+\label{eqn:dhld:v2ln}
+V_2=V_Tln(I_1/I_{02}+1)
+\end{equation}
+and
+\begin{equation}
+\label{eqn:dhld:v3i1re}
+V_3=I_1R_e~\cdot
+\end{equation}
+We still have to write $dV_j/dt$ as a function of the state
+variables and their derivatives:
+\begin{equation}
+\frac{dV_j}{dt}=\frac{dV_1}{dt}+\frac{dV_2}{dt}+\frac{dV_3}{dt}
+\end{equation}
+where from Eqn.~\ref{eqn:dhld:v2ln}, we have
+\begin{equation}
+\frac{dV_2}{dt}=\frac{I_{01}}{I_{02}}\exp\{\frac{(V_1-V_2)}{V_T}\}\frac{dV_1}{dt}
+\end{equation}
+and from Eqn.~\ref{eqn:dhld:v3i1re}, we have
+\begin{equation}
+\frac{dV_3}{dt}=R_e\frac{dI_1}{dt}~.
+\end{equation}
+Finally, we have to find $I_g$ as a function of the state
+variables. We know that $I_g=GS_n=D(J_{nom}-2\times10^{13})^2S_n$,
+and that $J_{nom}=I_e/v_a=(aI_1+bI_1^2)/v_a$, then
+\begin{equation}
+I_g=D(\frac{aI_1+bI_1^2}{v_a}-2\times10^{13})^2S_n~.
+\end{equation}
+Now that we have expressed the current $I$ and voltage $V$ at the
+electrical port of the diode as a function of the state variables,
+we have to express the current and voltage at the optical port of
+the diode as a function of those variables. The voltage at the
+optical port is chosen to be $S_n$, however, the current $I_{sn}$
+has no meaning and it is forced to be zero ($I_{sn}\equiv0$) by
+connecting an open circuit to the optical port. The model,
+however, will not function properly unless the
+Eqn.~\ref{eqn:dhld:resn} is satisfied. This is done by using the
+fact that $I_{sn}\equiv0$ and by rewriting
+Eqn.~\ref{eqn:dhld:resn} in the form\footnote{Another way to
+satisfy Eqn.~\ref{eqn:dhld:resn} is to connect a 1~$\Omega$
+resistor at the optical port and make use of the fact that
+$I_{sn}-S_n\equiv0$, where $I_{sn}=R_pGS_n+R_p\beta(aI_1 +
+bI^2_1)-R_pC_p\frac{dS_n}{dt}$. This implementation actually will
+not result in a singular matrix in Harmonic-balance simulations
+and alleviate the need to use a large resistance instead of the
+open circuit in that case.}
+\begin{equation}
+I_{sn}=GS_n+\beta(aI_1 + bI^2_1) - \frac{S_n}{R_p} - C_p\frac{dS_n}{dt}
+\end{equation}
+
+One last thing we did not talk about above is parameterization or
+variable transformations. They both refer to an
+algebraic transformation of the device equations that leads to a
+better convergence properties, and enables universal device
+modeling. The parameterization employed here is the one suggested
+in~\cite{rizzoli:state:1992} and that converts the strong
+nonlinear current-voltage relationship of the diode to two
+smoother functions of current and voltage as functions of the
+state-variable $x$. Specifically, $V_1$ is not taken as the state
+variable in the actual coding, and Eqn.~\ref{eqn:dhld:i1exp} is
+parameterized as follows
+
+\begin{equation}
+I_1=\cases{I_{01}\{\exp(\alpha x)-1\}  & if $x\leq V_{pr}$ \cr
+I_{01}\exp(\alpha V_{pr})\{1+\alpha(x-V_{pr})\} - I_{01} & if
+$x>V_{pr}$}
+\end{equation}
+
+\begin{equation}
+V_1=\cases{x  & \hspace{.58in}if $x\leq V_{pr}$ \cr
+V_{pr}+\frac{1}{\alpha}\ln\{1+\alpha(x-V_{pr})\}  & \hspace{.53in} if $x>V_{pr}$}
+\end{equation}
+where $\alpha=1/V_T$ and $V_{pr}$ plays the role of a free
+parameter chosen appropriately to optimize the performance of the
+HB algorithm specifically. Experience
+shows~\cite{rizzoli:state:1992} that $V_{pr}=\ln(1/\alpha
+I_s)/\alpha$ results in excellent behavior of the model in most
+practical situations. As shown in Fig.~\ref{fig:dhld:iv},
+~\ref{fig:dhld:ix}, and~\ref{fig:dhld:vx}, the strong nonlinearity
+between $i$ \& $v$ is converted to moderate nonlinearities between
+$i$ \& $x$ and $v$ \& $x$, and the problem becomes well behaved.
+Please refer to~\cite{christoffersen:global:2001}
+and~\cite{velu:charge:2002} for more information on universal
+device modeling, and how the same piece of code is used in
+fREEDA with different
+simulation algorithms, $i.e.$ HB, Transient, DC analysis, etc.
+
+
+
+
+\begin{figure}[htbp]
+\centerline{\epsfxsize=3.8in \epsfbox{figures/diode_iv_big.eps}}
+\caption{Relation between $v$ and $i$ in a diode.}
+\label{fig:dhld:iv}
+\end{figure}
+\begin{figure}[htbp]
+\centerline{\epsfxsize=3.5in \epsfbox{figures/diode_ix_big.eps}}
+\caption{Relation between $x$ and $i$ in a diode.}
+\label{fig:dhld:ix}
+\end{figure}
+\begin{figure}[htbp]
+\centerline{\epsfxsize=4.0in \epsfbox{figures/diode_vx_big.eps}}
+\caption{Relation between $x$ and $v$ in a diode.}
+\label{fig:dhld:vx}
+\end{figure}
+
+%The second parameterization~\cite{mena:rate:1997}
+
+\vspace*{0.1in}\noindent\textbf{Results}\newline
+\noindent The following sections present the simulation results of
+the DHLD model. The diode is driven by an input current pulse of finite
+rise and fall time. Graphs of the input terminal voltage and of
+the normalized photon density are shown for different values of
+$\beta$ and compared with HSPICE$^{\scriptsize\textregistered}$.
+
+A Harmonic Balance analysis is
+performed on the implemented DHLD model. First, the model is
+driven by a DC bias source and single tone sine wave. Plots of the
+input terminal voltage and of the normalized photon density are
+shown and compared with
+fREEDA's transient
+analysis and HSPICE$^{\scriptsize\textregistered}$. Second, the
+model is driven by a DC bias source and two tone input sine waves.
+Plots of the optical output power spectrum is presented. Also, the
+power ratio of the second harmonic to the fundamental $P_{2f}/P_f$
+and of the intermodulation distortion to the fundamental
+$P_{IM3}/P_f$ as a function of bias current are shown.
+
+\vspace*{0.1in}\noindent\textbf{Transient Analysis}\newline
+
+\noindent In the analysis and design of laser diode transmitter,
+it is very important to determine laser turn-on delay and other
+switching and modulation characteristics especially for high-speed
+application where the switching waveform is affect by the finite
+bandwidth of the drive circuits~\cite{tucker:circuit:1981}. This
+is why transient simulation is very important in the design of
+optoelectronic ICs.
+
+The DHLD model is driven by a current pulse that has a peak value
+of 150 mA and a rise time of 0.1 ns and the simulations
+are presented for different values of $\beta$. The plots in
+Fig.~\ref{fig:dhld:vpulse} shows the input terminal voltage versus
+time while the plots in Fig.~\ref{fig:dhld:snpulse} shows the
+normalized output photon density. As we can see, a very small
+change in the input voltage correspond to a large ringing effect
+in the output power and this is due to exponential current/voltage
+relationship of the diode. Also, Fig.~\ref{fig:dhld:snpulse} shows
+the laser turn-on delay.
+
+As shown in all of the plots, there is excellent agreement
+between fREEDA and
+HSPICE$^{\scriptsize\textregistered}$.
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in
+\epsfbox{figures/DHLD_v_pulse.eps}}
+\caption{Transient analysis comparison of the terminal voltage}
+\label{fig:dhld:vpulse}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/DHLD_sn_pulse.eps}}
+\caption{Transient Analysis comparison of the light output}
+\label{fig:dhld:snpulse}
+\end{figure}
+\vspace*{0.1in}
+\noindent\textbf{Harmonic Balance}\newline
+
+\begin{figure}
+\centerline{\epsfxsize=6in \epsfbox{figures/LD_Tucker_parasitics.eps}}
+\caption{Parasitics and matching network used in HB simulation.
+After~\cite{way:large:1987}.}
+\label{fig:dhld:ltp}
+\end{figure}
+
+\noindent Fiber-optic microwave links have the potential to be
+used in a large number of applications such as cable television
+systems and personal communication systems.
+That is why it is important to characterize the behavior
+of the laser diode under direct microwave intensity modulation,
+and one of the most important tools in the simulations of
+nonlinear models at microwave frequencies is Harmonic Balance.
+
+The laser diode was connected to the parasitics and matching
+network as shown in Fig.~\ref{fig:dhld:ltp} and harmonic balance
+simulations with a single and two tone sine wave input were
+performed.
+
+\begin{figure}
+\centerline{\epsfxsize=4.3in \epsfbox{figures/DHLD_v_beta_1e_3_hb_tr.eps}}
+\caption{Comparison of the input terminal voltage between HB
+analysis and transient analysis in fREEDA.}
+\label{fig:dhld:dhvhbtr}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.3in \epsfbox{figures/DHLD_sn_beta_1e_3_hb_tr.eps}}
+\caption{Comparison of the output photon density between HB
+analysis and transient analysis in fREEDA.}
+\label{fig:dhld:dhsnhbtr}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/LS_Int_Mod.eps}}
+\caption{Large-signal intensity modulation response.}
+\label{fig:dhld:dhintmod}
+\end{figure}
+
+The intensity modulation response of a double heterojunction laser
+diode to an rf-input input power of 7 dBm at 1 GHz at a bias
+current of 125 mA was simulated. The time domain results are shown in
+Figs.~\ref{fig:dhld:dhvhbtr} and~\ref{fig:dhld:dhsnhbtr}
+and compared to transient analysis. The calculated optical output
+power spectrum is shown in Fig.~\ref{fig:dhld:dhintmod}, with the
+second harmonic being approximately –7.59 dBc.
+
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/P2f_Pf.eps}}
+\caption{Power ratio of second harmonic to fundamental as a
+function of bias current.}
+\label{fig:dhld:dhp2f}
+\end{figure}
+
+Fig.~\ref{fig:dhld:dhp2f} shows the power ratio of the second
+harmonic to the fundamental $P_{2f}/P_f$ as a function of the bias
+current for an rf-input input power of 3 dBm at input frequency of
+1 GHz. The threshold current of this device is 100 mA.
+
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/Pim3_Pf.eps}}
+\caption{Power ratio of third-order intermodulation products
+to carrier as a function of bias current.}
+\label{fig:dhld:dhpim3}
+\end{figure}
+
+Finally, Fig.~\ref{fig:dhld:dhpim3} shows the power ratio of the
+third-order intermodulation products to the carrier $P_{IM3}/P_f$
+as a function of the bias current. Equal inputs of –-1 dBm at 1.0
+GHz and 1.04 GHz were used. In general, there is an improvement in
+linearity with increasing bias current.
+
+As we can see, there is an excellent agreement in the single tone
+simulations between HB and transient analysis except at the beginning
+with HB which
+truncates the transient response. In addition, the two tone
+simulations shows a close agreement with the reported nonlinear
+distortion simulations in the literature~\cite{way:large:1987,
+iezekiel:nonlinear:1990}.
+
+\begin{thebibliography}{99}
+
+\bibitem{kanj:thesis}
+H. Kanj, Circuit-Level Modeling of Laser Diodes , M.S., North Carolina State University, 2003
+
+\bibitem{Bewtra:modeling:1995} N. Bewtra, D. A. Suda, G. L. Tan,
+F. Chatenoud, and J. M. Xu, ``Modeling of Quantum-Well Lasers with
+Electro-Opto-Thermal Interaction,'' {\em IEEE J. of Selected
+Topics in Quantum Electronics}, Vol. 1, No. 2, pp. 331-340, June
+1995.
+
+\bibitem{morikuni:simulation:1998} J. Morikuni, G. Dare, P. Mena,
+A. Harton, K. Wyatt, ``Simulation of optical interconnect devices,
+circuits, and systems using analog behavioral modeling tools,''
+{\em IEEE Lasers and Electro-Optics Society Annual Meeting}, Vol.
+1, pp. 235--236, Dec 1998.
+
+\bibitem{freeda:2002} {\em http://www.freeda.org}.
+
+\bibitem{griewank:adol-c:1996} A. Griewank, D. Juedes and J. Utke,
+``Adol-C: A Package for the Automatic Differenciation of
+Algorithms Written in C/C++'' ACM TOMS, Vol. 22(2), pp. 131–-167,
+June 1996.
+
+\bibitem{hecht:laser:1992} J. Hecht,
+``Laser Pioneers'' {\em Boston: Academic Press}, 1992.
+
+\bibitem{dupuis:anintro:1987} R. D. Dupuis ``An Introduction to
+the Developement of the Semiconductor Laser'' {\em IEEE J. of
+Quantum Electronics}, Vol. QE-23, No. 6, June 1987.
+
+\bibitem{morikuni:optoelectronic:1998} J. Morikuni, P. Mena,
+A. Harton, K. Wyatt, ``Optoelectronic Computer-Aided Design,''
+{\em IEEE Lasers and Electro-Optics Society Summer Topical
+Meetings}, pp. 53--54, July 1998.
+
+\bibitem{seung-woo:optical:1999} L. Seung-Woo, C. Eun-Chang, C.
+Woo-Young, ``Optical interconnection system analysis using SPICE,
+'' {\em The Pacific Rim Conference on Lasers and Electro-Optics},
+Vol. 2, pp. 391--392, Sep 1999.
+
+\bibitem{christoffersen:global:2001} C. E. Christoffersen,
+{\em Global Modeling of Nonlinear Microwave Circuits}, Ph.D.
+Dissertation, Dept. of Electrical Engineering, North Carolina
+State University, 2001.
+
+\bibitem{joyce:electrical:1978} W. B. Joyce, R. W. Dixon,
+``Electrical characterization of heterostructure lasers,'' {\em in
+J. Appl. Phys.}, Vol. 49, No. 7, July 1978.
+
+\bibitem{tucker:circuit:1981} R. S. Tucker, ``Circuit model of
+double-heterojunction laser below threshold,'' {\em in IEE Proc.
+on Solid-State \& Electron Devices--Part I}, Vol. 128, No. 3, pp.
+101--106, 1981.
+
+\bibitem{tucker:large:1981} R. S. Tucker, ``Large-signal circuit
+model for simulation of injection-laser modulation dynamics,''
+{\em in IEE Proc. on Solid-State \& Electron Devices--Part I},
+Vol. 128, No. 5, pp. 180--184, 1981.
+
+\bibitem{casey:hetero:1978} H.C. Casey, M.B. Panish,
+``Heterosructure Lasers, part A and part B'' {\em Academic Press},
+1978.
+
+\bibitem{coldren:diode:1995} L.A. Coldren, S.W. Corzine,
+``Diode Lasers and Photonic Integrated Circuits,''
+{\em John Wiley \& Sons, Inc.}, 1995.
+
+\bibitem{rizzoli:state:1992} V. Rizzoli, A. Lipparini, A. Costanzo,
+F. Mastri, C. Cecchetti, A. Neri, D. Masotti, ``State-of-the-art
+harmonic-balance simulation of forced nonlinear microwave circuits
+by the piecewise technique,'' {\em IEEE Transactions on Microwave
+Theory and Techniques}, Vol. 40, issue 1, pp. 12--28, Jan. 1992.
+
+\bibitem{velu:charge:2002} S. N. Velu,
+{\em Charge Based Modeling in State Variable Based Simulator},
+M.S. Thesis, Dept. of Electrical Engineering, North Carolina State
+University, 2002.
+
+
+\bibitem{way:large:1987} W. I. Way, ``Large Signal Nonlinear
+Distortion Prediction for a  Single-Mode Laser Diode Under
+Microwave Intensity Modulation,'' {\em IEEE J. of Lightwave
+Technology}, Vol. LT-5, No. 3, March 1987.
+
+\bibitem{iezekiel:nonlinear:1990} S. Iezekiel, C. M. Snowden,
+``Nonlinear Circuit Analysis of Laser Diodes Under Microwave
+Direct Modulation,'' {\em IEEE MTT-S International}, Vol. 2, pp.
+937--940, 1990.
+
+\bibitem{towe:ahistorical:2000} E. Towe, R. F. Leheny, A. Yang,
+``A Historical Perspective of the Developement of the
+Vertical-Cavity Surface-Emitting Laser,'' {\em IEEE J. on Selected
+Topics in Quantum Electronics}, Vol.6, No. 6, Nov/Dec 2000.
+
+\bibitem{ohiso:flip-chip:1996} Y. Ohiso, K. Tateno, Y. Kohama,
+A. Wakatsuki, H. Tsunetsugu, and T. Kurokawa, ``Flip-chip bonded
+0.85-$\mu m$ bottom-emitting vertical-cavity laser array on an
+AlGaAs substrate,'' {\em IEEE Photon. Technol. Lett.}, Vol. 8, pp.
+1115-1117, Sep 1996.
+
+\bibitem{mena:asimple:1999} P. V. Mena, J. J. Morikuni, S.-M.
+Kang, A. V. Harton, K. W. Wyatt, ``A Simple Rate-Equation-Based
+Thermal VCSEL Model,'' {\em IEEE J. of Lightwave Technology}, Vol.
+17, No. 5, May 1999.
+
+\bibitem{neifeld:vcselst:2003} M. A. Neifeld (private communication),
+2003.
+
+\bibitem{hasnain:performance:1991} G. Hasnain, K. Tai, L. Yang,
+Y. H. Wang, R. J. Fisher, J. D. Wynn, B. Weir, N. K. Dutta, and A.
+Y. Cho, ``Performance of Gain-guided Surface Emitting Lasers with
+Semiconductor Distributed Bragg Reflectors,'' {\em IEEE J. of
+Quantum Electron.}, Vol. 27, No. 6, pp. 1377-1385, 1991.
+
+\bibitem{agrawal:semi:1993} G. P. Agrawal, and N. K. Dutta,
+``Semiconductor Laser, 2nd ed.'' {\em New York: Van Nostrand
+Reinhold}, 1995.
+
+\bibitem{neifeld:packaging:1995} M. A. Neifeld and W. C. Chou,
+``Electrical packaging impact on source components in optical
+interconnect,'' {\em IEEE Transactions on Components, Packaging,
+and Manufacturing Technology --- Part B}, Vol. 18, pp. 578--595,
+Aug. 1995.
+
+\bibitem{bruensteiner:extraction:1999} M. Bruensteiner, G. C. Papen,
+``Extraction of VCSEL Rate-Equation Parameters for Low-Bias System
+Simulation,'' {\em IEEE J. of Selected Topics in Quantum Electron},
+Vol. 5, No. 3, 1999.
+
+\bibitem{carlsson:analog:2002} C. Carlsson, H. Martinsson, R. Schatz, J. Halonen,
+A. Larsson ``Analog Modulation Properties of Oxide Confined VCSELs at
+Microwave Frequencies,'' {\em IEEE J. of Lightwave
+Technology}, Vol. 20, No. 9, September 2002.
+
+\bibitem{fernandez:toward:2002} A. F. Fernandez, F. Berghmans, B. Brichard,
+M. Decreton, ``Toward The Developement of Radiation-Tolerant Instrumentation
+Data Links for Thermonuclear Fusion Experiments,'' {\em IEEE Transactin on
+Nuclear Science}, Vol. 49, No. 6, December 2002.
+
+\end{thebibliography}
+
+\noindent\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2003.01.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Logo \\
+Houssam Kanj & NC State University & 2003 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+www.ncsu.edu & & & \\
+\end{tabular}
+
+\end{document}

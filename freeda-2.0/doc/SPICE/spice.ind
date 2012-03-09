@@ -1,0 +1,509 @@
+\begin{theindex}
+
+  \item $C_{BD}$, 201
+  \item $C_{BS}$, 201
+  \item .AC, 53
+  \item .DC, 55
+  \item .DISTO, 58
+  \item .DISTRIBUTION, 61
+  \item .END, 62
+  \item .ENDS, 63
+  \item .FOUR, 64
+  \item .FUNC, 49, 65
+  \item .IC, 66
+  \item .INC, 67
+  \item .LIB, 68
+  \item .MC, 69
+  \item .MODEL, 72
+  \item .NODESET, 76
+  \item .NOISE, 77
+  \item .OP, 82
+  \item .OPTIONS, 83
+  \item .OPTIONS, ABSTOL, 83
+  \item .OPTIONS, ACCT, 83
+  \item .OPTIONS, BYPASS, 83
+  \item .OPTIONS, CHGTOL, 83
+  \item .OPTIONS, CPTIME, 83
+  \item .OPTIONS, DEFAD, 83
+  \item .OPTIONS, DEFAS, 83
+  \item .OPTIONS, DEFL, 83
+  \item .OPTIONS, DEFW, 83
+  \item .OPTIONS, EXPAND, 83
+  \item .OPTIONS, GMIN, 83
+  \item .OPTIONS, ITL1, 83
+  \item .OPTIONS, ITL2, 84
+  \item .OPTIONS, ITL3, 84
+  \item .OPTIONS, ITL4, 84
+  \item .OPTIONS, ITL5, 84
+  \item .OPTIONS, LIBRARY, 84
+  \item .OPTIONS, LIMPTS, 84
+  \item .OPTIONS, LIMTIM, 84
+  \item .OPTIONS, LIST, 84
+  \item .OPTIONS, LVLCOD, 84
+  \item .OPTIONS, LVLTIM, 84
+  \item .OPTIONS, MAXORD, 84
+  \item .OPTIONS, METHOD, 84
+  \item .OPTIONS, NODE, 85
+  \item .OPTIONS, NOECHO, 85
+  \item .OPTIONS, NOMOD, 85
+  \item .OPTIONS, NOPAGE, 85
+  \item .OPTIONS, NUMDGT, 85
+  \item .OPTIONS, OPTS, 85
+  \item .OPTIONS, PIVREL, 85
+  \item .OPTIONS, PIVTOL, 85
+  \item .OPTIONS, RELTOL, 85
+  \item .OPTIONS, TNOM, 85
+  \item .OPTIONS, TRTOL, 85
+  \item .OPTIONS, VNTOL, 85
+  \item .OPTIONS, [, 85
+  \item .PARAM, 86
+  \item .PLOT, 88
+  \item .PRINT, 92
+  \item .PROBE, 98
+  \item .PZ, 99
+  \item .SAVEBIAS, 100
+  \item .SENS, 101
+  \item .STEP, 102
+  \item .SUBCKT, 103
+  \item .TEMP, 105
+  \item .TEXT, 106
+  \item .TF, 107
+  \item .TRAN, 109
+  \item .WATCH, 111
+  \item .WCASE, 112
+  \item .WIDTH, 114
+  \item .end, 37
+  \item [, 85
+  \item {\sc  PSpice}\ Only, 86, 150, 183, 187, 237
+  \item {\sc  Spice3}\ Only, 150, 236
+  \item {{\sc  PSpice}\ Only\hfill }Lateral PNP Si Bipolar Transistor Model, 
+		228
+
+  \indexspace
+
+  \item A, 117
+  \item ABSTOL, 83
+  \item AC Analysis, 53
+  \item ac Analysis, 33
+  \item ACCT, 83
+  \item analysis, AC, 33
+  \item analysis, small signal, 33
+  \item Angelov Model, see GASFET, LEVEL 6, 118
+
+  \indexspace
+
+  \item B, 118
+  \item Bipolar Junction Transistor, 227
+  \item BJT, $R_B$, 234
+  \item BJT, $R_C$, 234
+  \item BJT, $R_E$, 234
+  \item BJT, Depletion capacitance, 233
+  \item BJT, I/V Characteristics, 234
+  \item BJT, Parasitic Resistance, 234
+  \item BJT, Temperature Dependence, 232
+  \item BYPASS, 83
+
+  \indexspace
+
+  \item C, 149
+  \item CAP, 150
+  \item Capacitor, 149
+  \item chebyschev expressions, 49
+  \item CHGTOL, 83
+  \item COMMENT, 54
+  \item Comment Card, 54
+  \item constitutive relations, 33
+  \item continuation line, 43
+  \item CONV, 117
+  \item Convolution, 117
+  \item Convolution Model, 117
+  \item CORE, 183
+  \item CORE, AC Analysis, 186
+  \item CPTIME, 83
+  \item Current Controlled Switch, 254
+  \item Current-Controlled Current Source, 160
+  \item Current-Controlled Switch Model, 254
+  \item Current-Controlled Voltage Source, 166
+  \item Curtice Quadratic Model, see GASFET, LEVEL 1, 118
+  \item Curtice-Ettenberg Cubic Model, see GASFET, LEVEL 4, 118
+
+  \indexspace
+
+  \item D, 152
+  \item Data Output Specification, 98
+  \item DC Analysis, 55
+  \item DEFAD, 83
+  \item DEFAS, 83
+  \item DEFL, 83
+  \item DEFW, 83
+  \item Delimiter, 43
+  \item Depletion capacitance, see BJT, 233
+  \item Depletion capacitance, see MOSFET, 201
+  \item Differences between versions, see Versions, 50
+  \item Digital Input Interface, 221
+  \item Digital Input Interface Model, 222
+  \item Digital Output Interface, 224
+  \item Digital Output Interface Model, 224
+  \item DINPUT, 222
+  \item DIODE, 152
+  \item Diode, 152
+  \item Diode Model, 152
+  \item DIODE, $R_S$, 153
+  \item DIODE, AC Analysis, 155
+  \item DIODE, Current Characteristic, 153
+  \item DIODE, Noise Analysis, 155
+  \item DIODE, Noise Model, 155
+  \item DIODE, Parasitic Resistance, 153
+  \item DIODE, Temperature Dependence, 153
+  \item Distributed Discontinuity, 258
+  \item Distribution Specification, 61
+  \item DOUTPUT, 224
+
+  \indexspace
+
+  \item E, 156
+  \item End Statement, 62
+  \item End Subcircuit Statement, 63
+  \item EXPAND, 83
+  \item Expression, 44
+
+  \indexspace
+
+  \item F, 160
+  \item Fourier Analysis, 64
+  \item FUNC, 49
+  \item function, 49
+  \item Function Definition, 65
+
+  \indexspace
+
+  \item G, 162
+  \item GaAs MESFET, 118
+  \item GASFET, 118, 264
+  \item GASFET, \pspice\ $R_D$, 126, 141, 145, 267
+  \item GASFET, \pspice\ $R_G$, 126, 141, 145, 267
+  \item GASFET, \pspice\ $R_S$, 126, 141, 145, 267
+  \item GASFET, \pspice\ Parasitic Resistance, 126, 141, 145, 267
+  \item GASFET, \spicethree  (Raytheon) Model, I/V, 268
+  \item GASFET, \spicethree (Raytheon) Model, I/V, 268
+  \item GASFET, AC Analysis, 147, 270
+  \item GASFET, I/V Characteristics, 127, 128, 131, 133, 134, 136, 137, 
+		142, 146, 268
+  \item GASFET, I/V Characteristics, Leakage Currents, 126, 267
+  \item GASFET, Leakage Currents, 126, 267
+  \item GASFET, LEVEL -1 (TOM) Model, I/V, 134
+  \item GASFET, LEVEL -1 (TOM-2) Model, I/V, 133, 136
+  \item GASFET, LEVEL -1 (TOM2) Model, 118
+  \item GASFET, LEVEL -1 (Triquint) Model, I/V, 134
+  \item GASFET, LEVEL 1 (Curtice Quadratic) Model, 118
+  \item GASFET, LEVEL 1 (Curtice) Model, I/V, 127
+  \item GASFET, LEVEL 2 (Raytheon or Statz) Model, 118
+  \item GASFET, LEVEL 2 (Raytheon) Model, I/V, 128
+  \item GASFET, LEVEL 3 (TOM) Model, 118
+  \item GASFET, LEVEL 3 (TOM) Model, I/V, 131
+  \item GASFET, LEVEL 3 (Triquint) Model, I/V, 131
+  \item GASFET, LEVEL 4 (Curtice Cubic) Model, 118
+  \item GASFET, LEVEL 4 (Curtice) Model, I/V, 137
+  \item GASFET, LEVEL 5 (Materka-Kacprza) Model, I/V, 142
+  \item GASFET, LEVEL 5 (Materka-Kacprzak) Model, 118
+  \item GASFET, LEVEL 5 (Materka-Kacprzak) Model, I/V, 142
+  \item GASFET, LEVEL 6 (Angelov) Model, 118
+  \item GASFET, LEVEL 6 (Angelov) Model, I/V, 146
+  \item GASFET, Noise Analysis, 147, 270
+  \item GASFET, Noise Model, 147, 270
+  \item GASFET, Temperature Dependence, 125, 140, 144, 266
+  \item GMIN, 83
+
+  \indexspace
+
+  \item H, 166
+
+  \indexspace
+
+  \item I, 168
+  \item I-V characteristics, see BJT, 234
+  \item I-V characteristics, see GASFET, 127, 128, 131, 133, 134, 
+		136, 137, 142, 146, 268
+  \item I-V characteristics, see MOSFET, 202
+  \item I/V Characteristics, NMOS, 211
+  \item I/V Characteristics, PMOS, 211
+  \item I/V Characteristics, see BJT, 234
+  \item I/V Characteristics, see GASFET, 127, 128, 131, 133, 134, 
+		136, 137, 142, 146, 268
+  \item I/V Characteristics, see MOSFET, 202, 211
+  \item I/V Characteristics, see MOSFET MOSFET, 204
+  \item Include Statement, 67
+  \item IND, 187
+  \item indefinite nodal admittance matrix, 34
+  \item Independent Current Source, 168
+  \item Independent Voltage Source, 246
+  \item Inductor, 187
+  \item Initial Conditions, 66
+  \item ISWITCH, 254
+  \item ISWITCH, Noise Analysis, 256
+  \item ISWITCH, Noise Model, 256
+  \item ITL1, 83
+  \item ITL2, 84
+  \item ITL3, 84
+  \item ITL4, 84
+  \item ITL5, 84
+
+  \indexspace
+
+  \item J, 175
+  \item JFET, \pspice\ $R_D$, 177
+  \item JFET, \pspice\ $R_G$, 177
+  \item JFET, \pspice\ $R_S$, 177
+  \item JFET, \pspice\ Parasitic Resistance, 177
+  \item JFET, AC Analysis, 179
+  \item JFET, I/V Characteristics, Leakage Currents, 178
+  \item JFET, Leakage Currents, 178
+  \item JFET, Noise Analysis, 180
+  \item JFET, Noise Model, 180
+  \item JFET, Temperature Dependence, 176
+  \item Junction Field Effect Transistor, see JFET, 177
+  \item Junction Field-Effect Transistor, 175
+
+  \indexspace
+
+  \item K, 181
+  \item K, AC Analysis, 186
+
+  \indexspace
+
+  \item L, 187
+  \item laplace expressions, 49
+  \item LBEND, 259
+  \item Leakage Currents, see GASFET, 126, 267
+  \item Leakage Currents, see JFET, 178
+  \item Leakage Currents, see MOSFET, 200
+  \item LIBRARY, 84
+  \item Library Statement, 68
+  \item LIMPTS, 84
+  \item LIMTIM, 84
+  \item line continuation, 43
+  \item LIST, 84
+  \item Lossy RC Transmission Line Model, 243
+  \item LPNP, 228
+  \item LVLCOD, 84
+  \item LVLTIM, 84
+
+  \indexspace
+
+  \item M, 189
+  \item Materka-Kacprzak Model, see GASFET, LEVEL 5, 118
+  \item MAXORD, 84
+  \item MBEND, 260
+  \item MESFET, 264
+  \item MESFET, see GASFET (\pspice), 126, 141, 145, 267
+  \item METHOD, 84
+  \item Meyer model, see MOSFET, 208, 214
+  \item Microstrip Impedance Step Model, 263
+  \item Microstrip Mitered Right-Angle Bend Model, 260
+  \item Microstrip Right-Angle Bend Model, 259
+  \item Microstrip T-Junction Model, 261
+  \item Microstrip X-junction, 262
+  \item model, 37
+  \item Model Statement, 72
+  \item Monte Carlo Analysis, 69
+  \item MOSFET, 189
+  \item MOSFET, $C_{GB}$, 203, 208, 209, 213, 214
+  \item MOSFET, $C_{GD}$, 203, 208, 209, 213, 214
+  \item MOSFET, $C_{GS}$, 203, 208, 209, 213, 214
+  \item MOSFET, $C_{GS}$ $C_{GD}$ $C_{GB}$, 208
+  \item MOSFET, $R_B$, 199
+  \item MOSFET, $R_D$, 199
+  \item MOSFET, $R_G$, 199
+  \item MOSFET, $R_S$, 199
+  \item MOSFET, AC Analysis, 219, 234
+  \item MOSFET, Depletion capacitance, 201
+  \item MOSFET, I/V Characteristics, 202, 211
+  \item MOSFET, I/V Characteristics LEVEL 2, 204
+  \item MOSFET, I/V Characteristics, Leakage Currents, 200
+  \item MOSFET, Leakage Currents, 200
+  \item MOSFET, LEVEL 2 I/V Characteristics, 204
+  \item MOSFET, LEVEL 2 linear region, 207
+  \item MOSFET, LEVEL 2 saturation region, 207
+  \item MOSFET, LEVEL 2 weak inversion region, 207
+  \item MOSFET, LEVEL 3 I/V Characteristics, 211
+  \item MOSFET, LEVEL 3, overlap capacitances LEVEL 3, 213
+  \item MOSFET, Meyer model, 208, 214
+  \item MOSFET, Meyer model, LEVEL 2, 208
+  \item MOSFET, Meyer model, LEVEL 3, 214
+  \item MOSFET, Noise Analysis, 220, 235, 238
+  \item MOSFET, Noise Model, 220, 235, 238
+  \item MOSFET, Overlap Capacitance LEVEL 1, 203
+  \item MOSFET, Overlap Capacitances, 208, 213
+  \item MOSFET, Overlap Capacitances LEVEL 2, 208
+  \item MOSFET, Overlap Capacitances LEVEL 3, 213
+  \item MOSFET, overlap capacitances LEVEL 3, 213
+  \item MOSFET, overlap capacitances Meyer model, 208, 214
+  \item MOSFET, overlap capacitances Ward-Dutton Model, 209, 214
+  \item MOSFET, Parasitic Resistance, 199
+  \item MOSFET, Process Oriented Model, 197
+  \item MOSFET, Temperature Dependence, 198
+  \item MOSFET, Ward-Dutton model, 209, 214
+  \item MOSFET, Ward-Dutton model, LEVEL 2, 209
+  \item MOSFET, Ward-Dutton model, LEVEL 3, 214
+  \item Mutual Inductor, 181
+
+  \indexspace
+
+  \item N, 221
+  \item N-Channel JFET Model, 175
+  \item N-CHANNEL MOSFET MODEL, 191
+  \item netlist, 37
+  \item NJF, 175
+  \item NMOS, 191
+  \item NMOS, $R_B$, 199
+  \item NMOS, $R_D$, 199
+  \item NMOS, $R_G$, 199
+  \item NMOS, $R_S$, 199
+  \item NMOS, I/V Characteristics, 202, 211
+  \item NMOS, I/V Characteristics LEVEL 2, 204
+  \item NMOS, LEVEL 2 I/V Characteristics, 204
+  \item NMOS, LEVEL 3 I/V Characteristics, 211
+  \item NODE, 85
+  \item Node Voltage Initialization, 76
+  \item NOECHO, 85
+  \item NOMOD, 85
+  \item NOPAGE, 85
+  \item NPN, 228
+  \item NPN Si Bipolar Transistor Model, 228
+  \item NPN, I/V Characteristics, 234
+  \item NUMDGT, 85
+
+  \indexspace
+
+  \item O, 224
+  \item Operating Point Analysis, 82
+  \item Option Specification, 83
+  \item option, see {\tt .OPTIONS}, 83
+  \item OPTS, 85
+  \item Overlap Capacitance, see MOSFET, 203
+  \item Overlap Capacitances, see MOSFET, 208, 213
+
+  \indexspace
+
+  \item P, 226
+  \item P-Channel JFET Model, 176
+  \item P-CHANNEL MOSFET MODEL, 191
+  \item Parameteric Analysis, 102
+  \item Parasitic Resistance, see DIODE, 153
+  \item Parasitic Resistance, see MOSFET, 199
+  \item Parasitic Resistances, see BJT, 234
+  \item Parasitic Resistances, see GASFET, \pspice, 126, 141, 145, 267
+  \item Parasitic Resistances, see JFET, 177
+  \item Parasitic Resistances, see MOSFET, 199
+  \item PIVREL, 85
+  \item PIVTOL, 85
+  \item PJF, 176
+  \item Plot Specification, 88
+  \item PMOS, 191
+  \item PMOS, $R_B$, 199
+  \item PMOS, $R_D$, 199
+  \item PMOS, $R_G$, 199
+  \item PMOS, $R_S$, 199
+  \item PMOS, I/V Characteristics, 202, 211
+  \item PMOS, I/V Characteristics LEVEL 2, 204
+  \item PMOS, LEVEL 2 I/V Characteristics, 204
+  \item PMOS, LEVEL 3 I/V Characteristics, 211
+  \item PNP, 228
+  \item PNP Si Bipolar Transistor Model, 228
+  \item PNP, I/V Characteristics, 234
+  \item Pole-Zero Analysis, 99
+  \item POLY, 47
+  \item polynomial, 47
+  \item Port Element, 226
+  \item Prefix, 44
+  \item Print Specification, 92
+
+  \indexspace
+
+  \item Q, 227
+
+  \indexspace
+
+  \item R, 236
+  \item Raytheon Model, see GASFET, LEVEL 2, 118
+  \item RELTOL, 85
+  \item RES, 236, 237
+  \item Resistor, 236
+
+  \indexspace
+
+  \item S, 239
+  \item Save Bias Conditions, 100
+  \item Sensitivity Analysis, 101
+  \item Sensitivity and Worst Case Analysis, 112
+  \item small signal analysis, 33
+  \item Small-Signal Distortion Analysis, 58
+  \item Small-Signal Noise Analysis, 77
+  \item state equations, 33
+  \item Statz Model, see GASFET, LEVEL 2, 118
+  \item Subcircuit Call, 257
+  \item Subcircuit Statement, 103
+  \item subcircuits, 37
+
+  \indexspace
+
+  \item T, 242
+  \item Temperature Dependence, see BJT, 232
+  \item Temperature Dependence, see DIODE, 153
+  \item Temperature Dependence, see GASFET, 125, 140, 144, 266
+  \item Temperature Dependence, see JFET, 176
+  \item Temperature Dependence, see MOSFET, 198
+  \item Temperature Specification, 105
+  \item Text Parameter Definition, 106
+  \item TITLE, 108
+  \item title, 37
+  \item Title Line, 108
+  \item TJUNC, 261
+  \item TNOM, 85
+  \item TOM Model, see GASFET, LEVEL 3, 118
+  \item TOM2 Model, see GASFET, LEVEL -1, 118
+  \item Transfer Function Specification, 107
+  \item Transient Analysis, 109
+  \item Transmission Line, 242
+  \item Triquint Model, see GASFET, LEVEL 3, 118
+  \item TRTOL, 85
+
+  \indexspace
+
+  \item U, 245
+  \item Units, 44
+  \item Universal Element, 245
+  \item URC, 243
+
+  \indexspace
+
+  \item V, 246
+  \item Versions, Syntax, 50
+  \item VNTOL, 85
+  \item Voltage Controlled Switch, 239
+  \item Voltage-Controlled Current Source, 162
+  \item Voltage-Controlled Switch Model, 240
+  \item Voltage-Controlled Voltage Source, 156
+  \item VSWITCH, 240
+  \item VSWITCH, Noise Analysis, 241
+  \item VSWITCH, Noise Model, 241
+
+  \indexspace
+
+  \item W, 254
+  \item Ward-Dutton model, see MOSFET, 209, 214
+  \item Watch Analysis Statement, 111
+  \item White Space, 43
+  \item Width Specification, 114
+
+  \indexspace
+
+  \item X, 257
+  \item XJUNC, 262
+
+  \indexspace
+
+  \item Z, 258, 264
+  \item ZSTEP, 263
+
+\end{theindex}

@@ -1,0 +1,36 @@
+Common-Emitter Amplifier
+
+R1 2 5 40k
+R2 2 0 40k
+* Measure the Base current
+Vbase 3 2
+Q1 4 3 6 NQ1A
+RC1 5 4 4k
+RE1 6 0 100
+
+* AC source with unity magnitude and AC buffered
+Vin 1 0 AC 
+Cbuff 1 2 100u
+
+Vcc 5 0 5V
+
+* AC output
+*Vout 7 0 1V
+* Ammeter:
+*Voc 
+
+* Find the bias point
+*.OP 
+*Find the sensitivity of the bias voltage at the collector
+*.sens V(4)
+
+
+.MODEL  NQ1A  NPN  IS= 1.95E-17  BF= 7.03E+01  VAF= 1.80E+01  IKF= 1.80E-02
++  BR= 5.30E+00  VAR= 2.08E+00  IKR= 5.23E-03  RB= 2.53E+03
++  RE= 4.87E+00  RC= 1.02E+02  XTB= 1.50E+00  EG= 1.23E+00
++  XTI= 2.14E+00  CJE= 4.44E-14  VJE= 9.06E-01  MJE= 3.49E-01  TF= 7.93E-12
++  CJC= 4.53E-14  VJC= 8.01E-01  MJC= 4.61E-01  TR= 4.84E-09  CJS= 7.51E-14
++  VJS= 7.16E-01  MJS= 4.38E-01
+
+
+.end

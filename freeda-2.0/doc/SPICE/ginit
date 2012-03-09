@@ -1,0 +1,22 @@
+set size 0.6,0.7
+set size 1.0,1.0
+set zero 1.e-30
+
+################################################################
+
+set autoscale
+set xrange [0:20]
+set yrange [0.0:2.0e-3]
+set key 7.0,1.7e-3
+set xlabel "Drain Voltage (V)"
+set ylabel "Gate Current (mA)" 4.2,0.0
+set ytics("0" 0.0, "0.5" 0.5e-3, "1.0" 1.0e-3, "1.5" 1.5e-3, "2.0" 2.0e-3)
+plot 'DCIgSim'  t 'DC IV' w l 1, \
+     'IgVdm1m1'  t 'Measured' w linesp
+pause -1 'Hit return to continue'
+set term postscript eps "Times-Bold" 17
+set output 'TefDCIg.pic'
+set size 0.6,0.7
+replot
+set size 1.0,1.0
+set term x11

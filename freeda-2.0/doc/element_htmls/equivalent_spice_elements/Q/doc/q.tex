@@ -1,0 +1,708 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+%\newcommand{\ms}[1]{\mbox{\scriptsize #1}}
+%\newcommand{\B}{{ \rm [}}     % begin optional parameter in \form{}
+%\newcommand{\E}{{\ \rm\hspace{-0.04in}] }}   % end optional parameter in \form{}
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight
+7.375in \evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[Q \- Bipolar Junction Transistor]{\noindent{\LARGE \textbf{Bipolar Junction Transistor} \hspace{50mm}\huge\textbf{Q}}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centering \epsfxsize=2.9in\pfig{q_spice.ps} \caption[Q ---
+bipolar junction transistor element]{Q --- bipolar junction
+transistor element: (a) NPN transistor; (b) PNP transistor.}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+{\tt Q}{\it name  NCollector NBase NEmitter}  \B {\it
+NSubstrate}\E {\it ModelName} \B {\it Area}\E  \B {\tt
+OFF}\E\\{\tt +} \B {\tt IC=}{\it Vbe,Vce}\E
+\newline
+where\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{widelist}
+\item[{\it NCollector}] is the collector node.
+\item[{\it NBase}] is the base node.
+\item[{\it NEmitter}] is the emitter node.
+\item[{\it NSubstrate}] is the optional substrate node.
+If not specified, ground is used as the substrate node. If {\it
+NSubstrate} is a name \notforsspice{as allowed in \pspice )} it
+must be enclosed in square brackets, e.g. {\tt [{\it
+NSubstrate}]}, to distinguish it from {\it ModelName}.
+\item[{\it ModelName}] is  the  model  name.
+\item[{\it Area}]  is  the  area  factor\\
+If the area  factor  is  omitted,  a  value of 1.0 is assumed.
+(Units: none; Optional; Default: 1; Symbol: $Area$)
+\item[{\tt OFF}] indicates an (optional)
+initial condition on the device for the \dc\ analysis. If
+specified the \dc\ operating point is calculated with the terminal
+voltages set to zero.  Once convergence is obtained, the program
+continues to iterate to obtain the exact  value of the  terminal
+voltages.  The OFF option is used to enforce the solution to
+correspond  to  a  desired  state if the circuit has more than one
+stable state.
+\item[{\tt IC}] is the
+optional initial condition specification using  {\tt
+IC=}$V_{BE},V_{CE}$ is  intended  for use with the {\tt UIC}
+option on the {\tt .TRAN} line, when a transient analysis is
+desired  starting  from  other than  the  quiescent  operating
+point.   See  the  {\it .IC} line
+description for a better way to set transient initial conditions.
+\end{widelist}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in \FDA
+%\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{Q20 10 50 0 QFAST IC=0.65,15.0 \\
+Q5PUSH 10 29 14 200 MODEL1}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+\model{NPN}{NPN Si Bipolar Transistor Model} \model{PNP}{PNP Si
+Bipolar Transistor Model} \model{LPNP}{\notforsspice{\pspice\
+Only\hfill}Lateral PNP Si Bipolar Transistor Model}
+\begin{figure}[h]
+\centering \ \pfig{bjt.ps} \caption[Schematic of bipolar junction
+transistor model]{Schematic of the NPN bipolar junction transistor
+model. In the NPN and PNP models node $N_X$ is connected to node
+C. In the LPNP model node $N_X$ is connected to node B.
+\label{bjt:model}}
+\end{figure}
+
+The NPN and PNP BJT models are identical but with the positive
+sense of currents and voltages opposite so that the model
+parameters are always positive. The LPNP model is used for a
+lateral PNP IC transistor structure. In the NPN and PNP models the
+node $N_X$ in figure \ref{bjt:model} is connected to node C ---
+the internal collector node. In the LPNP model node $N_X$ is
+connected to node B --- the internal base node. Only the model
+type designated on the element line distinguishes which schematic
+is used.
+
+The bipolar junction transistor model in \spice\  is based on the
+charge control model of Gummel and Poon. Extensions in the \spice\
+implementation deal with effects at high bias levels.  The model
+reduces to the simpler Ebers-Moll model with the omission of
+appropriate model parameters.
+
+\begin{table}[tbph]
+\caption{BJT model keywords. The model parameters that are scaled
+by the Area element parameter are designated in the Area
+column.\label{qtable}} \keywordtwotable{Area}{ {\tt AF} &flicker
+noise exponent       \sym{\AF}& -     &   1&      \X {\tt BF} &
+ideal maximum forward beta\sym{\beta_F}& - & 100 & \X {\tt BR} &
+ideal maximum reverse beta\sym{\beta_R}& - & 1 & \X {\tt C2} &
+alternative keyword for {\tt ISE}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt C4} & alternative keyword for {\tt ISC}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt CCS}& alternative keyword for {\tt CJS}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt CJC} & base-collector zero-bias depletion\newline
+capacitance\sym{C_{JC}}
+      & F & 0 & \STAR \X
+{\tt CJE} & base-emitter zero-bias depletion\newline
+capacitance\sym{C_{JE}}
+      & F & 0 & \STAR \X
+{\tt CJS} & zero-bias collector-substrate\newline
+capacitance\sym{C_{JS}}
+        & F & 0 & \STAR \X
+{\tt EG} & energy gap voltage (barrier height)\sym{E_G}
+         & eV & 1.11 & \X
+{\tt FC} & coefficient for forward-bias depletion\newline
+capacitance formula
+          \sym{F_C}&-&0.5 &\X
+{\tt IK} & alternative keyword for {\tt IKF}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt IKF} & corner of forward beta high current\newline
+roll-off\sym{I_{KF}}
+         &A&$\infty$ &\STAR \X
+{\tt IKR} & corner of reverse beta high current\newline
+roll-off\sym{I_KF}&
+    A & $\infty$  & \STAR \X
+{\tt IRB} & current where base resistance falls halfway to its
+minimum value
+            \sym{I_{RB}} &-& $\infty$  & \STAR \X
+{\tt IS} & transport saturation current\sym{I_S}& A & 1.0E-16 &
+\STAR \X {\tt ISC} & base-collector leakage saturation\newline
+current\sym{I_{SC}}
+            If {\tt ISC} is greater than 1 it is treated as a multiplier.
+            In this case $I_{SC} = {\tt ISC}\,I_S$
+           & A & 0 & \STAR \X
+{\tt ISE} & base-emitter leakage saturation\newline
+current\sym{I_{SE}}
+            If {\tt ISE} is greater than 1 it is treated as a multiplier.
+            In this case $I_{SE} = {\tt ISE}\,I_S$
+           & A & 0 & \STAR \X
+{\tt ISS} & substrate p-n junction saturation current\sym{I_{SS}}
+           \notforsspice{\newline\pspice\ only.} & A & 0 & \STAR \X
+{\tt ITF} & high-current parameter for effect on TF\sym{I_{\tau
+F}} & A &
+      0 & \STAR \X
+{\tt KF} & flicker-noise coefficient\sym{K_F}& - & 0 & \X }
+\vspace*{-2in}
+\end{table}
+
+\begin{table}[tbph]
+\caption{BJT model keywords continued \label{qtable1}}
+\keywordtwotable{Area}{
+%\kwtwo{Table \ref{qtable} continued: BJT model keywords\\[0.1in]}{Area}{
+{\tt MC} & alternative keyword for {\tt MJC}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt ME} & alternative keyword for {\tt MJE}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt MJC} & base-collector junction exponential\newline
+factor\sym{M_{JC}}&
+           - & 0.33 & \X
+{\tt MJE} & base-emitter junction exponential\newline
+factor\sym{M_{JE}} & - &0.33 & \X {\tt MJS} & substrate junction
+exponential\newline factor\sym{M_{JS}} & - & 0 &\X {\tt MS} &
+alternative keyword for {\tt MJS}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt NC} & base-collector leakage emission\newline
+coefficient\sym{N_C} & - & 2 & \X {\tt NE} & base-emitter leakage
+emission coefficient\sym{N_E}& - & 1.5 & \X {\tt NF} & forward
+current emission coefficient\sym{N_F}& - & 1.0 & \X {\tt NR} &
+reverse current emission coefficient\sym{N_R}& - & 1 & \X {\tt NS}
+& substrate p-n emission coefficient\sym{N_S}
+           \notforsspice{\newline\pspice\ only.} & - & 1 & \STAR \X
+{\tt PC} & alternative keyword for {\tt VJC}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt PE} & alternative keyword for {\tt VJE}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt PS} & alternative keyword for {\tt VJS}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt PT} & alternative keyword for {\tt XTI}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt PTF}& excess phase at frequency=1.0/({\tt TF}$\,2\pi$) Hz
+           \sym{P_{\tau F}} & degree & 0 &\X
+{\tt RB} & zero bias base resistance\sym{R_B}
+         & $\Omega$ & 0 & \STAR \X
+{\tt RBM}& minimum base resistance at high currents\sym{R_{BM}}
+         & $\Omega$ & RB & \STAR \X
+{\tt RC} & collector resistance\sym{R_C}
+         & $\Omega$ & 0 &\STAR \X
+{\tt RE} & emitter resistance\sym{R_E}
+         & $\Omega$ & 0 & \STAR\X
+{\tt TF} & ideal forward transit time\sym{\tau_F}& s & 0 & \X {\tt
+TR} & ideal reverse transit time\sym{\tau_R}& s & 0 & \X {\tt
+TRB1} & {\tt RB} linear temperature coefficient\sym{T_{RB1}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-1}$ & 1 & \STAR \X
+} \vspace*{-2in}
+\end{table}
+
+\begin{table}[tbph]
+\caption{BJT model keywords continued \label{qtable1}}
+\keywordtwotable{Area}{
+%\kwtwo{Table \ref{qtable} continued: BJT model keywords\\[0.1in]}{Area}{
+{\tt TRB2} & {\tt RB} quadratic temperature
+coefficient\sym{T_{RB2}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-2}$ & 1 & \STAR \X
+{\tt TRC1} & {\tt RC} linear temperature coefficient\sym{T_{RC1}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-1}$ & 1 & \STAR \X
+{\tt TRC2} & {\tt RC} quadratic temperature
+coefficient\sym{T_{RC2}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-2}$ & 1 & \STAR \X
+{\tt TRE1} & {\tt RE} linear temperature coefficient\sym{T_{RE1}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-1}$ & 1 & \STAR \X
+{\tt TRE2} & {\tt RE} quadratic temperature
+coefficient\sym{T_{RE2}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-2}$ & 1 & \STAR \X
+{\tt TRM1} & {\tt RBM} linear temperature coefficient\sym{T_{RM1}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-1}$ & 1 & \STAR \X
+{\tt TRM2} & {\tt RBM} quadratic temperature
+coefficient\sym{T_{RM2}}
+           \notforsspice{\newline\pspice\ only.} & $^{\circ}$C$^{-2}$ & 1 & \STAR \X
+{\tt VA} & alternative keyword for {\tt VAF}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt VB} & alternative keyword for {\tt VAR}
+           \notforsspice{\newline\pspice\ only.} &&&\X
+{\tt VAF} & forward Early voltage\sym{V_{AF}}& V & $\infty$  & \X
+{\tt VAR} & reverse Early voltage\sym{V_{AR}}& V & $\infty$  & \X
+{\tt VJC} & base-collector built-in potential\sym{V_{JC}}& V &
+0.75 & \X {\tt VJE} & base-emitter built-in potential\sym{V_{JE}}&
+V & 0.75 & \X {\tt VJS} & substrate junction built-in
+potential\sym{V_{JS}}& V && \X {\tt VTF} & voltage describing
+$V_{BC}$ dependence of TF\sym{V_{\tau F}}
+      & V & $\infty$  & \X
+{\tt XCJC} & fraction of B-C depletion capacitance connected to
+internal base
+            node\sym{X_{CJC}} & - & 1 & \X
+{\tt XTB} & forward and reverse beta temperature\newline
+exponent\sym{X_{TB}} & - && \X {\tt XTI} & temperature exponent
+for effect on\newline {\tt IS}\sym{X_{TI}} & - & 3 & \X {\tt XTF}
+& coefficient for bias dependence of\newline TF\sym{X_{\tau F}} &
+- & & \X }
+ \vspace*{-2in}
+\end{table}
+
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzmann's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+Absolute temperatures (in kelvins, K) are used. The thermal
+voltage
+\begin{equation}
+V_{\ms{TH}}(T_{\ms{NOM}}) = {{kT_{\ms{NOM}}} \over q} .
+\end{equation}
+
+\noindent\underline{\sl \large Temperature Dependence} \index{BJT,
+Temperature Dependence} \index{Temperature Dependence, see BJT}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and
+$T_{\ms{NOM}}$ are absolute temperatures in Kelvins (K).
+\begin{eqnarray}
+V_{\ms{TH}} & = & {{kT} \over q}\\
+I_S (T) & = & I_S e^{\left( \textstyle E_g(T) {T \over
+{T_{\ms{NOM}}}}
+      - E_G(T) \right) /V_{\ms{TH}}}+
+      \left( {T \over {T_{\ms{NOM}}}} \right) ^{X_{TI}/N_F}\\
+I_{SE}(T)&=&I_{SE} e^{\left( \textstyle E_g(T) {T \over
+{T_{\ms{NOM}}}}
+      - E_G(T) \right) /V_{\ms{TH}}}+
+      \left( {T \over {T_{\ms{NOM}}}} \right) ^{X_{TI}/N_E}\\
+I_{SC}(T)&=&I_{SC} e^{\left( \textstyle E_g(T) {T \over
+{T_{\ms{NOM}}}}
+      - E_G(T) \right) /V_{\ms{TH}}}+
+      \left( {T \over {T_{\ms{NOM}}}} \right) ^{X_{TI}/N_C}\\
+I_{SS}(T)&=&I_{SS} e^{\left( \textstyle E_g(T) {T \over
+{T_{\ms{NOM}}}}
+      - E_G(T) \right) /V_{\ms{TH}}}+
+      \left( {T \over {T_{\ms{NOM}}}} \right) ^{X_{TI}/N_S}\\
+V_{JE}(T) =&&\hspace{-0.35in} V_{JE}(T_{\ms{NOM}})(T-T_{\ms{NOM}})
+        -3V_{\ms{TH}}\mbox{ln}\left( {T \over {T_{\ms{NOM}}}} \right)
+      E_G(T_{\ms{NOM}}){T \over {T_{\ms{NOM}}}} -E_G(T)
+      \ \ \ \ \ \ \ \ \ \ \ \ \ \  \\
+V_{JC}(T)=&&\hspace{-0.35in}V_{JC}(T_{\ms{NOM}})(T-T_{\ms{NOM}})
+        -3V_{\ms{TH}}\mbox{ln}\left( {T \over {T_{\ms{NOM}}}} \right)
+      E_G(T_{\ms{NOM}}){T \over {T_{\ms{NOM}}}} -E_G(T) \\
+V_{JS}(T)=&&\hspace{-0.35in}V_{JS}(T_{\ms{NOM}})(T-T_{\ms{NOM}})
+        -3V_{\ms{TH}}\mbox{ln}\left( {T \over {T_{\ms{NOM}}}} \right)
+      E_G(T_{\ms{NOM}}){T \over {T_{\ms{NOM}}}} -E_G(T) \\
+C_{JC} (T) & = & C_{JC} \{1 +
+     M_{JC} [0.0004(T-T_{\ms{NOM}})+(1-V_{JC}(T)/V_{JC}(T_{\ms{NOM}}))]\}\\
+C_{JE} (T) & = & C_{JE} \{1 +
+     M_{JE} [0.0004(T-T_{\ms{NOM}})+(1-V_{JE}(T)/V_{JE}(T_{\ms{NOM}}))]\}\\
+C_{JS} (T) & = & C_{JS} \{1 +
+     M_{JS} [0.0004(T-T_{\ms{NOM}})+(1-V_{JS}(T)/V_{JS}(T_{\ms{NOM}}))]\}\\
+\beta_F(T)&=&\beta_F(T_{\ms{NOM}})^{X_{TB}}\\
+\beta_R(T)&=&\beta_R(T_{\ms{NOM}})^{X_{TB}}\\
+E_G(T) & = & E_G(T_{\ms{NOM}}) - 0.000702{{T^2} \over {T+1108}}\\
+R_B(T) & = & R_B(T_{\ms{NOM}})\left[ 1 + T_{RB1} (T -
+T{\ms{NOM}})
+         + T_{RB2} (T -  T{\ms{NOM}})^2\right]\\
+R_{BM}(T) & = & R_{BM}(T_{\ms{NOM}})\left[ 1 + T_{RM1} (T -
+T{\ms{NOM}})
+         + T_{RM2} (T -  T{\ms{NOM}})^2\right]\\
+R_C(T) & = & R_C(T_{\ms{NOM}})\left[ 1 + T_{RC1} (T -
+T{\ms{NOM}})
+         + T_{RC2} (T -  T{\ms{NOM}})^2\right]\\
+R_E(T) & = & R_E(T_{\ms{NOM}})\left[ 1 + T_{RE1} (T -
+T{\ms{NOM}})
+         + T_{RE2} (T -  T{\ms{NOM}})^2\right]
+\end{eqnarray}\\[0.1in]
+\noindent\underline{\sl \large Capacitances}\\[0.1in]
+\index{Depletion capacitance, see BJT} \index{BJT, Depletion
+capacitance} \noindent The base-emitter capacitance, $C_{BE} =
+Area( C_{BE\tau} + C_{BEJ})$\inlineeq where the base-emitter
+transit time or diffusion capacitance
+\begin{equation}
+C_{BE\tau} = \tau_{F,\ms{EFF}} {{\textstyle\partial I_{BF}} \over
+       {\textstyle\partial V_{BE}}}
+\end{equation}
+the effective base transit time is empirically modified to account
+for base punchout, space-charge limited current flow,
+quasi-saturation and lateral spreading which tend to increase
+$\tau_F$
+\begin{equation}
+\tau_{F,\ms{EFF}} =\tau_F\left[ 1+X_{TF}(3x^2-2x^3)
+     e^{\textstyle (V_{BC}/(1.44V_{TF})}\right]
+\end{equation}
+and $x = {I_{BF}}/(I_{BF} + Area I_{TF})$. The base-emitter
+junction (depletion) capacitance
+\begin{equation}
+C_{BEJ} = \left\{ \!\! \begin{array}{ll}
+   C_{JE} \left(1-{{\textstyle V_{BE}}\over
+   {\textstyle V_{JE}}}\right)^{\textstyle -M_{JE}}
+   & \! V_{BE} \le F_C V_{JE}\\
+   C_{JE} \left(1-F_C\right)^{\textstyle -(1+M_{JE})}
+          \left(1-F_C(1+M_{JE})+M_{JE}{{\textstyle V_{BE}}\over
+          {\textstyle V_{JE}}} \right)
+   & \! V_{BE} > F_C V_{JE}
+   \end{array} \right. %}
+\end{equation}
+The base-collector capacitance, $C_{BC} = Area(C_{BC\tau} +X_{CJC}
+C_{BCJ})$\inlineeq where the base-collector transit time or
+diffusion capacitance
+\begin{equation}
+C_{BC\tau} = \tau_R {{\textstyle\partial I_{BR}} \over
+       {\textstyle\partial V_{BC}}}
+\end{equation}
+The base-collector junction (depletion) capacitance
+\begin{equation}
+C_{BCJ} = \left\{ \! \! \begin{array}{ll}
+   C_{JC} \left(1-{{\textstyle V_{BC}}\over
+          {\textstyle V_{JC}}}\right)^{\textstyle -M_{JC}}
+   & \! V_{BC} \le F_C V_{JC}\\
+   C_{JC} \left(1-F_C\right)^{\textstyle -(1+M_{JC})}
+          \left(1-F_C(1+M_{JC})+M_{JC}{{\textstyle V_{BC}}\over
+          {\textstyle V_{JC}}} \right)
+   & \! V_{BC} > F_C V_{JC}
+   \end{array} \right. %}
+\end{equation}
+The capacitance between the extrinsic base and the intrinsic
+collector
+\begin{equation}
+C_{BX} = \left\{ \begin{array}{ll}
+ Area(1-X_{CJC}) C_{JC} \left(1-{{\textstyle V_{BX}}\over
+   {\textstyle V_{JC}}}\right)^{\textstyle -M_{JC}}
+   & V_{BX} \le F_C V_{JC}\\ \\
+ (1-X_{CJC})
+   C_{JC} \left(1-F_C\right)^{\textstyle -(1+M_{JC})}
+   & V_{BX} > F_C V_{JC}\\
+   \;\;\;\;\;\times\; \left(1-F_C(1+M_{JC})+M_{JC}{{\textstyle V_{BX}}\over
+   {\textstyle V_{JC}}} \right)
+   &
+   \end{array} \right. %}
+\end{equation}
+The substrate junction capacitance
+\begin{equation}
+C_{JS} = \left\{ \begin{array}{ll}
+ Area C_{JS} \left(1-{{\textstyle V_{CJS}}\over
+   {\textstyle V_{JS}}}\right)^{\textstyle -M_{JS}}
+   & V_{CJS} \le 0\\
+   Area C_{JS}
+   \left(1+M_{JS}{{\textstyle V_{CJS}}\over
+   {\textstyle V_{JS}}} \right)
+   & V_{CJS} > 0
+   \end{array} \right. %}
+\end{equation}
+
+%\begin{figure}[b]
+%\parbox[t]{1.3in}{
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{PROCESS} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%\hline
+%{\tt CJ} \hfill $\CJ$\\
+%\hline
+%\end{tabular}
+%}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+%\hfill
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{GEOMETRY} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%{\tt PS} \hfill $A_S$\\
+%\hline
+%\end{tabular}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+%\hfill
+%\begin{tabular}[t]{|p{1.8in}|}
+%\hline
+%\multicolumn{1}{|c|}{DEVICE} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%{\tt CBD} \hfill $\CBD = f(\CJ, A_D)$\\
+%{\tt CBS} \hfill $\CBS = f(\CJ, A_S)$\\
+%\{$C_{BS} = f( \PS, \CJ, \CJSW,$\hspace*{\fill}\\ \hspace*{\fill}$ \MJ, \MJSW,
+%\PB, \PBSW, \FC)$\}\\
+%\{$C_{BD} = f( \PD, \CJ, \CJSW,$\hspace*{\fill}\\ \hspace*{\fill}$ \MJ, \MJSW,
+%\PB, \PBSW, \FC)$\}\\
+%\hline
+%\end{tabular}
+%\caption{BJT {\tt LEVEL} 1, 2 and 3 junction depletion capacitance parameter
+%relationships.  \label{level123depletionc} }
+%\end{figure}
+%\notforsspice{The parameter dependencies of the parameters describing the
+%leakage current are summarized in
+%figure \ref{mlevel123leakage}.\\[0.2in]
+%\begin{figure}[b]
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{PROCESS} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%\hline
+%{\tt JS} \hfill $\JS$\\
+%\hline
+%\end{tabular}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+%\hfill
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{GEOMETRY} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%{\tt AD} \hfill $A_D$\\
+%{\tt AS} \hfill $A_S$\\
+%\hline
+%\end{tabular}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+%\hfill
+%\begin{tabular}[t]{|p{1.8in}|}
+%\hline
+%\multicolumn{1}{|c|}{DEVICE} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%{\tt IS} \hfill $\IS = f(\JS, A_D, A_S)$\\
+%\hline
+%\end{tabular}
+%\caption{BJT leakage current parameter dependecies. \label{qleakage}}
+%\end{figure}
+%}
+
+\noindent\underline{\sl I/V Characteristics}\\[0.1in]
+\index{I/V Characteristics, see BJT} \index{BJT, I/V
+Characteristics} \index{NPN, I/V Characteristics} \index{PNP, I/V
+Characteristics} \index{I-V characteristics, see BJT}
+
+\noindent{The base-emitter current, } $I_{BE} = {{\textstyle
+I_{BF} } \over {\textstyle \beta_F }} + I_{LE}$\inlineeq
+\noindent{the base-collector current, } $I_{BC} = {{\textstyle
+I_{BR} } \over {\textstyle \beta_R }} + I_{LC}$\inlineeq and the
+collector-emitter current, $I_{CE} = {{\textstyle I_{BF} - I_{BR}
+} \over {\textstyle K_{QB} }}$\inlineeq where the forward
+diffusion current, $I_{BF} = I_S\left(e^{\textstyle V_{BE}/(N_F
+V_{\ms{TH}}) - 1} \right)$\inlineeq the nonideal base-emitter
+current, $I_{LE}=I_{SE}\left(e^{\textstyle V_{BE}/(N_E
+V_{\ms{TH}}) - 1} \right)$\inlineeq the reverse diffusion current,
+$I_{BR} = I_S\left(e^{\textstyle V_{BC}/(N_R V_{\ms{TH}}) - 1}
+\right)$\inlineeq the nonideal base-collector current,
+$I_{LC}=I_{SC}\left(e^{\textstyle V_{BC}/(N_C V_{\ms{TH}}) - 1}
+\right)$\inlineeq and the base charge factor, $K_{QB} =
+{{\textstyle 1}\over{2}} \left[1 -
+    {{\textstyle V_{BC}}\over{\textstyle V_{AF}}}-
+         {{\textstyle V_{BE}}\over{\textstyle V_{AB}}}
+    \right]^{-1} \left(1 + \sqrt{1 + 4\left(
+        {{\textstyle I_{BF}}\over{\textstyle I_{KF}}}+
+         {{\textstyle I_{BR}}\over{\textstyle I_{KR}}}
+        \right)}\right)$\\\inlineeq
+Thus the conductive current flowing into the base, $I_B =
+I_{BE}+I_{BC}$\inlineeq the conductive current flowing into the
+collector, $I_C = I_{CE}-I_{BC}$\inlineeq and the conductive
+current flowing into the emitter, $I_C = I_{BE}+I_{CE}$\inlineeq
+\vspace{0.1in}
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see BJT} \index{BJT, Parasitic
+Resistance} \index{BJT, $R_B$} \index{BJT, $R_E$} \index{BJT,
+$R_C$} The resistive parasitics $R_B$, $R_E$, are $R_C$ are scaled
+by the area factor, $Area$, specified on the element line. This
+enables the model parameters {\tt RB}, {\tt RE} and {\tt RC} to be
+absolute quantities if $Area$ is omitted as it defaults to 1, or
+as sheet resistivities.
+\begin{eqnarray}
+R'_B & = & R_B/Area\\
+R'_C & = & R_C/Area\\
+R'_E & = & R_E/Area
+\end{eqnarray}
+%\notforsspice{The parasitic resistance parameter dependencies are summarized in
+%figure \ref{qpara}.
+%\begin{figure}[b]
+%\parbox[t]{1.3in}{
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{PROCESS} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%\hline
+%{\tt RB} \hfill $R_B$\\
+%{\tt RC} \hfill $R_C$\\
+%{\tt RE} \hfill $R_E$\\
+%\hline
+%\end{tabular}
+%}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+%\hfill
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{GEOMETRY} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%\hspace*{\fill} $Area$\\
+%\hline
+%\end{tabular}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+%\hfill
+%\begin{tabular}[t]{|p{1.8in}|}
+%\hline
+%\multicolumn{1}{|c|}{DEVICE} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%{\tt RB} \hfill $\R'_B = f(Area, R_B)$ \\
+%{\tt RC} \hfill $\R'_C = f(Area, R_C)$ \\
+%{\tt RE} \hfill $\R'_E = f(Area, R_E)$ \\
+%\hline
+%\end{tabular}
+%\caption{BJT parasitic resistance parameter relationships. \label{qpara}}
+%\end{figure}}
+\begin{equation}
+R'_B = \left\{ \begin{array}{ll}
+         R_{BM} + {{\textstyle R_B - R_{BM}} \over { \textstyle K_{QB}}}
+         & I_{RB} \mbox{ omitted}\\
+         R_{BM} + 3(R_B-R_{BM}) {{\textstyle \tan{x} - x} \over
+         { \textstyle x\mbox{tan}^2(x)}}
+         & I_{RB} \mbox{ defined}
+     \end{array} \right. %}
+\end{equation}
+where $x = {\left( {\textstyle \sqrt{1 + {{\textstyle 144
+I_B}\over{\textstyle I_{RB}\pi^2}}}
+    -1 } \right)
+    \left( {\textstyle {{\textstyle 24}\over{\textstyle\pi^2}}
+    \sqrt{{{\textstyle I_B}\over{\textstyle I_{RB}}}}} \right)^{-1} }$\inlineeq
+
+%\notforsspice{The relationships of the parameters describing the I/V
+%characteristics for the {\tt LEVEL} 1 model are summarized in figure
+%\ref{mlevel1i/v}.\\[0.1in]
+%\begin{figure}[b]
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{PROCESS} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%\hline
+%{\tt NSUB} \hfill $\NSUB$\\
+%{\tt TOX} \hfill $\TOX$\\
+%{\tt NSS} \hfill $\NSS$\\
+%{\tt UO} \hfill $\UO$\\
+%\hline
+%\end{tabular}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+%\hfill
+%\begin{tabular}[t]{|p{1in}|}
+%\hline
+%\multicolumn{1}{|c|}{GEOMETRY} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%\hspace*{\fill} -- \hspace*{\fill} \\
+%\hline
+%\hline
+%\multicolumn{1}{|c|}{Required} \\
+%\hline
+%{\tt L} \hfill $L$\\
+%{\tt W} \hfill $W$ \\
+%\hline
+%\hline
+%\multicolumn{1}{|c|}{Optional} \\
+%\hline
+%{\tt LD} \hfill $\LD$\\
+%{\tt WD} \hfill $\WD$ \\
+%\hline
+%\end{tabular}
+%\hfill
+%\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+%\hfill
+%\begin{tabular}[t]{|p{1.8in}|}
+%\hline
+%\multicolumn{1}{|c|}{DEVICE} \\
+%\multicolumn{1}{|c|}{PARAMETERS} \\
+%\hline
+%{\tt VTO} \newline \hspace*{\fill} $\VTZERO = f(\PHI, \NSS, \TOX, \GAMMA)$\\
+%\{$I_{D} = f(\W, \Length, \WD, \LD$\hspace*{\fill}\newline\hspace*{\fill}
+%$\VTO, \KP, \LAMBDA, \PHI, \GAMMA)$\}\\
+%\hline
+%\end{tabular}
+%\caption{BJT I/V dependencies. \label{qi/v}}
+%\end{figure}
+%}
+
+\noindent\underline{\sl \large AC Analysis}\\[0.1in]
+\index{MOSFET, AC Analysis} The AC analysis uses the model of
+figure  \ref{m.ps} with the capacitor values evaluated at the \dc\
+operating point with
+\begin{equation}
+g_m = {{\textstyle\partial I_{CE}} \over {\textstyle\partial
+V_{BE}}}
+\end{equation}
+and
+\begin{equation}
+R_{O} = {{\textstyle\partial I_{CE}} \over {\textstyle\partial
+V_{CE}}}
+\end{equation}
+\vshift
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{MOSFET, Noise Model} \index{MOSFET, Noise Analysis} The BJT
+noise model accounts for thermal noise generated in the parasitic
+resistances and shot and flicker noise generated in the
+base-emitter and base-collector junction regions. The rms
+(root-mean-square) values of thermal noise current generators
+shunting the three parasitic resistance $R_B$, $R_C$, and $R_E$
+are
+\begin{eqnarray}
+I_{n,B} &=& \sqrt{4kT/R_B}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,C} &=& \sqrt{4kT/R_C}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,E} &=& \sqrt{4kT/R_E}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+The rms value of the base noise current generator is
+\begin{equation}
+I_{n,B} = \left( I_{\ms{SHOT},B}^2 + I_{\ms{FLICKER},B}^2
+                \right)^{1/2}
+\end{equation}
+where
+\begin{eqnarray}
+I_{\ms{SHOT},B} &=& \sqrt{2qI_B} ~~~~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{FLICKER},B} &=& \sqrt{K_F I_{B}^{\AF} /f }
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+and $f$ is frequency. The rms value of the collector noise current
+generator is
+\begin{equation}
+I_{n,C} = \left( I_{\ms{SHOT},C}^2 + I_{\ms{FLICKER},C}^2
+                \right)^{1/2}
+\end{equation}
+where
+\begin{eqnarray}
+I_{\ms{SHOT},C} &=& \sqrt{2qI_C} ~~~~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{FLICKER},C} &=& \sqrt{K_F I_C^{\AF} /f }
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}.
+\end{eqnarray}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual elements in \FDA are the \texttt{bjtnpn},
+\texttt{bjtpnp} and \texttt{bjtt} elements. See \texttt{bjtnpn},
+\texttt{bjtpnp} and \texttt{bjtt} for full documentation.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Senthil Velu & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+svelu@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

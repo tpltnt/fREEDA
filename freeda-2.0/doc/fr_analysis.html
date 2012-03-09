@@ -1,0 +1,598 @@
+<HTML> 
+ <HEAD><TITLE>fREEDA(TM) Analysis Catalog</TITLE></HEAD> 
+<HR SIZE=4>
+<h3 ALIGN=CENTER>fREEDA(TM) Analysis Catalog</h3>
+<HR SIZE=4>
+<H3>AC Analysis</H3>
+Author(s): Carlos E. Christoffersen<br>
+Analysis engine: ac</B><br><B>Usage:</B> <br>
+<B>.ac</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>start:</B> Start frequency (Hz)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>stop:</B> Stop frequency (Hz)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>n_freqs:</B> Number of frequencies</td>
+<td> INTEGER</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>logsweep:</B> Logarithmic sweep</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State Variable DC Analysis</H3>
+Author(s): Carlos E. Christoffersen<br>
+Analysis engine: dc</B><br><B>Usage:</B> <br>
+<B>.dc</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>sweep:</B> Vsource to be swept</td>
+<td> STRING</td>
+<td> none</td>
+<td> no</td></tr>
+
+<tr><td><B>start:</B> Start sweep value (V)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>stop:</B> Stop sweep value (V)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>step:</B> Sweep step (V)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>gcomp:</B> Compensation network conductance (S)</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Use numerical derivatives</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State-Variable-Based Convolution Transient Analysis</H3>
+Author(s): Carlos E. Christoffersen, Mete Ozkar<br>
+Analysis engine: svtr</B><br><B>Usage:</B> <br>
+<B>.svtr</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>verbosity:</B> Output verbosity</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>tstop:</B> Stop time (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>tstep:</B> Time step size (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>n_freqs:</B> Number of frequencies considered</td>
+<td> INTEGER</td>
+<td> 1024</td>
+<td> no</td></tr>
+
+<tr><td><B>rcomp:</B> Compensation resistor (Ohms)</td>
+<td> DOUBLE</td>
+<td> 200</td>
+<td> no</td></tr>
+
+<tr><td><B>tolerance:</B> Tolerance used to evaluate errors</td>
+<td> DOUBLE</td>
+<td> 1e-08</td>
+<td> no</td></tr>
+
+<tr><td><B>filter_freq:</B> Corner frequency for artificial filtering (Hz)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>n_samples:</B> Number of time samples for impulse response</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>ntest:</B> Number of points used to test the impulse response</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>imp_tol:</B> Contribution percentage of last ntest samples of the impulse response</td>
+<td> DOUBLE</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>check_imp:</B> Flag to signal if impulse checking is desired</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>out_steps:</B> Number of steps skipped for output simulation progress</td>
+<td> INTEGER</td>
+<td> 100</td>
+<td> no</td></tr>
+
+<tr><td><B>opt:</B> Start transient assuming a biased circuit</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+<tr><td><B>adjust:</B> Adjust the impulse response to produce a correct DC level</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Approximate derivatives or use automatic diff.</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State Variable-Based Harmonic Balance Analysis</H3>
+Author(s): Carlos E. Christoffersen<br>
+Analysis engine: svhb</B><br><B>Usage:</B> <br>
+<B>.svhb</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>n_freqs:</B> Maximum index for first tone (DC not included)</td>
+<td> INTEGER</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>fundamental:</B> Fundamental frequency (Hz)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>oversample:</B> Use oversample in the FFT</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>steps:</B> source stepping</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Approximate derivatives or use automatic diff.</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>verbosity:</B> Amount of output to print</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>fundamental2:</B> Frequency of the second tone.</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>n_freqs2:</B> Maximum index for second tone (DC not included)</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>regrowth:</B> Indicates whether a spectral regrowth analysis is performed</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+<tr><td><B>n_fund:</B> Number of fundamental frequencies for spectral regrowth</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>f_step:</B> Frequency step for spectral regrowth (Hz)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>step_init:</B> Initial step in source stepping</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>max_cfreq:</B> Maximum center frequency to consider in spectral regrowth analysis</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>Wavelet State Variable Transient Analysis (experimental)</H3>
+Author(s): Carlos E. Christoffersen<br>
+Analysis engine: WavTran</B><br><B>Usage:</B> <br>
+<B>.wavtran</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>l:</B> L from wavelet method</td>
+<td> INTEGER</td>
+<td> 6</td>
+<td> no</td></tr>
+
+<tr><td><B>j:</B> J from wavelet method</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>tf:</B> Final time (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>tw:</B> Initial time window width (s)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>max_nw:</B> Maximum number of time windows</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>savemnam:</B> Flag to save the expanded MNAM</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+<tr><td><B>nsteps:</B> Initial number of source steps</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>stop:</B> Stop if RC is not zero</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>permc_spec:</B> Permutation ordering to factor Msv (0, 1 or 2)</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State-Variable-Based Time-Marching Transient Analysis with Sparse matrices and Newton Iterations</H3>
+Author(s): Sonali Luniya<br>
+Analysis engine: SVTran</B><br><B>Usage:</B> <br>
+<B>.tran</B><em> tstep tstop</em> [<em>tstart</em> [<em>tmax</em>]] <br><B>.tran</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>tstop:</B> Stop time (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>tstep:</B> Time step (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>nst:</B> No save time (s)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Approximate derivatives or use automatic diff.</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>msv:</B> Use Msv flag</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>im:</B> Integration method</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>savenode:</B> Save node voltages</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>permc_spec:</B> Permutation ordering to factor Msv (0, 1 or 2)</td>
+<td> INTEGER</td>
+<td> 2</td>
+<td> no</td></tr>
+
+<tr><td><B>out_steps:</B> Number of steps skipped for output simulation progress</td>
+<td> INTEGER</td>
+<td> 100</td>
+<td> no</td></tr>
+
+<tr><td><B>gcomp:</B> Compensation network conductance (S)</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>cm:</B> Compensation method </td>
+<td> DOUBLE</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>max_iter:</B> Maximum number of iterations </td>
+<td> DOUBLE</td>
+<td> 5.45353e-312</td>
+<td> no</td></tr>
+
+<tr><td><B>abstol:</B> Absolute Tolerance </td>
+<td> DOUBLE</td>
+<td> 0.001</td>
+<td> no</td></tr>
+
+<tr><td><B>opt:</B> run a DC analysis up front</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State-Variable-Based Time-Marching Transient Analysis</H3>
+Author(s): Carlos E. Christoffersen<br>
+Analysis engine: SVTran2</B><br><B>Usage:</B> <br>
+<B>.tran2</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>tstop:</B> Stop time (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>tstep:</B> Time step (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>nst:</B> No save time (s)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Approximate derivatives or use automatic diff.</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>msv:</B> Use Msv flag</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>im:</B> Integration method</td>
+<td> INTEGER</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>savenode:</B> Save node voltages</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>permc_spec:</B> Permutation ordering to factor Msv (0, 1 or 2)</td>
+<td> INTEGER</td>
+<td> 2</td>
+<td> no</td></tr>
+
+<tr><td><B>out_steps:</B> Number of steps skipped for output simulation progress</td>
+<td> INTEGER</td>
+<td> 200</td>
+<td> no</td></tr>
+
+<tr><td><B>gcomp:</B> Compensation network conductance (S)</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>opt:</B> run a DC analysis up front</td>
+<td> BOOLEAN</td>
+<td> false</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State-Variable-Based Time-Marching Transient Analysis with Newton Iterations</H3>
+Author(s): Sonali Luniya<br>
+Analysis engine: SVTran3</B><br><B>Usage:</B> <br>
+<B>.tran3</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>tstop:</B> Stop time (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>tstep:</B> Maximum time step (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>nst:</B> No save time (s)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Approximate derivatives or use automatic diff.</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>msv:</B> Use Msv flag</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>im:</B> Integration method</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>savenode:</B> Save node voltages</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>permc_spec:</B> Permutation ordering to factor Msv (0, 1 or 2)</td>
+<td> INTEGER</td>
+<td> 2</td>
+<td> no</td></tr>
+
+<tr><td><B>out_steps:</B> Number of steps skipped for output simulation progress</td>
+<td> INTEGER</td>
+<td> 100</td>
+<td> no</td></tr>
+
+<tr><td><B>gcomp:</B> Compensation network conductance (S)</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>cm:</B> Compensation method </td>
+<td> DOUBLE</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>reltol:</B> Relative Error</td>
+<td> DOUBLE</td>
+<td> 0.01</td>
+<td> no</td></tr>
+
+<tr><td><B>abstol:</B> Absolute Error</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>max_iter:</B> Maximum number of iterations</td>
+<td> INTEGER</td>
+<td> 5000</td>
+<td> no</td></tr>
+
+<tr><td><B>tmin:</B> Minimum time step</td>
+<td> DOUBLE</td>
+<td> 1e-16</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+<H3>State-Variable-Based Time-Marching Transient Analysis with Newton Iterations and SPICE like time step control</H3>
+Author(s): Sonali Luniya<br>
+Analysis engine: SVTran4</B><br><B>Usage:</B> <br>
+<B>.tran4</B> &lt;parameter list&gt; </ul><br>
+<br><table border cellpadding=5 cellspacing=0> 
+
+<tr> <th>Parameter</th> <th>Type</th><th>Default value</th> <th>Required?</th> </tr> 
+<tr><td><B>tstop:</B> Stop time (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>tstep:</B> Maximum time step (s)</td>
+<td> DOUBLE</td>
+<td> n/a</td>
+<td> yes</td></tr>
+
+<tr><td><B>nst:</B> No save time (s)</td>
+<td> DOUBLE</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>deriv:</B> Approximate derivatives or use automatic diff.</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>msv:</B> Use Msv flag</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>im:</B> Integration method</td>
+<td> INTEGER</td>
+<td> 0</td>
+<td> no</td></tr>
+
+<tr><td><B>savenode:</B> Save node voltages</td>
+<td> BOOLEAN</td>
+<td> true</td>
+<td> no</td></tr>
+
+<tr><td><B>permc_spec:</B> Permutation ordering to factor Msv (0, 1 or 2)</td>
+<td> INTEGER</td>
+<td> 2</td>
+<td> no</td></tr>
+
+<tr><td><B>out_steps:</B> Number of steps skipped for output simulation progress</td>
+<td> INTEGER</td>
+<td> 500</td>
+<td> no</td></tr>
+
+<tr><td><B>gcomp:</B> Compensation network conductance (S)</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>cm:</B> Compensation method </td>
+<td> DOUBLE</td>
+<td> 1</td>
+<td> no</td></tr>
+
+<tr><td><B>reltol:</B> Relative Error</td>
+<td> DOUBLE</td>
+<td> 0.01</td>
+<td> no</td></tr>
+
+<tr><td><B>abstol:</B> Absolute Error</td>
+<td> DOUBLE</td>
+<td> 0.0001</td>
+<td> no</td></tr>
+
+<tr><td><B>max_iter:</B> Maximum number of iterations</td>
+<td> INTEGER</td>
+<td> 2550</td>
+<td> no</td></tr>
+
+<tr><td><B>tmin:</B> Minimum time step</td>
+<td> DOUBLE</td>
+<td> 1e-16</td>
+<td> no</td></tr>
+
+</table>
+<br><HR size=2>
+</BODY>
+</HTML>

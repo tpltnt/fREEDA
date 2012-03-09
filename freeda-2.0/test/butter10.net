@@ -1,0 +1,27 @@
+**** Test netlist for  filter *****
+ 
+*.svhb n_freqs = 200 fundamental = 1  steps=5 deriv=0
+.tran2 tstop=819.2e-6 tstep=10e-9 im=0 
+
+*.ac start=100 stop=3e3 n_freqs=501
+resistor:r2 2 0 r=1.
+
+vsource:vin 1 0 vac = 2v f=5e6
+
+abmbutterbpf10:f1 1 0 2 0 bw=5e4 f0=5e6
+
+.out plot term 2 vt in "butter10.tran.out"
+.out plot term 2 vt fft mag db in "butter10.fft.out"
+.out plot term 1 vt in "butter10.tran.in"
+.out plot term 1 vt fft mag db in "butter10.fft.in"
+
+*.out plot term 2 vf mag in "butter10.ac.out"
+*.out plot term 1 vf mag in "butter10.ac.in"
+*
+.end
+
+
+
+
+
+

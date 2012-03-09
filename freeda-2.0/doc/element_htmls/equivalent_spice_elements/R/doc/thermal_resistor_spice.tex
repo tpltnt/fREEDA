@@ -1,0 +1,137 @@
+\documentclass{article}
+\usepackage{epsf}
+
+\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+\newcommand{\pfig}[1]{\pfig{\fig{#1}}}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 9.5in
+\evensidemargin 1.0in \headheight 0.18in  \footskip 0.4in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+\linethickness{1mm} \line(1,0){425} \normalsize
+\newline
+\begin{document}
+\LARGE \textbf{Resistor} \hspace{50mm} \Huge \textbf{R}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=2in\pfig{thermal_resistor.eps}} \caption{R
+--- Resistor element.}
+\end{figure}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form}:
+\newline
+\texttt{R}\textit{name} $n_1$ $n_2$ \textit{ResistorValue} \
+[\texttt{IC}=$V_D$]
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+\begin{tabular}{r l}
+$n_1$ & is the positive element node  \\
+& \\
+$n_2$ & is the negative element node \\
+&  \\
+\textit{ResistorValue} & is the resistance \\
+&  \\
+\texttt{IC}  & is the optional initial condition specification. Using \texttt{IC}=$V_D$ is used with the \textit{UIC} option\\
+             & rather than with the quiescent operating point.  Specification of  the transient initial \\
+             & condition using the .\texttt{IC} is preferred and is more convenient.\\
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in SPICE
+\textit{Example}:
+\newline
+\linethickness{0.5mm}
+\line(1,0){425}
+\newline
+\texttt{R1 1 2 3.5MEG}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter table
+\textit{Model Parameters}:
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+\texttt{R0} & Resistance Value  & Ohm  &  \\
+\hline
+\texttt{L} & Length & Meters &  \\
+\hline
+\texttt{W} & Width & Meters & 1e-6 \\
+\hline
+\texttt{T} & System Temperature & Celsius &  \\
+\hline
+\texttt{RSH} & Sheet Resistance & Ohms/sq &  \\
+\hline
+\texttt{DEFW} & Default device width & meters & 1e-6 \\
+\hline
+\texttt{NARROW} & Narrowing due to side etching  & meters & 0.0 \\
+\hline
+\texttt{TNOM} & Nominal temperature & Celsius & 27 \\
+\hline
+\texttt{TC1}  & Temperature coefficient & $1/Celsius$ & 0 \\
+\hline
+\texttt{TC2} & Temperature coefficient  & $1/Celsius$ & 0 \\
+\hline
+\texttt{PDR} & Power dependent resistor & & false \\
+\hline
+\end{tabular}
+\hspace{1.5in} Table 1
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Device equations start
+\textit{DEVICE EQUATIONS}:
+\newline
+\line(1,0){425}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Current characteristics
+\underline{\textit{Current characteristics}}:
+\newline
+\begin{equation}
+V_R = R * I_R
+\end{equation}
+\begin{equation}
+P = V_R * I_R
+\end{equation}
+where $P$ is the power dissipated by the resistor.
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Resistance equations
+\underline{\textit{Resistance value}}:
+\newline
+The resistor model consists of process-related device data that
+allow the resistance to be calculated from geometric information
+and to be corrected for temperature.
+
+The sheet resistance is used with the narrowing parameter and L
+and W from the resistor line to determine the nominal resistance
+by the formula.
+\begin{equation}
+R= \left\{ \begin{array}{ll}
+            R_0(1+T_{C1}(T-T_{NOM})+T_{C2}(T-T_{NOM})^{2}) & if~R_0~is~specified\\
+& \\
+            R_{MULTIPLIER}(1+T_{C1}(T-T_{NOM})+T_{C2}(T-T_{NOM})^{2}) & if R_0~is~not~specified \\
+             \end{array}
+    \right.
+\end{equation}
+where ~~~R_{MULTIPLIER} = R_{SH}(L-NARROW)/(W-NARROW)
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\underline{\textit{NOTE}}: \\
+It is important to note that the resistor will behave just as a
+normal resistor if the parameter ``pdr'' is 0 i.e. the system
+temperature will be fixed during the simulation. However, if
+``pdr'' is 1, the resistor will function as an electro-thermal
+resistor.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\underline{\textit{Credits}}:
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Logo \\
+Houssam S. Kanj & NC State University & June 2001 & \epsfxsize=1in\pfig{logo.eps} \\
+houssam@ieee.org & & & www.ncsu.edu \\
+\end{tabular}
+\end{document}

@@ -1,0 +1,169 @@
+\element{Z}{Distributed Discontinuity}
+Only a few versions of \spice\ support this.
+\begin{figure}[h]
+\centering
+\epsfxsize=2in \pfig{z_spice.ps}
+\caption{Z --- distributed discontinuity.}
+\end{figure}
+\form{ {\tt Z}name N1 ... Nn Mname}
+
+%\offset \offsetparbox{
+The Z element defines a subcircuit of L`s and C's
+describing a distributed element. The L and C subcircuit is calculated
+using field theoretic based models and are optimized for maximum accuracy
+at 3GHz. In a contrast a quasistatic model is evaluated at \dc\ and its
+accuracy will degrade as frequencies increase.
+% That is calculated at 3 GHz
+The upper frequency of validity is selectable by the model parameter {\tt N}.
+{\tt N}  is the harmonic of 3 GHz at which the model is valid.  The default
+for {\tt N} is 5 so that by default the models are valid to a frequency
+of 15 GHz.
+
+{\it Mname} is the name of a model which can be one of several types:\\
+\begin{tabular}{ll}
+ {\tt ZSTEP}    &   Microstrip impedance step \\
+ {\tt LBEND}    &   Microstrip right-angle bend \\
+ {\tt MBEND}    &   Microstrip right-angle bend \\
+ {\tt TJUNC}    &   Microstrip T-junction (three way junction) \\
+ {\tt XJUNC}    &   Microstrip X-junction (four way bend)
+ \end{tabular}
+%  }
+\\[0.1in]
+\example{Z1 1 5 7 Tjunc1}
+
+\clearpage
+%
+% LBEND
+%
+\model{LBEND}{Microstrip Right-Angle Bend Model}
+
+\begin{figure}[h]
+\centering
+\epsfxsize=5in \pfig{lbend.ps}
+\caption{LBEND --- microstrip right-angle bend model.}
+\end{figure}
+
+\form{{\tt .MODEL} Mname {\tt LBEND} \B {\tt ER}=value\E
+     {\tt H}=xvalue {\tt W1}=xvalue {\tt W2}=xvalue \B {\tt N}=ivalue\E }
+
+\keyword{
+{\tt   ER}   & Permittivity of dielectric layer & - & 1.0      \X
+{\tt   H}    & Height of dielectric layer   & mm& \reqd \X
+{\tt   W1}   & First line width         & mm& \reqd \X
+{\tt   W2}   & Second line width        & mm& required \X
+{\tt   N}    & Number of calculated harmonics (0-15)& - & 5        \X
+   }
+
+\example{.MODEL MB1 LBEND ER=9.8 H=0.635 W1=1.2 W2=3.2}
+
+%
+% MBEND
+%
+\clearpage
+\model{MBEND}{Microstrip Mitered Right-Angle Bend Model}
+
+\begin{figure}[h]
+\centering
+\ \epsfxsize=5in\pfig{mbend.ps}
+\caption{MBEND --- microstrip mitered right-angle bend model.}
+\end{figure}
+
+\form{{\tt .MODEL} Mname {\tt MBEND} \B {\tt ER}=value\E
+     {\tt H}=xvalue {\tt W1}=xvalue {\tt W2}=xvalue \B {\tt N}=ivalue\E }
+
+\keyword{
+{\tt   ER}   & Permittivity of dielectric layer & - & 1.0      \X
+{\tt   H}    & Height of dielectric layer   & mm& \reqd \X
+{\tt   W1}   & First line width         & mm& \reqd \X
+{\tt   W2}   & Second line width        & mm& \reqd \X
+{\tt   N}    & Number of calculated harmonics (0-15)& - & 5     \X
+   }
+
+\example{.MODEL MB1 MBEND ER=9.8 H=0.635 W1=1.2 W2=3.2}
+
+%
+% TJUNC
+%
+\clearpage
+\model{TJUNC}{Microstrip T-Junction Model}
+
+\begin{figure}[h]
+\centering
+\ \epsfxsize=5in\pfig{tjunc.ps}
+\caption{TJUNC --- microstrip T-junction model.}
+\end{figure}
+
+\form{{\tt .MODEL} Mname {\tt TJUNC} \B {\tt ER}=value\E
+     {\tt H}=xvalue {\tt W1}=xvalue {\tt W2}=xvalue {\tt W3}=xvalue
+     \B {\tt S}=xvalue\E  \B {\tt N}=ivalue\E }
+
+\keyword{
+{\tt   ER}   & Permittivity of dielectric layer & - & 1.0    \X
+{\tt   H}    & Height of dielectric layer   & mm& \reqd \X
+{\tt   W1}   & First line width         & mm& \reqd \X
+{\tt   W2}   & Second line width        & mm& \reqd \X
+{\tt   W3}   & Third line width     & mm& \reqd \X
+{\tt   S}    & Edge offset of line 3        & mm& 0        \X
+{\tt   N}    & Number of calculated harmonics (0-15)& - & 5\X
+   }
+
+
+\example{.MODEL TJ1 TJUNC ER=9.8 H=0.635 W1=1.2 W2=3.2 W3=1.1 W4=1}
+
+%
+% XJUNC
+%
+\clearpage
+\model{XJUNC}{Microstrip X-junction}
+
+\begin{figure}[h]
+\centering
+\ \epsfxsize=5in\pfig{xjunc.ps}
+\caption{ XJUNC --- microstrip X-junction.}
+\end{figure}
+
+\form{{\tt .MODEL} Mname {\tt XJUNC} \B {\tt ER}=value\E
+     {\tt H}=xvalue {\tt W1}=xvalue {\tt W2}=xvalue
+     {\tt W3}=xvalue {\tt W4}=xvalue \B {\tt S}=xvalue\E
+     \B {\tt N}=ivalue\E }
+
+\keyword{
+{\tt   ER}   & Permittivity of dielectric layer & - & 1.0    \X
+{\tt   H}    & Height of dielectric layer   & mm& \reqd \X
+{\tt   W1}   & First line width         & mm& \reqd \X
+{\tt   W2}   & Second line width        & mm& \reqd \X
+{\tt   W3}   & Third line width     & mm& \reqd \X
+{\tt   S}    & Edge offset of line 3        & mm& 0        \X
+{\tt   N}    & Number of calculated harmonics (0-15)& - & 5\X
+   }
+
+
+\example{.MODEL TJ1 TJUNC ER=9.8 H=0.635 W1=1.2 W2=3.2 W3=1.1 W4=1}
+
+%
+% ZSTEP
+%
+\clearpage
+\model{ZSTEP}{Microstrip Impedance Step Model}
+
+\begin{figure}[h]
+\centering
+\ \epsfxsize=5in\pfig{zstep.ps}
+\caption{ZSTEP --- microstrip impedance step model.}
+\end{figure}
+
+\form{{\tt .MODEL} Mname {\tt ZSTEP} \B {\tt ER}=value\E
+     {\tt H}=xvalue {\tt W1}=xvalue {\tt W2}=xvalue \B {\tt S}=xvalue\E
+     \B {\tt N}=ivalue\E }
+
+\keyword{
+{\tt   ER}   & Permittivity of dielectric layer & - & 1.0   \X
+{\tt   H}    & Height of dielectric layer   & mm& required \X
+{\tt   W1}   & First line width         & mm& required \X
+{\tt   W2}   & Second line width        & mm& required \X
+{\tt   S}    & Displacement (see figure)    & mm& 0        \X
+{\tt   N}    & Number of calculated harmonics (0-15)& - & 5\X
+   }
+
+\example{.MODEL STEP1 ZSTEP ER=9.8 H=0.635 W1=1.2 W2=3.2}
+

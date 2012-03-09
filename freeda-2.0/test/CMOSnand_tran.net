@@ -1,0 +1,18 @@
+* CMOS NAND Gate Test
+
+.tran2 tstop=4e-6 tstep=10e-9
+
+vsource:Vdd 1 0 vdc=5
+vpulse:Vin1 2 0 v1=0 v2=5 per=2e-6 pw=1e-6 
+vpulse:Vin2 3 0 v1=0 v2=5 per=4e-6 pw=2e-6 
+
+cmosnand:nand 1 2 3 4 0 
+resistor:R 4 0 r=1000000
+
+.out plot term 1 vt in "vdd.out"
+.out plot term 2 vt in "input1-to-nand.out"
+.out plot term 3 vt in "input2-to-nand.out"
+.out plot term 4 vt in "output-from-nand.out"
+.end
+
+

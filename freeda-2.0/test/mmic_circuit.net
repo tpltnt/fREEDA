@@ -1,0 +1,124 @@
+**Netlist  of an Xband MMIC LNA  (LMA 411)
+**Low noise phemt lna using 0.25um technology
+**First amplifier is 300um (6x50um) thick and second is 400 um thick
+**DC supply of 6 volts
+**GaAs substrate thickness 100 um, silicon nitride passivation:
+**Standard thickness 1,000 ang
+**Litton process 
+**spiral inductor modeled as regular inductor
+
+
+.options f0=10e9
+
+.model m_line1 tlinp4 (z0mag = 95.7 k=7.55 fscale=10e9 alpha=773 nsect=20 fopt=10e9 tand=0.006)
+.model m_line2 tlinp4 (z0mag= 81.9  k=7.73 fscale=10e9 alpha=78 nsect=20 fopt=10e9 tand=0.006)
+.model m_line3 tlinp4 (z0mag = 76.2 k=7.82 fscale=10e9 alpha= 156 nsect=20 fopt=10e9 tand=0.006)
+
+c1 2 3 6e-12
+tlinp4:t1 3 0 0 0 model="m_line1" length = 1194u
+tlinp4:t2 3 0 4 0 model="m_line2" length = 183u
+
+mesfetc:m1 42 51 62  A0=0.09910 A1=0.08541  A2=-0.02030 A3=-0.01543
++ BETA=0.01865 GAMA=0.8293 
++ VDS0=6.494 VT0=-1.2 VBI=0.8  CGD0=3f CGS0=528.2f IS=3e-12 NR=1.2 T=1e-12  vbd=12
+
+resistor:rg1 41 42 r=0.83
+resistor:rd1 5 51 r=0.83
+resistor:rs1 61 62 r=0.33
+
+l:lg1 4 41 l=7e-12
+l:ls1 6 61 l=11e-12
+
+tlinp4:t3 6 0 8 0 model="m_line2" length=391u
+tlinp4:t4 6 0 7 0 model="m_line2" length=401u
+
+c:c_via4 7 0 c=17e-12
+resistor:r_via4 7 0 r=6
+c:c_via3 8 0 c=17e-12
+
+tlinp4:t5 5 0 9 0 model="m_line2" length=102u
+tlinp4:t6 9 0 10 0 model="m_line1" length=368u
+
+resistor:r1 10 11 r=10.53
+resistor:r2 11 12 r = 61.53
+c:c_s6 11 0 c=17e-12
+*resistor:rc 111 0 r=50
+
+tlinp4:t7 9 0 13 0 model="m_line2" length=33u
+c:c2 13 14 c=2e-12
+
+tlinp4:t8 14 0 15 0 model="m_line1" length=705u
+tlinp4:t9 14 0 0 0 model="m_line2" length=419u
+tlinp4:t10 14 0 17 0 model="m_line2" length=58u 
+
+mesfetc:m2 172 192 182
++ A0=0.1321 A1=0.1085 A2=-0.04804 A3=-0.03821
++ BETA=0.03141 GAMA=0.7946 VDS0=5.892 VT0=-1.2 VBI=1.5
++ CGD0=4e-15 CGS0=695.2f  
++ IS=4e-12 N=1.2 T=1e-12 vbd=12 
+
+resistor:rg2 171 172 r=0.63
+resistor:rd2 191 192 r=0.63
+resistor:rs2 181 182 r=0.25
+
+l:lg2 17 171 l=16e-12
+l:ld2 19 191 l=11e-12
+l:ls2 18 181 l=11e-12
+c:c_via8 18 0 c=17p
+resistor:r_via8 18 0 r=8
+tlinp4:t11 19 0 20 0 model="m_line1" length=138u
+c:cfb 20 21 c=4.28e-12
+resistor:rfb 21 22 r=237.4
+
+*.ref 0
+*NPortFoster1:f1 22 "0" 15 "0"
+*+ filename = "filtronicsind.yp" ports = 2 poles1 = 2 poles2 = 4
+
+l:lfb 22 15 l=1.268n int_res=9.55
+tlinp4:t12 19 0 23 0 model="m_line1" length=313u
+
+*NPortFoster1:f2 23 "0" 24 "0"
+*+ filename = "filtronicsind.yp" ports = 2 poles1 = 2 poles2 = 4
+
+l:lp 23 24 l=1.268n int_res=1.55
+resistor:rpad 24 29 r=24.93
+*resistor:rdc 29 30 r=20
+vsource:v2 29 0 vdc=6
+c:c_via12 24 0 c=17e-12
+tlinp4:t13 19 0 25 0 model="m_line3" length=229u
+c:cload 25 26 c=6e-12
+resistor:r50 26 0 r=50
+
+vsource:vin 2 211 f=10e9 vac=0.1 phase=-90
+vsource:vin2 211 0 f=11e9 vac=0.001 phase=-90
+vsource:v1 12 0 vdc=6
+
+*.dc
+*.tran tstep= 3ps tstop=4ns out_steps=400 cm=0 abstol=0.0001 im=1
+*.tran2 tstep= 1ps tstop=4ns out_steps=400 cm=0 abstol=0.0001 im=0
+.tran3 tstep=3ps tstop=4ns out_steps=400 cm=0 reltol=0.01 im=1
+*.tran4 tstep=4ps tstop=4ns out_steps=400 cm=0 reltol=0.1 im=1
+
+.out plot term 51 vt  in "m1.d"
+.out plot term 192 vt in "m2.d"
+.out plot term 2 vt in "mmic.in"
+.out plot term 26 vt in "mmic.out"
+.out plot element "mesfetc:m2" 1 it in "m2.di"
+.out plot element "mesfetc:m1" 1 it in "m1.di"
+
+*.out plot term 42 vt in "m1.g"
+*.out plot term 62 vt in "m1.s"
+*.out plot term 172 vt in "m2.g"
+*.out plot term 182 vt in "m2.s"
+*.out plot term 191 vt in "rd2.out"
+*.out plot term 19 vt in "ld2.out"
+*.out plot term 25 vt in "t13.out"
+*.out plot term 24 vt in "rpad.out"
+*.out plot term 22 vt in "fb.out"
+*.out plot term 20 vt in "t11.out"
+*.out plot element "mesfetc:m1" 0 it in "m1.gi"
+*.out plot element "mesfetc:m2" 0 it in "m2.gi"
+*.out plot term 23 vt in "spind2.1"
+*.out plot term 24 vt in "spind2.2"
+
+.end

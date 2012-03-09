@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{../../../style/freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Coplanar Waveguide}
+\hspace{\fill}\textbf{cpw}}\\
+\hrulefill \linethickness{0.5mm} \line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\pfig{CPW_line.eps}} \caption{cpw ---
+Coplanar Waveguide Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt cpw$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$, $n_2$, $n_3$ and $n_4$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline w: Strip to ground space(m) & DOUBLE & n/a & yes\\
+\hline
+s: Strip width(m) & DOUBLE & n/a & yes\\
+\hline
+length: Physical length(m) & DOUBLE & n/a & yes\\
+\hline
+er: Substrate dielectric constant & DOUBLE & 1 & no\\
+\hline
+t: Substrate thickness(m) & DOUBLE & n/a & yes\\
+\hline
+tand: Loss tangent & DOUBLE & 0 & no\\
+\hline
+sigma: Metal conductivity(S/m) & DOUBLE & 5.8e+07 & no\\
+\hline
+nsect: Enable discrete approximation with n sections &
+INTEGER & 0 & no\\
+\hline
+fopt: Optimum frequency for discrete approximation & DOUBLE
+& 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+%.model fsa1 cpw (s=.369m w=1m t=10u er=10.8 tand=.001)
+%cpw:t1 11 100 1 0 model="fsa1" length=8.5m
+\texttt{.model\ fsa1\ cpw\ s=0.369m w=1m t=10u er=10.8 tand=0.001}
+\newline
+\texttt{cpw:t1\ 11\ 100\ 1\ 0\ model="fsa1" length=8.5m}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

@@ -1,0 +1,39 @@
+* Thermal CMOS Nand Transient Analysis
+
+** This netlist is for Transient analysis of Thermal  Cmos 2 input Nand Gate**
+.options initTmp=300
+.ref "tref"
+.ref 0
+
+.tran2 tstop=8e-6 tstep=1e-9 out_steps=1
+vpulse:Vin2 22 0 v1=0 v2=5 td=1e-6 per=4e-6 pw=2e-6 tr=0.002e-6 tf=0.002e-6
+vpulse:Vin3 33 0 v1=0 v2=5 per=4e-6 pw=2e-6 tr=0.002e-6 tf=0.002e-6
+
+**** Vdd connection
+vsource:Vdd 1 0 vdc=5
+
+***** Nand instantiation
+cmos2nandt:nand 1 2 3 4 0 2000 "tref" wn=40e-6 wp=50e-6 tmp=initTmp
+
+**  Source Resistance and Capacitance
+r:in2 22 2 r=10
+r:in3 33 3 r=10
+c:in2 2 0 c=1e-12
+c:in3 3 0 c=1e-12
+
+*** Load Resistance and Capacitance
+r:R 4 0 r=1000000
+c:C 4 0 c=1e-12
+
+*** Thermal
+r:Rthermal 2000 2001 r=20e3
+c:Cthermal 2000 2001 c=1e-12
+vsource:vt1 2001 "tref" vdc=initTmp
+
+.options gnuplot
+.out plot term 4 vt in "Vout_300K_20k.out"
+.out plot term 2000 vt in "JunctionTemp_300K_20k.out"
+.out plot element "vsource:vt1" 0 it in "Iheat_300K_20k.out"
+*.out plot term 22 vt in "vin1.out"
+*.out plot term 33 vt in "vin2.out"
+.end

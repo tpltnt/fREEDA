@@ -1,0 +1,57 @@
+Test of the ERA 6 amplifier
+
+.svtr tstop = 1e-9 n_freqs = 4096 tstep = .002e-9 imp_tol=30 check_imp=1
++ rcomp = 100 opt=1 adjust=1
+
+*.hb spts=16 fundamental=5e9
+
+open:3 5 0
+xamp1 1 5 0 era6
+resistor:r1 1 0 r=1e6
+resistor:r2 5 0 r=1e6
+
+****************************************************
+* Definition of the ERA6 amplifier model
+* Input node = 1
+* Output node = 5
+* Common node = gnd1 
+****************************************************
+.subckt era6 1 5 "gnd1"
+*
+* Input bias source.  
+vsource:vin 100 "gnd1" vdc = 4.5 vac=.3 f=5e9 phase=-90
+resistor:rsin 100 1 r=50
+*
+* Output bias Source (equivalent to 4.25v source).
+resistor:rsout1 100 5 r = 52.94
+resistor:rsout2 5 "gnd1" r = 899.98
+*
+vct:a11 2 54 3  gamma=-2.3 beta=8 kf=0.0025 
+vct:b11 2 4 15  gamma=1.1 beta=1 kf=1 
++ poly = <5.979287283058695e-4 -2.334033466242205e-02 6.282215276145409e-02
++ -4.319540162756818e-02 9.169340904889009e-03>
+inductor:ssig11 54 "gnd1" l=10n time_d=0
+capacitor:ssig11 54 4 c=100n time_d=1
+inductor:lin11 1 2 l=1.0238e-9 time_d=0
+capacitor:cin11 2 15 c= 0.32713e-12 time_d=0
+*ymatrix:nin11 2 3 filename = "netin.yp" 
+resistor:rfake2 2 3 r=62.
+inductor:le11 15 55 l=0.1e-9 time_d=0
+resistor:re11 55 "gnd1" r=7
+capacitor:ce11 55 "gnd1" c=100n time_d=0
+*ymatrix:ne11 3 15 filename = "freqcomp.yp" 
+resistor:rfake1 3 15 r=1e-3
+resistor:rout11 24 15 r=80
+capacitor:cdum11 24 4 c=1n time_d=1
+capacitor:cout11 4 15 c=0.64225e-12 time_d=0
+inductor:lout11 4 5 l=1.2361e-9 time_d=0
+capacitor:coutsub11 5 "gnd1" c=0.12864e-12 time_d=0
+.ends
+****************************************************
+
+.out plot element "open:3" 0 ut in "era6.tran"
+*.out plot element "open:3" 0 xf invfft 5 repeat in "era6.hb"
+
+.end
+
+

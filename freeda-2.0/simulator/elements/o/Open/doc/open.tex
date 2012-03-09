@@ -1,0 +1,71 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Open circuit to be used as a voltage
+meter } \hspace{\fill}\textbf{open}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.35in\epsfbox{open.eps}} \caption{open.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt open$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+\newline
+\begin{tabular}{r l}
+$n_1$ and $n_2$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+%\textit{Parameters:}
+%\begin{table}[tbph]
+%\scriptsize
+%\caption{\label{table1:resistor}Parameters}
+%\begin{center}
+%\begin{tabular}{|c|c|c|c|}
+%\hline
+%Parameter&Type&Default value&Required?\\
+%\hline
+%filename: File containing the port-based parameter matrix.
+%& STRING & n/a & yes\\
+%\hline
+%max_freq: Maximum number of frequency points in data file &
+%INTEGER & 200 & no\\
+%\par
+%\hline
+%\end{tabular}
+%\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{open:\ vout\ 48\ 0}
+\newline
+\texttt{open:\ 1\ 4\ ref4}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

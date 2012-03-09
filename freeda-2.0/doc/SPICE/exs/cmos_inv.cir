@@ -1,0 +1,37 @@
+CMOS Inverter
+
+M0 0 1 2 0 nenh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u
+M1 2 1 5 5 penh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u
+Vcc 5 0 DC 5V
+Vin 1 0 5V
+Vout 2 0
+.TF I(vout) Vout
+*.DC Vout 0 5 0.1
+*.print DC I(Vout)
+*Vin 1 0 
+*.DC Vin 0 5 0.1
+*.print DC V(2)
+
+.model nenh nmos
++    Level=2                    Ld=4.000e-8             Tox=1.750000e-08
++    Nsub=1.506725e+17          Vto=0.59073             Kp=6.124495e-05
++    Gamma=0.420929             Phi=.7000000            Uo=578.411
++    Uexp=0.242015              Ucrit=324603.           Delta=3.02002
++    Vmax=128159.               Xj=1.739142e-09         Lambda=0.0
++    Nfs=2556.07                Neff=1.22049            Nss=3.000000e+10
++    Tpg=1.00000                Rsh=68                  Cgso=2.42e-10
++    Cgdo=2.42e-10              Cj=8.39e-04             Mj=.796
++    Cjsw=2.07e-10              Mjsw=.284
+
+.model penh pmos
++    Level=2                    Ld=4.000000e-08         Tox=1.750000e-08
++    Nsub=3.361957e+15          Vto=-0.59379            Kp=2.35643e-5
++    Gamma=0.814660             Phi=1.00                Uo=641.842
++    Uexp=0.0998923             Ucrit=6408.27           Delta=6.35195
++    Vmax=132350.               Xj=7.415125e-9          Lambda=0.
++    Nfs=1.000e+11              Neff=21.4017            Nss=3.000000e+10
++    Tpg=-1.0000                Rsh=154                 Cgso=2.42e-10
++    Cgdo=2.42e-10              Cj=5.4e-04              Mj=.3426
++    Cjsw=2.15e-10              Mjsw=.2315
+
+.end

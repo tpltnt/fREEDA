@@ -1,0 +1,85 @@
+\eskipv{U\ URC}
+%
+% URC Model
+%
+\modelx{URC}{\spicethree\ Only}{Lossy RC Transmission Line Model}
+
+\vspace*{\fill}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2in\pfig{uurc.ps}
+\caption{U element, URC model --- RC
+transmission line element.}
+\end{figure}
+
+\elementform{ {\tt U}name  N1 N2 N3  ModelName {\tt L} =  value
+                    \B {\tt N} =  value\E }
+
+\modelform{ {\tt .MODEL} ModelName {\tt URC(} \B  \B keyword = value\E  ... \E
+{\tt )}}
+
+\begin{widelist}
+\item[{\it N1}] is the first node of the transmission line.
+\item[{\it N2}] is the second node of the transmission line..
+\item[{\it N3}] is the reference node of the transmission line..
+\item[{\tt L}]	is the electrical length
+                (Units: m; Required; Symbol: $L$;
+\item[{\tt N}]	Number of RC lumped element segments used in modeling the line.
+                (Units: m; Optional --- Infereed if not specified.
+                See note 3; Symbol: $N$;
+\end{widelist}
+
+
+
+\example{
+    Urcline  1 0 2 0 RCLINE N = 4 L=0.10\\
+    .MODEL RCLINE URC(K=1 FMAX=1E9 CPERL=1E-12) }
+
+
+\modelkeyword{
+{\tt K}
+      & Propagation constant               & -     & 2.0     \X
+{\tt FMAX}
+   & Maximum frequency of interest      & Hz    & 1.0G    \X
+{\tt RPERL}
+  & Resistance per unit length         & $\Omega$/m & 1000    \X
+{\tt CPERL}
+  & Capacitance per unit length        & F/m   & 1.0E-15 \X
+{\tt ISPERL}
+ & Saturation current per unit length & A/m & 0   \X
+{\tt RSPERL}
+ & Diode resistance per unit length   & $\Omega$/m & 0    \X
+   }
+
+
+\note{
+\item[1]
+The URC element models a transmission line as a number of cascaded resistor
+and capacitor segments.
+The URC model is derived from a model  proposed  by  L.
+Gertzberrg  in 1974.
+The segments model a section of the transmission line
+and the length of each is in a geometric
+progression increasing toward  the
+middle  of  the  URC  line with {\tt K} as a proportionality constant.
+The number of segments is given by the parameter {\tt N} which defaults to
+\item[2]
+The number of segments, {\tt N}, defaults to
+\begin{equation}
+N=
+\end{equation}
+\item[3]
+The URC line will be made up strictly of  resistor  and
+capacitor  segments  unless  the ISPERL parameter is given a
+non-zero value,
+If the
+{\tt ISPERL} parameter is non-zero then
+distributed diode loading on the line is indicated.
+If {\tt ISPERL} is non-zero 
+the  capacitors  are  replaced
+with reverse biased diodes.  The zero-bias junction capacitance of these diodes
+is equivalent to the capacitance  replaced.
+The saturation  current of the diodes is {\tt ISPERL} multiplied by the length
+of the transmission line segment.
+The diodes have series resistance equal to  {\tt RSPERL}
+multiplied by the length of the transmission line segment.}

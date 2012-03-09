@@ -1,0 +1,145 @@
+%
+% .MODEL U  (HSPICE)
+%
+\eskipv{U\ U311}
+\modelx{U}{\hspice\ Only}
+{\parbox[t]{3in}{Geometric Coupled Planar Line Model
+                 \newline {\tt LEVEL}=3, {\tt ELEV}=1, {\tt PLEV}=1
+}}
+\label{U3.1.1model}
+
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2in\pfig{uplines.ps}\\
+(a)\\
+%\ \epsfxsize=4in\pfig{u311.ps}
+\vspace*{2in}
+(b)\\
+\caption{U element, U model, LEVEL 3, ELEV 1, PLEV 1 ---
+Geometric Coupled Planar Line Model: (a) schematic; and (b) cross-section.}
+\end{figure}
+
+\elementform{ {\tt U}name  Nin1 \B Nin2  ... Ninn \E Nout1 \B Nout2 ... Noutn \E
+  ModelName {\tt L} =  value \B {\tt N} =  value\E }
+
+\modelform{ {\tt .MODEL} ModelName {\tt U( LEVEL=3 ELEV=1 PLEV=1}
+           \B  \B keyword = value\E  ... \E {\tt )}}
+
+\begin{widelist}
+\item[{\it Nin1}] is the first input node.
+\item[{\it Nin2}] is the second input node.
+\item[{\it Ninn}] is the {\it n}th input node of the {\it n} coupled
+                  transmission line system.
+\item[{\it Nout1}] is the first output node.
+\item[{\it Nout2}] is the second output node.
+\item[{\it Noutn}] is the {\it n}th output node of the {\it n} coupled
+                  transmission line system.
+                See note 2.
+\end{widelist}
+
+\begin{widelist}
+\item[{\tt L}]	 is the electrical length.
+                (Units: m; Required; Symbol: $L$;
+\item[{\tt LUMPS}]	Number of lumped element segments used in modeling
+                the line.
+                (Units: m; Optional; Default: {\tt WLUMP}.)
+\item[{\it ModelName}]  is  the  model name.
+\end{widelist}
+
+
+
+\example{
+    UPCB\_TRACE  1 0 2 0 LINES L=0.10\\
+    .MODEL LINES U() }
+
+
+
+\modelkeyword{
+{\tt CEXT}  & Capacitance between ground plane conductor and circuit ground
+              point.
+            & F/m & \inferred \X
+{\tt CMULT} & Capacitance multiplier used to determine capacitance between
+              ground plane conductor and circuit ground point. Used when
+              {\tt LLEV}=1 and {\tt CEXT} not supplied
+            & - & 1000 \X
+{\tt CORKD} & Correction factor to {\tt KD}
+            & - & 1 \X
+{\tt DLEV}  & Dielectric description\newline
+              \hspace*{\fill}{\tt DLEV}=0 $\longrightarrow$
+              Microstrip, uniform dielectric\newline
+              \hspace*{\fill}{\tt DLEV}=1 $\longrightarrow$
+              Microstrip, layered dielectric\newline
+              \hspace*{\fill}{\tt DLEV}=2 $\longrightarrow$
+              Stripline
+            & - & 1 \X
+{\tt ELEV}  &  Electrical level {\tt ELEV=1} is required to select this element.
+            & -  & \reqd \X
+{\tt HGP}   & Height of circuit ground point. Used if {\tt LLEV}=1.
+            & m & max({\tt HT1},\hspace*{\fill}{\tt HT2},{\tt HT3}) \X
+{\tt HT1}({\tt HT})    & Height of first conductor & m & \reqd \X
+{\tt HT2}   & Height of second conductor & m & {\tt HT1} \X
+{\tt HT3}   & Height of third conductor  & m & {\tt HT1} \X
+{\tt HT4}   & Height of fourth conductor & m & {\tt HT1} \X
+{\tt HT5}   & Height of fifth conductor  & m & {\tt HT1} \X
+{\tt KD1}({\tt KD})   & Relative dielectric constant of first dielectric
+            & - & 4 \X
+{\tt KD2}   & Relative dielectric constant of second dielectric
+            & - & 4 \X
+{\tt KD3}   & Relative dielectric constant of third dielectric
+            & - & 4 \X
+{\tt LEVEL} & {LEVEL=3} is required to select this element. & -  & \reqd \X
+}
+
+
+\keywordtable{
+{\tt LLEV}  & Reference plane evaluation flag.\newline
+              {\tt LLEV}=0 $\longrightarrow$ omit common mode inductance and
+              capacitance of reference plane.\newline
+              {\tt LLEV}=1 $\longrightarrow$ include common mode inductance and
+              capacitance of reference plane.&-& 0\X
+{\tt MAXL}  & Maximum number of segments.   & - & 20 \X
+{\tt NL}    & Number of conductors & - & 1 \X
+{\tt NLAY}  & Algorithm to use for calculating resistive loss.
+              {\tt NLAY}=0 $\longrightarrow$ DC loss only.\newline
+              {\tt NLAY}=1 $\longrightarrow$ Add skin effect resistance to
+              DC resistance.
+            & - & 1 \X
+{\tt PLEV}  &  Physical level {\tt PLEV=1} is required to select this element.
+            & -  & \reqd \X
+{\tt RHO}   & Resistivity of conductor material.\newline
+              \hspace*{\fill} Copper $\longrightarrow$ 17E-9
+            & $\Omega\cdot$ m & 17E-9 \X
+{\tt RHOB}   & Resistivity of ground plane conductor
+            & $\Omega\cdot$ m & {\tt RHO} \X
+{\tt SIG1}({\tt SIG})   & Conductivity of first dielectric
+            & S/m & 0 \X
+{\tt SIG2}  & Conductivity of second dielectric
+            & S/m & 0 \X
+{\tt SIG3}  & Conductivity of third dielectric
+            & S/m & 0 \X
+{\tt SPL1}  & Spacing from left shield to left side of line 1 & m & $\infty$ \X
+{\tt SPL12}({\tt SP})  & Spacing from right side of line 1 to left side of
+              line 2 \newline Required only if {\tt NL} $>$ 1 & m & \reqd \X
+{\tt SPL23} & Spacing from right side of line 2 to left side of line 3
+            & m & {\tt SP12}\X
+{\tt SPL34} & Spacing from right side of line 3 to left side of line 4
+            & m & {\tt SP12}\X
+{\tt SPL45} & Spacing from right side of line 4 to left side of line 5
+            & m & {\tt SP12}\X
+{\tt SP5R}  & Spacing from right side of line 5 to right shield &m&$\infty$\X
+{\tt TH1}({\tt TH})    & Thickness of first conductor & m & \reqd \X
+{\tt TH2}   & Thickness of second conductor & m & {\tt TH1} \X
+{\tt TH3}   & Thickness of third conductor  & m & {\tt TH1} \X
+{\tt TH4}   & Thickness of fourth conductor & m & {\tt TH1} \X
+{\tt TH5}   & Thickness of fifth conductor  & m & {\tt TH1} \X
+{\tt THB}   & Thickness of ground plane conductor & m & \inferred \X
+{\tt TS}    & Height from bottom ground plane to top ground plane
+            & m & {\tt TH}+2$\cdot${\tt HT} \X
+{\tt WD1}({\tt WD})    & Width of first conductor & m & \reqd \X
+{\tt WD2}   & Width of second conductor & m & {\tt WD1} \X
+{\tt WD3}   & Width of third conductor  & m & {\tt WD1} \X
+{\tt WD4}   & Width of fourth conductor & m & {\tt WD1} \X
+{\tt WD5}   & Width of fifth conductor  & m & {\tt WD1} \X
+{\tt WLUMP} & Number of segments per wavelength for error control & - & 20 \X
+{\tt XW}    & Difference between drawn and realized width & m & 0 \X
+   }

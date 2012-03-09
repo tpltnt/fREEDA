@@ -1,0 +1,29 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* Test two-port coupled lines considered.
+*
+.tran2 tstop=10000ns tstep=0.01ns out_steps=100
+
+*.ac start=100 stop=4e9 n_freqs=400
+
+vsource:vin 3 0 vac=1 f=1gHz phase=90
+
+r:source 3 1 r=50
+
+*vpulse:vin 11 0 v1=0 v2=1 td=.1n tr=.5n tf=.5n pw=4n per=4n
+
+FosterNPort:f1 1 2 0 filename = "two_port.yp" ports = 2
+
+r:load 2 0 r=50.
+
+.options gnuplot
+
+.options preamble="set term x11 font 'helvetica,13'; set title 'Voltage at Input to Foster N Port'; set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE' "
+.out plot term 1 vt 1e6 scalex preamble in "v1.out"
+
+.options preamble="set term x11 font 'helvetica,13';
+         set title 'Voltage at Output of Foster N Port';
+         set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE' "
+.out plot term 2 vt  1e6 scalex preamble in "v2.out"
+
+.end

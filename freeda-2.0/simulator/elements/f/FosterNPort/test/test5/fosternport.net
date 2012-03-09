@@ -1,0 +1,62 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* Three parallel coupled lines considered.
+*
+* Details described in Chapter 4 of master's thesis by Ramya Mohan:
+* Integration of Interconnect Models in a Circuit Simulator, Master's Thesis,
+* North Carolina State University, 2002.
+* Available:
+*  http://people.engr.ncsu.edu/mbs/Publications/vitae_theses/mohan_ms_2002.pdf
+ 
+*.options f0 = 5.1e3 jupdm=4 output=0 nonlin=4
+*.svhb n_freqs = 5 fundamental = f0  steps=5 deriv=0
+.tran2 tstop=8n tstep=.009n out_steps=100
+
+*.tran2 tstop=16n tstep=.005n out_steps=100 
+
+*.ac start=.0001 stop=4e9 n_freqs=500
+
+*.ac start=100 stop=4e9 n_freqs=400
+
+r:rvin 11 1 r=5.
+
+r:r2 2 0 r=5.
+r:r3 3 0 r=5.
+r:r4 4 0 r=5.
+r:r5 5 0 r=5.
+r:r6 6 0 r=5.
+
+*vsource:vin 1 0 vac = 1v 
+vpulse:vin 11 0 v1=0 v2=1 td=.1n tr=.5n tf=.5n pw=100n per=250n
+
+*vpulse:vin 11 0 v1=0 v2=1 td=.1n tr=.5n tf=.5n pw=4n per=4n
+
+FosterNPort:f1 1 2 3 4 5 6 0 filename = "three_line_fosternport.yp"
++ ports = 6 poles = 36
+
+
+
+open:o1 1 0 
+
+.options gnuplot
+
+.out plot term 1 vt in "v1.out"
+.out plot term 2 vt in "v2.out"
+.out plot term 3 vt in "v3.out"
+.out plot term 4 vt in "v4.out"
+.out plot term 5 vt in "v5.out"
+.out plot term 6 vt in "v6.out"
+
+*.out plot term 2 vf mag in "v2.out"
+*.out plot term 6 vf mag in "v6.out"
+*.out plot term 1 vf mag in "input.out"
+
+*.out plot element "vsource:vin" 0 if mag in "axxout.i"
+*.out plot term 0 vf term 2 vf sub mag in "out1.i"
+
+*.out plot term 2 vf mag  in "v11.out"
+*.out plot term 1 vf mag in "in.v"
+
+*.out plot term 1 vf term 6 vf sub mag in "mag.r"
+
+.end

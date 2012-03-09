@@ -1,0 +1,21 @@
+*****tundiode_osc.net
+* Example oscillator with tunnel diode 
+
+vsource:v1 1 0 vdc=3. 
+resistor:r1 1 2 r=284
+resistor:r2 2 0 r=16
+
+diodetun:d1 2 3 jp=1e-3 vpk=65e-3 jv=1.1e-4 vv=350e-3 a2=10 js=2e-12
++ ct0=0.1p cd0=0.1p r0=2 mt=-0.01 mx=0.01 mth=0.01
+
+resistor:r3 3 0 r=10k
+inductor:l1 3 0 l=5e-9
+capacitor:c1 3 0 c=5e-9
+
+.tran2 tstep=0.5n tstop=20u
+
+.out plot term 3 vt in "osc_1.tran2"
+
+.end
+
+

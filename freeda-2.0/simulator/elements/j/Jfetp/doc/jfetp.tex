@@ -1,0 +1,217 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{P Channel JFET}
+\hspace{\fill}\textbf{jfetp}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\epsfbox{j.ps}} \caption{JFET Types (a)
+N-channel FET (b) P-channel FET}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt jfetp$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+af: Flicker noise exponent & DOUBLE & 1 & no\\
+\hline
+area: Device area ($\textrm{m}^2$) & DOUBLE & 1 & no\\
+\hline
+beta: Transconductance parameter ($\textrm{A}/\textrm{V}^2$)& DOUBLE & 0.0001 & no\\
+\hline
+cgs: Zero bias gate source junction capacitance (F) & DOUBLE & 0 & no\\
+\hline
+cgd: Zero bias gate drain junction capacitance (F)& DOUBLE & 0 & no\\
+\hline
+eg: Barrier height at 0 K (eV) & DOUBLE & 0.8 & no\\
+\hline
+fc: Coefficient for forward bias depletion capacitance & DOUBLE & 0.5 & no\\
+\hline
+is: Gate junction saturation current (A)& DOUBLE & $1\times10^{-14}$ & no\\
+\hline
+kf: Flicker noise coefficient & DOUBLE & 0 & no\\
+\hline
+pb: Gate junction potential (1/V)& DOUBLE & 0 & no\\
+\hline
+rd: Drain ohmic resistance ($\omega$)& DOUBLE & 0 & no\\
+\hline
+rs: Source ohmic resistance ($\omega$) & DOUBLE & 0 & no\\
+\hline
+vt0: Threshold voltage (V)& DOUBLE & -2 & no\\
+\hline
+m: Gate p-n grading coefficient & DOUBLE & 0.5 & no\\
+\hline
+vt0tc: Temperature coefficient for vt0 (V/K) & DOUBLE & 0.0 & no\\
+\hline
+tnom: Nominal temperature (K)& DOUBLE & 300 & no\\
+\hline
+b: Doping tail parameter & DOUBLE & 1 & no\\
+\hline
+t: Device temperature (K) & DOUBLE & 300 & no\\
+\hline
+lambda: Channel length modulation parameter (1/V) & DOUBLE & 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+%\newpage
+%\textit{Parameters:}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{jfetp:j1\ 3\ 4\ 2\ beta=0.0001}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+\FDA has the PJFET model based on the PJF model in SPICE. \\
+% Equations follow below
+\newpage
+\noindent\textbf{DC Calculations:} \\
+\textit{Constants used are:} \\
+\begin{eqnarray}
+q & = & 1.6021918 \times 10^{-19} (As) \\
+k & = & 1.3806226 \times 10^{-23} (J/K)
+\end{eqnarray}
+All parameters used are indicated in \texttt{this} font. The
+equations for the P-channel FET are identical to the N-channel
+except that the signs on the voltages and the output are reversed.
+\\
+
+\noindent The current/voltage characteristics are evaluated after
+first determining the mode (normal: $V_{SD} \ge 0$ or inverted:
+$V_{SD} < 0$) and the region (cutoff, linear or saturation) of the
+current $(V_{SD}, V_{SG})$ operating point.\\
+
+\noindent{\sl Normal Mode: ($V_{SD} \ge 0$)}\\
+
+Regions of operation:
+\newline
+\hspace*{12mm}{
+\begin{tabular}{l l}
+$V_{SG} - V_{T0} \leq 0$ & Cutoff Region \\
+$0 \leq V_{SD} < V_{SG} - V_{T0}$ & Linear Region \\
+$0 < V_{SG} - V_{T0} \leq V_{SD}$ & Saturation Region
+\end{tabular}}\\
+Then
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      \texttt{AREA} \times\, \texttt{BETA} \left(1 + \texttt{LAMBDA} \, V_{SD}\right)V_{SD}
+      \left[2\left(V_{SG}- \texttt{VT0}\right)-V_{SD}\right]
+         &\mbox{linear region}\\
+      \texttt{AREA} \times \, \texttt{BETA} \left(1 + \texttt{LAMBDA} \, V_{SD}\right)
+      \left(V_{SG}- \texttt{VT0}\right)^2
+         &\mbox{saturation region} \end{array} \right. %}
+\end{equation}\\
+
+\noindent{\sl Inverted Mode: ($V_{SD} < 0)$}\\
+
+Regions of operation:
+\newline
+\hspace*{12mm}{
+\begin{tabular}{l l}
+$V_{DG} - V_{T0} \leq 0$ & Cutoff Region \\
+$0 \leq -V_{SD} < V_{DG} - V_{T0}$ & Linear Region \\
+$0 < V_{DG} - V_{T0} \leq -V_{SD}$ & Saturation Region
+\end{tabular}}\\
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      \texttt{AREA}\times \,\texttt{BETA} \left(1 - \texttt{LAMBDA} V_{SD}\right)V_{SD}
+      \left[2\left(V_{DG}- \texttt{VT0}\right)+V_{SD}\right]
+         &\mbox{linear region}\\
+      \texttt{AREA} \times \,(-\texttt{BETA}) \left(1 - \texttt{LAMBDA} V_{SD}\right)
+      \left(V_{DG} - \texttt{VT0}\right)^2
+         &\mbox{saturation region} \end{array} \right. %}
+\end{equation}\\
+
+% Leakage Currents
+\noindent \textit{Leakage Currents}\\
+Current flows across the normally reverse biased source-bulk and
+drain-bulk junctions. The gate-source leakage current
+\begin{equation}
+I_{GS} = \texttt{AREA} \times \, I_{S} \, e^{(\textstyle
+V_{SG}/\texttt{VT0} -1)}
+\end{equation}
+and the gate-source leakage current
+\begin{equation}
+I_{GD} = \texttt{AREA} \times \, I_{S} \, e^{(\textstyle
+V_{DG}/\texttt{VT0} -1)}
+\end{equation}
+\newline
+% Capacitances
+\noindent \textit{Capacitances}\\
+The drain-source capacitance
+\begin{equation}
+C_{DS} = \texttt{AREA} \times \, \texttt{CDS}
+\end{equation}
+The gate-source capacitance
+\begin{equation}
+C_{GS} = \left\{ \begin{array}{ll}
+         \texttt{AREA} \times \,\texttt{CGS}\left(1 - {{\textstyle V_{SG}}\over{\textstyle \texttt{PB}}}
+         \right)^{-\texttt{M}}
+         & V_{SG} \le \texttt{FC} \times \texttt{PB}\\
+         \texttt{AREA} \times \,\texttt{CGS}\left(1 -\texttt{FC}\right)^{-(1+\texttt{M})}
+         \left[1-\texttt{FC}(1+\texttt{M})+\texttt{M} {{\textstyle V_{SG}}\over{\textstyle \texttt{PB}}}
+         \right]^{-\texttt{M}}
+         & V_{SG} > \texttt{FC} \times \texttt{PB}
+         \end{array} \right. %}
+\end{equation}
+models charge storage at the gate-source depletion layer. The
+gate-drain capacitance
+\begin{equation}
+C_{GD} = \left\{ \begin{array}{ll}
+         \texttt{AREA} \times \,\texttt{CGD}\left(1 - {{\textstyle V_{DG}}\over{\textstyle \texttt{PB}}}
+         \right)^{-\texttt{M}}
+         & V_{DG} \le \texttt{FC} \times \texttt{PB}\\
+         \texttt{AREA} \times \,\texttt{CGD}\left(1 -\texttt{FC}\right)^{-(1+\texttt{M})}
+         \left[1-\texttt{FC}(1+\texttt{M})+\texttt{M} {{\textstyle V_{DG}}\over{\textstyle \texttt{PB}}}
+         \right]^{-\texttt{M}}
+         & V_{DG} > \texttt{FC} \times \texttt{PB}
+         \end{array} \right. %}
+\end{equation}
+models charge storage at the gate-drain depletion layer.
+
+
+\noindent\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{J} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2001.05.15 \\
+%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Nikhil Kriplani & NC State University & May 2001 & \epsfxsize=1in\epsfbox{logo.eps} \\
+nmkripla@unity.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

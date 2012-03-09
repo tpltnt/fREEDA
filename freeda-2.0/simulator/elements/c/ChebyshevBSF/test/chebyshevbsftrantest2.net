@@ -1,0 +1,23 @@
+**** tran2 chebyshevbsf test #2 *****
+
+.tran2 tstop=40us tstep=1ns out_steps=4000
+
+vsource:vin 1 0 vac=1.0 f=1.5e6 
+
+R:Rin1 1 2 r=50
+Chebyshevbsf:b1 2 0 3 n=5  q=100 f0=1e6 bw=400e3 z0=50 ripple=1
+R:Rout1 3 0 r=50
+
+.options gnuplot
+.options preample1="set term x11 font 'helvetica,13';
+set title 'Chebyshev Filter Transient Response'; set xlabel 'TIME (microseconds)'; 
+set ylabel 'Voltage (V)"
+.out plot term 3 vt 1e6 scalex preample1 in "chebyshevbsf.tran.out2"
+
+.end
+
+
+
+
+
+

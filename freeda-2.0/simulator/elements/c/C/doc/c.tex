@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{../../../style/freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Capacitor}
+\hspace{\fill}\textbf{c}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the capacitor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\pfig{c_spice.ps}} \caption{C ---
+Capacitor Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt c$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $ $\langle
+\tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+&  \\
+$n_2$ & is the negative element node. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+c: Capacitance value (F)& DOUBLE & N/A & yes\\
+\hline
+int\_g: Internal conductance value (S). & DOUBLE & 1e-08 & no\\
+\hline
+time\_d:Flag, if true, calculate in the time domain. & BOOLEAN & false & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{c:cload\ 4\ 9\ c=20e-12 time\_d=0}
+\newline
+\texttt{c:c1\ 2\ 3\ c=20e-11 time\_d=0}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+%\begin{itemize}
+This is the \texttt{C} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+%\end{itemize}
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

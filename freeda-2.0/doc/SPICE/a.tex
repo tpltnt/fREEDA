@@ -1,0 +1,25 @@
+\element{A}{Convolution}
+\begin{figure}[h]
+\centering
+\ \pfig{a_spice.ps}
+\caption{A --- convolution element.}
+\end{figure}
+\form{ {\tt A}name  $n_1$ $n_2$ \B $n_3$ ... $n_N$ \E ModelName
+}
+\begin{widelist}
+\item[$n_1$] is the first node (required),
+\item[$n_2$] is the second node (required),
+\item[$n_3$] is the third node (optional),
+\item[$n_N$] is the $N$th node (optional),
+\item[{\it ModelName}] is the model name which defines this convolution element.
+\end{widelist}
+\example{ ANET 1 2 3 4 NETWORK1
+        }
+\modeltype{CONV}
+\model{CONV}{Convolution Model}
+\form{ {\tt .MODEL} ModelName {\tt CONV(} \B  \B keyword = value\E  ... \E
+}
+\example{
+.MODEL CONV1 CONV(  FILE = "coupledline.y" NFREQS = 500\\
++         NPORTS = 4 ZM = 50 THRESHOLD = 0.01)}
+

@@ -1,0 +1,20 @@
+* Transient tlinp4 test
+
+.options f0 = 9e9
+
+.tran2 tstop = 1e-9 tstep = .002e-9
+
+vsource:v2 202 0 vdc= -6. vac= 5. f= f0 phase=90
+
+resistor:rs 1 202 r=75.
+
+tlinp4:t1  1 0 2 0
++ z0mag=75.00 nsect=1 length=978.57e-6 k=7 tand=.01 fscale=1.e10 alpha=1. fmax=1e10
+
+resistor:rl 2 0  r=75.
+
+.options gnuplot
+.out plot term 1 vt in "tlinp4.1.tran"
+.out plot term 2 vt in "tlinp4.2.tran"
+
+.end

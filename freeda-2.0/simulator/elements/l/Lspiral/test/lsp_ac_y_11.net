@@ -1,0 +1,24 @@
+* lspiral ac analysis
+.options verbose
+.options zo=50
+
+vsource:vin 1 0 vdc=0 vac=1 
+vsource:vprobe 2 0 vdc=0
+.options gsub11=9.90e-3 gsub21=2.189e-3 gsub31=1.688e-3
+.ac start=100e6 stop=10GHz n_freqs=10000
+
+lspiral:ls1 1 2 0 rdc=2.778 ldc=4.325e-9 rs1=26e3 ls1=1e-6 ms1=13.61e-9
++ cw=10.00e-15 cox1=19.71e-15 csub11=64.67e-15 rsub11={1/gsub11} cox2=73.01e-15
++ csub21=10.82e-15 rsub21={1/gsub21} cox3=15.27e-15 csub31=31.06e-15
++ rsub31={1/gsub31}
+
+* ===================================================================
+.options gnuplot
+* ===================================================================
+
+.options preamble="set title 'Q11: 9.5-nH Planar spiral inductor'; set zero 1e-15; set grid; set data style lines;set yrange [0:20]; set ylabel 'Q11';set xrange [100e6:10e9]; set xlabel 'Frequency (Hz)'; set key noautotitles; Q(a,b)=(-b/a)"
+
+.options postamble="using 1:(Q($2,$3))" 
+
+* y11 - short output, measure i1/v1
+.out plot element "vsource:vin" 0 if -1 mult term "1" vf div postamble preamble in "y11.dat"

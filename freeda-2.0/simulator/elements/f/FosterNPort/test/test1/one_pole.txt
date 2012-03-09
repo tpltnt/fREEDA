@@ -1,0 +1,12 @@
+* Foster 2 port pole with a single complex pole at port 1
+* The circuit conssists of a series R and L in series with a parallel RC,
+* all across port 1. R = L = C = 1.
+* 
+ports=1;
+* 
+* 
+cpoles(1,1)=1;
+rpoles(1,1)=0;
+*
+compp(1,1,1)=-1+i*-1;
+compr(1,1,1)=0.5+i*0;

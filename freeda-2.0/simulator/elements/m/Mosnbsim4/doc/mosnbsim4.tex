@@ -1,0 +1,1289 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{N Channel MOSFET BSIM4 model}
+\hspace{\fill} \textbf{mosnbsim4}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\epsfbox{figures/m.ps}} \caption{N Channel MOSFET
+BSIM4 model}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt mosnbsim4$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_3\ n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+$n_4$ & is the bulk node. \\
+\end{tabular}
+% Parameter list
+\newpage
+%\newline
+\noindent\textit{Model Parameters:}
+\newline
+%The parameters used in the model are listed in the tables
+%~\ref{bsim4.params1} to ~\ref{bsim4.params8}.
+
+\begin{table}[H]
+\begin{tabular}{|c| c| c| c|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{TOXE} & Electrical gate equivalent oxide & & \\
+              & thickness & 3.0e-9 & $m$\\
+\texttt{TOXP} & Physical gate equivalent oxide & & \\
+              & thickness & TOXE & $m$\\
+\texttt{EPSROX} & Gate dielectric constant relative & & \\
+                & to vacuum & 3.9 & -\\
+\texttt{VFB} & Flat-band voltage & -1.0 & $V$\\
+\texttt{VTH0} & Long-channel threshold voltage & 0.7 & $V$ \\
+\texttt{NGATE} & Poly Si gate doping concentration & 0.0 & $cm^{-3}$\\
+\texttt{XL} & Channel length offset due to & & \\
+            & mask/etch effect & 0.0 & $m$\\
+\texttt{XW} & Channel width offset due to & & \\
+            & mask/etch effect & 0.0 & $m$\\
+\texttt{NF} & Number of device fingers & 1.0 & -\\
+\texttt{W} & Width of the device & 5.0e-6 & $m$\\
+\texttt{L} & Length of the device & 5.0e-6 & $m$\\
+\texttt{DWG} & Coefficient of gate bias & & \\
+             & dependence of Weff & 0.0 & $m/V$\\
+\texttt{DWB} & Coefficient of body bias & & \\
+             & dependence of Weff & 0.0 & $m/V$\\
+\texttt{WINT} & Channel-width offset parameter & 0.0 & $m$\\
+\texttt{WLN} & Power of length dependence of & & \\
+             & width offset & 1.0 & $m$\\
+\texttt{WL} & Coefficient of length dependence & & \\
+            & for width offset & 0.0 & $m$\\
+\texttt{WWN} & Power of width dependence & & \\
+                             & of width offset & 1.0 & $m$\\
+\texttt{WW} & Coefficient of width dependence & & \\
+            & for width offset & 0.0 & $m$\\
+\texttt{WWL} & Coefficient of length and & & \\
+             & width cross term dependence & & \\
+             & for width offset & & $m$\\
+\texttt{LINT} & Channel-length offset parameter & 0.0 & $m$\\
+\texttt{LLN} & Power of length dependence & & \\
+             & for length offset & 0.0 & $m$\\
+\texttt{LL} & Coefficient of length dependence & & \\
+            & for length offset & 0.0 & $m$\\
+\texttt{LW} & Coefficient of width dependence & & \\
+            & for length offset & 0.0 & $m$\\
+\texttt{LWN} & Power of width dependence & & \\
+             & for length offset & 1.0 & $m$\\
+\texttt{LWL} & Coefficient of length and & & \\
+             & width cross term dependence & & \\
+             & for length offset & 0.0 & $m$\\
+\texttt{K1} & First-order body bias coefficient & 0.0 & $V^{-0.5}$\\
+\texttt{K2} & Second-order body bias coefficient & 0.0 & -\\
+\hline
+\end{tabular}
+\caption{\label{bsim4.params1} MOS Model Parameter table 1}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{LPEB} & Lateral non-uniform doping & & \\
+              & effect on K1 & 0.0 & $m$\\
+\texttt{LPE0} & Lateral non-uniform doping & & \\
+              & parameter at Vbs=0 & 1.74e-7 & $m$\\
+\texttt{K3} & Narrow width coefficient & 80.0 & -\\
+\texttt{K3B} & Body effect coefficient of K3 & 0.0 & $V^{-1}$\\
+\texttt{W0} & Narrow width parameter & 2.5e-6 & $m$\\
+\texttt{DVT0W} & First coefficient of narrow & & \\
+               & width effect on threshold voltage & & \\
+               & for small channel length & 0.0 & -\\
+\texttt{DVT0} & First coefficient of short & & \\
+              & channel effect on threshold & 2.2 & -\\
+\texttt{DVT1W} & Second coefficient of narrow & & \\
+               & width effect on threshold voltage& & \\
+               & for small channel length & 5.3e6 & -\\
+\texttt{DVT1} & Second coefficient of short & & \\
+              & channel effect on threshold & 0.53 & -\\
+\texttt{DSUB} & DIBL coefficient exponent in & & \\
+              & sub-threshold region & 0.56 & - \\
+\texttt{ETA0} & DIBL coefficient in & & \\
+              & sub-threshold region & 0.56 & - \\
+\texttt{ETAB} & Body-bias coefficient for & & \\
+              & the sub-threshold region & -0.07 & -\\
+\texttt{TOXM} & $T_{\rm{ox}}$ at which parameters & & \\
+              & are extracted & TOXE & $m$\\
+\texttt{T} & Temperature & 300.0 & $ ^oK$\\
+\texttt{NDEP} & Channel doping concentration & & \\
+              & at depletion edge for & & \\
+              & zero body bias & 1.7e17 & $cm^{-3}$\\
+\texttt{PHIN} & Non-uniform vertical doping & & \\
+              & effect on surface potential & 0.0 & $V$\\
+\texttt{VBM} & Maximum applied body bias & & \\
+             & in VTH0 calculation & -3.0 & $V$\\
+\texttt{NSUB} & Substrate doping concentration & 6.0e16 & $cm^{-3}$\\
+\texttt{DVT2W} & Body-bias coefficient of & & \\
+               & narrow width effect for & & \\
+               & small channel length & -0.032 & - \\
+\texttt{NSD} & Source/drain doping concentration & 1.0e20 & $cm^{-3}$\\
+\texttt{DVT2} & Body-bias coefficient of & & \\
+              & short-channel effect on threshold & -0.032 & -\\
+\texttt{MINV} & $V_{gsteff}$ fitting parameter & & \\
+              & for moderate inversion condition & -0.0 & - \\
+\texttt{NFACTOR} & Subthreshold swing factor & 1.0 & - \\
+\texttt{CDSC} & Coupling capacitance between & & \\
+              & source/drain and channel & 1.0 & $F/m^2$\\
+\texttt{CDSCD} & Drain-bias sensitivity of CDSC & 2.4e-4 & $F/Vm^2$\\
+\texttt{CDSCB} & Body-bias sensitivity of CDSC & 0.0 & $F/Vm^2$\\
+\texttt{CIT} & Interface trap capacitance & 0.0 & $F/m^2$\\
+\hline
+\end{tabular}
+\caption{\label{bsim4.params2} MOS Model Parameter table 2}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{KETA} & Body-bias coefficient of & & \\
+              & bulk charge effect & -0.047 & $V^{-1}$\\
+\texttt{B0} & Bulk charge effect coefficient & & \\
+            & for channel width & 0.0 & $m$\\
+\texttt{B1} & Bulk charge effect width offset & 0.0 & $m$\\
+\texttt{A0} & Coefficient of channel-length & & \\
+            & dependence bulk charge effect & 1.0 & -\\
+\texttt{AGS} & Coefficient of $V_{\rm{gs}}$ dependence & & \\
+             & of bulk charge effect & 0.0 & $V^{-1}$\\
+\texttt{XJ} & S/D junction depth & 1.5e-7 & $m$\\
+\texttt{U0} & Low-field mobility & 0.067 & $m^2/Vs$\\
+\texttt{UA} & Coefficient of first-order & & \\
+            & mobility degradation due & & \\
+            & to vertical field & 1.0e-15 & $m/V$\\
+\texttt{UB} & Coefficient of second-order & & \\
+            & mobility degradation due & & \\
+            & to vertical field & 1.0e-19 & $m^2/V^2$\\
+\texttt{UC} & Coefficient of mobility degradation & & \\
+            & due to body-bias effect & -0.0465e-9 & $m/V$\\
+\texttt{EU} & Exponent for mobility degradation & 1.67 & - \\
+\texttt{DELTA} & Parameter for DC $V_{dseff}$ & 0.01 & $V$\\
+\texttt{PDITS} & Impact of drain-induced & & \\
+               & threshold shift on $R_{out}$ & 0.0 & $V^{-1}$\\
+\texttt{FPROUT} & Effect of pocket implant & & \\
+                & on Rout degradation & 0.0 & $V/m^0.5$\\
+\texttt{PDITSL} & Channel-length dependence of & & \\
+                & drain-induced $V_{th}$ shift for $R_{out}$ & 0.0 & $m^{-1}$\\
+\texttt{PDITSD} & $V_{ds}$ dependence of drain-induced & & \\
+                & $V_{th}$ shift for Rout & 0.0 & $V^{-1}$\\
+\texttt{PSCBE2} & Second substrate current & & \\
+                & induced body-effect parameter & 1.0e-5 & $m/V$\\
+\texttt{PSCBE1} & First substrate current induced & & \\
+                & body-effect parameter & 4.24e8 & $V/m$\\
+\texttt{PDIBLCB} & Body bias coefficient of & & \\
+                 & DIBL effect on Rout & 0.0 & $V^{-1}$\\
+\texttt{PVAG} & Gate-bias dependence of & & \\
+              & Early voltage & 0.0 & - \\
+\texttt{PDIBL1} & Parameter for DIBL effect & & \\
+                & on $R_{out}$ & 0.0 & - \\
+\texttt{PDIBL2} & Parameter for DIBL effect & & \\
+                & on $R_{out}$ & 0.0 & - \\
+\texttt{AGS} & Coefficient of $V_{\rm{gs}}$ dependence & & \\
+             & of bulk charge effect & 0.0 & $V^{-1}$ \\
+\texttt{DROUT} & Channel-length dependence of & & \\
+               & DIBL effect on $R_{out}$ & 0.56 & -\\
+\texttt{PCLM} & Channel length modulation & & \\
+              & parameter & 1.3 & - \\
+\texttt{A1} & First non-saturation effect & & \\
+            & parameter & 0.0 & $V^{-1}$\\
+\texttt{A2} & Second non-saturation factor & 1.0 & - \\
+\hline
+\end{tabular}
+\caption{\label{bsim4.params3} MOS Model Parameter table 3}
+\end{table}
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{RDWMIN} & Lightly-doped drain resistance & & \\
+                & per unit width at high $V_{\rm{gs}}$ & & \\
+                & and zero $V_{bs}$ & 0.0 & $\Omega$\\
+\texttt{RDSW} & Zero bias lightly-doped & & \\
+              & drain resistance per unit width & 200.0 & $\Omega$\\
+\texttt{PRWG} & Gate-bias dependence of LDD & & \\
+              & resistance & 1.0 & $V^{-1}$\\
+\texttt{PRWB} & Body-bias dependence of LDD & & \\
+              & resistance & 0.0 & $V^{-0.5}$\\
+\texttt{WR} & Channel-width dependence & & \\
+            &  parameter of LDD resistance & 1.0 & $m$\\
+\texttt{WLC} & Coefficient of length dependence & & \\
+             & for CV channel width offset & WL & $m$\\
+\texttt{WWC} & Coefficient of width dependence & & \\
+             & for CV channel width offset & WW & $m$\\
+\texttt{WWLC} & Coefficient of length and & & \\
+              & width cross term dependence & & \\
+              & for CV channel width offset & WWL & $m$\\
+\texttt{DWJ} & Offset of the S/D junction & & \\
+             & width & WINT & $m$\\
+\texttt{CLC} & Constant term for the short & & \\
+             & channel model & 1.0e-7 & $m$\\
+\texttt{CLE} & Exponential term for the & & \\
+             & short channel model & 0.6 & -\\
+\texttt{NOFF} & CV parameter in $V_{gsteffCV}$ & & \\
+              & for weak to strong inversion & 1.0 & -\\
+\texttt{VOFFCV} & CV parameter in $V_{gsteffCV}$ & & \\
+                & for weak to strong inversion & 0.0 & $V$\\
+\texttt{CF} & Fringing field capacitance & 0.0 & $F/m$\\
+\texttt{CKAPPAD} & Coefficient of bias-dependent & & \\
+                 & overlap capacitance for the & & \\
+                 & drain side & 0.6 & $V$\\
+\texttt{CKAPPAS} & Coefficient of bias-dependent & & \\
+                 & overlap capacitance for the & & \\
+                 & source side & 0.6 & $V$\\
+\texttt{LLC} &  Coefficient of length dependence & & \\
+              & on CV channel length offset & 0.0 & $m$\\
+\texttt{LWC} &  Coefficient of width dependence & & \\
+              & on CV channel length offset & 0.0 & $m$\\
+\texttt{LWLC} & Coefficient of length and width & & \\
+              & cross term dependence on CV & & \\
+              & channel length offset & 0.0 & $m$\\
+\texttt{WWLC} & Coefficient of length and width & & \\
+              & cross term dependence on CV & & \\
+              & channel width offset & 0.0 & $m$\\
+\texttt{VOFF} & Offset voltage in the & & \\
+              & subthreshold region for large & & \\
+              & W and L & -0.08 & $V$\\
+\texttt{VOFFL} & Channel length dependence of & & \\
+               & \texttt{VOFF} & 0.0 & $V$\\
+\hline
+\end{tabular}
+\caption{\label{bsim4.params4} MOS Model Parameter table 4}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{POXEDGE} & Factor for the gate oxide & & \\
+                 & thickness in S/D overlap regions & 1.0 & -\\
+\texttt{TOXREF} & Nominal gate oxide thickness & & \\
+                &for gate dielectric tunnelling & & \\
+                &current model & 3.0e-9 & $m$\\
+\texttt{NTOX} & Exponent for gate oxide ratio & 1.0 & -\\
+\texttt{DLCIG} & Source/drain overlap length & & \\
+               & for $I_{\rm{gs}}$ and $I_{\rm{gd}}$ & LINT & $m$\\
+\texttt{AIGSD} & parameter for $I_{\rm{gs}}$ and $I_{\rm{gd}}$ & 0.43 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{BIGSD} & parameter for $I_{\rm{gs}}$ and $I_{\rm{gd}}$ & 0.054 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{CIGSD} & parameter for $I_{\rm{gs}}$ and $I_{\rm{gd}}$ & 0.075 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{MOIN} & Coefficient for gate-bias & & \\
+              & dependent surface potential & 15.0 & - \\
+\texttt{VSAT} & Saturation velocity & 8.0e4 & $m/s$\\
+\texttt{PDITSD} & $V_{ds}$ dependence of drain & & \\
+                & induced $V_{th}$ shift for Rout & 0.0 & $V^{-1}$\\
+\texttt{AIGC} & Parameter for $I_{\rm{gcs}}$ and $I_{\rm{gcd}}$ & 0.43 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{BIGC} & Parameter for $I_{\rm{gcs}}$ and $I_{\rm{gcd}}$ & 0.054 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{CIGC} & Parameter for $I_{\rm{gcs}}$ and $I_{\rm{gcd}}$ & 0.075 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{NIGC} & Parameter for $I_{\rm{gcs}}$ $I_{\rm{gcd}}$, $I_{\rm{gs}}$ & & \\
+              & and $I_{\rm{gd}}$ & 1.0 & $(Fs^2/g)^{0.5} m^{-1}$\\
+\texttt{PIGCD} & $V_{ds}$ dependence of $I_{\rm{gcs}}$ and $I_{\rm{gcd}}$ & 1.0 & -\\
+\texttt{DVTP0} & First coefficient of drain & & \\
+               &induced $V_{th}$ shift due to & & \\
+               & long channel pocket devices & 0.0 & $m$\\
+\texttt{DVTP1} & First coefficient of drain & & \\
+               & induced $V_{th}$ shift due to & & \\
+               & long channel pocket devices & 0.0 & $V^{-1}$\\
+\texttt{PRT} & Temperature coefficient for \texttt{RDSW} & 0.0 & $\Omega - m$\\
+\texttt{AT} & Temperature coefficient for & & \\
+            & saturation velocity & 3.3e4 & $m/s$\\
+\texttt{XT} & Doping Depth & 1.55e-7 & $m$\\
+\texttt{ALPHA0} & First parameter of impact & & \\
+                &ionization current & 0.0 & $Am/V$\\
+\texttt{ALPHA1} & $I_{\rm{sub}}$ parameter for length scaling & 0.0 & $A/V$\\
+\texttt{BETA0} & Second parameter of impact & & \\
+               & ionization current & 30.0 & $V$\\
+\texttt{AGIDL} & Pre-exponential coefficient for & & \\
+               & GIDL & 0.0 & $A/V$\\
+\texttt{BGIDL} & Exponential coefficient for & & \\
+               & GIDL & 2.3e9 & $V/m$\\
+\texttt{CGIDL} & Parameter for body-bias effect & & \\
+               & on GIDL & 0.5 & $V^3$\\
+\texttt{EGIDL} & Fitting parameter for band & & \\
+               & bending for GIDL & 0.8 & $V$\\
+\texttt{ACDE} & Exponential coefficient for charge & & \\
+              & thickness & 1.0 & $m/V$\\
+\texttt{DLC} & Channel length offset parameter & LINT & $m$\\
+\texttt{DWC} & Channel width offset parameter & WINT & $m$\\
+\hline
+\end{tabular}
+\caption{\label{bsim4.params5} MOS Model Parameter table 5}
+\end{table}
+
+
+
+%\newpage
+%\begin{table}[H]
+%\begin{tabular}{|l| l| l| l|}
+%\hline
+%\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+%\hline \hline
+%\end{tabular}
+%\caption{\label{bsim4.params7} MOS Model Parameter table 7}
+%\end{table}
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l |l |l |l |}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{AIGBACC} & Parameter for $I_{gb}$ in accumulation & 0.43 & $m^{-1}$\\
+\texttt{BIGBACC} & Parameter for $I_{gb}$ in accumulation & 0.054 & $m^{-1} V^{-1}$\\
+\texttt{CIGBACC} & Parameter for $I_{gb}$ in accumulation & 0.075 & $V^{-1}$\\
+\texttt{NIGBACC} & Parameter for $I_{gb}$ in accumulation & 1.0 & - \\
+\texttt{AIGBINV} & Parameter for $I_{gb}$ in inversion & 0.35 & $m^{-1}$\\
+\texttt{BIGBINV} & Parameter for $I_{gb}$ in inversion & 0.03 & $m^{-1} V^{-1}$\\
+\texttt{CIGBINV} & Parameter for $I_{gb}$ in inversion & 0.006 & $V^{-1}$\\
+\texttt{EIGBINV} & Parameter for $I_{gb}$ in inversion & 1.1 & $V$ \\
+\texttt{NIGBINV} & Parameter for $I_{gb}$ in inversion & 3.0 & - \\
+\texttt{KT1}     & Temperature coeff for $V_{\rm{TH}}$ & -0.11 & $V$ \\
+\texttt{KT1L}    & Channel length for \texttt{KT1} & 0.0 & $Vm$ \\
+\texttt{KT2}     & Body bias coeff for $V_{\rm{TH}}$ temp effect & 0.022 & - \\
+\hline
+\end{tabular}
+\caption{\label{bsim4.params6} MOS Model Parameter table 6}
+\end{table}
+
+% example in \FDA
+%\newline
+%\linethickness{0.5mm} \line(1,0){425}
+%\newline
+%\textit{Example:}
+%\newline
+%\texttt{nmos3:m1\ 2\ 3\ 0\ 0\ l=1.2u w=20u}
+%\newline
+\noindent\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The BSIM4 model takes a lot of it's characteristics from it's
+predecessor, BSIM3 but also adds enough functionality to name it
+with a new model number. It uses many new parameters and replaces
+some old BSIM3 parameters. It uses a newly formulated smoothing
+function for gate-source voltage. It uses more than 200
+parameters, uses charge conserving equations for calculation of
+various capacitances, has a single equation for modeling current
+in all regions of transistor operation, has better modeling for
+gate currents, for external parasitics, noise, temperature and
+mobility. This chapter deals with the equations and features of
+this advanced transistor model that have been modeled in \FDA.
+
+\noindent{\it Channel Width and Length}:\\
+The effective channel lengths and widths are less than the values
+of \texttt{L} and \texttt{W} on account of diffusion effects.
+\texttt{XL} and \texttt{XW} are parameters that account for the
+channel length/width offset due to mask/etch effects and process
+nonuniformity. The terms \texttt{dL} and \texttt{dW} are provided
+for user convenience. They are turned off by default. The
+effective length $L_{\rm{EFF}}$ is represented as
+\begin{equation}
+L_{\rm{EFF}} = \texttt{L} + 2\texttt{XL} - 2\Delta L_{\rm{geom}}\\
+\end {equation}
+where
+\begin{equation}
+\Delta L_{\rm{geom}} = {\texttt{LL} \over L^{\texttt{LLN}}} +
+{\texttt{LW} \over W^{\texttt{LWN}}} + {\texttt{LWL} \over
+L^{\texttt{LLN}}W^{\texttt{LWN}}}
+\end{equation}
+
+\noindent The effective width is represented as
+\begin{equation}
+W_{\rm{EFF}} = {W \over \texttt{NF}} + \texttt{XW} - 2\Delta
+W_{\rm{geom}} - 2\Delta W_{\rm{biasdep}}
+\end{equation}
+where
+\begin{equation}
+\Delta W_{\rm{geom}} = {\texttt{WL} \over L^{\texttt{WLN}}} +
+{\texttt{WW} \over W^{\texttt{WWN}}} + {\texttt{WWL} \over
+L^{\texttt{WLN}}W^{\texttt{WWN}}}
+\end{equation}
+
+\begin{equation}
+\Delta W_{\rm{biasdep}} = \texttt{DWG} (V_{\rm{GSTeff}}) +
+\texttt{DWB}(\sqrt{2\phi_f - V_{\rm{BSeff}}} - \sqrt{2\phi_f})
+\end{equation}
+
+\noindent{\it Threshold Voltage}:\\
+This model attempts to accurately model threshold voltage and
+include various channel effects such as DIBL (Drain Induced
+Barrier Lowering), Non-uniform vertical doping, body-effect,
+charge sharing between the source and drain, short-channel and
+pocket implant effects.
+
+\noindent{\it Effective Bulk-Source Voltage}:\\
+$V_{\rm{BSeff}}$ is calculated in order to prevent the body bias
+from taking unreasonably high values during simulation. It
+provides an upper limit on the value of body bias.
+\begin{equation}
+V_{\rm{BSeff}} = V_{\rm{bc}} + {(V_{\rm{BS}} - V_{\rm{bc}} -
+0.001) + \sqrt{(V_{\rm{BS}} - V_{\rm{bc}} - 0.001 )^2 -4 \;
+V_{\rm{bc}} \; 0.001} \over 2}
+\end{equation}
+where $V_{\rm{bc}}$, which represents the maximum allowable
+$V_{\rm{BS}}$ is given by
+\begin{equation}
+V_{\rm{bc}} = 0.9.(2\phi_f - {\tt{K1}^2 \over 4 \tt{K2}^2})
+\end{equation}
+
+\noindent The threshold voltage is evaluated as
+\begin{eqnarray}
+V_{\rm{TH}} & = & \texttt{VTH0} + \delta_{\rm{NP}}.(\Delta
+V_{\rm{T,BodyEffect}}
+- \Delta V_{\rm{T,ChargeSharing}} - \Delta V_{\rm{T,DIBL}} \nonumber\\
+& & + \Delta V_{\rm{T,ReverseShortChannel}} + \Delta
+V_{\rm{T,NarrowWidth}} + \Delta V_{\rm{T,SmallSize}} \nonumber\\
+& & - \Delta V_{\rm{T,PocketImplant}})
+\end{eqnarray}
+In certain cases, devices are operated with a positive value of
+$V_{\rm{BS}}$. In these cases, the threshold voltage reduces and
+drive current increases. The parameters \texttt{K1} and
+\texttt{K2} control the value of the body effect term and it is
+modeled by
+\begin{eqnarray}
+\Delta V_{\rm{T,BodyEffect}}& = & [\texttt{K1} \; {\texttt{TOXE}
+\over \texttt{TOXM}} \; \sqrt{2 \phi_f - V_{\rm{BSeff}}} -
+\texttt{K1}
+\sqrt{2 \phi_f}] \; \sqrt{1 + {\texttt{LPEB} \over L_{\rm{EFF}}}} \nonumber \\
+& & - \texttt{K2} \; V_{\rm{BSeff}} \; {\texttt{TOXE} \over
+\texttt{TOXM}}
+\end{eqnarray}
+In modern technologies, the threshold voltage first increases as
+the effective length decreases before it takes on it's expected
+trend of decrease as effective length decreases. To correctly
+model the temporary increase of threshold voltage the term used is
+\begin{equation}
+\Delta V_{\rm{T,ReverseShortChannel}} = \texttt{K1} \;
+{\texttt{TOXE} \over \texttt{TOXM}}\; (\sqrt{1 + {\texttt{LPE0}
+\over L_{\rm{EFF}}}} - 1) \; \sqrt{2 \phi_f}
+\end{equation}
+\\
+\indent As the channel becomes shorter, the threshold voltage
+becomes more dependent on the channel length (SCE, short channel
+effects) and on DIBL. As the product of effective length and width
+reduces, the exponents in Equation ~\ref{small.size} reduce and
+assume a finite value. This suggests that there is a shift in
+threshold voltage for smaller devices. The value can be controlled
+by the parameters \texttt{DVTOW} and \texttt{DVT1W}. SCE are
+represented as
+\begin{eqnarray}
+\Delta V_{\rm{T,SmallSize}} & = & \texttt{DVT0W} \;
+[\exp(-\texttt{DVT1W}\;
+{W_{\rm{EFF}} \; L_{\rm{EFF}} \over 2 L_{\rm{tw}}}) \nonumber \\
+& & + 2 \; \exp(-\texttt{DVT1W}\; {W_{\rm{EFF}} \; L_{\rm{EFF}}
+\over 2 L_{\rm{tw}}})] \; (V_{\rm{bi}} - 2 \phi_f)
+\label{small.size}
+\end{eqnarray}
+\noindent As $V_{\rm{DS}}$ increases in short channel devices,
+there is a non-trivial change in the surface potential. As a
+result, the barrier blocking the carriers in the drain from
+entering the channel diminishes and the device turns on sooner.
+Since this barrier lowering is induced by drain source voltage,
+this effect is called Drain Induced Barrier Lowering. To model
+DIBL, the following term is used.
+\begin{eqnarray}
+\Delta V_{\rm{T,DIBL}} & = & [\exp(-\texttt{DSUB}\; {L_{\rm{EFF}}
+\over 2 L_{\rm{t0}}}) + 2 \exp(-\texttt{DSUB} \;{L_{\rm{EFF}}
+\over 2 L_{\rm{t0}}})]
+\nonumber \\
+& & \times (\texttt{ETA0} + \texttt{ETAB} \; V_{\rm{BSeff}}) \;
+V_{\rm{DS}}
+\end{eqnarray}
+\noindent The actual depletion region in the channel is larger
+than what is usually assumed because of fringing fields. Thus, as
+the channel width decreases, there is a net increase in the
+threshold voltage. This is modeled by
+\begin{equation}
+\Delta V_{\rm{T,NarrowWidth}} = (\texttt{K3} + \texttt{K3B} \;
+V_{\rm{BSeff}})\; {\texttt{TOXE} \over W_{\rm{EFF}} + \texttt{W0}}
+\end{equation}
+\noindent The influence of charge sharing effects between the
+source and drain depends greatly on the size of the channel. It's
+value increases as the channel lengths reduce. The effect of
+charge sharing on threshold voltage is controlled by parameters
+\texttt{DVT0}, \texttt{DVT1} and \texttt{DVT2}. When the effective
+channel length is small, the exponents assume a finite value and
+have a direct bearing on the value of threshold voltage. Increased
+charge sharing  tends to reduce the value of threshold voltage and
+it is represented as
+\begin{equation}
+\Delta V_{\rm{T,ChargeSharing}} = \texttt{DVT0} {0.5 \over
+\cosh(\texttt{DVT1} \; L_{\rm{EFF}}/L_t) - 1 }(V_{\rm{bi}} - 2
+\phi_f)
+\end{equation}
+$\Delta V_{\rm{T,PocketImplant}}$ is defined after the calculation
+of ideality factor $n$. The built in potential is given as
+\begin{equation}
+V_{\rm{bi}} = {k [T + 273.15] \over q} \ln{(\texttt{NDEP NSD})
+\over n_i^2}
+\end{equation}
+\noindent The characteristic length is given by:
+\begin{equation}
+L_t = \left\{\begin{array}{ll}
+       {\sqrt{\epsilon_s X_{\rm{dep}} / C_{\rm{oxe}}}}\;(1 + \texttt{DVT2}\;V_{\rm{BSeff}}) & \\
+                  & \texttt{DVT2}\;V_{\rm{BSeff}} \geq -0.5\\
+       {\sqrt{\epsilon_s X_{\rm{dep}} / C_{\rm{oxe}}}}\;(1 + 3\;\texttt{DVT2}\;V_{\rm{BSeff}})  & \\
+     \times (3 + 8\,\texttt{DVT2}\,V_{\rm{BSeff}})^{-1} & \texttt{DVT2}\;V_{\rm{BSeff}} <0.5
+              \end{array}
+                    \right.
+\end{equation}
+
+\begin{equation}
+L_{\rm{t0}} = \sqrt{{\epsilon_s\; X_{\rm{dep0}} \over
+C_{\rm{oxe}}}}
+\end{equation}
+where
+\begin{equation}
+C_{\rm{oxe}} = {\epsilon_{\rm{ox}} \over \texttt{TOXE}}
+\end{equation}
+
+\begin{equation}
+L_{\rm{tw}} = \left\{\begin{array}{ll}
+       {\sqrt{\epsilon_s X_{\rm{dep}} / C_{\rm{oxe}}}}\;(1 + \texttt{DVT2W}\;V_{\rm{BSeff}}) & \\
+                  & \texttt{DVT2W}\;V_{\rm{BSeff}} \geq -0.5\\
+       {\sqrt{\epsilon_s X_{\rm{dep}} / C_{\rm{oxe}}}}\;(1 + 3\;\texttt{DVT2W}\;V_{\rm{BSeff}})  & \\
+     \times (3 + 8\,\texttt{DVT2W}\,V_{\rm{BSeff}})^{-1} & \texttt{DVT2W}\;V_{\rm{BSeff}} <0.5
+              \end{array}
+                    \right.
+\end{equation}
+
+
+\begin{equation}
+X_{\rm{dep}} = {\sqrt{2 \epsilon_s (2\phi_f - V_{\rm{BSeff}})
+\over q \;\texttt{NDEP}}}
+\end{equation}
+
+\begin{equation} X_{\rm{dep0}} = {\sqrt{2 \epsilon_s (2\phi_f) \over q \;\texttt{NDEP}}}
+\end{equation}
+
+\noindent{\it Effective Gate Source voltage}:\\
+Care is taken in Equation ~\ref{poly.eqn} to make sure that the
+voltage across the poly-silicon gate does not exceed the silicon
+band gap voltage.
+\begin{equation}
+V_{\rm{poly}} = {q \; \epsilon_s \; \texttt{NGATE} \;
+C_{\rm{oxe}}^2 \; 10^6 \over 2} [\sqrt{1 + {2(V_{\rm{GS}} -
+V_{\rm{FB}} - 2\phi_f) \over q \; \epsilon_s \; \texttt{NGATE} \;
+C_{\rm{oxe}}^2 \; 10^6}} - 1]^2
+\end{equation}
+
+\begin{equation}
+V_{\rm{PolyEff}} = 1.12 - 0.5\;(1.12 - V_{\rm{poly}} - \delta +
+\sqrt{(1.12 - V_{\rm{poly}} - \delta)^2 + 4\;\delta\;1.12})
+\label{poly.eqn}
+\end{equation}
+
+\begin{equation}
+V_{\rm{GSeff}} = V_{\rm{GS}} - V_{\rm{PolyEff}}
+\end{equation}
+
+\noindent{\it Effective $V_{\rm{GS}}$ - $V_{\rm{TH}}$ Smoothing
+Function}:\\
+This function smoothes out the characteristics between the
+subthreshold and the strong inversion operating regions. It is
+approximately equal to $V_{\rm{GS}} - V_{\rm{T}}$ in strong
+inversion but becomes proportional to $\exp[q(V_{\rm{GS}} -
+V_{\rm{T}})/nkT]$ in the
+subthreshold region. \\
+
+\begin{equation}
+V_{\rm{GSTeff}} = {n{kT \over q} \ln(1 + \exp({m \over n}
+{V_{\rm{GSeff}} - V_{\rm{T}} \over nkT/q })) \over m +
+n{C_{\rm{oxe}} \over C_{\rm{dep0}}} \exp[-{(1 - m)(V_{\rm{GSeff}}
+- V_{\rm{T}}) - V_{\rm{off}} \over nkT/q}]}
+\end {equation}
+\\
+where
+\begin{equation}
+m = {1 \over 2} + {\arctan(\texttt{MINV}) \over \pi}
+\end{equation}
+
+\begin{equation}
+V_{\rm{off}} = \texttt{VOFF} + {\texttt{VOFFL} \over L_{\rm{EFF}}}
+\end{equation}
+
+\begin{equation}
+C_{\rm{dep0}} = {\epsilon_s \over X_{\rm{dep0}}}
+\end{equation}
+
+\begin{equation}
+C_{\rm{dep}} = {\epsilon_s \over X_{\rm{dep}}}
+\end{equation}
+
+\noindent The ideality factor $n$ is
+\begin{eqnarray}
+n & = & 1 + \texttt{NFACTOR}\; {C_{\rm{dep}} \over C_{\rm{oxe}}}
+{\texttt{CDSC} + \texttt{CDSCD}\;V_{\rm{DS}} +
+\texttt{CDSCB}\;V_{\rm{BSeff}} \over C_{\rm{oxe}}} \\
+    & & \times {0.5 \over \cosh(\texttt{DVT1} \; L_{\rm{EFF}}/L_t - 1)} + {\texttt{CIT} \over C_{\rm{oxe}}}
+\end{eqnarray}
+\\
+As mentioned earlier, the $\Delta V_{\rm{T}}$ correction due to
+pocket implant requires the knowledge of the ideality factor $n$.
+Pocket implants near the source and drain regions increase the
+drive currents. They also increase the drain conductance. The
+pocket implant correction is modeled as
+\begin{equation}
+\Delta V_{\rm{T,PocketImplant}} = n {kT \over q} \ln
+[{L_{\rm{EFF}} \over L_{\rm{EFF}} + \texttt{DVTP0}\;(1 +
+\exp(-\texttt{DVTP1}\;V_{\rm{DS}}))}]
+\end{equation}
+
+\noindent{\it Mobility characteristics}:\\
+The mobility equations are based on the universal-mobility theorem
+which predicts the mobility degradation with increasing
+$V_{\rm{GS}}$. As an electron moves along the channel due to the
+lateral electric field, it is also attracted to the gate due to
+the normal electric field. This causes the electron to drift
+toward the gate and results in mobility degradation. This effect
+is modeled in the equations for mobility. We first define a
+variable $\texttt{TEMP}$.
+\begin{equation}
+\texttt{TEMP} = (\texttt{UA} + \texttt{UC}\;V_{\rm{BSeff}}) \;
+({V_{\rm{GSTeff}} + V_{\rm{T-fb-\phi}} \over
+\texttt{TOXE}})^\texttt{EU}
+\end{equation}
+where \texttt{EU} is set to zero if the user suppiled value is
+negative and
+
+\begin{equation}
+V_{\rm{T-fb-\phi}} = \left\{\begin{array}{ll}
+       2\;(\texttt{VTH0} - V_{\rm{FB}} - 2\phi_f) & \mbox{for NMOS} \\
+       2.5\;(\texttt{VTH0} - V_{\rm{FB}} - 2\phi_f) & \mbox{for PMOS}
+                            \end{array}
+                    \right.
+\end{equation}
+\noindent The effective mobility of the model takes the
+generalized form
+\begin{equation}
+\mu_{\rm{eff}} = {\texttt{U0} \over \texttt{Denom}}
+\end{equation}
+
+where
+\begin{equation}
+\texttt{Denom} = \left\{\begin{array}{ll}
+       1 + \texttt{TEMP}                      & \mbox{if \texttt{TEMP}} \geq -0.8 \\
+       {(0.6 + \texttt{TEMP}) / (7 + 10\;\texttt{TEMP})} & \mbox{if \texttt{TEMP}} < -0.8
+                            \end{array}
+                    \right.
+\end{equation}
+
+\noindent{\it Current characteristics}:\\
+{\it Effective Internal Source-Drain Resistance}:\\
+This model only models an internal drain to source resistance,
+$R_{\rm{DS}}$ given by
+\begin{equation}
+R_{\rm{DS}} = {\texttt{RDSWMIN} + \texttt{RDSW} \times
+0.5\;[\texttt{TEMP} + \sqrt{\texttt{TEMP}^2 + 0.01}] \over (10^6
+\times W_{\rm{EFFCJ}})^{WR}}
+\end{equation}
+
+\noindent{\it Bulk-Charge coefficient}:\\
+The bulk-charge coefficient should always have a real physical
+value, i.e. greater than zero. BSIM4 ensures that this value is
+always greater than zero. It is an intermediate variable that aids
+in the evaluation of current and saturation voltage.
+
+\begin{eqnarray}
+A_{\rm{bulk}} & = & [1 - F_{\rm{doping}} \times
+[{\texttt{A0}\;L_{\rm{EFF}} \over
+L_{\rm{EFF}} + 2\sqrt{\texttt{XJ}\;X_{\rm{dep}}}} \nonumber \\
+           & & (1 - \texttt{AGS}\;V_{\rm{GSTeff}}({L_{\rm{EFF}} \over
+L_{\rm{EFF}} + 2\sqrt{\texttt{XJ}\;X_{\rm{dep}}}})^2) + {\texttt{B0} \over W_{\rm{EFF}} + \texttt{B1}}]] \nonumber \\
+           & & \times {1 \over 1 + \texttt{KETA}\;V_{\rm{BSeff}}}
+\end{eqnarray}
+where
+\begin{eqnarray}
+F_{\rm{doping}} & = & \sqrt{1 + {\texttt{LPEB} \over
+L_{\rm{EFF}}}} \times {\texttt{K1} \over 2\sqrt{2\phi_f -
+V_{\rm{BSeff}}}} \;{\texttt{TOXE}
+\over {\texttt{TOXM}}}  \nonumber \\
+             & & + \texttt{K2}\;{\texttt{TOXE} \over \texttt{TOXM}} - \texttt{K3} \times
+             {\texttt{TOXE} \over W_{\rm{EFF}} + \texttt{W0}}\; 2\;\phi_f
+\end{eqnarray}
+
+\noindent{\it Drain Saturation Voltage}:\\
+The value of the drain voltage in the saturation region is given
+by
+\begin{equation}
+\epsilon_{\rm{sat}} = {2\; \texttt{VSAT} \over \mu_{\rm{eff}}}
+\end{equation}
+
+\noindent If $R_{\rm{DS}} = 0$, then
+\begin{equation}
+V_{\rm{DSsat}} = {\epsilon_{\rm{sat}}\; L_{\rm{EFF}}\;
+(V_{\rm{GSTeff}} + 2kT/q) \over A_{\rm{bulk}}\;
+\epsilon_{\rm{sat}} \; L_{\rm{EFF}} + (V_{\rm{GSTeff}} + 2kT/q)}
+\end{equation}
+\noindent If $R_{\rm{DS}} \neq 0$, then,
+\begin{equation}
+V_{\rm{DSsat}} = {-b -\sqrt{b^2 - 4ac} \over 2a}
+\end{equation}
+
+\begin{equation}
+a = A_{\rm{bulk}}^2 \; W_{\rm{EFF}} \;\texttt{VSAT} \;C_{\rm{oxe}}
+\;R_{\rm{DS}} + ({1 \over \lambda} - 1) \;A_{\rm{bulk}}
+\end{equation}
+
+\begin{eqnarray}
+b & = & - [(V_{\rm{GSTeff} + {2 kT/q}})\;({2 \over \lambda} - 1) + A_{\rm{bulk}}\; \epsilon_{\rm{sat}}\;L_{\rm{EFF}} \nonumber \\
+    & & + 3 \;A_{\rm{bulk}}\;(V_{\rm{GSTeff} + {2 kT/q}})\;W_{\rm{EFF}}\;\texttt{VSAT}\;C_{\rm{oxe}}\;R_{\rm{DS}}]
+\end{eqnarray}
+
+\begin{equation}
+c = (V_{\rm{GSTeff} + {2 kT/q}})\; \epsilon_{\rm{sat}} \;
+L_{\rm{EFF}} + 2(V_{\rm{GSTeff} + {2 kT/q}})^{2} W_{\rm{EFF}} \;
+\texttt{VSAT}\;C_{\rm{oxe}}\;R_{\rm{DS}}
+\end{equation}
+
+\noindent where $\lambda$ is determined by parameters \texttt{A1}
+and \texttt{A2}.
+
+\noindent{\it Effective Drain to Source Voltage}:\\
+$V_{\rm{DSeff}}$ varies between 0 (when $V_{\rm{DS}} = 0$) and
+$V_{\rm{DSsat}}$ in the saturation region, where $V_{\rm{DS}}$ is
+fairly high. It is a smoothing function defined to smooth out the
+transition between the linear and saturation regions. The
+parameter \texttt{DELTA} can be varied between 0.1 and 0.001 to
+get greater control of the transition between the linear and
+saturation region.
+\begin{eqnarray}
+V_{\rm{DSeff}} & = & V_{\rm{DSsat}} - 0.5\;(V_{\rm{DSsat}} -
+V_{\rm{DS}} - \texttt{DELTA}
+\nonumber \\
+            & & + \sqrt{(V_{\rm{DSsat} - V_{\rm{DS}} - \texttt{DELTA})^2 +
+            4\;\texttt{DELTA}\;V_{\rm{DSsat}}}})
+\end{eqnarray}
+
+\noindent{\it Effective oxide calculation}:\\
+The drain current, in BSIM4, has a significant amount of drain
+current in the strong inversion region. It calculates the maximum
+probability of carrier distribution occurs at a distance
+$X_{\rm{DC}}$ away from the interface. The oxide capacitance for
+the inversion calculation is given by
+\begin{equation}
+C_{\rm{ox}} = {\epsilon_{\rm{ox}} \over \texttt{TOXP}} \; \| \;
+{\epsilon_s \over X_{\rm{DC}}}
+\end{equation}
+
+where
+\begin{equation}
+X_{\rm{DC}} = \left\{\begin{array}{ll}
+     1.9 \times 10^{-9} &  \nonumber\\
+     \times [1 + {V_{\rm{GSTeff}} + 4(\texttt{VTH0} - V_{\rm{FB}} - 2\phi_f) \over 2 \times 10^8\;\texttt{TOXP}}]^{-0.7} & (V_{\rm{TH0}} - V_{\rm{FB}} - 2\phi_f) \geq 0 \nonumber \\
+     & \\
+     1.9 \times 10^{-9} & \nonumber \\
+     \times [1 + V_{\rm{GSTeff}} / (2 \times 10^8\;\texttt{TOXP})]^{-0.7} & (V_{\rm{TH0}} - V_{\rm{FB}} - 2\phi_f) < 0
+                            \end{array}
+                    \right.
+\end{equation}
+
+\noindent{\it Current Calculations}:\\
+This is the dominant portion of drain current. It flows from the
+drain to the source through the channel.
+\begin{eqnarray}
+I_{\rm{DS}}& = & {I_{\rm{DS0}} \over  1 + {R_{\rm{DS}}
+I_{\rm{DS0}} \over V_{\rm{DSeff}}}} \; (1 + {1 \over C_{\rm{clm}}}
+\ln{V_A \over V_{\rm{Asat}}}) \times (1 +
+{V_{\rm{DS}} - V_{\rm{DSeff}} \over V_{\rm{ADIBL}}}) \nonumber \\
+       &  & \times (1 + {V_{\rm{DS}} - V_{\rm{DSeff}} \over V_{\rm{ADITS}}}) \times (1 + {V_{\rm{DS}}
+         - V_{\rm{DSeff}} \over V_{\rm{ASCBE}}}) \times \texttt{NF}
+\end{eqnarray}
+
+where the ideal long channel current in the absence of channel
+length modulation and DIBL effects is given by
+\begin{equation}
+I_{\rm{DS0}} = {W_{\rm{EFF}} \;\mu_{\rm{eff}} \;C_{\rm{ox}}
+\;V_{\rm{GSTeff}} \over L_{\rm{EFF}}\;[1 + V_{\rm{DSeff}} /
+(\epsilon_{\rm{sat}} L_{\rm{EFF}})]} \; [1 -
+{A_{\rm{bulk}}\;V_{\rm{DSeff}} \over 2(V_{\rm{GSTeff}} + 2kT/q)}]
+\; V_{\rm{DSeff}}
+\end{equation}
+\noindent There Early voltage is given as
+\begin{equation}
+V_A = V_{\rm{Asat}} + V_{\rm{ACLM}}
+\end{equation}
+where $V_{\rm{Asat}}$ calculates the ideal early voltage in the
+absence of short channel effects and $V_{\rm{ACLM}}$ models
+channel length modulation.
+
+\begin{eqnarray}
+V_{\rm{Asat}} & = & {\epsilon_{\rm{sat}}\;L_{\rm{EFF}} +
+V_{\rm{DSsat}} + 2 R_{\rm{DS}}\;\texttt{VSAT} \;C_{\rm{oxe}}
+W_{\rm{EFF}}\; V_{\rm{GSTeff}} \over 2/\lambda - 1
++ R_{\rm{DS}}\;\texttt{VSAT}\; C_{\rm{oxe}}\; W_{\rm{EFF}}\; A_{\rm{bulk}}} \nonumber \\
+           & & \times [1 - {A_{\rm{bulk}}\;V_{\rm{DSsat}} \over 2\;(V_{\rm{GSTeff}} + 2kT/q)}]
+\end{eqnarray}
+\noindent The degradation factor due to pocket implantation is
+given by
+\begin{equation}
+F_p = \left\{\begin{array}{ll}
+       (1 + \texttt{FPROUT}\;\sqrt{L_{\rm{EFF}}} / (V_{\rm{GSTeff}} + 2kT/q))^{-1} &  \texttt{FPROUT} > 0 \nonumber \\
+        1 & \texttt{FPROUT} \leq 0
+                            \end{array}
+                    \right.
+\end{equation}
+
+\noindent To account for the effects of gate-bias on the slope of
+$I_{\rm{DS}}$ in the saturation region, we use
+
+\begin{equation}
+F_{\rm{VG}} = \left\{\begin{array}{ll}
+       1 + \texttt{PVAG} \; V_{\rm{GSTeff}} / (\epsilon_{\rm{sat}}\;L_{\rm{EFF}}) & \texttt{PVAG} \;V_{\rm{GSTeff}} / (\epsilon_{\rm{sat}}\;L_{\rm{EFF}}) > -0.9 \nonumber \\
+       & \\
+       0.8 + \texttt{PVAG}\;V_{\rm{GSTeff}} / (\epsilon_{\rm{sat}}\;L_{\rm{EFF}}) & \nonumber \\
+       \times (17 + 20\;\texttt{PVAG}\;V_{\rm{GSTeff}} / (\epsilon_{\rm{sat}}\;L_{\rm{EFF}}))^{-1} & \\
+                            \end{array}
+                    \right.
+\end{equation}
+
+\begin{equation}
+C_{\rm{clm}} = \left\{\begin{array}{ll}
+       \texttt{TEMP} & \texttt{PCLM} > 0 \; and \; (V_{\rm{DS}} - V_{\rm{DSeff}}) > 10^{-10} \\
+        5.834617425 \times 10^{14} &
+                            \end{array}
+                    \right.
+\end{equation}
+\noindent where
+\begin{equation}
+\texttt{TEMP} = {F_p \over \texttt{PCLM} \;L_{\rm{itl}}}
+F_{\rm{VG}} \times (1 + {R_{\rm{DS}} \;I_{\rm{DS0}} \over
+V_{\rm{DSeff}}}) \;\times (L_{\rm{EFF}} + {V_{\rm{DSsat}} \over
+\epsilon_{\rm{sat}}})
+\end{equation}
+
+\begin{eqnarray}
+\theta_{\rm{rout}} & = & \texttt{PDIBLC1} \times
+[\exp(-\texttt{DROUT}\; L_{\rm{EFF}}/2L_{\rm{t0}}) +
+2\exp(-\texttt{DROUT}\;L_{\rm{EFF}}/2L_{\rm{t0}})] \nonumber \\
+                & & + \texttt{PDIBLC2}
+\end{eqnarray}
+
+\noindent The effect of DIBL on Early voltage is modeled as:
+\begin{equation}
+V_{\rm{ADIBL}} = \left\{\begin{array}{ll}
+       V_{\rm{GSTeff}} + 2kT/q / (\theta_{\rm{rout}}(1 + \texttt{PDIBLCB}\;V_{\rm{BSeff}})) \times F_{\rm{VG}} &  \\
+       & \\
+       \times [{1 - A_{\rm{bulk}} V_{\rm{DSsat}} / (A_{\rm{bulk}} V_{\rm{DSsat}} + V_{\rm{GSTeff}} + 2kT/q)}]& \theta_{\rm{rout}} \geq 0 \\
+       & \\
+       5.834617425 \times 10^{10} & \theta_{\rm{rout}} < 0
+                            \end{array}
+                    \right.
+\end{equation}
+
+\noindent The effect of DITS (Drain-induced Threshold Shift) due
+to pocket implant is modeled by
+\begin{equation}
+V_{\rm{ADITS}} = \left\{\begin{array}{ll}
+       {F_p \over \texttt{PDITS}} [1 + (1 + \texttt{PDITSL}\;L_{\rm{EFF}}) \times \exp(\texttt{PDITSD}\;V_{\rm{DS}})] & \texttt{PDITS} > 0 \\
+                & \\
+        5.834617425 \times 10^{14} & else
+                            \end{array}
+                    \right.
+\end{equation}
+
+\noindent Substrate current has an effect on Early voltage and it
+is modeled by SCBE (Substrate Current Induced Body Effect).
+\begin{equation}
+V_{\rm{ASCBE}} = \left\{\begin{array}{ll}
+       {L_{\rm{EFF}} \over \texttt{PSCBE2}} \; \exp(\texttt{PSCBE2} \;L_{\rm{itl}} / (V_{\rm{DS}} - V_{\rm{DSeff}})) & \texttt{PSCBE2} > 0 \\
+       & \\
+       5.834617425 \times 10^{10} & else
+                            \end{array}
+                    \right.
+\end{equation}
+
+\noindent where
+
+\begin{equation}
+L_{\rm{itl}} = \sqrt{\epsilon_{s}/\epsilon_{\rm{ox}} \times
+\texttt{TOXE}\;\texttt{XJ}}
+\end{equation}
+
+\noindent{\it Substrate Currents}:\\
+The substrate currents comprise of two parts, one due to Impact
+Ionization and the other due to GIDL. When $V_{\rm{DS}}$ is high,
+a large voltage is dropped across the depletion region near the
+drain. This field accelerates the electrons as they are moving in
+the channel. When they generate sufficient energy, the collide
+with the semiconductor crystal and generate electron-hole pairs.
+This current that is generated flows towards the substrate. This
+forms the Impact Ionization current and is denoted by
+$I_{\rm{sub}}$.
+\begin{eqnarray}
+I_{\rm{sub}} & = & \texttt{NF} \times ({\texttt{ALPHA0} \over
+L_{\rm{EFF}}} + \texttt{ALPHA1})
+(V_{\rm{DS}} - V_{\rm{DSeff}}) \exp[-{\texttt{BETA0} \over V_{\rm{DS}} - V_{\rm{DSeff}}}] \nonumber \\
+         & & {I_{\rm{DS0}} \over  1 + {R_{\rm{DS}} I_{\rm{DS0}} \over V_{\rm{DSeff}}}} \; (1 + {1 \over
+C_{\rm{clm}}} \ln{V_A \over V_{\rm{Asat}}}) \times (1 +
+{V_{\rm{DS}} - V_{\rm{DSeff}} \over V_{\rm{ADIBL}}}) \nonumber \\
+         & & \times (1 + {V_{\rm{DS}} - V_{\rm{DSeff}} \over V_{\rm{ADITS}}})
+\end{eqnarray}
+The contribution due to GIDL is given by
+\begin{eqnarray}
+I_{\rm{gidl}}& = & \texttt{NF} \times \texttt{AGIDL}\;
+W_{\rm{EFFCJ}} [{V_{\rm{DS}} - V_{\rm{GSeff}} -\
+               \texttt{EGIDL} \over 3\;\texttt{TOXE}}] \nonumber \\
+  & & \times \exp({-3\;\texttt{TOXE} \times \texttt{BGIDL} \over V_{\rm{DS}} - V_{\rm{GSeff}} -
+  \texttt{EGIDL}}) \nonumber \\
+  & & {V^3_{\rm{DB}} \over \texttt{CGIDL} + V^3_{\rm{DB}}} \nonumber \\
+\end{eqnarray}
+
+{\it Gate Currents}:\\
+\begin{figure}
+\epsfxsize=3in\centerline{\epsfbox{figures/gate_currents.eps}}
+\caption{\label{gate.currents}Schematic of the gate current
+distribution in the FET}
+\end{figure}
+As the oxide layer becomes progressively thinner, the tunnelling
+currents flowing through the oxide become more significant. This
+model considers four tunnelling
+currents as shown in Fig ~\ref{gate.currents}. \\
+\indent $I_{\rm{gd}}$ is the tunnelling current between the gate
+and the heavily-doped drain. $I_{\rm{gcd}}$ denotes the current
+that flows from the gate to the channel and then to the drain.
+Likewise, $I_{\rm{gs}}$ and $I_{\rm{gcs}}$ are similar tunnelling
+currents, but associated with the source junction. The current
+$I_{gb}$ represents the current flowing from the gate to the bulk.\\
+\noindent The voltage drop across the oxide is given by
+\begin{equation}
+V_{\rm{ox}} = V_{\rm{FB}} - V_{\rm{FBeff}} + \texttt{K1} \;
+\sqrt{\phi_s} + V_{\rm{GSTeff}}
+\end{equation}
+The first two terms of the above equation represent voltage
+dropped in the accumulation region or $V_{oxacc}$ and the
+depletion/inversion region or $V_{\rm{oxdepinv}}$. The two channel
+tunnelling components are given by
+\begin{equation}
+I_{\rm{gcs}} = I_{\rm{gc}} \times {-1 + \texttt{PIGCD}\;
+V_{\rm{DS}} + \exp(-\texttt{PIGCD}\; V_{\rm{DS}} + 10^{-4}) \over
+(\texttt{PIGCD}\; V_{\rm{DS}})^2 + 2 \times 10^{-4}}
+\end{equation}
+\begin{equation}
+I_{\rm{gcd}} = I_{\rm{gc}} \times {1 - (1 +
+\texttt{PIGCD}\;V_{\rm{DS}}) + \exp(-\texttt{PIGCD}\;V_{\rm{DS}} +
+10^{-4}) \over (\texttt{PIGCD}\;V_{\rm{DS}})^2 + 2 \times 10^{-4}}
+\end{equation}
+Both these currents have dependencies on the drain-source voltage
+$V_{\rm{DS}}$. Generally, these currents do not sum up to
+$I_{\rm{gc}}$. However, when $V_{\rm{DS}}$ is zero, they are
+identical to each other and equal to half of $I_{\rm{gc}}$, which
+is given by
+\begin{eqnarray}
+I_{\rm{gc}}& = & \texttt{NF} \; W_{\rm{EFF}} \; L_{\rm{EFF}} {A
+\over (\texttt{TOXE})^2}
+({\texttt{TOXREF} \over \texttt{TOXE}})^{\texttt{NTOX}} \; V_{\rm{GSeff}} \nonumber \\
+  & & \times \texttt{NIGC} {kT\over q} \ln [1 + \exp({q(V_{\rm{GSeff}} - \texttt{VTH0}) \over
+  kT.\texttt{NIGC}})] \nonumber \\
+  & & \exp[-B . \texttt{TOXE}(\texttt{AIGC} - \texttt{BIGC}V_{\rm{oxdepinv}}).(1 +
+  \texttt{CIGC}V_{\rm{oxdepinv}})]
+\end{eqnarray}
+The coefficients used in the above equations are
+\begin{eqnarray}
+A & = & 4.97232 \times 10^{-7} \\
+B & = & 7.45669 \times 10^{11}
+\end{eqnarray}
+The currents associated with the gate and source/drain regions is
+given by
+\begin{eqnarray}
+I_{\rm{gs}}& = & \texttt{NF} \; W_{\rm{EFF}} \; \texttt{DLCIG} {A
+\over (\texttt{TOXE POXEDGE})^2}({\texttt{TOXREF} \over
+\texttt{TOXE POXEDGE}})^{\texttt{NTOX}} \; V_{\rm{GS}} \times V^{\prime}_{\rm{GS}} \nonumber \\
+  & & \exp[-B\;\texttt{TOXE POXEDGE}(\texttt{AIGSD} - \texttt{BIGSD}\;V_{\rm{GS}}) \nonumber \\
+  & & (1 + \texttt{CIGSD} \; V^{\prime}_{\rm{GS}})]
+\end{eqnarray}
+\begin{equation}
+V^{\prime}_{\rm{GS}} = \sqrt{(V_{\rm{GS}} - V_{\rm{fbsd}})^2 +
+10^{-4}}
+\end{equation}
+
+\begin{eqnarray}
+I_{\rm{gd}} & = & \texttt{NF} \; W_{\rm{EFF}} \; \texttt{DLCIG} {A
+\over (\texttt{TOXE POXEDGE})^2}({\texttt{TOXREF} \over
+\texttt{TOXE POXEDGE}})^{\texttt{NTOX}} \; V_{\rm{GD}} \times V^{\prime}_{\rm{GD}} \nonumber \\
+  & & \exp[-B\;\texttt{TOXE POXEDGE}(\texttt{AIGSD} - \texttt{BIGSD}\;V_{\rm{GD}}) \nonumber \\
+  & &(1 + \texttt{CIGSD} \; V^{\prime}_{\rm{GD}})]
+\end{eqnarray}
+\begin{equation}
+V^{\prime}_{\rm{GD}} = \sqrt{(V_{\rm{GD}} - V_{\rm{fbsd}})^2 +
+10^{-4}}
+\end{equation}
+
+The resultant dc equivalent circuit for the transistor is shown in
+Figure ~\ref{mos.equivalent}
+\begin{figure}
+\epsfxsize=3in\centerline{\epsfbox{figures/mos_eq.eps}} \caption{Schematic of
+the dc equivalent circuit\label{mos.equivalent}}
+\end{figure}
+
+\noindent{\it Charge computation and Conservation}:\\
+{\it Basic Formulation}:\\
+To ensure charge conservation, terminal charges are used as state
+variables along with terminal voltages. $Q_g$, $Q_s$, $Q_d$ and
+$Q_b$ are the charges associated with the gate, source, drain and
+bulk terminals respectively. The gate charge comprises of the
+inversion charge $Q_{\rm{inv}}$, the accumulation charge
+$Q_{\rm{acc}}$ and the substrate depletion charge $Q_{\rm{sub}}$. \\
+\indent The channel charge comes from the source and drain
+terminals while the accumulation and substrate charge is
+associated with the substrate.
+\begin{eqnarray}
+Q_g & = & -(Q_{\rm{sub}} + Q_{\rm{inv}} + Q_{\rm{acc}}) \nonumber \\
+Q_b & = & Q_{\rm{acc}} + Q_{\rm{sub}} \nonumber \\
+Q_{\rm{inv}} & = & Q_d + Q_s
+\end{eqnarray}
+The substrate charge can be divided further into two components:
+the substrate charge at zero source-drain bias ($Q_{\rm{sub0}}$)
+and a non-uniform substrate charge in the presence of a drain bias
+($\delta Q_{\rm{sub}}$). The gate charge now becomes
+\begin{equation}
+Q_g = -(Q_{\rm{sub0}} + \delta Q_{\rm{sub}} + Q_{\rm{inv}} +
+Q_{\rm{acc}})
+\end{equation}
+The total charge is computed by integrating the charge along the
+channel. SPICE3 provides three options in BSIM4 whereby a user can
+select the percentage of charge distribution between the source
+and drain. The options are a 0/100 distribution which implies that
+no channel charge is associated with the source and it is all
+assigned to the drain, a 50/50 partition which divides the charges
+equally between the source and drain and a 40/60 partition wherein
+the total charge in the channel is divided in a 40:60 ratio
+between the source and drain. \FDA uses a 40/60 charge
+partitioning scheme between the source and drain terminals because
+that is the closest to a physical situation in the channel.
+
+\noindent{\it Effective $V_{\rm{BS}}$, $V_{GB}$}:\\
+This is a smoothing function required for C-V calculations.
+\begin{equation}
+V_{\rm{BSeffCV}} = \left\{\begin{array}{ll}
+       V_{\rm{BSeff}} &  V_{\rm{BSeff}} < 0 \nonumber \\
+       \phi_s - {\phi_s \over \phi_s + V_{\rm{BSeff}}} & V_{\rm{BSeff}} \geq 0
+                            \end{array}
+                    \right.
+\end{equation}
+
+\begin{equation}
+V_{\rm{GBeffCV}} = V_{gse} - V_{\rm{BSeffCV}}
+\end{equation}
+
+\noindent{\it Effective $V_{\rm{GS}} - V_{\rm{T}}$}:\\
+This is also a smoothing function used in the C-V calculation.
+\begin{equation}
+V_{\rm{GSTeffCV}} = \texttt{NOFF}\;{nkT \over q}\; \ln[1 +
+\exp({V_{\rm{GSeff}} - V_{\rm{T}} - \texttt{VOFFCV} \over
+\texttt{NOFF} \;nkT/q})]
+\end{equation}
+
+\noindent{\it Modified Bulk Charge coefficient}:\\
+For C-V calculations, the reduced bulk charge coefficient is used
+instead of the coefficient used in the DC calculations.
+\begin{eqnarray}
+A_{\rm{bulk0}} & = & [1 - F_{\rm{doping}} \times
+[{\texttt{A0}\;L_{\rm{EFF}} \over
+L_{\rm{EFF}} + 2\sqrt{\texttt{XJ}\;X_{\rm{dep}}}} + {\texttt{B0} \over W_{\rm{EFF}} + \texttt{B1}}]] \nonumber \\
+           & & \times {1 \over 1 + \texttt{KETA}\;V_{\rm{BSeff}}}
+\end{eqnarray}
+Using this value of reduced bulk-charge coefficient, the
+bulk-charge coefficient for C-V calculations is given by
+\begin{equation}
+A_{\rm{bulkCV}} = A_{\rm{bulk0}}[1 + ({\texttt{CLC} \over
+L_{\rm{EFF}}})^{\texttt{CLE}}]
+\end{equation}
+
+\noindent{\it The Terminal Charges}:\\
+The effective oxide thickness
+\begin{equation}
+C^{\prime}_{\rm{oxeff}}= {\epsilon_{\rm{ox}} \over \texttt{TOXP}}
+\| {\epsilon_s \over X_{\rm{DCeff}}}
+\end{equation}
+where
+\begin{eqnarray}
+X_{\rm{DCeff}} & = & X_{\rm{DCmax}}  \\
+& &- {X_{\rm{DCmax}} - X_{\rm{DC}} - \delta_x +
+\sqrt{(X_{\rm{DCmax}} - X_{DC} - \delta_x )^2 + 4 \; \delta_x \;
+X_{\rm{DCmax}}} \over 2} \nonumber
+\end{eqnarray}
+The various terms inside the above equation are given by
+\begin{equation}
+X_{\rm{DC}} = {L_{\rm{Deb}} \over 3}
+\exp[\texttt{ACDE}({\texttt{NDEP} \over 2 \times 10^{16}})^{-0.25}
+\; {V_{\rm{GBeff}} - V_{\rm{fbzb}}\over 10^8 \times
+\texttt{TOXP}}]
+\end{equation}
+\begin{equation}
+L_{\rm{Deb}} = \sqrt{{\epsilon_s \;k [T + 273.15]/q \over q
+\texttt{NDEP} 10^6}}
+\end{equation}
+\begin{equation}
+X_{\rm{DCmax}} = {L_{\rm{Deb}} \over 3}
+\end{equation}
+\begin{equation}
+\delta_x = 10^{-3} \texttt{TOXP}
+\end{equation}
+The effective oxide is re-calculated for evaluation of the
+accumulation charge.
+\begin{equation}
+C_{\rm{oxeff}} = C^{\prime}_{\rm{oxeff}} \times W_{\rm{EFF}}
+\times L_{\rm{EFF}} \times \texttt{NF}
+\end{equation}
+The accumulation charge is given by
+\begin{equation}
+Q_{\rm{acc}} = C_{\rm{oxeff}}\;(V_{\rm{FBeffCV}} - V_{\rm{FBCV}})
+\end{equation}
+The substrate charge is given by
+\begin{equation}
+Q_{\rm{sub0}}= C_{\rm{oxeff}}\; (\texttt{K1} {\texttt{TOXE} \over
+\texttt{TOXM}}) \; \sqrt{\phi_{\rm{s,dep}}}
+\end{equation}
+When the transistor enters the sub-threshold region, another value
+of $X_{\rm{DC}}$ is required. This value is used in the evaluation
+of $Q_{\rm{inv}}$ and $\delta Q_{\rm{sub}}$.
+\begin{equation}
+C^{\prime}_{\rm{oxinv}}= {\epsilon_{\rm{ox}} \over \texttt{TOXP}}
+\| {\epsilon_s \over X_{\rm{DCinv}}}
+\end{equation}
+where
+\begin{equation}
+X_{\rm{DCinv}} = \left\{\begin{array}{ll}
+     1.9 \times 10^{-9} &  \nonumber\\
+     \times [1 + {V_{\rm{GSTeffCV}} + 4(\texttt{VTH0} - V_{\rm{FB}} - 2\phi_f) \over 2 \times 10^8\;\texttt{TOXP}}]^{-0.7} & (V_{\rm{TH0}} - V_{\rm{FB}} - 2\phi_f) \geq 0 \nonumber \\
+     & \\
+     1.9 \times 10^{-9} & \nonumber \\
+     \times [1 + V_{\rm{GSTeffCV}} / (2 \times 10^8\;\texttt{TOXP})]^{-0.7} & (V_{\rm{TH0}} - V_{\rm{FB}} - 2\phi_f) < 0
+                            \end{array}
+                    \right.
+\end{equation}
+The above equation is identical to $X_{\rm{DC}}$ used for I-V
+calculations, except that $V_{\rm{GSTeff}}$ is replaced by
+$V_{\rm{GSTeffCV}}$.
+\begin{equation}
+C_{\rm{oxinv}} = C^{\prime}_{\rm{oxinv}} \times W_{\rm{EFF}}
+\times L_{\rm{EFF}} \times \texttt{NF}
+\end{equation}
+In addition to the new $X_{\rm{DC}}$, the surface potential is not
+constant as in the I-V case and needs to be re-calculated.
+\begin{equation}
+\phi_{\delta} = \left\{\begin{array}{ll}
+       \frac{k T}{q} \ln[{1 + V_{\rm{GSTeffCV}}(V_{\rm{GSTeffCV}} + 2\texttt{K1}\;(\texttt{TOXE} / \texttt{TOXM})\;(\phi_s))}] & \nonumber\\
+       - \frac{k T}{q} \; \ln[\texttt{MOIN}\; \texttt{K1}^2 (\texttt{TOXE}/\texttt{TOXM})^2 \;(kT/q)] & \texttt{K1} > 0 \nonumber \\
+       & \\
+       {k T \over q} \ln[1 + V_{\rm{GSTeffCV}}(V_{\rm{GSTeffCV}} + \sqrt{\phi_s}) / (0.25 \times \texttt{MOIN} (k T /q))] & \texttt{K1} \leq 0 \\
+                            \end{array}
+                    \right.
+\end{equation}
+\begin{equation}
+V_{\rm{DSsatCV}} = {V_{\rm{GSTeffCV}} - \phi_{\delta} \over
+A_{\rm{bulkCV}}}
+\end{equation}
+
+\begin{eqnarray}
+V_{\rm{DSeffCV}}& = & V_{\rm{DSsatCV}} - {V_{\rm{DSsatCV}} - V_{\rm{DS}} - 0.02 \over 2} \nonumber \\
+            & & - \sqrt{(V_{\rm{DSsatCV}} - V_{\rm{DS}} - 0.02)^2 + 4\; 0.02\; V_{\rm{DSsatCV}}\over 2}
+\end{eqnarray}
+
+\noindent Based on these calculations, the inversion charge can be
+written as
+\begin{eqnarray}
+Q_{\rm{inv}}& = & - C_{\rm{oxinv}} [(V_{\rm{GSTeffCV}} -
+\phi_{\delta} - {A_{\rm{bulkCV}} V_{\rm{DSeffCV}}\over
+2} ) \nonumber \\
+        &  & {A^2_{\rm{bulkCV}} V^2_{\rm{DSeffCV}} \over 12(V_{\rm{GSTeffCV}} - \phi_{\delta} - A_{\rm{bulkCV}} V_{\rm{DSeffCV}}/2 + 10^{-20})}]
+\end{eqnarray}
+The factor of $10^{-20}$ exists to mainly prevent the denominator
+from going to a
+negative value when the rest of the terms go close to zero.\\
+The substrate charge in the presence of a drain bias is given by
+\begin{eqnarray}
+\delta Q_{\rm{sub}} & = & C_{\rm{oxinv}}[{1 - A_{\rm{bulkCV}} \over 2}V_{\rm{DSeffCV}} \\
+       & & - {(1 - A_{\rm{bulkCV}})\;A_{\rm{bulkCV}} \;V^2_{\rm{DSeffCV}} \over 12\,(V_{\rm{GSTeffCV}} - \phi_{\delta} - A_{\rm{bulkCV}}\; V_{\rm{DSeffCV}}/2 + 10^{-20})}]
+\end{eqnarray}
+
+\noindent Finally, the four charges at the respective terminals
+are given by
+\begin{equation}
+Q_g = -Q_{\rm{inv}} - \delta Q_{\rm{sub}} + Q_{\rm{acc}} +
+Q_{\rm{sub0}}
+\end{equation}
+\begin{equation}
+Q_b = \delta Q_{\rm{sub}} - Q_{\rm{acc}} - Q_{\rm{sub0}}
+\end{equation}
+For a 40/60 charge partition scheme, the charge at the source and
+drain regions is
+\begin{eqnarray}
+Q_s & = & - {C_{\rm{oxinv}} \over 2(V_{\rm{GSTeffCV}} -
+\phi_{\delta} - {A_{\rm{bulkCV}} V_{\rm{DSeffCV}}
+\over 2})^2} \nonumber \\
+  & & \times [ (V_{\rm{GSTeffCV}} - \phi_{\delta})^3 \nonumber \\
+  & & - {4 \over 3}(V_{\rm{GSTeffCV}} - \phi_{\delta})^2 A_{\rm{bulkCV}} V_{\rm{DSeffCV}} \nonumber \\
+  & & + {2 \over 3}(V_{\rm{GSTeffCV}} - \phi_{\delta})^2 A_{\rm{bulkCV}} V_{\rm{DSeffCV}} \nonumber \\
+  & & - {2 \over 15} A^3_{\rm{bulkCV}} V^3_{\rm{DSeffCV}}
+\end{eqnarray}
+
+\begin{eqnarray}
+Q_d & = & - {C_{\rm{oxinv}} \over 2(V_{\rm{GSTeffCV}} -
+\phi_{\delta} - {A_{\rm{bulkCV}} V_{\rm{DSeffCV}}
+\over 2})^2} \nonumber \\
+ & & \times [ (V_{\rm{GSTeffCV}} - \phi_{\delta})^3 \nonumber \\
+ & & - {5 \over 3}(V_{\rm{GSTeffCV}} - \phi_{\delta})^2 A_{\rm{bulkCV}} V_{\rm{DSeffCV}} \nonumber \\
+ & & + (V_{\rm{GSTeffCV}} - \phi_{\delta})^2 A_{\rm{bulkCV}} V_{\rm{DSeffCV}} \nonumber \\
+ & & - {1 \over 5} A^3_{\rm{bulkCV}} V^3_{\rm{DSeffCV}}
+\end{eqnarray}
+
+\noindent The net currents at the gate, source and drain is given
+by
+\begin{eqnarray}
+i_G(t)& = & I_{\rm{gcs}} + I_{\rm{gcd}} + I_{\rm{gs}} + I_{\rm{gd}} + {dQ_g \over dt} \\
+i_S(t)& = & -I_{\rm{DS}} - I_{\rm{gs}} - I_{\rm{gcs}} + {dQ_s \over dt} \\
+i_D(t)& = & I_{\rm{DS}} + I_{\rm{sub}} + I_{\rm{gidl}} -
+I_{\rm{gcd}} - I_{\rm{gd}} + {dQ_d \over dt}
+\end{eqnarray}
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.08.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Nikhil Kriplani & NC State University & August 2002 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+nmkripla@unity.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+%Publications
+\newline
+\noindent \linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Publications:}
+\begin{enumerate}
+\item M. B. Steer, C. Christoffersen, S. Velu and N. Kriplani, ``Global Modeling of
+RF and Microwave Circuits,'' Mediterranean Microwave Conf. Digest, June 2002.
+\end{enumerate}
+\end{document}

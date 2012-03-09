@@ -1,0 +1,13 @@
+This is pdfeTeX, Version 3.141592-1.30.6-2.2 (MiKTeX 2.5) (preloaded format=latex 2006.11.28)  26 JUN 2007 12:39
+entering extended mode
+**begin_programmer.tex
+(begin_programmer.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8g> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, french, loaded.
+! Undefined control sequence.
+<argument> \undefinedpagestyle 
+                               
+l.1 \pagestyle{headings}
+                        
+? 

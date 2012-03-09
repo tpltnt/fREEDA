@@ -1,0 +1,83 @@
+\keyword{
+{\tt EPS1,\newline EPS2, \newline ...,\newline EPS5}
+	& Permittivity of dielectric layers	& -	&${\tt EPS}_i$=1 \X
+{\tt H1, H2, \newline ..., H5}
+	&{Height of dielectric layers	 \newline
+	  {\tt H1 = 0} means {\tt H1} $\Rightarrow \infty$ \newline
+	  {\tt H2 = 0} means {\tt H2} $\Rightarrow \infty$ }
+	&  mm	&${\tt H}_i$=0 \X
+{\tt XVAS\newline XVBS\newline XVCS\newline XVDS}
+	&{Left origin of line geometry in plane A,B,C,D \newline
+	  {\tt XV\#S}=0 means: \newline
+	  {\tt XV\#S} = {\tt A}-$\sum ({\tt W}\#_i + {\tt S}\#_i$)/2 \newline
+	  i.e. a symmetrical arrangement}
+	& mm
+	& {\tt XVAS}=0\newline {\tt XVBS}=0\newline {\tt XVDS}=0 \X
+{\tt WA}
+	& ${\tt WA}_i$ Line and gap widths for plane A		& mm&
+        ${\tt WA}_i$=0
+	\X
+{\tt SA}
+	& ${\tt SA}_i$, gap widths for plane A 		        & mm&$SA_i$=0
+	\X
+{\tt WB}
+	& ${\tt WB}_i$, Line and gap widths for plane B		& mm&
+        ${\tt WB}_i$=0
+	 \X
+{\tt SB}
+	& ${\tt SB}_i$, gap widths for plane B 		        & mm&
+        ${\tt SB}_i$=0
+	\X
+{\tt SC}
+	& tuning septum gap. SC=0 \&h4=0 indicate no layer 4 & mm & SC=0 \X
+{\tt WD}
+	& ${\tt WD}_i$, Line and gap widths for plane D		& mm&
+        ${\tt WD}_i$=0
+	\X
+{\tt SD}
+	& ${\tt WA}_i$, gap widths for plane D 		        & mm&
+        ${\tt SD}_i$=0
+	\X
+{\tt IDICK} 	& Line thickness flag. IDICK=1\newline
+          indicates finite metallization\newline
+	  thickness t = H3+H5& - &IDICK=1\X
+}
+\clearpage
+\keywordtable{
+\multicolumn{4}{c}{OHMIC LOSS PARAMETERS} \X
+{\tt RFA}	& Ohmic conductor loss of metal lines in plane A normalized by
+	  the value of copper
+	& -	& 0	\X
+{\tt RFB}	& Ohmic conductor loss of metal lines in plane B normalized by
+	  the value of copper
+	& -	& 0	\X
+{\tt RFD}	& Ohmic conductor loss of metal lines in plane D normalized by
+	  the value of copper
+	& -	& 0	\X
+{\tt HMET}	& Thickness of metallization (see note on HMET)
+        & mm & 0.005\X
+}
+
+\keywordtable{
+\multicolumn{4}{c}{PARAMETERS FOR THE ADVANCED USER} \X
+{\tt A}	& Breadth of housing multiple. Actual housing breadth =
+	  {\tt A}$\cdot${\tt H1}
+	& - & 10 \X
+{\tt LAT}
+	 & Lateral boundary condition\newline
+	  {\tt LAT}=0 $\Rightarrow$ electrical-wall/electrical-wall\newline
+	  {\tt LAT}=1 $\Rightarrow$ magnetic-wall/electrical-wall\newline
+	  {\tt LAT}=2 $\Rightarrow$ electrical-wall/magnetic-wall\newline
+	  {\tt LAT}=3 $\Rightarrow$ magnetic-wall/magnetic-wall\newline
+	  {\tt LAT}=5 $\Rightarrow$ circular lines	&- & 0\\
+	&						&&	\X
+{\tt KAL}	& Density of the lines of discretization\newline
+	See note\newline on KAL for default.
+	& - &\X
+     }
+
+\note{\item[KAL] KAL is defaulted so that on each strip there is a minimum of
+     3 lines of discretization and in each slot is a minimum of two lines of
+     discretization. In the case of nonequidistant lines (indicated by IPOL=2)
+     KAL is the minimum number of lines on each strip.}
+

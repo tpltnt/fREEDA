@@ -1,0 +1,29 @@
+* CMOS Nand DC Analysis
+
+**This netlist is for  DC Analysis of 2 input Cmos Nand Gate **
+.dc sweep="vsource:Vin1" start=0 stop=5 step=0.01
+*** DC Sweep First input
+vsource:Vin1 22 0
+*** Tie Second input to Vdd
+vsource:Vin2 33 0 vdc=5
+*** Vdd connection
+vsource:Vdd 1 0 vdc=5
+
+***Nand Instantiation
+cmos2nand:nand 1 2 3 4 0
+
+**  Source Resistance and Capacitance
+r:in2 22 2 r=10
+r:in3 33 3 r=10
+c:in2 2 0 c=1e-12
+c:in3 3 0 c=1e-12
+
+****Out Resistance and Capacitance
+r:R 4 0 r=1000000
+c:C 4 0 c=1e-12
+
+.options gnuplot
+.out plot term 4 vt in "vout.out"
+.out plot term 22 vt in "vin1.out"
+.out plot term 33 vt in "vin2.out"
+.end

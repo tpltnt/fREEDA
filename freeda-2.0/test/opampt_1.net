@@ -1,0 +1,31 @@
+* Electro-Thermal General Purpose Operational Amplifier
+* Basic Linear Amplifier: Gain = -r1/r2
+
+.tran2 tstop=1e-2 tstep=1e-5
+
+.ref 0
+
+vsource:vs 6 0 vdc=5 vac=2 f=200
+
+*vpulse:Vin 6 0 v1=3 v2=6 tr=1e-3 tf=1e-3 per=4e-3 pw=1e-3
+*vpulse:Tin 101 0 v1=0 v2=100 tr=1e-5 td=1e-3 per=2e-3 pw=1e-3
+
+vsource:vdd 1 0 vdc=10
+vsource:gnd 2 0 vdc=5
+
+r:r1 3 4 r=1000
+r:r2 6 3 r=500
+r:rl 4 2 r=1000
+r:rt 101 0 r=100
+
+* name  Vdd V+ V- Vout Temp gnd
+opampt:u1 1  2  3    4   101  0  gain=0.2 pdr=1 nomt=25
++	rin=2000000 rout=80 psr=1000 cin=0.00000005 cout=0.000001
++	rint=12500 routt=-1 psrt=-27
++	
+
+
+.out plot term 6 vt in "input.out"
+.out plot term 4 vt in "output.out"
+.out plot term 101 vt in "temp.out"
+.end

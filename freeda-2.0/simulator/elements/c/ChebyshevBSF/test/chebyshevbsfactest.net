@@ -1,0 +1,29 @@
+**** AC chebyshevbsf test *****
+.options verbose
+
+.ac start=10e3 stop=100e6 n_freqs=40000
+
+vsource:vin 1 0 vac=1.0
+
+R:Rin1 1 2 r=50
+Chebyshevbsf:b1 2 0 3 n=5 q=50 f0=1e6 bw=400e3 z0=50 ripple=1 
+R:Rout1 3 0 r=50
+
+.options gnuplot
+.options preample1="set logscale x; set term x11 font 'helvetica,13';
+set title 'Chebyshev Filter Magnitude Response'; set xlabel 'FREQUENCY (MHz)'; 
+set ylabel 'MAGNITUDE (dB)"
+.out plot term 3 vf term 1 vf div mag 2 mult db 1e-6 scalex preample1 in "chebyshevbsf.ac.mag"
+
+.options preample2="set logscale x; set term x11 font 'helvetica,13';
+set title 'Chebyshev Filter Phase Response'; set xlabel 'FREQUENCY (MHz)'; 
+set ylabel 'phase (DEGREES)"
+.out plot term 3 vf term 1 vf div prinphase 1e-6 scalex rad2deg preample2 in "chebyshevbsf.ac.phase"
+*
+.end
+
+
+
+
+
+

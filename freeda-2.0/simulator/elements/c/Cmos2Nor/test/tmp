@@ -1,0 +1,23 @@
+* CMOS Nor DC Analysis
+
+**This netlist is for  DC Analysis of 2 input Cmos Nor Gate **
+.dc sweep="vsource:Vin1" start=0 stop=5 step=0.01
+*** DC Sweep First input
+vsource:Vin1 2 0
+*** Tie Second input to Vdd
+vsource:Vin2 3 0 vdc=0
+*** Vdd connection
+vsource:Vdd 1 0 vdc=5
+
+***Nor Instantiation
+cmos2nor:nor 1 2 3 4 0
+
+****Out Resistance and Capacitance
+r:R 4 0 r=1000000
+c:C 4 0 c=1e-12
+
+.options gnuplot
+.out plot term 4 vt in "vout.out"
+.out plot term 2 vt in "vin1.out"
+.out plot term 3 vt in "vin2.out"
+.end

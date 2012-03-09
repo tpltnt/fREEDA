@@ -1,0 +1,5 @@
+.model bsim3n Mosnbsim3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+
+.model bsim3p Mospbsim3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025

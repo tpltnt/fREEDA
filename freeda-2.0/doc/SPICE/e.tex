@@ -1,0 +1,140 @@
+\element{E}{Voltage-Controlled Voltage Source}
+
+\begin{figure}[h]
+\centering
+\ \pfig{e_spice.ps}
+\caption{E --- voltage-controlled voltage source element.}
+\end{figure}
+
+\form{
+     {\tt E}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ Gain\\
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )} $N_{C+}$ $N_{C-}$
+        PolynomialCoefficients
+     }
+
+\pspiceninetytwoform{
+     {\tt E}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ Gain\\
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     {\tt (}$N_{C1+}$ $N_{C1-}{\tt)}$
+     ... {\tt (}$N_{CD+}$ $N_{CD-}{\tt )}$
+        PolynomialCoefficients
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt VALUE= \{} Expression {\tt \}}\\
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt TABLE \{}
+            Expression {\tt \}=(} TableInput {\tt ,} TableOutput {\tt )} ... \\
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt LAPLACE \{}
+            Expression {\tt \}=\{} TransformExpression {\tt \}} \\
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt FREQ \{}
+          Expression {\tt \}=(} Frequency{\tt ,} Magnitude{\tt ,} Phase {\tt )} ...\\
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt CHEBYSHEV \{}
+          Expression {\tt \}=} Type{\tt ,} CutoffFrequency ... {\tt ,}
+      Phase ...\\
+     }
+
+
+\begin{widelist}
+\item[$N_{+}$] is the positive voltage source node.
+\item[$N_{-}$] is the negative voltage source node.
+\item[$N_{C+}$] is the positive controlling node.
+\item[$N_{C-}$] is the negative controlling  node.
+\item[{\it Gain}] is the voltage gain.
+\item[{\tt POLY}] is the identifier for the polynomial form of the
+element.
+\item[{\it D}] is the degree of the poynomial. The number of pairs of
+           controlling nodes must be equal to {\it Degree}.
+\item[$N_{Ci+}$] the positive node of the $i$ th controlling node pair.
+\item[$N_{Ci-}$] the negative node of the $i$ th controlling node pair.
+\item[{\it PolynomialCoefficients}] is the set of polynomial coefficients
+which must be specified in the standard polynomial coefficient format
+discussed on page \pageref{section:poly}.
+\item[{\tt VALUE}]
+is the identifier for the \underline{value form} of the element.
+\item[{\it Expression}] This is an expression of the form discussed on
+page \pageref{section:poly}.
+\item[{\tt TABLE}]
+is the identifier for the \underline{table form} of the element.
+\item[{\it TableInput}] This is the independent input of the table.
+See the {\tt TABLE} parameter above.
+\item[{\it TableInput}] This is the dependent output of the table.
+See the {\tt TABLE} parameter above.
+\item[{\tt LAPLACE}]
+is the identifier for the \underline{laplace form} of the element.
+\item[{\it TransformExpression}]
+\item[{\tt FREQ}]
+is the identifier for the \underline{frequency form} of the element.
+\item[{\it Frequency}]
+\item[{\it Magnitude}]
+\item[{\it Phase}]
+\item[{\tt CHEBYSHEV}]
+is the identifier for the \underline{chebyshev form} of the element.
+\item[{\it Type}]
+\item[{\it CutoffFrequency}]
+\item[{\it Phase}]
+\end{widelist}
+\example{E1 2 3 14 1 2.0}
+\note{
+\item Several form of the voltage-controlled voltage source element are supported
+      in addition to the \underline{Linear Gain} form which is the default.
+      The other forms are selected based on the the identifier
+      {\tt POLY},
+      {\tt VALUE},
+      {\tt TABLE},
+      {\tt LAPLACE},
+      {\tt FREQ} or
+      {\tt CHEBYSHEV}.
+      }
+\noindent\underline{Linear Gain Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ Gain }\\[0.1in]
+The value of the voltage generator is linearly proportional to the controlling
+voltage:
+\begin{equation}
+v_o = Gain\,v_c
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt POLY}nomial Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     {\tt (}$N_{C1+}$ $N_{C1-}{\tt)}$
+     ... {\tt (}$N_{CD+}$ $N_{CD-}{\tt )}$ PolynomialCoefficients }\\[0.1in]
+The value of the voltage generator is a polynomial function of the controlling
+voltages:
+\begin{equation}
+v_o = f(v_{c1}, ...,  v_{ci}, ...  v_{cD})
+\end{equation}
+where the number of controlling voltages is $D$ --- the degree of the polynomial
+specified on the element line.
+$v_{ci}$ is the $i$th controlling voltage and is the voltage of the
+$n_{ci+}$ node with respect to the $n_{ci+}$ node.
+\\[0.2in]\noindent\underline{{\tt VALUE} Instance} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt VALUE= \{} Expression {\tt \}} }\\[0.1in]
+The value of the voltage generator is the resultant of an expression evaluation.
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt TABLE} Instance} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt TABLE \{}
+          Expression {\tt \}=(} TableInput {\tt ,} TableOutput {\tt )} ...}\\[0.1in]
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt LAPLACE} Instance} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt LAPLACE \{}
+            Expression {\tt \}=\{} TransformExpression {\tt \}} }\\[0.1in]
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt FREQ}} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt FREQ \{}
+       Expression {\tt \}=(} Frequency{\tt ,} Magnitude{\tt ,} Phase {\tt )} ...}
+       \\[0.1in]
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt CHEBYSHEV}} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt E}name $N_{+}$ $N_{-}$ {\tt CHEBYSHEV \{}
+          Expression {\tt \}=} Type{\tt ,} CutoffFrequency ... {\tt ,}
+      Phase ...  }\\[0.1in]

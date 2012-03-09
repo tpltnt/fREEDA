@@ -1,0 +1,52 @@
+Local reference terminal test.
+
+*.options f0 = \ 9e9 10e9 .2e9 \
+.options f0 = 9e9
+
+.svhb n_freqs = 16 fundamental= f0 oversample=4
+
+vsource:v2 201 0 vdc= -6. vac= 5. f= f0
+
+resistor:rs 201 202 r=75.
+
+diode:d1 1 "ref1" js=1.e-12 alfa=38.696 e=10 ct0=1.08e-15 r0=10. 
++ fi=0.643 gama=0.451 area=271.64
+diode:d2 2 "ref2" js=1.e-12 alfa=38.696 e=10 ct0=1.08e-15 r0=10. 
++ fi=0.643 gama=0.451 area=258.63
+diode:d3 3 "ref3" js=1.e-12 alfa=38.696 e=10 ct0=1.08e-15 r0=10. 
++ fi=0.643 gama=0.451 area=246.24
+diode:d4 4 "ref4" js=1.e-12 alfa=38.696 e=10 ct0=1.08e-15 r0=10. 
++ fi=0.643 gama=0.451 area=234.45
+*
+*cpw:t0 202 0 1 "ref1"
+*+ s=.6e-3 w=.6e-3 t=3e-6 er=9.7 tand=2e-4 length=978.57e-6
+cpw:t0 202 0 1 "ref1"
++ s=.369e-3 w=1e-3 t=10e-6 er=10.8 tand=.001 length=7.5e-3
+*tlinp4:t0 202 0 1 "ref1"
+*+ z0mag=63.7 fscale=1e9 alpha=0.16341820734691451 tand=2e-4 length=978.57e-6
+*+ k = 5.35
+tlinp4:t1  1 "ref1" 2 "ref2"
++ z0mag=75.00 length=978.57e-6 k=7 tand=.01 fscale=1.e10 alpha=1.
+tlinp4:t2  2 "ref2" 3 "ref3"
++ z0mag=75.00 length=931.69e-6 k=7 tand=.01 fscale=1.e10 alpha=1.
+tlinp4:t3  3 "ref3" 4 "ref4"
++ z0mag=75.00 length=887.06e-6 k=7 tand=.01 fscale=1.e10 alpha=1.
+tlinp4:t4  4 "ref4" 5 "ref5"
++ z0mag=75.00 length=844.57e-6 k=7 tand=.01 fscale=1.e10 alpha=1.
+*
+.ref "ref1"
+.ref "ref2"
+.ref "ref3"
+.ref "ref4"
+.ref "ref5"
+*
+resistor:rl 5 "ref5"  r=75.
+
+* Illegal resistor
+* resistor:ril 1 4 r=10.
+
+*.out plot element "diode:d4" 0 xf invfft 2 repeat in "xdiode1.wave" 
+.out plot term 4 vf invfft 2 repeat in "vdiode4.wave" 
+* .out plot term 5 vf invfft 2 repeat in "vout.wave" 
+
+.end

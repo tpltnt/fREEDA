@@ -1,0 +1,277 @@
+\chapter{Examples}
+{
+\raggedbottom
+
+\section{Simple Differential Pair\label{ex:diffpair}}
+
+The following circuit determines the dc operating point
+of  a  simple differential pair.  In addition, the ac small-signal
+response is computed over the frequency range 1Hz  to
+100MEGHz.
+
+\begin{verbatim}
+SIMPLE DIFFERENTIAL PAIR
+VCC 7 0 12
+VEE 8 0 -12
+VIN 1 0 AC 1
+RS1 1 2 1K
+RS2 6 0 1K
+Q1 3 2 4 MOD1
+Q2 5 6 4 MOD1
+RC1 7 3 10K
+RC2 7 5 10K
+RE 4 8 10K
+.MODEL MOD1 NPN BF=50 VAF=50 IS=1.E-12 RB=100 CJC=.5PF TF=.6NS
+.AC DEC 10 1 100MEG
+.END
+\end{verbatim}
+
+\section{MOS Output Characteristics \label{ex:MOS:i/v}}
+
+The following file computes the output  characteristics
+of a MOSFET device over the range 0-10V for VDS and 0-5V for
+VGS.
+
+\begin{verbatim}
+MOS OUTPUT CHARACTERISTICS
+VDS 3 0
+VGS 2 0
+M1 1 2 0 0 MOD1 L=4U W=6U AD=10P AS=10P
+.MODEL MOD1 NMOS VTO=-2 NSUB=1.0E15 UO=550
+* VIDS MEASURES ID, WE COULD HAVE USED VDS, BUT ID WOULD BE NEGATIVE
+VIDS 3 1
+.DC VDS 0 10 .5 VGS 0 5 1
+.END
+\end{verbatim}
+
+\clearpage
+
+\section{Simple RTL Inverter\label{ex:RTLinverter}}
+
+The following file determines the dc transfer curve and
+the  transient pulse response of a simple RTL inverter.  The
+input is a pulse from 0 to 5 Volts  with  delay,  rise,  and
+fall  times of 2ns and a pulse width of 30ns.  The transient
+interval is 0 to 100ns,  with  printing  to  be  done  every
+nanosecond.
+
+\begin{verbatim}
+SIMPLE RTL INVERTER
+VCC 4 0 5
+VIN 1 0 PULSE 0 5 2NS 2NS 2NS 30NS
+RB 1 2 10K
+Q1 3 2 0 Q1
+RC 3 4 1K
+.MODEL Q1 NPN BF 20 RB 100 TF .1NS CJC 2PF
+.DC VIN 0 5 0.1
+.TRAN 1NS 100NS
+.END
+\end{verbatim}
+
+\clearpage
+
+\section{Adder\label{ex:adder}}
+The following file simulates a four-bit  binary  adder,
+using  several subcircuits to describe various pieces of the
+overall circuit.
+
+\begin{verbatim}
+ADDER - 4 BIT ALL-NAND-GATE BINARY ADDER
+*** SUBCIRCUIT DEFINITIONS
+.SUBCKT NAND 1 2 3 4
+*   NODES:  INPUT(2), OUTPUT, VCC
+Q1 9 5 1 QMOD
+D1CLAMP 0 1 DMOD
+Q2 9 5 2 QMOD
+D2CLAMP 0 2 DMOD
+RB 4 5 4K
+R1 4 6 1.6K
+Q3 6 9 8 QMOD
+R2 8 0 1K
+RC 4 7 130
+Q4 7 6 10 QMOD
+DVBEDROP 10 3 DMOD
+Q5 3 8 0 QMOD
+.ENDS NAND
+.SUBCKT ONEBIT 1 2 3 4 5 6
+*   NODES:  INPUT(2), CARRY-IN, OUTPUT, CARRY-OUT, VCC
+X1 1 2 7 6 NAND
+X2 1 7 8 6 NAND
+X3 2 7 9 6 NAND
+X4 8 9 10 6 NAND
+X5 3 10 11 6 NAND
+X6 3 11 12 6 NAND
+X7 10 11 13 6 NAND
+X8 12 13 4 6 NAND
+X9 11 7 5 6 NAND
+.ENDS ONEBIT
+.SUBCKT TWOBIT 1 2 3 4 5 6 7 8 9
+*   NODES:  INPUT - BIT0(2) / BIT1(2), OUTPUT - BIT0 / BIT1,
+*           CARRY-IN, CARRY-OUT, VCC
+X1 1 2 7 5 10 9 ONEBIT
+X2 3 4 10 6 8 9 ONEBIT
+.ENDS TWOBIT
+.SUBCKT FOURBIT 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
+*   NODES:  INPUT - BIT0(2) / BIT1(2) / BIT2(2) / BIT3(2),
+*           OUTPUT - BIT0 / BIT1 / BIT2 / BIT3, CARRY-IN, CARRY-OUT,
+VCC
+X1 1 2 3 4 9 10 13 16 15 TWOBIT
+X2 5 6 7 8 11 12 16 14 15 TWOBIT
+.ENDS FOURBIT
+*** DEFINE NOMINAL CIRCUIT
+.MODEL DMOD D
+.MODEL QMOD NPN(BF=75 RB=100 CJE=1PF CJC=3PF)
+VCC 99 0 DC 5V
+VIN1A 1 0 PULSE(0 3 0 10NS 10NS   10NS   50NS)
+VIN1B 2 0 PULSE(0 3 0 10NS 10NS   20NS  100NS)
+VIN2A 3 0 PULSE(0 3 0 10NS 10NS   40NS  200NS)
+
+
+VIN2B 4 0 PULSE(0 3 0 10NS 10NS   80NS  400NS)
+VIN3A 5 0 PULSE(0 3 0 10NS 10NS  160NS  800NS)
+VIN3B 6 0 PULSE(0 3 0 10NS 10NS  320NS 1600NS)
+VIN4A 7 0 PULSE(0 3 0 10NS 10NS  640NS 3200NS)
+VIN4B 8 0 PULSE(0 3 0 10NS 10NS 1280NS 6400NS)
+X1 1 2 3 4 5 6 7 8 9 10 11 12 0 13 99 FOURBIT
+RBIT0 9 0 1K
+RBIT1 10 0 1K
+RBIT2 11 0 1K
+RBIT3 12 0 1K
+RCOUT 13 0 1K
+*** (FOR THOSE WITH MONEY (AND MEMORY) TO BURN)
+.TRAN 1NS 6400NS
+.END
+\begin{verbatim}
+
+\section{Transmission-Line Inverter\label{ex:trlinverter}}
+The  following  file  simulates   a   transmission-line
+inverter.  Two transmission-line elements are required since
+two propagation modes are excited.  In the case of a coaxial
+line,  the  first  line (T1) models the inner conductor with
+respect to the shield, and the second line (T2)  models  the
+shield with respect to the outside world.
+
+\begin{verbatim}
+TRANSMISSION-LINE INVERTER
+V1 1 0 PULSE(0 1 0 0.1N)
+R1 1 2 50
+X1 2 0 0 4 TLINE
+R2 4 0 50
+.SUBCKT TLINE 1 2 3 4
+T1 1 2 3 4 Z0=50 TD=1.5NS
+T2 2 0 4 0 Z0=100 TD=1NS
+.ENDS TLINE
+.TRAN 0.1NS 20NS
+.END
+\end{verbatim}
+}
+
+\section{Operational Amplifier\label{ex:opamp}}
+
+{\tt
+* MOSOPAMP.CIR\\
+*\\
+*\\
+* Basic Mosfet Op-amp\\
+*\\
+*******\\
+*\\
+* Set the ouput width to 80 columns\\
+*\\
+.WIDTH OUT = 80\\
+*\\
+* VDD is the supply.  The opamp has a single 5V supply.\\
+*\\
+VDD 1 0 DC 5V\\
+*\\
+* Specify the MOSFETs and their connections\\
+*\\
+M1 5 5 1 1 PCH L=2.0U W=20U AD=136P AS=136P\\
+M2 6 5 1 1 PCH L=2.0U W=20U AD=136P AS=136P\\
+M3 5 3 4 0 NCH L=2.4U W=80U AD=136P AS=136P\\
+M4 6 2 4 0 NCH L=2.4U W=80U AD=136P AS=136P\\
+M5 7 6 1 1 PCH L=2.0U W=80U AD=136P AS=136P\\
+M6 1 7 8 0 NCH L=2.0U W=60U AD=136P AS=136P\\
+*\\
+* The opamp has two inputs. Both are biased at 2.5V.  The negative input\\
+* has an AC signal.  Note that the AC signal has a peak value of 1V\\
+* but AC analysis is smaal signal so that this large AC value has no\\
+* does not produce distortion.  The output results of AC analysis are\\
+* conveniently interpreted by setting the {\it ACmagnitude} of the source\\
+* to 1.\\
+*\\
+VPOS 2 0 DC 2.5\\
+VNEG 3 0 DC 2.5 AC 1\\
+*\\
+* Set the bias current sources.\\
+*\\
+I1 4 0 DC 0.1MA\\
+I2 7 0 DC 0.2MA\\
+I3 8 0 DC 1MA\\
+*\\
+.MODEL NCH NMOS LEVEL=2 VTO=0.71 GAMMA=0.29 CGSO=2.89E-10\\
++ CGDO=2.89E-10 CJ=3.27E-4 MJ=0.4 TOX=225E-10 NSUB=3.5E16\\
++ XJ=0.2E-6 LD=0 UO=411 UEXP=0 KF=6.5E-28 LAMBDA=0.02 \\
+*\\
+.MODEL PCH PMOS LEVEL=2 VTO=-0.76 GAMMA=0.6 CGSO=3.35E-10\\
++ CGDO=3.35E-10 CJ=4.75E-4 MJ=0.4 TOX=225E-10 NSUB=1.6E16\\
++ XJ=0.2E-6 LD=0 UO=139 UEXP=0 KF=5E-30 LAMBDA=0.02\\
+*\\
+* To determine operating point\\
+*\\
+.OP\\
+*\\
+* To determine small signal analysis\\
+*\\
+.AC DEC 10 100 60MEG \\
+*\\
+* Produce a table of the AC analysis results.  Node 8 is the output.\\
+*\\
+.PRINT AC V(8)\\
+*\\
+* Produce a plot of the AC analysis results.\\
+*\\
+.PLOT AC V(8)\\
+*\\
+* Set initial conditions at several nodes to aid in convergence\\
+* in determining the operating point.\\
+*\\
+.NODESET V(6)=3.5 V(7)=1.5 V(8)=2.5 V(4)=1.5\\
+*\\
+* CURRENT THRU M1 AND M4 IS THE SAME = 0.05MA\\
+*\\
+.END\\
+}
+
+\subsection{\dc\ Analysis ({\tt .DC})\label{ex:opamp:DC}}
+
+The \dc\ analysis is specified by the {\tt .DC} statement
+which is described on page \pageref{.DCstatement}.
+
+
+\subsection{Transfer characteristics.}
+
+\subsection{Operating Point Analysis ({\tt .OP})\label{ex:opamp:OP}}
+
+The operating point analysis is specified by the {\tt .OP} statement
+which is described on page \pageref{.OPstatement}.
+
+
+\subsection{\ac\ Analysis ({\tt .AC})\label{ex:opamp:}AC}
+
+The \ac\  analysis is specified by the {\tt .AC} statement
+which is described on page \pageref{.ACstatement}.
+
+
+\subsection{Distortion Analysis ({\tt .DISTO})\label{ex:opamp:DISTO}}
+
+The distortion analysis is specified by the {\tt .DISTO} statement
+which is described on page \pageref{.DISTOstatement}.
+
+
+\subsection{Monte Carlo Analysis ({\tt .MC})\label{ex:opamp:MC}}
+
+The Monte Carlo analysis, specified by the {\tt .MC} statement is only
+available with \pspice.  The {\tt .MC} statement is described
+on page \pageref{.MCstatement}.
+

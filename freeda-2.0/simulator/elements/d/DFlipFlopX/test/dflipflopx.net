@@ -1,0 +1,21 @@
+*CMOS Master Slave Negative Edge Triggered D FLIP FLOP 
+
+* This netlist is for Transient analysis of D Flip Flop *
+.tran2 tstop=12e-6 tstep=1e-9 
+*********** D and CLK inputs *************
+vpulse:Vin2 2 0 v1=0 v2=5 td=0e-6 per=4e-6 pw=2e-6 tr=0.002e-6 tf=0.002e-6
+vpulse:Vin3 3 0 v1=5 v2=0 td=0e-6 per=2e-6 pw=1e-6 tr=0.002e-6 tf=0.002e-6
+***** Vdd Connection *****
+vsource:Vdd 1 0 vdc=5
+******* Instantiation*************
+dflipflopx:flop 1 2 3 4 5 0
+***********Load Resistances*******
+r:R1 4 0 r=1000000
+r:R2 5 0 r=1000000
+*** Plot ******
+.options gnuplot
+.out plot term 2 vt in "d.out"
+.out plot term 3 vt in "clk.out"
+.out plot term 4 vt in "Q_output.out"
+.out plot term 5 vt in "Qbar_output.out"
+.end

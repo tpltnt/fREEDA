@@ -1,0 +1,108 @@
+* Ring Diode Mixer using quick diode (DiodeQk) and no capcitors across diode
+.options verbose
+
+* Set tolerance in nonlinear iterations (ftol)
+.options ftol=1e-10
+
+* Jacobian update method (jupdm)
+* 0 Jacbian updated every iteration
+* 1 Use Broyden's quasi-Newton update method
+* 2 Use Lee and Lee's quasi-Newton update method (default)
+.options jupdm=0
+
+.tran2 tstop=1us tstep=1ps
+
+*Behavioral model frequencies
+* foin = center frequency of input signal 
+* fLO1 = Frequency of LO1
+* fLO2 = Frequency of LO2
+* fLO3 = Frequency of LO3
+* fBPF1 = center frequency of BPF1
+* fBPF2 = center frequency of BPF1
+* fBPF3 = center frequency of BPF1
+* tstep = maximum time step to capture waveforms
+
+******************
+* native frequencies (actual frequencies in ARC-210)
+.options foin=300e6
+.options fLO1=1573.12e6 fLO2=1162.56e6 fLO3=90.42e6
+.options fbpf1=20.14e6 fbpf2=1273.12e6 fbpf3=110.56e6
+
+
+******************
+* Input signal
+* -40 dBm into 50 ohms corresponds to a peak voltage of 0.1 V
+.options f1=299.4megaHz
+.options f2=299.5megaHz
+vsource:1 1 0 vac=0.1 f=f1 phase=90
+vsource:2 2 1 vac=0.1 f=f2 phase=90
+R:RF 2 RF1 r=50
+
+******************
+******************************************************
+* Ring Diode Mixer 1
+* Local Oscillator
+vsource:lo1 LO1internal 0 vac=2 f=fLO1 phase=90
+R:LO1 LO1internal LO1 r=50
+
+C:L11 RF1  0 C=1pF
+C:LO1 LO1  0 C=1pF
+
+* Center-tapped transformer with RF
+L:L11 RF1  0 L=10nH
+L:L12 40 IF1 L=10nH
+L:L13 IF1 20 L=10nH
+K:K11 coupling=0.999 L1="L:L11" L2="L:L12"
+K:K12 coupling=0.999 L1="L:L11" L2="L:L13"
+K:K13 coupling=0.999 L1="L:L12" L2="L:L13"
+
+diodeqk:11 40 60 rs=2
+diodeqk:12 50 40 rs=2
+diodeqk:13 60 20 rs=2
+diodeqk:14 20 50 rs=2
+
+* Center-tapped transformer with LO
+L:L14 50   0 L=10nH
+L:L15  0  60 L=10nH
+L:L16  0 LO1 L=10nH
+K:K14 coupling=0.999 L1="L:L14" L2="L:L15"
+K:K15 coupling=0.999 L1="L:L14" L2="L:L16"
+K:K16 coupling=0.999 L1="L:L15" L2="L:L16"
+
+R:IF11 IF1 0  r=50
+C:IF11 IF1 0  c=1pF
+
+******************
+*plot commands
+
+* Use gnuplot assuming that X-Windows is available
+*.options gnuplot 
+
+* set up plot preamble with font and label information
+
+* LO
+*.options plotVT1Preample="set term x11 font 'helvetica,13';
+*         set title 'Voltage at LO terminal';
+*         set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE' "
+*.out plot term "LO1" vt 1e6 scalex plotVT1Preample in "out.vt.term.lo1" 
+
+* RF
+*.options plotVT1Preample="set term x11 font 'helvetica,13';
+*         set title 'Voltage at RF terminal';
+*         set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE' "
+*.out plot term "RF1" vt 1e6 scalex plotVT1Preample in "out.vt.term.rf1" 
+
+* IF
+*.options plotVT1Preample="set term x11 font 'helvetica,13';
+*         set title 'Voltage at IF terminal';
+*         set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE' "
+*.out plot term "IF1"  vt 1e6 scalex plotVT1Preample in "out.vt.term.if1" 
+
+* Diode
+*.options plotVT1Preample="set term x11 font 'helvetica,13';
+*         set title 'Voltage Across Diode';
+*         set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE' "
+*.out plot term "40"  vt term "60" vt -
+*+    1e6 scalex plotVT1Preample in "out.vt.term.d" 
+
+.end

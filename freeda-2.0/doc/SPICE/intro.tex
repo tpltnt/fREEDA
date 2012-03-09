@@ -1,0 +1,193 @@
+\addcontentsline{toc}{part}{PART I  SPICE BASICS}
+
+\chapter{Introduction}
+
+\section{Introduction}
+
+\spice\ is a general-purpose circuit  simulation  program
+for  nonlinear  \dc ,  nonlinear transient, and small-signal \ac\ analyses.
+Circuits may contain resistors,  capacitors,  inductors,
+mutual  inductors,  independent  voltage  and current
+sources,  dependent  sources,  transmission
+lines, switches,
+and the five most common semiconductor devices:
+diodes, BJTs, JFETs, MESFETs, and MOSFETs.
+\justspice\ was developed at the
+University of California at Berkeley and after many years of effort
+culminated in the landmark \spicetwo\ version.  This was the last FORTRAN
+language
+version of \justspice\ distributed by UC Berkeley and its syntax and analysis
+options have become a standard
+for \justspice -like simulators.  With few exceptions, all commercial versions
+and University versions of \justspice\ are upwards compatible with
+\spicetwo\ in that they support the complete syntax and analyses of
+\spicetwo .
+Since \spicetwo\ was released \spicethree\ was developed at UC Berkeley
+initially
+as a C language equivalent of \spicetwo .  The new capabilities of
+\spicethree\ include pole-zero analysis, and new transistor models
+for MESFETs and for short and narrow channel MOSFETs as well improved
+numerical methods.
+Many commercial
+versions of \justspice\ are based directly on \spicethree .  However
+there is a group of commercial \justspice -like simulators
+that have significant advances over \spicetwo\ and \spicethree\ in the
+areas of enhanced input syntax, improved convergence, better device models and
+more analysis types.
+{Many of these enhanced \justspice\ programs were completely
+rewritten and not ports of the Berkeley software.
+As can be expected, the effort put into these commercial programs is
+reflected in their price.}
+The first \justspice\ version for personal computers was the
+commerical program \justpspice\ by MicroSim corporation.
+{
+\justpspice now has the largest
+customer base of all commerical \justspice\ programs.}
+Consequently the syntax of \justpspice\ has become a second
+``standard''.
+{
+The \pspice\ syntax
+is upwards compatible to the \spicetwo\ syntax.
+However, there are some incompatibilities
+between the \spicethree\ and \pspice\ syntaxes as \pspice\ was released
+before \spicethree\ became available.
+The effect of this development is that all \justspice\ simulators
+(including commercial programs)
+accept a \spicetwo\ netlist but perhaps not a \spicethree\ netlist.
+Conflicts with \spicethree\ generally exist in the naming of additional
+elements and in the use of new models.}
+
+
+\section{How to use this book}
+
+This manual was used as a guide in developing the fREEDA simulator (see http://www.freeda.org).
+If you are generally unfamiliar with how to use \justspice,
+or are not familiar with all of its features then
+Chapter \ref{chapter:chap2} and Chapter \ref{chapter:chap3} are provided
+to get you started.  The aim in Chapter 2 is just to
+help you write, run, and understand your first \justspice\
+file.  In Chapter \ref{chapter:chap3}, each of the major types of analyses
+\justspice\ can do for you are introduced, by example.
+{In contrast, Chapter \ref{chapter:technic} is intended for those
+wishing to understand how \spice\ works internally.}
+Chapter \ref{chapter:input} describes in the format of the \spice\ input file
+or netlist.
+{Part II (Chapters \ref{chapter:statement} and
+\ref{chapter:element}) describe the syntax of the \spice\
+language and the predefined expressions provided within it.}
+{Part III summarizes the \spice\ syntax, statements and
+elements in a quick look-up form suitable for the experienced user.}
+%Also provided are full descriptions of how \spice\ internally models each
+%circuit element.
+{
+Chapter 9 presents more elaborate
+\spice\ examples.
+Also provided is a quick reference guide to \spice 's error
+messages and their meaning (Appendix E).}
+
+
+\section{What \spice\ Does}
+
+Many different types of analyses are supported by different versionss
+of \justspice.
+Most versions allow all of the analysis types of \spicetwo\ plus a few
+additional analyses.  One of the exceptions is the distortion analysis which
+proved to be unreliable in \spicetwo.
+The table below identifies the analyses that are common to virtually all
+\justspice\ programs and the extended analyses
+{by the \spicethree\ and \pspice\ versions included in this book.}
+\begin{center}
+\begin{tabular}{|l|l|}
+\hline
+\multicolumn{2}{|c|}{COMMON \justspice\ ANALYSES}\\
+\hline
+\hline
+.AC & \ac\ Analysis\\
+.DC & \dc\ Analysis\\
+.FOUR & Fourier Analysis\\
+.NOISE & Small-Signal Noise Analysis\\
+.OP & Operating Point Analysis\\
+.SENS & Sensitivity Analysis\\
+.TRAN & Transient Analysis\\
+\hline
+\multicolumn{2}{|c|}{ANALYSES SPECIFIC TO \spicetwo}\\
+\hline
+\hline
+.DISTO & Small-Signal Distortion Analysis\\
+\hline
+\multicolumn{2}{|c|}{ANALYSES SPECIFIC TO \spicethree}\\
+\hline\\
+\hline
+.DISTO & Small-Signal Distortion Analysis\\
+.PZ    & Pole-Zero Analysis\\
+\multicolumn{2}{|c|}{ANALYSES SPECIFIC TO \pspice}\\
+.TF & Transfer Function Specification \pspice\ Only\\
+.MC & Monte Carlo Analysis (\pspice\ only)\\
+.SAVEBIAS & Save Bias Conditions\\
+.STEP & Parameteric Analysis\\
+.WCASE & Sensistivity and Worst Case Analysis\\
+\hline
+\end{tabular}
+\end{center}
+
+{
+\section{justspice\ versions}
+
+This book is a manual for five versions of \justspice: \spicetwo,
+\spicethree , \pspice and \hspice . For these the input syntax,
+and models are described.
+Particularly emphasis is given to \spicethree\ and \pspice\ as these are the
+most widley used \justspice\ versions.
+For these the graphical user interface is also described.
+
+The syntax, analysis types, and elements of
+\spicetwo form a common denominator with the capabilities of
+\spicethree and \pspice being extensions.
+Adhering to the \spicetwo\ syntax ensures maximum portability of
+\spice\ netlists.  Major restrictions of this syntax compared to commercial
+versions include using integers to designate nodes.
+The \spicethree syntax is just a small extension
+of the \spicetwo\ syntax and is fully upwards compatible from \spicetwo.
+The \pspice syntax is a considerable enhancement over the \spicetwo syntax.
+Highlights of the enhanced syntax are that node names are allowed which
+greatly increases the readibility of the netlist, the use of
+symbolic expressions in place of numeric values, passing parameters
+to subcircuits, and many more analysis
+types.  The \pspice\ syntax has become a second ``standard'' syntax.
+
+Part II of this book serves as a combined user and reference manual while
+Part III is a condensed reference manual aimed at the experiendenced user
+needing to check syntax.
+Descriptions of statements and elements are based on the \spicetwo\ syntax
+with the \spicethree\ and \pspice\ extensions clearly identified.
+
+\section{Documentation Conventions}
+
+In this manual the general forms of statements and elements use the following
+conventions to identify the type of input required:
+\begin{enumerate}
+\item Actual characters that must be typed by the user are in a typewriter
+      font.
+\item Input that must be replaced by a word or a numeric value is italicized.
+\item Optional input is enclosed between square brackets ``\B\ \ \ \E''.
+\item Input that can be optionally repeated is followed by a string of
+      dots ``$\ldots$''.
+\item As in \justspice\ input syntax a line is continued when a plus sign
+      ``{\tt +}'' appears in the first character position of the continued line.
+\end{enumerate}
+
+As example the general form of resistor is\\[0.05in]
+\hspace*{\fill}\offsetparbox{
+{\it{\tt R}name $N_1$ $N_2$\\{\tt +}  ResistorValue {\tt IC=}$V_R$\E } }\\[0.05in]
+Here the first character on the first line is {\tt R} which indicates that
+this line describes a resistor element.  The full name of the resistor is
+{\it {\tt R}name} where {\it name} can be replaced by any alphanumeric character
+string that uniquely identifies the element. Thus ``{\tt R1}'', ``{\tt Rgate}''
+and ``{\tt ROP\_AMP\_16\_2}'' are names of resistors. It should be noted that
+\spice\ does not distinguish between upper and lower case characters.
+{\it ResistorValue} must be replaced by the numeric value of the resistor
+possibly including a scale factor. Thus {\tt 1MEG}, {\tt 1E6}, and {\tt 1000000}.
+The complete \justspice\ input syntax is described in Chapter \ref{chapter:input}.
+With the exception of the line continuation indicated by the leading {\tt +}
+sign a \spice\ element or statement must be
+fully contained on a single line.

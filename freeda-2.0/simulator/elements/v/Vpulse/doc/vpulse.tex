@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Pulse voltage source}
+\hspace{\fill}\textbf{vpulse}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.75in\epsfbox{v_spice.ps}}
+\caption{Independent Voltage Source Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt vpulse$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+$n_2$ & is the negative element node. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+v1: Initial value (V) & DOUBLE & 0 & no\\
+\hline
+v2: Pulsed value (V) & DOUBLE & 0 & no\\
+\hline
+td: Delay time (s) & DOUBLE & 0 & no\\
+\hline
+tr: Rise time (s) & DOUBLE & 0 & no\\
+\hline
+tf: Fall time (s) & DOUBLE & 0 & no\\
+\hline
+pw: Pulse width (s) & DOUBLE & 0 & no\\
+\hline
+per: Period (s) & DOUBLE & 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{vpulse:vclock\ 8\ 0\ v1=0.3 v2=1.8 td=1 tr=2.5 tf=0.3 pw=1
+per=0.7}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+\FDA has a trapezoidal pulse source function, which starts with an
+initial delay from the beginning of the transient simulation
+interval to an onset ramp. During the onset ramp, the voltage or
+current changes linearly from its initial value to the pulse
+plateau value. After the pulse plateau, the voltage or current
+moves linearly along a recovery ramp, back to its initial value.
+The entire pulse repeats with a period per from onset to onset.\\
+The pulse transient waveform is defined by
+\begin{equation}
+v = \left\{ \begin{array}{ll}
+v_1                         & 0 < t < t_d\\
+v_1 + \frac{\mathit{t}}{\mathit{t_r}}({v_2}-{v_1})& t_d < t < (t_d + t_r)\\
+v_2                         &{t_d + t_r} < t < (t_d + t_r + pw)\\
+v_2 - {\frac{\mathit{t}-pw}{\mathit{t_f}}}(v_1-v_2)
+                   &(t_d + t_r + pw) < t < (t_d + t_r + pw + t_f)\\
+v_1           &(t_d + t_r + pw + t_f) < t < per
+     \end{array} \right. %}
+\end{equation}
+\begin{figure}[h]
+\centerline{\epsfxsize=3in\epsfbox{vpulse.eps}} \caption{Voltage
+source transient pulse waveform for \texttt{vpulse:vclock\ 8\ 0\
+v1=0.3 v2=1.8 td=1 tr=2.5 tf=0.3 pw=1 per=0.7}}
+\end{figure}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{V} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.05.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & May 2002 & \epsfxsize=1in\epsfbox{logo.eps} \\
+uvs@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

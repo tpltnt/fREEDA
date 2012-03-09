@@ -1,0 +1,95 @@
+\element{U}{Universal Element}
+
+The {\tt U} element is a universal element for extending the
+number of elements that \justspice\ can handle. The element is
+determined by the model type. In some cases model parameters
+indicate further refinement.
+
+Since the \justspice\ {\tt U} element is used to specify many
+different kinds of physical elements there is no common form for
+it.  Each physical element is distinguished by the type of the
+model it refers to.  The format and description of each element is
+given in the model description as indicated in the following
+table. The index is used in this manual to uniquely identify the
+various elements.
+
+\vfill \modeltype{} \hspace*{\fill}
+\begin{tabular}{|p{0.6in}|p{0.6in}|p{3in}|}
+\hline
+Model & Index & Description\\
+\hline \hline STRUC&STRUC&Geometric coupled, lossy planar
+transmission line
+      \newline \sspice\ only.\\
+\hline U&U311    &Geometric coupled planar transmission line (up
+to 5 lines)
+      \newline Identifying Model Parameters:
+      {\tt LEVEL=3} {\tt EVEL=1} {\tt PVEL=1}
+      \newline \hspice\ only.\\
+\hline U&U312    &Geometric coaxial cable
+      \newline Identifying Model Parameters:
+      {\tt LEVEL=3} {\tt EVEL=1} {\tt PVEL=2}
+      \newline \hspice\ only.\\
+\hline U&32    &General transmission line (up to 5 lines) defined
+by precomputed
+      parameters.
+      \newline Identifying Model Parameters:
+      {\tt LEVEL=3} {\tt EVEL=2}
+      \newline \hspice\ only.\\
+\hline U&U34    &General transmission line (up to 5 lines) defined
+by measurements.
+      \newline Identifying Model Parameters:
+      {\tt LEVEL=3} {\tt EVEL=3}
+      \newline \hspice\ only.\\
+\hline U&U4    &Digital output element
+      \newline Identifying Model Parameter: {\tt LEVEL=4}
+      \newline \hspice\ only.\\
+\hline U&U5    &Digital input element
+      \newline Identifying Model Parameter: {\tt LEVEL=5}
+      \newline \hspice\ only.\\
+\hline
+\end{tabular}
+
+\hspace*{\fill}
+\begin{tabular}{|p{0.6in}|p{0.6in}|p{3in}|}
+\hline
+Model & Index & Description\\
+\hline \hline UDLY&UDLY & Delay Line
+      \newline \justpspice\ only.\\
+\hline UEFF&UEFF & Edge-Triggered Flip-Flop
+      \newline \justpspice\ only.\\
+\hline UGATE&UGATE& Standard Gate Model Form
+      \newline \justpspice\ only.\\
+\hline UGFF&UGFF & Gated Flip-Flop
+      \newline \justpspice\ only.\\
+\hline UIO&UIO  & IO Model
+      \newline \justpspice\ only.\\
+\hline URC&URC  &Lossy RC transmission line
+      \newline \spicethree\ only.\\
+\hline USUHD&USUHD& Setup and Hold Checker
+      \newline \justpspice\ only.\\
+\hline UTGATE&UTGATE& Tri-State Gate
+      \newline \justpspice\ only.\\
+\hline UWDTH&UWDTH& Pulse-Width Checker
+      \newline \justpspice\ only.\\
+\hline
+\end{tabular}
+
+\note{
+\item
+One of the problems with \justspice\ is that the first letter of
+an element's name is used to determine the type of an element. One
+consequence of this is that there can only be 26 elements --- one
+for each letter of the alphabet.  \spicetwo The original version
+of \justspice\  from which all subsequent versions of \justspice\
+have been developed had less than 26 elements and so this was not
+a problem. With the addition of new element types several of the
+originally unised letters were used and a universal element, the
+{\tt U} element, introduced to handle even more.  The {\tt U}
+element is used to represent many different type of elements such
+as lossy transmission lines and digital devices. All of the {\tt
+U} elements refer to models and the model name, and sometimes
+model parameters, used to indicate the actual element referred
+to.
+
+\item
+There is no equivalent element in \FDA.}

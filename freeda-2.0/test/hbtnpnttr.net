@@ -1,0 +1,35 @@
+**** Test netlist for hbtnpnxt model, transient simulation****
+
+.options f0 = 20e9
+
+.tran2 tstop = 6e-9 tstep = 0.002e-9
+
+hbtnpnxt:h1 1 2 0 0 100 "tref"
+
+vsource:vc 6 0 vdc = 2
+isource:ib 7 0 idc = 1e-3
+vsource:v1 9 0 f = f0 vac = 0.05 delay = 1ns phase = 265
+
+resistor:r1 9 8 r = 50
+*resistor:r3 1 4 r = 1
+resistor:r5 5 0 r = 50
+*resistor:r6 3 0 r = 2.5
+
+capacitor:c1 8 2 c = 1e-12
+capacitor:c2 1 5 c = 1e-12
+inductor:l1 2 7 l = 1e-9
+inductor:l2 1 6 l = 1e-9
+
+resistor:rth 100 101 r = 2200
+capacitor:cth 100 101 c = 3e-10
+vsource:t1 101 "tref" vdc=300
+.ref "tref"
+
+.out plot element "hbtnpnxt:h1" 0 ut in "hbt.vc"
+.out plot element "hbtnpnxt:h1" 1 ut in "hbt.vb"
+.out plot element "hbtnpnxt:h1" 1 it in "hbt.ib"
+.out plot element "hbtnpnxt:h1" 0 it in "hbt.ic"
+.out plot term 9 vt in "hbt.in"
+.out plot term 5 vt in "hbt.out"
+
+.end

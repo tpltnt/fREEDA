@@ -1,0 +1,38 @@
+Double-Heterojunction Laser Diode (Rodney S. Tucker Model)
+**********************************************************
+
+*.tran2 tstop=6n tstep=.001n nst=0 msv=0 deriv=0 im=1 out_steps=1
+*.tran2 tstop=30n tstep=.002n im=1 out_steps=10000
+*.svhb n_freqs=40 fundamental=1e9 deriv=0 steps=0
+
+.dc sweep="vsource:vs" start=91m stop=200m step=.02m 
+
+vsource:vs 1 0 vdc=0m 
+*vpulse:vs  1 0 v1=0m v2=150m  td=.1n  tr=.1n  tf=.1n  pw=5n  per=9n
+**vsource:vs 1 0 vdc=150m vac=2m f=1e9 phase=-90
+
+*circuit to convert current to voltage since 
+*fREEDA does not have a current pulse
+vsource:vp 1 11 vac=0
+g:vccs1 11 2 0 0 g=-1 ri=1e16 ro=1e16
+*isource:is 2 0 idc=150m iac=4m f=1e9 phase=-90
+vsource:vcurrs 2 3 vac=0v
+*r:rin 3 0 r=1e6
+
+vcseldh:ld1  3 0 4 "oref" c0=10p beta=1e-3
+
+open:o1 4 "oref"
+*resistor:rout 4 "oref" r=1e6
+
+.ref "oref"
+
+*.out plot element "vsource:vcurrs" 0 it in "curr.ox"
+*.out plot element "vsource:vp" 0 it in "ip.ox"
+.out plot term 3 vt in "DHLD_v_beta_5e_2_dc_freeda"
+.out plot term 4 vt in "DHLD_sn_beta_5e_2_dc_freeda"
+*.out plot term 3 vt in "v_beta_5e-2_sin_tr.freeda"
+*.out plot term 4 vt in "sn_beta_5e-2_sin_tr.freeda"
+*.out plot term 3 vf invfft 8 repeat in  "v_beta_5e-2_sin_hb.freeda"
+*.out plot term 4 vf invfft 8 repeat in  "sn_beta_5e-2_sin_hb.freeda"
+
+.end

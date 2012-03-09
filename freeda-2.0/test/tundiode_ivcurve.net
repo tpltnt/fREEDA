@@ -1,0 +1,12 @@
+*****tundiode_ivcurve.net
+** I-V characteristic of the tunnel diode
+.dc sweep="vsource:v1" start=-0.05 stop=0.7 step=0.01
+
+diodetun:d1 1 0 jp=1e-2
+** resistor:rin 1 2 r=50
+
+vsource:v1 1 0 vdc=1. 
+
+.out plot element "diodetun:d1" 0 it in "tundiode_ivcurve.dc"
+
+.end

@@ -1,0 +1,16 @@
+*** Strain gauge test netlist ***
+.OPTIONS FREQ = 1000Hz ftol=1e-8
+.svhb n_freqs = 8 fundamental = freq 
+isource:fin 1 0 idc=100 
+
+straingauge:sg1 1 2 0 h1=0.01 h2=0.02 h3=0.002 C=126e9 e=-6.5 eps=1.3e-8
+
+resistor:r3 2 3 r=.001
+resistor:r2 1 0 r=1e6
+resistor:r1 3 0 r=100
+
+.out plot term 3 vf invfft 2 repeat in "resistor.vout"
+.out plot term 2 vf invfft 2 repeat in "sg.vout"
+.out plot term 1 vf invfft 2 repeat in "sg.x"
+
+.end

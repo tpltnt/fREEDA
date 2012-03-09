@@ -1,0 +1,28 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* Two-port coupled antena test
+*
+
+.tran2 tstop=1000ns tstep=5ps im=2
+
+vsource:vin 1 0 vac=1 f=300megaHz phase=90
+r:rin 1 port1 r=50
+
+FosterNPort:f1 port1 port2 0 filename = "foster_r1nw.txt" ports = 2
+
+r:rload port2 0 r=50
+
+
+.options gnuplot
+
+.options preamble="set term x11 font 'helvetica,13'; set title 'Voltage at Input to Foster N Port'; set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE (volts)' "
+.out plot term "port1" vt 1e6 scalex preamble in "v1.out"
+
+.options preamble="set term x11 font 'helvetica,13'; set title 'Voltage at Receiver Port'; set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE (microvolts)' "
+.out plot term "port2" vt 1e6 mult  1e6 scalex preamble in "v2.out"
+
+.end
+
+
+
+.end

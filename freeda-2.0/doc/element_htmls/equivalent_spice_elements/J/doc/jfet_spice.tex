@@ -1,0 +1,241 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight
+7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[J \- JFET]{\LARGE \textbf{Junction Field Effect Transistor} \hspace{40mm}\huge \textbf{J}}
+%\newline
+\linethickness{1mm} \line(1,0){425} \normalsize
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the diode figure
+\begin{figure}[h]
+\centerline{\epsfxsize=2.4in\pfig{j.ps}} \caption{J --- JFET
+element (a) n-channel JFET ; (b) p-channel JFET}
+\end{figure}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%SPICE FORM%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\noindent\texttt{SPICE} \textit{Form}:
+\newline
+{\tt J}name  \textit{NDrain} \textit{NGate} \textit{NSource} \texttt{[}\textit{ModelName}\texttt{]} [Area] [{\tt OFF}] [{\tt IC=}Vbe,Vce]\\
+
+\begin{tabular}{r l}
+{\it NDrain} & is the drain node, \\
+{\it NGate} & is the gate node, \\
+{\it NSource} & is the source node, \\
+{\it ModelName} & is the model name, (\textit{ModelType} is either \texttt{NJF} or \texttt{PJF}.) \\
+{\it Area} & is  the  area  factor.(Units: none; Optional; Default: 1; Symbol: $Area$) \\
+{\tt OFF} & indicates an (optional) initial condition on the device for the dc\ analysis. If \\
+& specified the dc\ operating point is calculated with the terminal voltages set to \\
+& zero. Once convergence is obtained, the program continues to iterate to obtain \\
+& the exact value of the  terminal  voltages.  The OFF option is used to enforce \\
+& the solution to  correspond to  a  desired state if the circuit has \\
+& more than one stable state. \\
+{\tt IC} & is the optional initial condition specification using  {\tt IC=}$V_{BE},V_{CE}$ is  intended \\
+& for use with the {\tt UIC} option on the {\tt .TRAN} line, when a transient analysis is \\
+& desired  starting  from  other than  the  quiescent  operating  point. See  the {\it .IC} \\
+& line description for a better way to set transient initial
+conditions.
+\end{tabular}
+\newline
+%\vspace{4mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in SPICE
+%\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\noindent\textit{Example}:
+\newline
+J2 12 10 3 OFF \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter table
+%\newpage
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\noindent\textit{Model Parameters}:\\[0.1in]
+The parameters remain the same for an n-channel and p-channel JFET
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+{\tt AF} & flicker noise exponent ($A_F$) & - & 1 \\
+\hline
+{\tt BETA} & transconductance parameter ($\beta$) & $\mbox{A/V}^2$ & 1.0E-4 \\
+\hline
+{\tt CGS} & zero-bias G-S junction capacitance per unit area ($C'_{GS}$) & F & 0 \\
+\hline
+{\tt CGD} & zero-bias G-D junction capacitance per unit area ($C'_{GD}$) & F & 0 \\
+\hline
+{\tt FC} & coefficient for forward-bias depletion capacitance formula ($F_C$) & - & 0.5 \\
+\hline
+{\tt IS}& gate junction saturation current ($I_S$) & A & 1.0E-14 \\
+\hline
+{\tt KF} & flicker noise coefficient ($K_F$) & - & 0 \\
+\hline
+{\tt LAMBDA} & channel length modulation parameter ($\lambda$) & 1/V & 0 \\
+\hline
+{\tt PB} & gate junction potential ($\phi_J$) & V & 1 \\
+\hline
+{\tt RD} & drain ohmic sheet resistance ($R_D$) & $\Omega$ & 0 \\
+\hline
+{\tt RS} & source ohmic sheet resistance ($R_S$) & $\Omega$ & 0 \\
+\hline
+{\tt VTO} & threshold voltage ($V_{T0}$) & V & -2.0 \\
+          & {\tt VTO} $<$ 0 indicates a depletion mode JFET & & \\
+          & {\tt VTO} $\ge$ 0 indicates an enhancement mode JFET & & \\
+\hline
+{\tt BETATC}& temperature coefficient of {\tt BETA} ($T_{C,\beta}$) & /$^\circ$C & 0 \\
+\hline
+{\tt M} & gate {\it p-n} junction grading  coefficient ($M$) & - & 0.5 \\
+\hline
+{\tt VTOTC}& temperature coefficient of threshold voltage {\tt VTO} ($T_{C,VT0}$) & V/$^\circ$C & 0 \\
+\hline
+\end{tabular}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%DESCRIPTION%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textit{Description}:\\
+\textit{\underline{JFET Model}}:
+\newline
+\begin{figure}[h]
+\centerline{\epsfxsize=3.5in\pfig{jfet_eq.ps}} \caption{Schematic
+of the JFET Model}
+\end{figure}
+\newline
+%\vspace{5mm}
+%\newline
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzmann's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+\noindent\textit{\underline{\large Standard Calculations}}:\\[0.1in]
+Absolute temperatures (in kelvins, K) are used. The thermal
+voltage
+\begin{equation}
+V_{TH} = {{kT_{NOM}} \over q} .
+\end{equation}
+\noindent The silicon bandgap energy
+\begin{equation}
+E_G = 1.16 - 0.000702{{4T_{NOM}^2} \over {T_{NOM}+1108}} .
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Current Characteristics
+\noindent\textit{\underline{\large Current Characteristics}}:\\[0.1in]
+The current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted: $V_{DS}
+< 0$) and the region (cutoff, linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.\\[0.1in]
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+Regions of operation:
+\newline
+\hspace*{12mm}{
+\begin{tabular}{l l}
+$V_{GS} - V_{T0} \leq 0$ & Cutoff Region \\
+$0 \leq V_{DS} < V_{GS} - V_{T0}$ & Linear Region \\
+$0 < V_{GS} - V_{T0} \leq V_{DS}$ & Saturation Region
+\end{tabular}}\\[0.1in]
+Then
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      Area\,\beta \left(1 + \lambda V_{DS}\right)V_{DS}
+      \left[2\left(V_{GS}-V_{T0}\right)-V_{DS}\right]
+         &\mbox{linear region}\\
+      Area\,\beta \left(1 + \lambda V_{DS}\right)
+      \left(V_{GS}-V_{T0}\right)^2
+         &\mbox{saturation region} \end{array} \right. %}
+\end{equation}
+
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+Regions of operation:
+\newline
+\hspace*{12mm}{
+\begin{tabular}{l l}
+$V_{GD} - V_{T0} \leq 0$ & Cutoff Region \\
+$0 \leq -V_{DS} < V_{GD} - V_{T0}$ & Linear Region \\
+$0 < V_{GD} - V_{T0} \leq -V_{DS}$ & Saturation Region
+\end{tabular}}\\[0.1in]
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      Area\,\beta \left(1 - \lambda V_{DS}\right)V_{DS}
+      \left[2\left(V_{GD}-V_{T0}\right)+V_{DS}\right]
+         &\mbox{linear region}\\
+      Area\,(-\beta) \left(1 - \lambda V_{DS}\right)
+      \left(V_{GD}-V_{T0}\right)^2
+         &\mbox{saturation region} \end{array} \right. %}
+\end{equation}\\[0.2in]
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Leakage Currents
+\noindent\textit{\underline{\large Leakage Currents}}:\\[0.1in]
+Current flows across the normally reverse biased source-bulk and
+drain-bulk junctions. The gate-source leakage current
+\begin{equation}
+I_{GS} = Area\,I_{S}e^{(\textstyle V_{GS}/V_{TH} -1)}
+\end{equation}
+and the gate-source leakage current
+\begin{equation}
+I_{GD} = Area\,I_{S}e^{(\textstyle V_{GD}/V_{TH} -1)}
+\end{equation}
+\newline
+%\vspace{4mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Capacitances
+\textit{\underline{\large Capacitances}}:\\[0.1in]
+The drain-source capacitance
+\begin{equation}
+C_{DS} = Area\,C'_{DS}
+\end{equation}
+The gate-source capacitance
+\begin{equation}
+C_{GS} = \left\{ \begin{array}{ll}
+         Area\,C'_{GS}\left(1 - {{\textstyle V_{GS}}\over{\textstyle \phi_J}}
+         \right)^{-M}
+         & V_{GS} \le F_C \phi_J\\
+         Area\,C'_{GS}\left(1 -F_C\right)^{-(1+M)}
+         \left[1-F_C(1+M)+M {{\textstyle V_{GS}}\over{\textstyle \phi_J}}
+         \right]^{-M}
+         & V_{GS} > F_C \phi_J
+         \end{array} \right. %}
+\end{equation}
+models charge storage at the gate-source depletion layer. The
+gate-drain capacitance
+\begin{equation}
+C_{GD} = \left\{ \begin{array}{ll}
+         Area\,C'_{GD}\left(1 - {{\textstyle V_{GD}}\over{\textstyle \phi_J}}
+         \right)^{-M}
+         & V_{GD} \le F_C \phi_J\\
+         Area\,C'_{GD}\left(1 -F_C\right)^{-(1+M)}
+         \left[1-F_C(1+M)+M {{\textstyle V_{GD}}\over{\textstyle \phi_J}}
+         \right]^{-M}
+         & V_{GD} > F_C \phi_J
+         \end{array} \right. %}
+\end{equation}
+models charge storage at the gate-drain depletion layer.
+\newline
+\textit{Notes:}\\
+The actual elements in \FDA are the \texttt{njfet} and \texttt{pjfet} elements.
+See \texttt{njfet} and \texttt{pjfet} for full documentation. \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm}
+\line(1,0){425}\\[0.1in]
+\noindent\large{\textit{Credits}}: \normalsize
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Nikhil Kriplani & North Carolina State University & April 2001 & \epsfxsize=1in\pfig{logo.eps} \\
+Shubha Vijaychand & North Carolina State University & April 2001 &
+\epsfxsize=1in\pfig{logo.eps}\\
+nmkripla@eos.ncsu.edu & & & www.ncsu.edu \\
+svijayc@eos.ncsu.edu & & & \\
+\end{tabular}
+%\end{document}

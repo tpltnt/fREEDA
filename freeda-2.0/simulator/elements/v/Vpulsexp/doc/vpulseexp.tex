@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Voltage source with pulse train of exponentials}\\
+\hspace*{\fill}\textbf{vpulseexp}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+%\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.5in\epsfbox{v_source.eps}}
+\caption{Independent Voltage Source Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt vpulseexp$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+&  \\
+$n_2$ & is the negative element node. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+v1: Initial value (A) & DOUBLE & 0 & no\\
+\hline
+v2: Pulsed value (A) & DOUBLE & 0 & no\\
+\hline
+td: Delay time (s) & DOUBLE & 0 & no\\
+\hline
+tr: Rise Time  (s) & DOUBLE & 0 & no\\
+\hline
+tf: Fall Time (s) & DOUBLE & 0 & no\\
+\hline
+pw: Pulse width (s) & DOUBLE & 0 & no\\
+\hline
+per: Period (s) & DOUBLE & 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+%\newline
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{vpulseexp:vsignal\ 8\ 0\ v1=0.1 v2=0.8 td=1ns tr=0.5ns tf=1ns pw=2ns per=5ns
+tcf=1}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The exponential transient is a periodic event with each pulse specified by two
+exponentials. 
+
+\begin{figure}[h]
+\centerline{\epsfxsize=3in\epsfbox{vexpcurve.eps}} \caption{Voltage source
+transient exponential waveform.}
+\end{figure}
+\newpage
+\noindent\linethickness{0.5mm} \line(1,0){425}
+\newline
+\noindent\textit{Version:}\\
+2003.08.28 \\
+% Credits
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Frank Hart & NC State University & August 2003 & \epsfxsize=1in\epsfbox{logo.eps} \\
+ & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

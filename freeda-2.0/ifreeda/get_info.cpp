@@ -1,0 +1,272 @@
+/*
+Need to automate generation of this file
+*/
+
+if (elem_type == AbmButterbpf10::getNetlistName())
+  new_elem = new AbmButterbpf10("dummy");
+if (elem_type == AbmMixer::getNetlistName())
+  new_elem = new AbmMixer("dummy");
+if (elem_type == AbmVCann::getNetlistName())
+  new_elem = new AbmVCann("dummy");
+if (elem_type == AbmVTanh::getNetlistName())
+  new_elem = new AbmVTanh("dummy");
+if (elem_type == Attenuator::getNetlistName())
+    new_elem = new Attenuator("dummy");
+if (elem_type == Bjtnpn::getNetlistName())
+  new_elem = new Bjtnpn("dummy");
+if (elem_type == BjtnpnT::getNetlistName())
+  new_elem = new BjtnpnT("dummy");
+if (elem_type == Bjtpnp::getNetlistName())
+  new_elem = new Bjtpnp("dummy");
+if (elem_type == ButterworthBPF::getNetlistName())
+    new_elem = new ButterworthBPF("dummy");
+if (elem_type == C::getNetlistName())
+  new_elem = new C("dummy");
+if (elem_type == Capacitor::getNetlistName())
+  new_elem = new Capacitor("dummy");
+if (elem_type == CapacitorLC::getNetlistName())
+  new_elem = new CapacitorLC("dummy");
+if (elem_type == CapacitorJn::getNetlistName())
+  new_elem = new CapacitorJn("dummy");
+if (elem_type == CapacitorMos::getNetlistName())
+  new_elem = new CapacitorMos("dummy");
+if (elem_type == Cccs::getNetlistName())
+    new_elem = new Cccs("dummy");
+if (elem_type == ChebyshevBPF::getNetlistName())
+   new_elem = new ChebyshevBPF("dummy");
+if (elem_type == ChebyshevBSF::getNetlistName())
+     new_elem = new ChebyshevBSF("dummy");
+if (elem_type == ChebyshevHPF::getNetlistName())
+     new_elem = new ChebyshevHPF("dummy");
+if (elem_type == ChebyshevLPF::getNetlistName())
+     new_elem = new ChebyshevLPF("dummy");
+if (elem_type == Circulator::getNetlistName())
+  new_elem = new Circulator("dummy");
+if (elem_type == Cmos2Nand::getNetlistName())
+    new_elem = new Cmos2Nand("dummy");
+if (elem_type == Cmos2NandX::getNetlistName())
+    new_elem = new Cmos2NandX("dummy");
+if (elem_type == CmosInv::getNetlistName())
+  new_elem = new CmosInv("dummy");
+if (elem_type == CmosInvT::getNetlistName())
+  new_elem = new CmosInvT("dummy");
+if (elem_type == CmosLatchSRnand::getNetlistName())
+    new_elem = new CmosLatchSRnand("dummy");
+if (elem_type == CmosLatchSRnandX::getNetlistName())
+    new_elem = new CmosLatchSRnandX("dummy");
+if (elem_type == CmosNandT::getNetlistName())
+  new_elem = new CmosNandT("dummy");
+if (elem_type == CmosNor::getNetlistName())
+  new_elem = new CmosNor("dummy");
+if (elem_type == CmosNorT::getNetlistName())
+  new_elem = new CmosNorT("dummy");
+if (elem_type == CPW::getNetlistName())
+  new_elem = new CPW("dummy");
+if (elem_type == D::getNetlistName())
+  new_elem = new D("dummy");
+if (elem_type == DFlipFlop::getNetlistName())
+    new_elem = new DFlipFlop("dummy");
+if (elem_type == DFlipFlopX::getNetlistName())
+    new_elem = new DFlipFlopX("dummy");
+if (elem_type == DHLD::getNetlistName())
+  new_elem = new DHLD("dummy");
+if (elem_type == Diode::getNetlistName())
+  new_elem = new Diode("dummy");
+if (elem_type == DiodeCompact::getNetlistName())
+  new_elem = new DiodeCompact("dummy");
+if (elem_type == DiodeQk::getNetlistName())
+    new_elem = new DiodeQk("dummy");
+if (elem_type == DiodeSP::getNetlistName())
+  new_elem = new DiodeSP("dummy");
+if (elem_type == DiodeTun::getNetlistName())
+  new_elem = new DiodeTun("dummy");
+if (elem_type == FosterNPort::getNetlistName())
+  new_elem = new FosterNPort("dummy");
+if (elem_type == GridEx::getNetlistName())
+  new_elem = new GridEx("dummy");
+if (elem_type == Gyrator::getNetlistName())
+  new_elem = new Gyrator("dummy");
+if (elem_type == HBTnpnxT::getNetlistName())
+  new_elem = new HBTnpnxT("dummy");
+if (elem_type == IAM::getNetlistName())
+  new_elem = new IAM("dummy");
+if (elem_type == Iexp::getNetlistName())
+  new_elem = new Iexp("dummy");
+if (elem_type == Inductor::getNetlistName())
+  new_elem = new Inductor("dummy");
+if (elem_type == InterconnectRT::getNetlistName())
+  new_elem = new InterconnectRT("dummy");
+if (elem_type == InterconnectRTSH::getNetlistName())
+    new_elem = new InterconnectRTSH("dummy");
+if (elem_type == IsfFM::getNetlistName())
+  new_elem = new IsfFM("dummy");
+if (elem_type == Isolator::getNetlistName())
+  new_elem = new Isolator("dummy");
+if (elem_type == Isource::getNetlistName())
+  new_elem = new Isource("dummy");
+if (elem_type == Jfetn::getNetlistName())
+  new_elem = new Jfetn("dummy");
+if (elem_type == Jfetp::getNetlistName())
+  new_elem = new Jfetp("dummy");
+if (elem_type == K::getNetlistName())
+  new_elem = new K("dummy");
+if (elem_type == L::getNetlistName())
+  new_elem = new L("dummy");
+if (elem_type == Lspiral::getNetlistName())
+    new_elem = new Lspiral("dummy");
+if (elem_type == MesfetC::getNetlistName())
+  new_elem = new MesfetC("dummy");
+if (elem_type == MesfetCQ::getNetlistName())
+  new_elem = new MesfetCQ("dummy");
+if (elem_type == MesfetCT::getNetlistName())
+  new_elem = new MesfetCT("dummy");
+if (elem_type == MesfetM::getNetlistName())
+  new_elem = new MesfetM("dummy");
+if (elem_type == MesfetMQ::getNetlistName())
+  new_elem = new MesfetMQ("dummy");
+if (elem_type == MesfetTom::getNetlistName())
+  new_elem = new MesfetTom("dummy");
+if (elem_type == Mosnekv::getNetlistName())
+  new_elem = new Mosnekv("dummy");
+if (elem_type == Mosnekv2::getNetlistName())
+  new_elem = new Mosnekv2("dummy");
+if (elem_type == Mosn1::getNetlistName())
+  new_elem = new Mosn1("dummy");
+if (elem_type == Mosn2::getNetlistName())
+  new_elem = new Mosn2("dummy");
+if (elem_type == Mosn9::getNetlistName())
+  new_elem = new Mosn9("dummy");
+if (elem_type == Mosnbsim3::getNetlistName())
+  new_elem = new Mosnbsim3("dummy");
+if (elem_type == Mosnbsim3SOI5T1::getNetlistName())
+  new_elem = new Mosnbsim3SOI5T1("dummy");
+if (elem_type == Mosnbsim4::getNetlistName())
+  new_elem = new Mosnbsim4("dummy");
+if (elem_type == MosnldMet::getNetlistName())
+  new_elem = new MosnldMet("dummy");
+if (elem_type == Mosntft::getNetlistName())
+  new_elem = new Mosntft("dummy");
+if (elem_type == Mosntftq::getNetlistName())
+  new_elem = new Mosntftq("dummy");
+if (elem_type == Mospekv::getNetlistName())
+  new_elem = new Mospekv("dummy");
+if (elem_type == Mospekv2::getNetlistName())
+  new_elem = new Mospekv2("dummy");
+if (elem_type == Mosp1::getNetlistName())
+  new_elem = new Mosp1("dummy");
+if (elem_type == Mosp2::getNetlistName())
+  new_elem = new Mosp2("dummy");
+if (elem_type == Mosp9::getNetlistName())
+  new_elem = new Mosp9("dummy");
+if (elem_type == Mospbsim3::getNetlistName())
+  new_elem = new Mospbsim3("dummy");
+if (elem_type == Mospbsim3SOI5T1::getNetlistName())
+  new_elem = new Mospbsim3SOI5T1("dummy");
+if (elem_type == Mosnbsim3SOI5T1T::getNetlistName())
+  new_elem = new Mosnbsim3SOI5T1T("dummy");
+if (elem_type == Molecule1::getNetlistName())
+  new_elem = new Molecule1("dummy");
+if (elem_type == Molecule2::getNetlistName())
+  new_elem = new Molecule2("dummy");
+if (elem_type == NPort::getNetlistName())
+  new_elem = new NPort("dummy");
+if (elem_type == NPortT::getNetlistName())
+  new_elem = new NPortT("dummy");
+if (elem_type == OpAmpT::getNetlistName())
+  new_elem = new OpAmpT("dummy");
+if (elem_type == Open::getNetlistName())
+  new_elem = new Open("dummy");
+if (elem_type == R::getNetlistName())
+  new_elem = new R("dummy");
+if (elem_type == Resistor::getNetlistName())
+  new_elem = new Resistor("dummy");
+if (elem_type == ResistorPhyN::getNetlistName())
+  new_elem = new ResistorPhyN("dummy");
+if (elem_type == ResistorPhyP::getNetlistName())
+  new_elem = new ResistorPhyP("dummy");
+if (elem_type == ResistorPhyPoly::getNetlistName())
+  new_elem = new ResistorPhyPoly("dummy");
+if (elem_type == ResistorT::getNetlistName())
+  new_elem = new ResistorT("dummy");
+if (elem_type == ThermalBlock::getNetlistName())
+  new_elem = new ThermalBlock("dummy");
+if (elem_type == ThermalBlockBC1::getNetlistName())
+  new_elem = new ThermalBlockBC1("dummy");
+if (elem_type == ThermalBlockRC::getNetlistName())
+  new_elem = new ThermalBlockRC("dummy");
+if (elem_type == ThermalHeatsink::getNetlistName())
+  new_elem = new ThermalHeatsink("dummy");
+if (elem_type == ThermalHeatsink1::getNetlistName())
+  new_elem = new ThermalHeatsink1("dummy");
+if (elem_type == ThermalHeatsinkSpot::getNetlistName())
+  new_elem = new ThermalHeatsinkSpot("dummy");
+if (elem_type == ThermalHeatsinkMMIC1::getNetlistName())
+  new_elem = new ThermalHeatsinkMMIC1("dummy");
+if (elem_type == ThermalInt::getNetlistName())
+  new_elem = new ThermalInt("dummy");
+if (elem_type == ThermalNportNL::getNetlistName())
+  new_elem = new ThermalNportNL("dummy");
+if (elem_type == ThermalShunt::getNetlistName())
+  new_elem = new ThermalShunt("dummy");
+if (elem_type == ThermalTest::getNetlistName())
+  new_elem = new ThermalTest("dummy");
+if (elem_type == ThermalTransf::getNetlistName())
+  new_elem = new ThermalTransf("dummy");
+if (elem_type == Tlinp4::getNetlistName())
+  new_elem = new Tlinp4("dummy");
+if (elem_type == Transformer::getNetlistName())
+    new_elem = new Transformer("dummy");
+if (elem_type == TransformerCT::getNetlistName())
+      new_elem = new TransformerCT("dummy");
+if (elem_type == VAM::getNetlistName())
+  new_elem = new VAM("dummy");
+if (elem_type == Vccs::getNetlistName())
+  new_elem = new Vccs("dummy");
+if (elem_type == VccsPoly::getNetlistName())
+  new_elem = new VccsPoly("dummy");
+if (elem_type == VCSEL::getNetlistName())
+  new_elem = new VCSEL("dummy");
+if (elem_type == Vct::getNetlistName())
+  new_elem = new Vct("dummy");
+if (elem_type == Vcvs::getNetlistName())
+  new_elem = new Vcvs("dummy");
+if (elem_type == Vexp::getNetlistName())
+  new_elem = new Vexp("dummy");
+if (elem_type == ViaRT::getNetlistName())
+    new_elem = new ViaRT("dummy");
+if (elem_type == Vlfmpulse::getNetlistName())
+    new_elem = new Vlfmpulse("dummy");
+if (elem_type == Vpulse::getNetlistName())
+  new_elem = new Vpulse("dummy");
+if (elem_type == Vpulsexp::getNetlistName())
+  new_elem = new Vpulsexp("dummy");
+if (elem_type == VsfFM::getNetlistName())
+  new_elem = new VsfFM("dummy");
+if (elem_type == Vsource::getNetlistName())
+  new_elem = new Vsource("dummy");
+if (elem_type == Vtwotone::getNetlistName())
+    new_elem = new Vtwotone("dummy");
+if (elem_type == X::getNetlistName())
+  new_elem = new X("dummy");
+if (elem_type == Xsubckt::getNetlistName())
+  new_elem = new Xsubckt("dummy");
+if (elem_type == Ymatrix::getNetlistName())
+  new_elem = new Ymatrix("dummy");
+if (elem_type == Zbutter::getNetlistName())
+  new_elem = new Zbutter("dummy");
+if (elem_type == Zchebyi::getNetlistName())
+  new_elem = new Zchebyi("dummy");
+
+//Analysis elements
+if (elem_type == AC::getNetlistName())
+  new_analysis = new AC();
+if (elem_type == DC::getNetlistName())
+  new_analysis = new DC();
+if (elem_type == SVTr::getNetlistName())
+  new_analysis = new SVTr();
+if (elem_type == SVHB::getNetlistName())
+  new_analysis = new SVHB();
+if (elem_type == SVTran::getNetlistName())
+  new_analysis = new SVTran();
+if (elem_type == SVTran2::getNetlistName())
+  new_analysis = new SVTran2();

@@ -1,0 +1,16 @@
+Test for the AC analysis.
+
+.ac start = .01e9 stop = 20e9 n_freqs = 100
+
+vsource:v1 1 0 vac=1
+g:g1 1 2 0 0 g=1e-3 ri=1e3 ro=2e3
+
+capacitor:cload 2 0 c=1e-12
+resistor:rload  2 0 r=2e3
+
+.out plot term 2 vf mag  in "v11.out"
+.out plot element "vsource:v1" 0 if mag db in "iv1.out"
+
+* .out system "cat ac.net"
+.end
+

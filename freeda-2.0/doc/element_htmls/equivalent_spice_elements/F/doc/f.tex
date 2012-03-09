@@ -1,0 +1,156 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+%\newcommand{\ms}[1]{\mbox{\scriptsize #1}}
+%\newcommand{\B}{{ \rm [}}     % begin optional parameter in \form{}
+%\newcommand{\E}{{\ \rm\hspace{-0.04in}] }}   % end optional parameter in \form{}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[F \- Current-Controlled Current Source]{\noindent{\LARGE \textbf{Current-Controlled Current Source} \hspace{35mm}\huge\textbf{F}}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=3in\pfig{f_spice.ps}} \caption{F ---
+current-controlled current source element.}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+{\tt F}name $N_{+}$ $N_{-}$ {\it VoltageSourceName} {\it Gain}\\
+     {\tt F}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     {\it VoltageSourceName} $_1$ ...  {\it VoltageSourceName}$_D$ {\it
+     PolynomialCoefficients}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{r l}
+$N_{+}$ & is the positive voltage source node.\\
+$N_{-}$ & is the negative voltage source node.\\
+{\it VoltageSourceName} & is the name of the voltage source the
+current through which is \\
+& the controlling current. The voltage source must be a {\tt V} element.\\
+{\it Gain} & is the current gain.\\
+{\tt POLY} & is the identifier for the polynomial form of the\\
+& element {\it D} is the degree of the polynomial. The number of\\
+& pairs of controlling nodes must be equal to {\it Degree}.\\
+{\it VoltageSourceName$_i$} & is the name of the voltage source
+the current through \\
+& which is the $i$th controlling current. The voltage source must be a {\tt V} element.\\
+{\it PolynomialCoefficients} & is the set of polynomial
+coefficients which must be \\
+& specified in the standard polynomial coefficient format
+discussed in the description.
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in \FDA
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{F1 2 3 14 1 2.0}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+Polynomial expressions can be used with the controlled source
+elements ({\tt E}, {\tt F}, {\tt G} and {\tt H}) to realize
+nonlinear controlled sources. The specification of the polynomial
+must be at the end of the input line and has two forms.
+
+The format for a current-controlled current source (the {\tt F}
+element) is\\[0.1in]
+\hspace*{\fill}\offsetparbox{ {\tt POLY({\it N}) {\it
+VoltageSourceName$_1$} $\ldots$ {\it VoltageSourceName$_N$} $C_0$
+$C_1$ $C_2$ $C_3$ $\ldots$ }}\\
+where
+\newline
+\begin{tabular}{r l}
+{\tt POLY} & is the keyword indicating that that a polynomial
+description follows.\\
+{\it N} & is the degree of the polynomial.\\
+{\it VoltageSourceName$_1$} & is the name of the voltage source
+the current through\\
+& which is control current $I_1$.\\
+{\it VoltageSourceName$_N$} & is the name of the voltage source
+the current through\\
+& which is control current $I_N$.\\
+$C_0$ $C_1$ $\ldots$ & are the polynomial coefficients.
+\end{tabular}
+
+For these elements the output is calculated as
+\begin{eqnarray}
+{\rm OUTPUT} & = & C_0 \nonumber\\
+         &   & + C_1V_1 + \ldots + C_NV_N\nonumber\\
+         &   & + C_{N+1}V_1V_1 + C_{N+2}V_1V_2 + \ldots + C_{N+N}V_1V_N
+             \nonumber\\
+         &   & + C_{2N+1}V_2V_2 + C_{2N+2}V_2V_3 +\ldots + C_{2N+N-1}V_2V_N
+             \nonumber\\
+         &   & \vdots
+             \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N}V_NV_N
+             \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N+1}V_1V_1V_1 +
+               C_{N!/(2(N-2)!)+2N+2}V_1V_1V_2\\
+         &   & \ \ \ \ \ \ \ + \ldots +
+               C_{N!/(2(N-2)!)+2N+N-1}V_1V_1V_N
+                   \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+3N}V_1V_2V_2 + \ldots +
+               C_{N!/(2(N-2)!)+3N+N-2}V_1V_2V_N
+                   \nonumber\\
+         &   & \vdots
+\end{eqnarray}
+
+An example of a current-controlled current source is:\\[0.1in]
+\hspace*{\fill}\offsetparbox{F1 2 3 POLY(4) VIN V2 (11,0) (13,0)
+0.5 1 1 1 1 0.2 0.3 0.2.}
+\newline
+
+\noindent\underline{Linear Gain Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt F}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ Gain }\\[0.1in]
+The value of the voltage generator is linearly proportional to the
+controlling current:
+\begin{equation}
+v_o = Gain\,v_c.
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt POLY}nomial Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt F}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     {\tt (}$N_{C1+}$ $N_{C1-}{\tt)}$
+     ... {\tt (}$N_{CD+}$ $N_{CD-}{\tt )}$ PolynomialCoefficients }\\[0.1in]
+The value of the voltage generator is a polynomial function of the
+controlling voltages:
+\begin{equation}
+v_o = f(i_{c1}, ...,  i_{ci}, ...  i_{cD})
+\end{equation}
+where the number of controlling currents is $D$ --- the degree of
+the polynomial specified on the element line. $i_{ci}$ is the
+$i$th controlling current and is the current flowing from the $+$
+terminal to the $-$ terminal in the $i$th voltage source of name
+{\it VoltageSourceName}.
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{cccs} element.
+See \texttt{cccs} for full documentation.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+svuppath@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

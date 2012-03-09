@@ -1,0 +1,235 @@
+%
+% .PLOT
+%
+\statement{.PLOT}{Plot Specification}
+
+The plot specification controls the information that is plotted as the result
+of various analyses.
+
+{
+\form{{\tt .PLOT TRAN } OutputSpecification \B PlotLimits\E
+     \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT AC   } OutputSpecification \B PlotLimits\E
+	   \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT DC   } OutputSpecification  \B PlotLimits\E
+	   \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT NOISE} NoiseOutputSpecification 
+		    \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+       \\{\tt +} \B NoiseOutputSpecification
+	    \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E\\[0.1in]
+      {\tt .PLOT DISTO} DistortionOutputSpecification
+		   \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+		   \\{\tt +} \B DistortionOutputSpecification
+		   \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+		      $\ldots$ \E
+	    \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E\\[0.1in]
+     }}
+
+\pspiceform{{\tt .PLOT TRAN } OutputSpecification \B PlotLimits\E
+     \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT AC   } OutputSpecification \B PlotLimits\E
+	   \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT DC   } OutputSpecification  \B PlotLimits\E
+	   \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT NOISE} NoiseOutputSpecification 
+		    \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+       \\{\tt +} \B NoiseOutputSpecification
+	    \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E\\[0.1in]
+     }
+
+
+\begin{widelist}
+
+\item[{\tt TRAN}] is the keyword specifying that this {\tt .PLOT} statement
+     controls the reporting of results of a transient analysis initiated by the
+     {\tt .TRAN} statement.
+
+\item[{\tt AC}] is the keyword specifying that this {\tt .PLOT} statement
+     controls the reporting of results of a small-signal \ac\ analysis initiated by
+     the {\tt .AC} statement.
+
+\item[{\tt DC}] is the keyword specifying that this {\tt .PLOT} statement
+     controls the reporting of results of a \dc\ analysis initiated by the
+     {\tt .DC} statement.
+
+\item[{\tt NOISE}] is the keyword specifying that this {\tt .PLOT} statement
+     controls the reporting of results of a noise analysis initiated by the
+     {\tt .NOISE} statement.
+
+{
+\item[{\tt DISTO}] is the keyword specifying that this {\tt .PLOT} statement
+     controls the reporting of results of a small-signal \ac\ distortion analysis
+     initiated by the {\tt .DISTO} statement.
+     }
+
+\end{widelist}
+
+\begin{widelist}
+\item[{\it OutputSpecification}] specifies the voltage or current to be plotted
+     against the sweep variable. The sweep variable is dependent on the type
+     of analysis.
+
+     Many forms of {\tt OutputSpecification} are supported by
+     \pspice\ .
+     {Below is a description of the basic forms that are
+     supported both by \spicetwo\ and \pspice\ .
+     }
+     A comprehensive
+     description of {\tt OutputSpecification} supported by
+     \pspice\ is given in the section on output specification
+     on page \pageref{.PRINToutputspecification}.
+     %Up to 8 {\it OutputSpecification}s 
+     \\[0.1in]
+
+     {
+     \underline{Voltages} may be specified as an absolute voltage at a node:
+     {\tt V({\it NodeName})} or
+     the voltage at one node with respect to that at another node,
+     e.g. {\tt V(Node1Name,Node2Name)}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt V} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt VR} &-&real part\\
+      {\tt VI} &-&imaginary part\\
+      {\tt VM} &-&magnitude\\
+      {\tt VP} &-&phase\\
+      {\tt VDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      In \ac\  analysis the default is {\tt VM} for magnitude.\\[0.1in]
+
+     \underline{Currents} are specified by referencing the name of the voltage
+     source through which the current is measured, e.g.
+     {\tt I(V{\it VoltageSourceName})}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt I} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt IR} &-&real part\\
+      {\tt II} &-&imaginary part\\
+      {\tt IM} &-&magnitude\\
+      {\tt IP} &-&phase\\
+      {\tt IDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}
+      In \ac\  analysis the default is {\tt IM} for magnitude.
+      }
+
+\item[{\it PlotLimits}] are optional and can be placed after any output
+     specification. {\it PlotLimits} has the form
+     {\tt (}{\it LowerLimit}{\tt ,}{\it UpperLimit}{\tt )} .
+     All quantities will be plotted using the same
+     {\it PlotLimits}.  The default is to automatically scale the plot and
+     perhaps use different scales for each of the quantities to be plotted.
+      
+\end{widelist}
+
+\begin{widelist}
+\item[{\it NoiseOutputSpecification}]
+     specifies the noise measure to be reported. The two options are
+     {\tt ONOISE} which reports the output noise and
+     {\tt INOISE} which reports the equivalent input noise.
+     See the {\tt .NOISE} statement on page \pageref{.NOISEstatement}
+     for a detailed explanation.
+
+     It  must be one of the following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt ONOISE} &-&magnitude of the output noise\\
+      {\tt DB(ONOISE)} &-&output noise in dB\\
+      {\tt INOISE} &-&magnitude of the equivalent input noise\\
+      {\tt DB(INOISE)} &-&equivalent input noise in dB\\
+      {\tt GAIN} &-&voltage gain\\
+      {\tt DB(GAIN)} &-&voltage gain in dB (= 20 log({\tt GAIN})\\
+      {\tt GT} &-&transducer gain\\
+      {\tt DB(GT)} &-&transducer gain in dB (= 10 log({\tt GT})\\
+      {\tt NF} &-&spot noise factor\\
+      {\tt DB(NF)} &-& spot noise figure (= 10 log({\tt NF})\\
+      {\tt SNR} &-&output signal-to-noise ratio\\
+      {\tt DB(SNR)} &-&output signal-to-noise ratio in dB (= 20 log({\tt SNR})\\
+      {\tt TNOISE} &-&output noise temperature.
+      \end{tabular}
+
+\item[{\it SParameterOutputSpecification}]
+      specifies the S-parameter output variables that are to be printed.
+      Each variable must have one of the following forms:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt S(i,j)} &-&Magnitude of $S_{ij}$\\
+      {\tt SR(i,j)} &-&Real part of $S_{ij}$\\
+      {\tt SI(i,j)} &-&Imaginary part of $S_{ij}$\\
+      {\tt SP(i,j)} &-&Phase of $S_{ij}$ in degrees\\
+      {\tt SDB(i,j)} &-&Magnitude of $S_{ij}$ in dB
+                         (= 20 log({\tt {\tt S(i,j)}}))\\ 
+      {\tt SG(i,j)} &-&Group delay of $S_{ij}$
+      \end{tabular}
+      The port numbers are $i,j$  which are specified using the {\tt PNR} keywor
+      when the port (`P') element is specified.
+
+
+{
+\item[{\it DistortionOutputSpecification}]
+     specifies the distortion component to be reported
+     in a tabular format of up to 8 columns plus an initial column with the sweep
+     variable.  The {\it DistortionOutputSpecification} is one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt HD2} &-&the second harmonic distortion\\
+      {\tt HD3} &-&the second harmonic distortion\\
+      {\tt SIM2} &-&the sum frequency intermodulation component\\
+      {\tt DIM2} &-&the difference frequency intermodulation component\\
+      {\tt DIM3} &-&the third order intermodulation component
+      \end{tabular}
+      See the {\tt .DISTO} statement on page \pageref{.DISTOstatement} for
+      a description of these distortion components.
+
+\item[{\it DistortionReportType }]
+     specifies the format for reporting the distortion components.
+     It  must be one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      R &-&real part\\
+      I &-&imaginary part\\
+      M &-&magnitude\\
+      P &-&phase\\
+      DB &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}
+      The default is {\tt M} for magnitude.
+}
+\end{widelist}
+
+\example{
+.PLOT TRAN V(10) V(5,3) I(VIN)\\
+.PLOT AC VM(10) VR(5,3) IP(VLOAD)\\
+.PLOT DC V(10) V(5,3) I(VIN)\\
+.PLOT NOISE ONOISE INOISE DB(ONOISE) DB(INOISE)\\
+.PLOT NOISE GAIN DB(GT) DB(NF) SNR TNOISE\\
+.PLOT AS SDB(1,1) SP(1,1) SDB(1,2) SP(1,2)\\
+{.PLOT DISTO HD2 HD3 SIM2(DB)}
+}
+
+
+\note{
+\item There can be any number of {\tt .PLOT} statements.
+
+\item All of the output quantities specified on a single {\tt .PLOT} statement
+will be plotted on the same graph using ASCII characters.
+An overlap will be indicated by the letter
+{\tt X}.  The plot produced by the {\tt .PLOT} statement is a line printer plot.
+While plotting is primitive it can be plotted on any printer and is
+incorporated in the output log file.
+
+\item The plot output of the results of an \ac\ analysis always have a
+logarithmic vertical scale.
+
+\item The current through any element can be found by inserting independent
+voltage sources in series with the elements.
+This is generally what is required in \spicetwo and \spicethree.
+However \pspice\ supports direct specification of the voltage and currents
+of most elements. See the section on page
+\pageref{.PRINToutputspecification}.
+
+\item
+More elaborate plotting is available
+{with \spicethree\ using the \nutmeg\ plotting program described on
+the \nutmeg\ chapter beginning on page \pageref{ch:nutmeg}; and}
+with \pspice\ using the {\tt .PROBE} statement described on page \pageref{.PROBEstatement}.
+
+}

@@ -1,0 +1,2693 @@
+\element{B}{GaAs MESFET}
+\kwversions{\pspice}
+
+\begin{figure}[h]
+\centering
+\ \pfig{b.ps}
+\caption{B --- GASFET element.
+%: (a) enhancement-mode GASFET; (b) depletion-mode GASFET.
+\label{b.ps}}
+\end{figure}
+
+
+\pspiceform{ {\tt B}name  NDrain NGate NSource ModelName \B Area\E }
+
+\begin{widelist}
+\item[{\it NDrain}] is the drain node
+\item[{\it NGate}] is the gate node
+\item[{\it NSource}] is the source node
+\item[{\it ModelName}]  is  the  model name
+\item[{\it Area}] is the area factor in dimensionless units\\
+               (Units: none; Optional; Default: 1; Symbol: $Area$)
+\end{widelist}
+
+\example{ B1 1 2 3 GAAS12 \\
+          B1 1 2 3 GAAS12 0.5 }
+
+\modeltype{GASFET}
+%
+% GASFET
+%
+\modelx{GASFET}{}{GaAs MESFET Model}\label{BGASFETmodel}
+\label{GASFETmodelpspice}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2.75in\pfig{gaas.eps}
+\caption[Schematic of the GASFET model]{Schematic of the GASFET model.
+\label{bgasfet} $V_{GS}$, $V_{DS}$, and $V_{GD}$ are intrinsic gate-source,
+drain-source and gate-drain voltages between the internal gate, drain, and
+source terminals designated $G$, $D$, and $S$ respectively.
+$R_I$ is not used in \pspice .}
+
+\end{figure}
+\vfill
+\form{{\tt .MODEL} ModelName {\tt GASFET(} \B\B keyword {\tt =} value\E  ... \E
+{\tt )}}
+
+\example{.MODEL GAAS12 GASFET( LEVEL=1 ) }
+
+\pspice\ provides three MESFET device models some microwave versions provide six.
+The parameter {\tt LEVEL} specifies the model to be used:
+\index{Curtice Quadratic Model, see GASFET, LEVEL 1}
+\index{GASFET, LEVEL 1 (Curtice Quadratic) Model}
+\index{Statz Model, see GASFET, LEVEL 2}
+\index{GASFET, LEVEL 2 (Raytheon or Statz) Model}
+\index{Raytheon Model, see GASFET, LEVEL 2}
+\index{TOM Model, see GASFET, LEVEL 3}
+\index{GASFET, LEVEL 3 (TOM) Model}
+\index{Triquint Model, see GASFET, LEVEL 3}
+\index{Curtice-Ettenberg Cubic Model, see GASFET, LEVEL 4}
+\index{GASFET, LEVEL 4 (Curtice Cubic) Model}
+\index{Materka-Kacprzak Model, see GASFET, LEVEL 5}
+\index{GASFET, LEVEL 5 (Materka-Kacprzak) Model}
+\index{Angelov Model, see GASFET, LEVEL 6}
+\index{GASFET, LEVEL 6 (Angelov) Model}
+\index{TOM2 Model, see GASFET, LEVEL -1}
+\index{GASFET, LEVEL -1 (TOM2) Model}
+\\[0.2in]
+\noindent\begin{longtable}{p{0.9in}p{0.2in}p{4in}}
+         LEVEL = 1& $\rightarrow$ &  Curtice Quadratic model\newline
+         This was the first widely accepted model for a GaAs MESFET
+         and described in \cite{curtice:80}.  It
+         uses rather simple empirical fits to measured data.
+         See page \pageref{b:level1234:start}.
+         \hspace*{\fill}\versions{\pspice}\\[0.1in]
+         LEVEL = 2& $\rightarrow$ &  Raytheon model\newline
+         This model is also known as the Statz model and
+         model was developed at Raytheon for the modeling of GaAs
+         MESFETs used in digital circuits.  It is also based on empirical
+         fits to measured data \cite{statz:87}.
+         See page \pageref{b:level1234:start}.
+         \hspace*{\fill}\versions{\pspice}
+\\[0.1in]
+         LEVEL = 3& $\rightarrow$ &  TOM or TriQuint model\newline
+         The name of this model derives from {\it TriQuint's Own Model}
+     \cite{mccamant:mccormack:90}.
+         See page \pageref{b:level1234:start}.
+         \hspace*{\fill}\versions{\pspice}
+\\[0.1in]
+         LEVEL = 4& $\rightarrow$ &  Curtice-Ettenberg Cubic model\newline
+         This is a refinement on the LEVEL 1 model
+         \cite{curtice:ettenberg:85}.  It also
+         uses simple empirical fits to measured data.
+         See page \pageref{b:level1234:start}.
+         \hspace*{\fill}
+\\[0.1in]
+         LEVEL = 5& $\rightarrow$ &  Materka-Kacprzak model
+         \cite{kacprzak:materka:83}\newline
+         A distinguishing characteristic is that the drain-source current
+         is analytic and so it has better convergence characteristics than
+         the other models.
+         See page \pageref{b:level5:start}.
+         \hspace*{\fill}
+\\[0.1in]
+         LEVEL = 6& $\rightarrow$ &  Angelov model\newline
+         Another empirical GASFET model with analytic characteristics.
+         See page \pageref{b:level6:start}.
+         \hspace*{\fill}
+\\[0.1in]
+         LEVEL = -1& $\rightarrow$ &  TOM-2 model\newline
+         An improved model from TriQuint.
+         Another empirical GASFET model with analytic characteristics.
+         See page \pageref{b:level-1:start}.
+         \hspace*{\fill}
+%\end{tabular}
+\end{longtable}
+
+\newpage
+\ \myThickLine
+\label{b:level1234:start}
+LEVEL 1, 2, 3 and 4 GASFET models
+\myline
+
+Many parameters of the LEVEL 1, 2, 3 and 4 {\tt GASFET} models are the same
+and so these models will be considered together.  The parameter keywords
+are given in table \ref{btable1234}.
+It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}$C) specified in the most recent {\tt .OPTIONS} statement
+preceding the {\tt .MODEL} statement.
+
+\begin{longtable}[h]{|p{0.6in}|p{3.5in}|p{0.6in}|p{0.6in}|}
+\caption[MESFET model parameters.]{MESFET model parameters.}\\
+
+\hline
+\multicolumn{1}{|c}{\bf Name} &
+\multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+\multicolumn{1}{|c}{\bf Units} &
+\multicolumn{1}{|c|}{\bf Default}\\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+{\tt A0}& drain saturation current for $V_{GS}$ = 0
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_0}&A& 0.1\X
+{\tt A1}& coefficient of $V_1$ (primary transconductance
+          parameter)
+          ({\tt LEVEL=4}) \version{\sspice} \sym{A_1}&A/V& 0.05\X
+{\tt A2}& coefficient of $V_1^2$
+          ({\tt LEVEL=4}) \hfill \version{\sspice} \sym{A_1}&$\mbox{A/V}^2$& 0\X
+{\tt A3}& coefficient of $V_1^3$
+          ({\tt LEVEL=4}) \hfill \version{\sspice} \sym{A_1}&$\mbox{A/V}^3$& 0\X
+{\tt AA0}& temperature cofficient of {\tt A0}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A0}}&A& 0\X
+{\tt AA1}& temperature cofficient of {\tt A1}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A1}}&A& 0\X
+{\tt AA2}& temperature cofficient of {\tt A2}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A2}}&A& 0\X
+{\tt AA3}& temperature cofficient of {\tt A3}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A3}}&A& 0\X
+{\tt AALF} & linear temperature coefficient of {\tt ALPHA}
+           ({\tt LEVEL=1,2,3,-1})
+       \version{\sspice} \sym{A_{\alpha}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AB} & linear temperature coefficient of {\tt B} ({\tt LEVEL=2,3})
+        \kwversion{\sspice} \sym{A_B} & $^{\circ}\mbox{C}^{-1}$& 0  \X
+{\tt ABET} & linear temperature coefficient of {\tt BETA}
+        \kwversion{\sspice} \sym{A_{\beta}} & \%/$^{\circ}$C    & 0 \X
+{\tt ACGS} & linear temperature coefficient of {\tt CGS} ({\tt LEVEL=1,3,4,-1})
+       \kwversion{\sspice} \sym{A_{CGS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ACGD} & linear temperature coefficient of {\tt CGD} ({\tt LEVEL=1,3,4},-1)
+       \kwversion{\sspice} \sym{A_{CGD}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ADEL} & linear temperature coefficient of {\tt DELTA} ({\tt LEVEL=3,-1})
+       \kwversion{\sspice} \sym{A_{\delta}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AF}& flicker noise exponent\sym{A_F}& -    & 1 \X
+{\tt AGAM}& linear temperature coefficient of {\tt GAMA} ({\tt LEVEL=1,3,4})
+           \kwversion{\sspice} \sym{A_{\lambda}}& \%/$^{\circ}$C& 0 \X
+{\tt ALAM}& linear temperature coefficient of {\tt LAMBDA} ({\tt LEVEL=1,2,3})
+           \kwversion{\sspice} \sym{A_{\lambda}}& \%/$^{\circ}$C& 0 \X
+{\tt ALPHA} & saturation voltage parameter
+      ({\tt LEVEL=1,2,3,-1})\sym{\alpha}&$\mbox{V}^{-1}$& 2 \X
+{\tt ALFA}& alternative keyword of {\tt ALPHA} ({\tt LEVEL=1,2,3,-1})
+       \kwversion{\sspice} \sym{\alpha}&$\mbox{V}^{-1}$& 2\X
+{\tt AQ} & linear temperature coefficient of {\tt Q} ({\tt LEVEL=3})
+        \kwversion{\sspice} \sym{A_Q} & $^{\circ}\mbox{C}^{-1}$& 0  \X
+{\tt AR1}    & linear temperature coefficient of {\tt R1} ({\tt LEVEL=1,4})
+       \kwversion{\sspice} \sym{A_{R1}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AR2}    & linear temperature coefficient of {\tt R2} ({\tt LEVEL=1,4})
+       \kwversion{\sspice} \sym{A_{R2}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ALPHATCE}   & exponential temperature coefficient of {\tt ALPHA}
+           ({\tt LEVEL=-1})
+        \sym{T_{C,\alpha}}& \%/$^{\circ}$C   & 0\\
+{\tt ARD}    & alternative keyword for {\tt TRD1}
+       \sym{A_{RD}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARF}    & linear temperature coefficient of {\tt RF} ({\tt LEVEL=1,4})
+        \sym{A_{RF}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARG}    & alternative keyword for {\tt TRG1}
+        \sym{A_{RG}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARI}    & linear temperature coefficient of {\tt RI}
+        \sym{A_{RI}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARS}    & alternative keyword for {\tt TRS1}
+        \sym{A_{RS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AT}    & linear temperature coefficient of {\tt TAU}
+       \sym{A_{\tau}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AU}    & linear temperature coefficient of {\tt U} ({\tt LEVEL=1,3})
+        \sym{A_U}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AVDS} & linear temperature coefficient of {\tt VDS0}
+          ({\tt LEVEL}=4)  \sym{A_{VDS0}}
+                        &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt AVBD} & linear temperature coefficient of {\tt VBD} \sym{A_{VBD}}
+                        &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt AVT0} & (AVT-zero) linear temperature coefficient of {\tt VTO}
+           \sym{A_{VT0}} &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt B} & doping tail extending parameter \sym{B} \newline
+          \version{\pspice} ({\tt LEVEL=2}) \newline
+          \version{\sspice} ({\tt LEVEL=2,3})
+    &$\mbox{V}^{-1}$& 0.3 \X
+{\tt BETA}& transconductance coefficient
+       ({\tt LEVEL=1,2,3}) \sym{\beta}&$\mbox{A/V}^2$& 0.1\X
+{\tt BETA}& transconductance coefficient
+           ({\tt LEVEL=4}) \kwversion{\sspice} \sym{\beta}&$\mbox{1/V}^2$& 0\X
+{\tt BETATCE} & exponential temperature coefficient of\newline {\tt BETA}
+         \sym{T_{C,{\beta}}} & \%/$^{\circ}$C   & 0\X
+{\tt BRD}   & quadratic  temperature coefficient of {\tt RD}
+                  \kwversion{\sspice}  \sym{B_{RD}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRG}   & quadratic  temperature coefficient of {\tt RG}
+                  \kwversion{\sspice}  \sym{B_{RG}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRI}   & quadratic  temperature coefficient of {\tt RI}
+                  \kwversion{\sspice}  \sym{B_{RI}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRS}   & quadratic  temperature coefficient of {\tt RS}
+                  \kwversion{\sspice}  \sym{B_{RD}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BVT0}  & quadratic  temperature coefficient of {\tt VT0}
+                  \kwversion{\sspice}  \sym{B_{VT0}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \\
+{\tt CDS}& drain-source capacitance
+        \sym{C_{DS}}& F & 0 \X
+{\tt CGD}& zero-bias gate-drain p-n capacitance \sym{C_{GD}}& F & 0\X
+{\tt CGD0}& alternative keyword for {\tt CGD}
+        \kwversion{\sspice} \sym{C_{GD}}& F & 0\X
+{\tt CGS}& zero-bias gate-source p-n capacitance
+        \sym{C_{GS}}& F & 0 \X
+{\tt CGS0}& alternative keyword for {\tt CGS}
+        \kwversion{\sspice} \sym{C_{GS}}& F & 0\X
+{\tt DELTA}& output feedback parameter ({\tt LEVEL=3})
+         \sym{\delta}&$\mbox{(AV)}^{-1}$& 0 \X
+{\tt DELTA}& output feedback parameter ({\tt LEVEL=-1})
+         \sym{\delta}&$\mbox{(AV)}^{-1}$& 0.2   \X
+{\tt DELT}& alternative keyword for {\tt DELTA} ({\tt LEVEL=3})
+         \kwversion{\sspice} \sym{\delta}&$\mbox{(AV)}^{-1}$& 0 \X
+{\tt DELT}& alternative keyword for {\tt DELTA} ({\tt LEVEL=-1})
+         \kwversion{\sspice} \sym{\delta}&$\mbox{(AV)}^{-1}$& 0 \X
+{\tt DLVL}& breakdown model flag\hfill {\tt not used}\newline
+        \begin{tabular}{ll}
+        {\tt DLVL} &= 1 use original model\\
+                   &= 2 use enhanced model
+        \end{tabular}
+      &-&1\X
+{\tt E}& drain current power law coefficient
+        \kwversion{\sspice} ({\tt LEVEL=1}) \sym{E}& -  & 2\X
+{\tt EG} & bandgap voltage (barrier height) at 0~K\sym{E_G(0)}
+                      \kwnote{ Schottky Barrier Diode: 0.69}
+                      \kwnote{ Silicon: 1.16}
+                      \kwnote{ Gallium Arsenide: 1.52}
+                      \kwnote{ Germanium: 0.67}
+         ({\tt LEVEL=1,2,3,4})  & eV    & 1.52  \X
+{\tt EG} & bandgap voltage (barrier height) at 0~K\sym{E_G(0)}
+                      \kwnote{ Schottky Barrier Diode: 0.69}
+                      \kwnote{ Silicon: 1.16}
+                      \kwnote{ Gallium Arsenide: 1.52}
+                      \kwnote{ Germanium: 0.67}
+         ({\tt LEVEL=-1})  & eV & 1.11  \X
+{\tt FC} & forward-bias depletion capacitance factor\sym{F_C}& -    & 0.5   \X
+{\tt GAMMA} & Static feedback parameter
+              also known as \newline voltage slope parameter of
+                  pinch-off voltage
+         \kwversion{\pspice} ({\tt LEVEL=3})
+         \kwversion{\sspice} ({\tt LEVEL=1,3})
+         \sym{\gamma} & -   & 0 \X
+{\tt GAMA}  &  alternative keyword for {\tt GAMMA}
+         \kwversion{\sspice} \hfill ({\tt LEVEL 1,3,-1}) \sym{\gamma} & -& 0\X
+{\tt GAMA}  & Slope of drain characteristic in the linear region
+         \newline ({\tt LEVEL=4}) \hfill \version{\sspice}
+         \sym{\gamma'} & -  & 1.5   \X
+{\tt GAMMATCE} & exponential temperature coefficient of\newline {\tt GAMMA}
+         \sym{T_{C,{\gamma}}} & \%/$^{\circ}$C  & 0\X
+{\tt GAP1}  & First bandgap correction factor
+           \sym{F_{\ms{GAP1}}}
+                     \kwnote{  Silicon: 0.000473}
+                     \kwnote{  Old Value for Silicon: 0.000702}
+                     \kwnote{  Gallium Arsenide: 0.000541}
+                     \kwnote{  Germanium: 0.000456}
+          \kwversion{\hspice ; \sspice}
+     &  eV/$^{\circ}$C& 0.000541    \\
+{\tt GAP2}  & Second bandgap correction factor
+           \sym{F_{\ms{GAP2}}}
+                     \kwnote{  Silicon: 0.000636}
+                     \kwnote{  Old Value for Silicon: 0.001108}
+                     \kwnote{  Gallium Arsenide: 0.000204}
+                     \kwnote{  Germanium: 0.000210}
+          \kwversion{\hspice ; \sspice}
+     &  $^{\circ}$C& 0.000204   \X
+{\tt GMAX}& enhanced breakdown model parameter {\tt not used}&S&0\X
+{\tt IS}& gate p-n saturation current\sym{I_S}&A    & 1E-14 \X
+{\tt K1}& enhanced breakdown model parameter {\tt not used}&V$^{-1}$&0\X
+{\tt K2}& enhanced breakdown model parameter {\tt not used}&V&0\X
+{\tt K3}& enhanced breakdown model parameter {\tt not used}&V$^2$&0\X
+{\tt KF}& flicker noise coefficient\sym{K_F}& - & 0 \X
+{\tt LAMBDA}& channel-length modulation ({\tt LEVEL=1,2,3,-1})
+              \sym{\lambda}&$\mbox{V}^{-1}$& 0 \X
+{\tt LAMB}& alternative keyword for {\tt LAMBDA} ({\tt LEVEL=1,2,3})
+           \kwversion{\sspice} \sym{\lambda}&$\mbox{V}^{-1}$& 0 \X
+{\tt LEVEL}& model index
+              \hfill  1 $\rightarrow$ Curtice quadratic model
+              \kwnote{  2 $\rightarrow$ Raytheon model}
+              \kwnote{  3 $\rightarrow$ TOM (Triquint) model}
+              \kwnote{  4 $\rightarrow$ Curtice cubic model}
+              \kwnote{  5 $\rightarrow$ Materka-Kacprzak model}
+              \kwnote{  6 $\rightarrow$ Angelov model}\newline
+{\tt LEVEL}s  4,5,6 \sspice\ only
+        & -  &  1   \X
+{\tt M} & gate p-n grading coefficient \sym{M}& -& 0.5  \X
+{\tt MGS}& gate-source p-n grading coefficient
+           \kwversion{\sspice} \sym{M_{GS}}& - & M\X
+{\tt MGD}& gate-drain p-n grading coefficient
+           \kwversion{\sspice}  \sym{M_{GS}}& - & M\X
+{\tt N} & gate p-n emission coefficient\sym{n}& -   & 1 \X
+{\tt NG}& constant part of threshold ideality factor
+{\tt LEVEL} -1 \sspice\ only \sym{N_G}& -   & 1 \X
+{\tt ND}& part of threshold ideality factor that depends on $V_{DS}$
+{\tt LEVEL} -1 \sspice\ only \sym{N_D}& V$^{-1}$& 0 \X
+{\tt NPLT} &  ({\sc not used})
+          \version{\sspice} \sym{V_{GMN}}& s    &  0    \X
+{\tt Q} & power-law parameter ({\tt LEVEL=3,-1})
+         \sym{Q}& - &  2    \X
+{\tt R1}    & breakdown gate-drain resistance ({\tt LEVEL}=1,4)
+          \kwversion{\sspice} \hfill{\sc not used} \sym{R_1}&$\Omega$& $\infty$ \X
+{\tt R2}    & breakdown dependency on channel current
+        ({\tt LEVEL}=1,4)\kwversion{\sspice}\hfill({\tt LEVEL}=1,4)
+    \hfill{\sc not used}\sym{R_2}&$\Omega$&0\X
+{\tt RD}    & drain resistance
+          \sym{R_D}&$\Omega$& 0 \X
+{\tt RF}    & forward-biased gate-source resistance ({\tt LEVEL}=1,4)
+          \kwversion{\sspice} \sym{R_F}&$\Omega$& $\infty$  \\
+{\tt RG}& gate resistance
+          \sym{R_G}&$\Omega$& 0 \X
+{\tt RI}& channel resistance\hfill ({\sc not used}) \hfill
+          \kwversion{\sspice}
+          \sym{R_I}&$\Omega$& 0 \X
+{\tt RS}    & source resistance
+          \sym{R_S}&$\Omega$& 0\X
+{\tt T} & alternative keyword for {\tt TAU}
+          \kwversion{\sspice} \sym{\tau}& s &  0    \X
+{\tt TBET}  & alternative keyword for {\tt BETATCE}
+          \kwversion{\sspice} \sym{T_{C,{\beta}}}& s    &  0    \X
+{\tt TJ} & junction temperature \hfill  ({\sc not used}) \newline
+          \version{\sspice} \sym{T_J}& s    &  0    \X
+{\tt TM} &  ({\sc not used})
+          \version{\sspice} \sym{T_M}& s    &  0    \X
+{\tt TME} &  ({\sc not used})
+          \version{\sspice} \sym{T_{ME}}& s &  0    \X
+{\tt TNOM} & nominal temperature ({\sc not used})
+          \kwversion{\sspice} \sym{T_{\ms{NOM}}}& s &  0    \X
+{\tt TAU}  & conduction current delay time\sym{\tau}& s &  0    \X
+{\tt TRG1} & linear temperature coefficient of {\tt RG}\sym{A_{RG}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0    \X
+{\tt TRD1} & linear temperature coefficient of {\tt RD}\sym{A_{RD}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0    \X
+{\tt TRS1} & linear temperature coefficient of {\tt RS}\sym{A_{RS}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0    \X
+{\tt U}& critical field parameter for mobility degradation
+           ({\tt LEVEL=1,2,3}) \kwversion{\sspice} \sym{U}&V/m& 0   \X
+{\tt VBI}& gate p-n potential\sym{V_{\ms{BI}}}& V&1\X
+{\tt VBR}& enhanced breakdown model parameter {\tt not used}&V$^2$&$\infty$\X
+{\tt VBD}  & breakdown voltage
+          \kwversion{\sspice} \sym{A_{VBD)}} & V & $\infty$\X
+{\tt VDELTA}
+    & capacitance transistion voltage \newline
+          ({\tt LEVEL}=2,3) \sym{V_{\Delta}}
+                        & V & 0.2   \X
+{\tt VDS0}
+    & $V_{DS}$ at which {\tt BETA} was measured\newline
+          ({\tt LEVEL}=4) \hfill \sym{V_{\Delta}}
+                        & V & 4 \X
+{\tt VGMN} &  ({\sc not used})
+           \sym{V_{GMN}}& s    &  0    \X
+{\tt VGMX} &  ({\sc not used})
+           \sym{V_{GMN}}& s    &  0    \X
+{\tt VDMX} &  ({\sc not used})
+           \sym{V_{GMN}}& s    &  0    \X
+{\tt VMAX} & capacitance limiting voltage \newline ({\tt LEVEL=2,3})
+\sym{V_{\ms{MAX}}}& V   & 0.5   \X
+{\tt VTO}    & (VT-oh)  pinch-off voltage \sym{V_{T0}}& V  & -2.5   \X
+{\tt VT0} & (VT-0) alternative keyword for {\tt VTO}
+          \kwversion{\sspice} \sym{A_{VDS0)}} & V & -2.5\X
+{\tt VTOTC} & linear temperature coefficient of {\tt VTO}\sym{T_{C,VT0}}
+            & V/$^\circ$C   & 0 \X
+{\tt XTI} & temperature exponent of {\tt IS}\sym{X_{TI}}& - & 0\X
+{\tt VBITC} & linear temperature coefficient of {\tt VBI}\sym{T_{C,BI}}& -  & 0\\
+\hline
+\end{longtable}
+
+Some versions of \justspice\ use incorrect default
+       values for some of the parameters.  One example is the default
+       value for EG.  The accepted value has changed with time.  It is
+       always a good idea not to rely on default values other than 0.
+       %\cite{sze2e,szehighspeed}
+
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzmann's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+Absolute temperatures (in kelvins, K) are used.
+The thermal voltage
+$V_{\ms{TH}} = kT / q$
+and the band gap energy at the nominal temperature is
+\begin{equation}
+E_G(T_{\ms{NOM}})=
+    E_G(0)-F_{\ms{GAP1}}{{4T_{\ms{NOM}}^2}/
+            \left({T_{\ms{NOM}}+F_{\ms{GAP2}}} \right) }.
+\end{equation}
+Here $E_G(0)$ is the parameter {\tt EG} --- the band gap energy at 0~K.
+$F_{\ms{GAP1}}$ and $F_{\ms{GAP2}}$ are not parameters in
+\justpspice.  \justpspice\ documentation indicates that \pspice\ uses
+$F_{\ms{GAP1}}$ = 0.000702 and $F_{\ms{GAP2}}$ = 1108.
+\\[0.2in]
+
+\noindent\underline{\sl \large Temperature Dependence}
+\index{GASFET, Temperature Dependence}
+\index{Temperature Dependence, see GASFET}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K).
+
+\begin{align}
+\alpha(T) & =  \alpha(T_{\ms{NOM}}) \left(
+                1.01^{\textstyle(T_{C,\alpha}(T-T_{\ms{NOM}}))}
+                + A_{\alpha}(T-T_{\ms{NOM}}) \right)
+                \\
+\beta(T) & =  \beta(T_{\ms{NOM}}) \left(
+                1.01^{\textstyle(T_{C,\beta}(T-T_{\ms{NOM}}))}
+                + A_{\beta}(T-T_{\ms{NOM}}) \right)
+                \\
+I_S (T) & =  I_S(T_{\ms{NOM}})
+        e^{\left( \textstyle E_G(T) {T / {T_{\ms{NOM}}}}
+            - E_G(T) \right) {\textstyle /(nV_{\ms{TH}})}}
+    \left({{\textstyle T} / {\textstyle T_{\ms{NOM}}}}
+    \right)^{ \left( \textstyle X_{TI}/n \right) }
+\end{align}
+
+~
+
+\begin{align}
+C'_{GS} (T)&= \left\{ \begin{array}{l}
+       C_{GS}(T_{\ms{NOM}})
+       \left\{1 + M_{GS} \left[0.0004(T-T_{\ms{NOM}})+\left(1-
+   {{\textstyle V_{BI} (T)} \over {\textstyle V_{BI}(T_{\ms{NOM}})}}\right)
+    \right]\right\} \nonumber\\
+    \hspace*{\fill} A_{CGS} \mbox{ not specified} \\
+       C_{GS}(T_{\ms{NOM}})(1 + A_{CGS}(T-T_{\ms{NOM}}))
+    \hspace*{\fill} A_{CGS} \mbox{ specified} \\
+      \end{array} \right. \\  %}
+C'_{GD} (T)&= \left\{ \begin{array}{l}
+       C_{GD}(T_{\ms{NOM}})\left\{1 + M_{GD}
+        \left[0.0004(T-T_{\ms{NOM}})+\left(1-
+   {{\textstyle V_{BI} (T)} \over
+    {\textstyle V_{BI}(T_{\ms{NOM}})}}\right) \right]\right\}\nonumber\\
+    \hspace*{\fill} A_{CGD} \mbox{ not specified} \\
+       C_{GD}(T_{\ms{NOM}})(1 + A_{CGD}(T-T_{\ms{NOM}}))
+   \hspace*{\fill}  A_{CGD} \mbox{ specified} \\
+      \end{array} \right. %}
+\end{align}
+
+~
+
+\begin{align}
+E_G(T) & =  E_G(0) -
+      F_{\ms{GAP1}}{{4T^2} / \left( {T+F_{\ms{GAP2}}} \right) }\\
+\lambda(T) &= \lambda(T_{\ms{NOM}})(1 + A_{\lambda}(T-T_{\ms{NOM}} )) \\
+\alpha(T) &= \left\{ \begin{array}{l}
+              \alpha(T_{\ms{NOM}})(1 + A_{\alpha}(T-T_{\ms{NOM}} ))
+          \hspace*{\fill} \mbox{LEVEL = 1,2,3}\\
+              \alpha(T_{\ms{NOM}})(1.01^
+          {T_{C,\alpha}(T-T{\ms{NOM}})} + A_{\alpha}(T-T_{\ms{NOM}} )) \\
+          A_{\alpha}(T-T_{\ms{NOM}} ))
+          \hspace*{\fill} \mbox{LEVEL = -1}\\
+           \\ \end{array}
+          \right. %}
+\end{align}
+
+~
+
+\begin{align}
+U(T) &= U(T_{\ms{NOM}})(1 + A_{U}(T-T_{\ms{NOM}} )) \\
+A_0(T) &= A_0(T_{\ms{NOM}})(1 + A_{A0}(T-T_{\ms{NOM}} )) \\
+A_1(T) &= A_1(T_{\ms{NOM}})(1 + A_{A1}(T-T_{\ms{NOM}} )) \\
+A_2(T) &= A_2(T_{\ms{NOM}})(1 + A_{A2}(T-T_{\ms{NOM}} ))\\
+A_3(T) &= A_3(T_{\ms{NOM}})(1 + A_{A3}(T-T_{\ms{NOM}} ))
+\end{align}
+
+~
+
+\begin{align}
+\delta(T) &= \delta(T_{\ms{NOM}})(1 + A_{\delta}(T-T_{\ms{NOM}} )) \\
+\gamma(T) &= \gamma(T_{\ms{NOM}})(1 + A_{\gamma}(T-T_{\ms{NOM}} )) \\
+Q(T) &= Q(T_{\ms{NOM}})(1 + A_{Q}(T-T_{\ms{NOM}} ))\\
+R_1(T) &= R_1(T_{\ms{NOM}})(1 + A_{R1}(T-T_{\ms{NOM}} )) \\
+R_2(T) &= R_2(T_{\ms{NOM}})(1 + A_{R2}(T-T_{\ms{NOM}} )) \\
+R_D(T) & =  R_D(T_{\ms{NOM}}) \left( 1 + A_{RD} (T-T_{\ms{NOM}})
+                                    + B_{RD}(T-T_{\ms{NOM}})^2 \right)\\
+R_F(T) &= R_F(T_{\ms{NOM}})(1 + A_{RF}(T-T_{\ms{NOM}} )) \\
+R_G(T) & =  R_G(T_{\ms{NOM}}) \left( 1 + A_{RG}(T-T_{\ms{NOM}})
+                                    + B_{RG}(T-T_{\ms{NOM}})^2 \right)\\
+R_S(T) & =  R_S(T_{\ms{NOM}}) \left( 1 + A_{RS}(T-T_{\ms{NOM}})
+                                    + B_{RS}(T-T_{\ms{NOM}})^2 \right)\\
+R_I(T) &= R_I(T_{\ms{NOM}}) \left( 1 + A_{RI}(T-T_{\ms{NOM}} )
+                                    + B_I(T-T_{\ms{NOM}})^2 \right)
+\end{align}
+
+~
+
+\begin{align}
+\tau(T) &= \tau(T_{\ms{NOM}})(1 + A_{\tau}(T-T_{\ms{NOM}} )) \\
+V_{BD}(T) &= V_{BD}(T_{\ms{NOM}})(1 + A_{VBD}(T-T_{\ms{NOM}} )) \\
+V_{BI} (T) & =  \left\{ \begin{array}{l}
+ V_{BI}(T_{\ms{NOM}}) {T / {T_{\ms{NOM}}}}
+ - 3V_{\ms{TH}} \ln{\left( {{T} / {T_{\ms{NOM}}}}\right) }
+        \hfill {\tt LEVEL \ne -1} \\
+ V_{BI}(T_{\ms{NOM}}) {T / {T_{\ms{NOM}}}}
++ T_{C,VBI}({T- T_{\ms{NOM}}})
+        \hfill {\tt LEVEL = -1} \\
+                         \end{array} \right.   %}
+ \nonumber\\
+           & ~~+ E_G (T_{\ms{NOM}}) {T / {T_{\ms{NOM}}}} -E_G(T)\\
+V_{DS0}(T) &= V_{DS0}(T_{\ms{NOM}})(1 + A_{VDS0}(T-T_{\ms{NOM}} ))\\
+V_{T0}(T)&=V_{T0} \left( 1 + A_{VT0}(T- T_{NOM})
+                            + B_{VT0}(T- T_{NOM})^2 \right)\nonumber\\
+            &\hspace*{1in} + T_{C,VT0}(T- T_{NOM})\\
+ V_{VMAX}(T)&=V_{VMAX}(T_{\ms{NOM}}) + T_{C,VMAX}({T- T_{\ms{NOM}}})
+        \hfill {\tt LEVEL = -1}
+\end{align}
+
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see GASFET, \pspice}
+\index{GASFET, \pspice\ Parasitic Resistance}
+\index{GASFET, \pspice\ $R_S$}
+\index{GASFET, \pspice\ $R_G$}
+\index{GASFET, \pspice\ $R_D$}
+\index{MESFET, see GASFET (\pspice)}
+
+The resistive parasitics
+$R'_S$, and $R'_D$ are calculated from the sheet resistivities
+{\tt RS} (= $R_S$) and {\tt RD} (= $R_D$), and the
+$Area$ specified on the element line.
+{\tt RG} (= $R_G$) is used as supplied.
+
+\begin{eqnarray}
+R'_D & = & R_D/Area\\
+R'_G & = & \left\{ \begin{array}{ll}
+                   R_G      & \mbox{\pspice}\\
+                   R_G/Area & \mbox{\sspice}
+              \end{array}\right. %}
+\\
+R'_S & = & R_S/Area
+\end{eqnarray}
+
+The parasitic resistance parameter dependencies are summarized in
+figure \ref{b1234para}.
+%\bigskip
+\begin{figure}[h]
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt RD} \hfill $R_D$\\
+{\tt RG} \hfill $R_G$\\
+{\tt RS} \hfill $R_S$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE}\\
+\multicolumn{1}{|c|}{PARAMETERS}\\
+\hline
+\hspace*{\fill} $R'_D = f(Area, R_D)$\\
+\hspace*{\fill} $R'_G = f(Area, R_G)$\\
+\hspace*{\fill} $R'_S = f(Area, R_S)$\\
+\hline
+\end{tabular}
+\caption{MESFET parasitic resistance parameter
+relationships. \label{b1234para}}
+\end{figure}
+
+\noindent\underline{\bf Leakage Currents}\\[0.1in]
+
+\index{Leakage Currents, see GASFET}
+\index{GASFET, I/V Characteristics, Leakage Currents}
+\index{GASFET, Leakage Currents}
+Current flows across the normally reverse biased gate-source and gate-drain
+junctions.
+The gate-source leakage current
+$I_{GS} = Area\,I_{S}e^{(\textstyle V_{GS}/V_{\ms{TH}} -1)}$\inlineeq
+and the gate-drain leakage current
+$I_{GD} = Area\,I_{S}e^{(\textstyle V_{GD}/V_{\ms{TH}} -1)}$\inlineeq
+
+The dependencies of the parameters describing the leakage current
+are summarized in figure \ref{bleakage}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt IS} \hfill $I_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill}$I_{GS} = f(I_S, Area)$\\
+\hspace*{\fill}$I_{GD} = f(I_S, Area)$\\
+\hline
+\end{tabular}
+\caption{GASFET leakage current parameter dependencies. \label{bleakage}}
+\end{figure}
+
+\noindent{\bf LEVEL 1 (Curtice Model)}\myline
+\noindent\underline{\sl {\tt LEVEL} 1 (Curtice Model)
+I/V Characteristics}\\[0.1in]
+
+\index{GASFET, LEVEL 1 (Curtice) Model, I/V}
+\index{GASFET, LEVEL 1 (Curtice) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL 1} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point. Curtice \cite{curtice:80}
+proposed two \dc\ current models: a quadratic channel current model
+and a cubic channel current model.  The quadratic channel model is
+implemented as the {\tt LEVEL 1} model.\\[0.1in]
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions of operation are defined as follows
+with $V_{GST} = V_{GS}-(V_{T0}-\gamma V_{DS})$ \inlineeq
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GST}(t-\tau) \le 0$\\
+linear and saturation regions:&$V_{GST}(t-\tau) > 0$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{equation}
+I_{DS} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      Area {{\textstyle \beta \left(1 + \lambda V_{DS}\right)}
+      \over {\textstyle 1+UV_{GST}(t-\tau)}}
+       V_{GST}^E(t-\tau)
+      \mbox{tanh}\left(\alpha V_{DS}\right)
+         &\mbox{linear, saturation regions} \end{array} \right. %}
+      \label{b1id}
+\end{equation}
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b1id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ is the controlling voltage instead of $V_{GS}$.
+
+The relationships of the parameters describing the I/V
+characteristics for the {\tt LEVEL} 1 model are summarized in figure
+\ref{blevel1i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt U} \hfill $U$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, \alpha, \beta, \lambda, U, V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 1 (Curtice model) I/V dependencies. \label{blevel1i/v}}
+\end{figure}
+
+\noindent\underline{\sl LEVEL 1 (Curtice Model) Capacitances}\\[0.1in]
+The drain-source capacitance
+\begin{equation}
+C'_{DS} = Area\,C_{DS}
+\end{equation}
+The gate-source capacitance
+\begin{equation}
+C'_{GS} = \left\{ \begin{array}{ll}
+         Area\,C_{GS}\left(1 - {{\textstyle V_{GS}}\over{\textstyle V_{BI}}}
+         \right)^{-M_{GS}}
+         & V_{GS} \le F_C V_{BI}\\
+         Area\,C_{GS}\left(1 -F_C\right)^{-(1+M_{GS})}
+         \left[1-F_C(1+M_{GS})+M_{GS} {{\textstyle V_{GS}}\over{\textstyle V_{BI}}}
+         \right]
+         & V_{GS} > F_C V_{BI}
+         \end{array} \right. %}
+\end{equation}
+The gate-drain capacitance
+\begin{equation}
+C'_{GD} = \left\{ \begin{array}{ll}
+         Area\,C_{GD}\left(1 - {{\textstyle V_{GD}}\over{\textstyle V_{BI}}}
+         \right)^{\textstyle -M_{GD}}
+         & V_{GD} \le F_C V_{BI}\\
+         Area\,C_{GD}\left(1 -F_C\right)^{\textstyle -(1+M_{GD})}
+         \left[1-F_C(1+M_{GD})+M_{GD} {{\textstyle V_{GD}}\over
+         {\textstyle V_{BI}}} \right]
+         & V_{GS} > F_C V_{BI}
+         \end{array} \right. %}
+\end{equation}
+
+The {\tt LEVEL} 1 capacitance parameter dependencies are summarized in figure
+\ref{blevel1cap}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt FC} \hfill $F_C$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt MGS} \hfill $M_{GS}$\\
+{\tt MGD} \hfill $M_{GD}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} =$\newline\hspace*{\fill}$ f(Area, C_{GD},F_C,V_{BI},M_{GD})$\\
+$C'_{GS} =$\newline\hspace*{\fill}$ f(Area, C_{GS},F_C,V_{BI},M_{GS})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 1 (Curtice model) capacitance dependencies. \label{blevel1cap}}
+\end{figure}
+
+{\bf LEVEL 2 (Raytheon Model)}\myline
+\noindent\underline{\sl {\tt LEVEL} 2 (Raytheon Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL 2 (Raytheon) Model, I/V}
+\index{GASFET, LEVEL 2 (Raytheon) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL 2} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.\\[0.1in]
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions of operation are defined as follows
+with $V_{GST} = V_{GS}-V_{T0}$ \inlineeq
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GST}(t-\tau) \le 0$\\
+linear region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} \le 3/\alpha$\\
+saturation region:&$V_{GS}(t-\tau) > V_{T0} \mbox{ and } V_{DS} > 3/\alpha$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{equation}
+I_{DS} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      Area\,{{\textstyle\beta}\over{\textstyle 1 + U V_{GST}}}
+      \left(1 + \lambda V_{DS}\right)
+      {{\textstyle V_{GST}(t-\tau)^2}\over
+      {\textstyle 1 + BV_{GST}(t-\tau)}}
+      \mbox{Ktanh}
+         &\mbox{linear and saturation}\\
+         &\mbox{regions} \end{array} \right. %}
+      \label{b2id}
+\end{equation}
+
+where
+\begin{equation}
+\mbox{Ktanh} = \left\{ \begin{array}{ll}
+       1 - \left(1 - V_{DS} \frac{\textstyle\alpha}{\textstyle 3}\right)^3
+        & \mbox{linear region} \\ \\
+      1
+         &\mbox{saturation regions} \end{array} \right. %}
+\end{equation}
+is a Taylor series approximation to the tanh function
+of the {\tt LEVEL} 1 model.\\[0.1in]
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b2id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ is the controlling voltage instead of $V_{GS}$.
+
+The relationships of the parameters describing the I/V
+characteristics of the {\tt LEVEL} 2 model are summarized in figure
+\ref{blevel2i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt B} \hfill $B$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt U} \hfill $\mu$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, \alpha, $\newline\hspace*{\fill}$
+B, \beta, \lambda, U V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 2 (Raytheon model) I/V dependencies. \label{blevel2i/v}}
+\end{figure}
+
+\noindent\underline{\sl LEVEL 2 (Raytheon Model) Capacitances}
+\label{b:raytheon:capacitance}
+\\[0.1in]
+This is a symmetrical capacitance model.  The drain-source capacitance
+$C'_{DS} = Area\,C_{DS}$\inlineeq
+The gate-source capacitance
+\begin{equation}
+C'_{GS} = Area\left[C_{GS}F_1F_2\left(1 - {{\textstyle V_{\ms{NEW}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C_{GD}F_3\right]
+\end{equation}
+The gate-drain capacitance
+\begin{equation}
+C'_{GD} = Area\left[C_{GS}F_1F_3\left(1 - {{\textstyle V_{\ms{NEW}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C_{GD}F_2\right]
+\end{equation}
+where
+\begin{eqnarray}
+F_1 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{\ms{EFF}}-V_{T0}}
+    \over{\textstyle\sqrt{\left( V_{\ms{EFF}}-V_{T0}\right)^2+V_{\Delta}^2}}}\right\}\\
+F_2 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+F_3 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 -
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+V_{\ms{EFF}} & = & {{\textstyle 1}\over{\textstyle 2}} \left\{V_{GS}+V_{GD}+
+    \sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}\right\}\\
+V_{\ms{NEW}} & = & \left\{ \begin{array}{ll}
+    A_1 & A_1 < V_{\ms{MAX}} \\
+    V_{\ms{MAX}} & A_1 \ge V_{\ms{MAX}} \\
+      \end{array} \right. \\ %}
+    A_1 & = & \frac{1}{2}\left[V_{\ms{EFF}} + V_{T0}
+          + \sqrt{(V_{\ms{EFF}}-V_{T0})^2+V_{\Delta}^2}\right]
+\end{eqnarray}
+
+The capacitance parameter dependencies are summarized in figure
+\ref{blevel2cap}.
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt VT0} \hfill $V_{T0}$\\
+{\tt VDELTA} \hfill $V_{\Delta}$\\
+{\tt VMAX} \hfill $V_{\ms{MAX}}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} = f(Area, C_{GD}, \alpha,$\newline\hspace*{\fill}$ B, F_C, V_{BI}, V_{T0})$\\
+$C'_{GS} = f(Area, C_{GS}, \alpha,$\newline\hspace*{\fill}$ B, F_C, V_{BI},
+V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 2 (Raytheon model) capacitance dependencies. \label{blevel2cap}}
+\end{figure}
+The above capacitance model does not satisfy drain-source charge
+conservation.  Over a cycle, charge can be pumped from the drain to the
+source.  In practice this is often not a problem when this capacitance model
+is used buyt the user must be ware.  If it is a problem the user will see a
+periodic reponse can not be obtained even if the excotation is periodic.
+For a further discussion see References \cite{divekar:87,smith:87}.
+
+The above capacitance model does not satisfy drani-source charge
+conservation.  Over a cycle charge can be pumped from the drain to the
+source.   In practice this is often not a problem when this capacitance
+model is used but the user must be wary.
+If it is a problem the user will see that a periodic response can not be
+obtained even if the excitation is periodeic.  For a further discussion see
+References \cite{divekar:87} and \cite{smith:87}.
+
+{\noindent\bf LEVEL 3 (TOM Model)}\myline
+The {\tt LEVEL} 3 model is an implementation of the TOM model (``Triquint's
+Own Model) \cite{mccamant:mccormack:90}.\\
+
+\noindent\underline{\sl {\tt LEVEL} 3 (TOM Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL 3 (Triquint) Model, I/V}
+\index{GASFET, LEVEL 3 (TOM) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL 3} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.
+
+\noindent
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}
+
+\medskip
+
+\noindent
+The regions of operation are defined as follows
+with \hfill $V_{GST} = V_{GS}-V_P$ \inlineeq
+and\hfill$V_P = V_{T0} - \gamma V_{DS}$\inlineeq
+
+\medskip
+
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GST}(t-\tau) \le 0$\\
+linear region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} \le 3/\alpha$\\
+saturation region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} > 3/\alpha$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{eqnarray}
+I_{DS} &=&  Area\, {{\textstyle I_{DS0}}/ {\left( \textstyle 1 + \delta I_{DS0} V_{DS}
+           \right) }} \label{b3id} \\
+I_{DS0} &=& \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\
+      \beta (1 + \lambda V_{DS})
+      V^Q_{GST}(t-\tau)
+      \mbox{Ktanh}
+         &\mbox{linear and saturation regions} \end{array} \right. \\ %}
+\mbox{Ktanh} &=& \left\{ \begin{array}{ll}
+       1 - \left(1 - V_{DS} \frac{\textstyle\alpha}{\textstyle 3}\right)^3
+        & \mbox{linear region} \\
+      1
+         &\mbox{saturation region} \end{array} \right. %}
+\end{eqnarray}
+Ktanh is a taylor series approximation to the tanh function
+of the {\tt LEVEL} 1 model.
+\\[0.1in]
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b3id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ used as the controlling voltage instead of $V_{GS}$.
+%
+%  The following equations are correct but commented out.
+%
+%The regions are as follows:\\[0.1in]
+%\hspace*{\fill}\offsetparbox{
+%\begin{tabular}{ll}
+%cutoff region:&$V_{GD}(t-\tau) < V_P$\\
+%linear region:&$V_{GD}(t-\tau) > V_P \mbox{ and } -V_{DS} \le 3/\alpha$\\
+%saturation region:&$V_{GD}(t-\tau) > V_P \mbox{ and } -V_{DS} > 3/\alpha$\\
+%\end{tabular}}\\[0.1in]
+%where
+%\begin{equation}
+%V_P = V_{T0} + \gamma V_{DS}
+%\end{equation}
+%Then
+%\begin{equation}
+%I_{DS} =  {{\textstyle I_{DS0}}\over{\textstyle 1 + \delta I_{DS0} V_{DS}}}
+%      \label{b3idinv}
+%\end{equation}
+%\begin{equation}
+%I_{DS0} = \left\{ \begin{array}{ll}
+%      0  & \mbox{cutoff region} \\ \\
+%      -Area\,\beta
+%      \left[V_{GD}(t-\tau)-V_P\right]^Q
+%      \mbox{Ktanh}
+%         &\mbox{linear and saturation regions} \end{array} \right. %}
+%\end{equation}
+%where
+%\begin{equation}
+%\mbox{Ktanh} = \left\{ \begin{array}{ll}
+%       1 - \left(1 + V_{DS} \frac{\alpha}{3}\right)^3
+%        & \mbox{linear region} \\ \\
+%      1
+%         &\mbox{saturation region} \end{array} \right. %}
+%\end{equation}
+%is a taylor series approximation to the tanh function
+%of the {\tt LEVEL} 1 model.\\[0.1in]
+
+\noindent
+The following description does apply to SuperSpice.
+
+\noindent
+The relationships of the parameters describing the I/V
+characteristics of the {\tt LEVEL} 3 model are summarized in figure
+\ref{fig:blevel3i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt DELTA} \hfill $\delta$\\
+{\tt GAMMA} \hfill $\gamma$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt U} \hfill $\mu$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, \alpha, \beta, \delta, \gamma,$\newline\hspace*{\fill}
+$\lambda, U V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 3 (TOM model) I/V dependencies. \label{fig:blevel3i/v}}
+\end{figure}
+
+\noindent\underline{\sc LEVEL 3 (TOM Model) Capacitances
+ \label{blevel3cap.txt}}\\[0.1in]
+The drain-source capacitance
+$C'_{DS} = Area\,C_{DS}$\inlineeq
+The gate-source capacitance
+\begin{equation}
+C'_{GS} = Area\left[C_{GS}F_1F_2\left(1 - {{\textstyle V_{\ms{NEW}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C_{GD}F_3\right]
+\end{equation}
+The gate-drain capacitance is given by
+\begin{eqnarray}
+C'_{GD} &=& Area\left[C_{GS}F_1F_3\left(1 - {{\textstyle V_{\ms{NEW}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C_{GD}F_2\right]\\
+F_1 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{\ms{EFF}}-V_P}
+    \over{\textstyle\sqrt{\left( V_{\ms{EFF}}-V_{T0}\right)^2+V_{\Delta}^2}}}\right\}\\
+F_2 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+F_3 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 -
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+V_{\ms{EFF}} & = & {{\textstyle 1}\over{\textstyle 2}} \left\{V_{GS}+V_{GD}+
+    \sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}\right\}\\
+V_{\ms{NEW}}&=&\left\{ \begin{array}{ll}
+    A_1 & A_1 < V_{\ms{MAX}} \\
+    V_{\ms{MAX}} & A_1 \ge V_{\ms{MAX}} \\
+      \end{array} \right. %}
+\end{eqnarray}
+and\hfill$A_1 = \frac{1}{2}\left[V_{\ms{EFF}} + V_P + \sqrt{(V_{\ms{EFF}}-V_P)^2+V_{\Delta}^2}\right]$
+\inlineeq
+
+The capacitance parameter dependencies are summarized in figure
+\ref{blevel3cap}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt VT0} \hfill $V_{T0}$\\
+{\tt LAMBDA} \hfill $V_{T0}$\\
+{\tt VMAX} \hfill $V_{\ms{MAX}}$\\
+{\tt VDELTA} \hfill $V_{\Delta}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} = f(Area, C_{GD},$\newline\hspace*{\fill}$
+\alpha, B, F_C, V_{BI}, V_{T0})$\\
+$C'_{GS} = f(Area, C_{GS},$\newline\hspace*{\fill}$
+\alpha, B, F_C, V_{BI}, V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 3 (TOM model) capacitance dependencies. \label{blevel3cap}}
+\end{figure}
+\label{b:level-1:start}
+{\noindent\bf LEVEL -1 (TOM-2 Model)}\myline
+The {\tt LEVEL} -1 model is an enhancement of the {\tt LEVEL 3} TOM model.
+
+\medskip
+
+\noindent\underline{\sl {\tt LEVEL} -1 (TOM Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL -1 (TOM-2) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL -1} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.
+
+\noindent
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}
+
+\medskip
+
+\noindent
+The regions of operation are defined as follows
+with \hfill $V_{GST} = V_{GS}-V_P$ \inlineeq
+and\hfill$V_P = V_{T0} - \gamma V_{DS}$\inlineeq
+
+\medskip
+
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GST}(t-\tau) \le 0$\\
+linear region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} \le 3/\alpha$\\
+saturation region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} > 3/\alpha$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{eqnarray}
+I_{DS} &=&  Area\, {{\textstyle I_{DS0}}/ {\left( \textstyle 1 + \delta I_{DS0} V_{DS}
+           \right) }} \label{b-1id} \\
+I_{DS0} &=& \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\
+      {{\textstyle\beta}\over{\textstyle 1 + U V_{GST}}}
+      V^Q_{GST}(t-\tau) F_d(\alpha V_{DS})
+         &\mbox{linear and saturation regions} \end{array} \right. \\ %}
+F_d(\alpha V_{DS})&=&{{ \textstyle x } \over { \sqrt{1 + x^2}}} \\
+   V_G&=&Q V_{ST} \mbox{ln}
+     \left[ exp \left( V_{GST}/(Q V_{ST} \right) + 1 \right]\\
+   V_{ST}&=&N_{ST} (kT/q) \\
+   N_{ST}&=&N_G + N_D V_{DS}
+\end{eqnarray}
+\\[0.1in]
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b-1id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ used as the controlling voltage instead of $V_{GS}$.
+
+The relationships of the parameters describing the I/V
+characteristics of the {\tt LEVEL} -1 model are summarized in figure
+\ref{blevel-1i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt DELTA} \hfill $\delta$\\
+{\tt GAMMA} \hfill $\gamma$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt U} \hfill $\mu$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, \alpha, \beta, \delta, \gamma,$\newline\hspace*{\fill}
+$\lambda, U V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL -1 (TOM-2 model) I/V dependencies. \label{blevel-1i/v}}
+\end{figure}
+\noindent\underline{\sc LEVEL -1 (TOM-2 Model) Capacitances}\\[0.1in]
+These are evaluated the same way the {\tt LEVEL} 3 capacitanceaas
+described on \pageref{blevel3cap.txt} are evaluated.
+
+{\noindent\bf LEVEL -1 (TOM2 Model)}\myline
+The {\tt LEVEL} -1 model is an implementation of the TOM model (``Triquint's
+Own Model) \cite{mccamant:mccormack:90}.
+
+\noindent\underline{\sl {\tt LEVEL} -1 (TOM2 Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL -1 (Triquint) Model, I/V}
+\index{GASFET, LEVEL -1 (TOM) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL -1} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.
+
+\noindent
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}
+
+\medskip
+
+\noindent
+The regions of operation are defined as follows
+with \hfill $V_{GST} = V_{GS}-V_P$ \inlineeq
+and\hfill$V_P = V_{T0} - \gamma V_{DS}$\inlineeq
+
+\medskip
+
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GST}(t-\tau) \le 0$\\
+linear region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} \le 3/\alpha$\\
+saturation region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} > 3/\alpha$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{eqnarray}
+I_{DS} &=&  Area\, {{\textstyle I_{DS0}}/ {\left( \textstyle 1 + \delta I_{DS0} V_{DS}
+           \right) }} \label{b3id} \\
+I_{DS0} &=& \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\
+      V^Q_G(t-\tau)F_d(\alpha V_{DS})
+         &\mbox{linear and saturation regions} \end{array} \right. \\ %}
+F_d(x) = {{\textstyle x} \over {\textstyle \sqrt{1+x^2}}} \\
+V_G = Q V_{ST} \mbox{ln} \left[ \mbox{exp} \left(
+          {{\textstyle V_{GST}}\over{\textstyle Q V_{ST}}} \right) +1) \right]
+      \\
+V_{ST} = N_{ST} \left( {{\textstyle k T} \over { \textstyle q}} \right) \\
+N_{ST} = N_G + N_D V_{DS}
+\end{eqnarray}
+\\[0.1in]
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b3id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ used as the controlling voltage instead of $V_{GS}$.
+
+\noindent
+The relationships of the parameters describing the I/V
+characteristics of the {\tt LEVEL} -1 model are summarized in figure
+\ref{fig:blevel3i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt DELTA} \hfill $\delta$\\
+{\tt GAMMA} \hfill $\gamma$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt U} \hfill $\mu$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, \alpha, \beta, \delta, \gamma,$\newline\hspace*{\fill}
+$\lambda, U V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 3 (TOM model) I/V dependencies. \label{fig:blevel3i/v}}
+\end{figure}
+
+\noindent\underline{\sc LEVEL -1 (TOM2 Model) Capacitances
+ \label{blevel3cap.txt}}\\[0.1in]
+ The {\sc LEVEL -1 } (TOM2 Model) capacitances are identical to that of the
+ LEVEL 3 model. This capacitance model is based on the model proposed by
+ Statz as used in the level 2 model.  This is a charge conserving
+ symmetrical capacitance model.
+
+The drain-source capacitance
+$C'_{DS} = Area\,C_{DS}$\inlineeq
+The gate-source capacitance
+\begin{equation}
+C'_{GS} = Area\left[C_{GS}F_1F_2\left(1 - {{\textstyle V_{\ms{NEW}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C_{GD}F_3\right]
+\end{equation}
+The gate-drain capacitance is given by
+\begin{eqnarray}
+C'_{GD} &=& Area\left[C_{GS}F_1F_3\left(1 - {{\textstyle V_{\ms{NEW}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C_{GD}F_2\right]\\
+F_1 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{\ms{EFF}}-V_P}
+    \over{\textstyle\sqrt{\left( V_{\ms{EFF}}-V_{T0}\right)^2+V_{\Delta}^2}}}\right\}\\
+F_2 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+F_3 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 -
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+V_{\ms{EFF}} & = & {{\textstyle 1}\over{\textstyle 2}} \left\{V_{GS}+V_{GD}+
+    \sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}\right\}\\
+V_{\ms{NEW}}&=&\left\{ \begin{array}{ll}
+    A_1 & A_1 < V_{\ms{MAX}} \\
+    V_{\ms{MAX}} & A_1 \ge V_{\ms{MAX}} \\
+      \end{array} \right. %}
+\end{eqnarray}
+and\hfill$A_1 = \frac{1}{2}\left[V_{\ms{EFF}} + V_P + \sqrt{(V_{\ms{EFF}}-V_P)^2+V_{\Delta}^2}\right]$
+\inlineeq
+
+The capacitance parameter dependencies are summarized in figure
+\ref{blevel3cap}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt VT0} \hfill $V_{T0}$\\
+{\tt LAMBDA} \hfill $V_{T0}$\\
+{\tt VMAX} \hfill $V_{\ms{MAX}}$\\
+{\tt VDELTA} \hfill $V_{\Delta}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} = f(Area, C_{GD},$\newline\hspace*{\fill}$
+\alpha, B, F_C, V_{BI}, V_{T0})$\\
+$C'_{GS} = f(Area, C_{GS},$\newline\hspace*{\fill}$
+\alpha, B, F_C, V_{BI}, V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 3 (TOM model) capacitance dependencies. \label{blevel3cap}}
+\end{figure}
+\label{b:level-1:start}
+{\noindent\bf LEVEL -1 (TOM-2 Model)}\myline
+The {\tt LEVEL} -1 model is an enhancement of the {\tt LEVEL 3} TOM model.
+
+\medskip
+
+\noindent\underline{\sl {\tt LEVEL} -1 (TOM Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL -1 (TOM-2) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL -1} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.
+
+\noindent
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}
+
+\medskip
+
+\noindent
+The regions of operation are defined as follows
+with \hfill $V_{GST} = V_{GS}-V_P$ \inlineeq
+and\hfill$V_P = V_{T0} - \gamma V_{DS}$\inlineeq
+
+\medskip
+
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GST}(t-\tau) \le 0$\\
+linear region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} \le 3/\alpha$\\
+saturation region:&$V_{GST}(t-\tau) > 0 \mbox{ and } V_{DS} > 3/\alpha$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{eqnarray}
+I_{DS} &=&  Area\, {{\textstyle I_{DS0}}/ {\left( \textstyle 1 + \delta I_{DS0} V_{DS}
+           \right) }} \label{b-1id} \\
+I_{DS0} &=& \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\
+      {{\textstyle\beta}\over{\textstyle 1 + U V_{GST}}}
+      V^Q_{GST}(t-\tau) F_d(\alpha V_{DS})
+         &\mbox{linear and saturation regions} \end{array} \right. \\ %}
+F_d(\alpha V_{DS})&=&{{ \textstyle x } \over { \sqrt{1 + x^2}}} \\
+   V_G&=&Q V_{ST} \mbox{ln}
+     \left[ exp \left( V_{GST}/(Q V_{ST} \right) + 1 \right]\\
+   V_{ST}&=&N_{ST} (kT/q) \\
+   N_{ST}&=&N_G + N_D V_{DS}
+\end{eqnarray}
+\\[0.1in]
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b-1id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ used as the controlling voltage instead of $V_{GS}$.
+
+The relationships of the parameters describing the I/V
+characteristics of the {\tt LEVEL} -1 model are summarized in figure
+\ref{blevel-1i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt DELTA} \hfill $\delta$\\
+{\tt GAMMA} \hfill $\gamma$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt U} \hfill $\mu$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, \alpha, \beta, \delta, \gamma,$\newline\hspace*{\fill}
+$\lambda, U V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL -1 (TOM-2 model) I/V dependencies. \label{blevel-1i/v}}
+\end{figure}
+\noindent\underline{\sc LEVEL -1 (TOM-2 Model) Capacitances}\\[0.1in]
+These are evaluated the same way the {\tt LEVEL} 3 capacitanceaas
+described on \pageref{blevel3cap.txt} are evaluated.
+
+\noindent{\bf LEVEL 4 (Curtice Cubic Model)}\myline
+\noindent\underline{\sl {\tt LEVEL} 4 (Curtice Cubic Model)
+I/V Characteristics}\\[0.1in]
+ \index{GASFET,
+LEVEL 4 (Curtice) Model, I/V} \index{GASFET, LEVEL 4 (Curtice)
+Model, I/V} \index{I/V Characteristics, see GASFET} \index{GASFET,
+I/V Characteristics} \index{I-V characteristics, see GASFET} The
+{\tt LEVEL 4} current/voltage characteristics are evaluated after
+first determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,linear or saturation) of the
+current $(V_{DS}, V_{GS})$ operating point. Curtice
+\cite{curtice:80} proposed two \dc\ current models: a quadratic
+channel current model and a cubic channel current model.  The
+quadratic channel model is implemented as the {\tt LEVEL 4} model.
+
+\medskip
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}
+
+\medskip
+
+\noindent
+The regions of operation are defined as follows with
+with \hfill $V_{GST} = V_{GS}-V_{T0}$ \inlineeq
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GS}(t-\tau) < V_{T0}$\\
+linear and saturation regions:&$V_{GS}(t-\tau) > V_{T0}$\\
+\end{tabular}}\\[0.1in]
+Then thedrain source current is given by
+\begin{eqnarray}
+I_{DS} &=& \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\
+      Area \left( A_0 + A_1 V_x + A_2 V_x^2 + A_3 V_x^3 \right)
+      \mbox{tanh}\left(\gamma V_{DS}\right)
+         &\mbox{linear and saturation}\\
+         &\mbox{regions} \end{array} \right. %}
+      \label{b4id} \\
+      V_x &=& V_{GS}(t-\tau)\left[ 1 + \beta (V_{DS0} - V_{DS}) \right]
+\end{eqnarray}
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MESFET I/V characteristics are evaluated as in the
+normal mode (\ref{b4id}) but with the drain and source subscripts
+exchanged, and $V_{GD}$ is the controlling voltage instead of $V_{GS}$.
+
+The relationships of the parameters describing the I/V
+characteristics for the {\tt LEVEL} 4 model are summarized in figure
+\ref{blevel4i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt A0} \hfill $A_0$\\
+{\tt A1} \hfill $A_1$\\
+{\tt A2} \hfill $A_2$\\
+{\tt A3} \hfill $A_3$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt GAMMA} \hfill $\gamma$\\
+{\tt T, TAU} \hfill $\tau$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+$I_{DS}=f(Area,\newline\hspace*{\fill}A_0,A_1,A_2,A_3,\beta,\gamma,V_{T0})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 4 (Curtice cubic model) I/V dependencies. \label{blevel4i/v}}
+\end{figure}
+
+\noindent\underline{\sl LEVEL 4 (Curtice Cubic Model) Capacitances}\\[0.1in]
+The drain-source capacitance
+$C'_{DS} = Area\,C_{DS}$\inlineeq
+the gate-source and gate-drain capacitances are
+\begin{eqnarray}
+C'_{GS} &=& \left\{ \begin{array}{ll}
+         Area\,C_{GS}\left(1 - {{\textstyle V_{GS}}\over{\textstyle V_{BI}}}
+         \right)^{\textstyle -M_{GS}}
+         & V_{GS} \le F_C V_{BI}\\
+         Area\,C_{GS}\left(1 -F_C\right)^{\textstyle -(1+M_{GS})}
+         \left[1-F_C(1+M_{GS})+M_{GS}
+          {{\textstyle V_{GS}}\over{\textstyle V_{BI}}} \right]
+         & V_{GS} > F_C V_{BI}
+         \end{array} \right. \\ %}
+C_{GD} &=& \left\{ \begin{array}{ll}
+         Area\,C_{GD}\left(1 - {{\textstyle V_{GD}}\over{\textstyle V_{BI}}}
+         \right)^{\textstyle -M_{GD}}
+         & V_{GD} \le F_C V_{BI}\\
+         Area\,C_{GD}\left(1 -F_C\right)^{\textstyle -(1+M_{GD})}
+         \left[1-F_C(1+M_{GD})+M_{GD}
+            {{\textstyle V_{GD}}\over{\textstyle V_{BI}}}
+         \right]
+         & V_{GS} > F_C V_{BI}
+         \end{array} \right.  %}
+\end{eqnarray}
+
+The {\tt LEVEL} 4 capacitance parameter dependencies are summarized in figure
+\ref{blevel4cap}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt FC} \hfill $F_C$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt MGS} \hfill $M_{GS}$\\
+{\tt MGD} \hfill $M_{GD}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} =$\newline\hspace*{\fill}$ f(Area, C_{GD},F_C,V_{BI},M_{GD})$\\
+$C'_{GS} =$\newline\hspace*{\fill}$ f(Area, C_{GS},F_C,V_{BI},M_{GS})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 4 (Curtice Cubic model) capacitance dependencies.
+ \label{blevel4cap}}
+\end{figure}
+
+\ \myThickLine \label{b:level5:start}
+{\bf LEVEL 5
+(Materka-Kacprzak Model)}\myline
+
+The parameter keywords of the Materka-Kacprzak model are given in table
+\ref{btable5}.
+
+
+
+\begin{longtable}[h]{|p{0.6in}|p{3.5in}|p{0.6in}|p{0.6in}|}
+\caption[GASFET level 5 (Materka-Kacprzak) model keywords]{GASFET
+ level 5 (Materka-Kacprzak) model keywords. \sspice\ only.
+Parameters that are {\sc NOT USED} are reserved for future
+expansion.
+         \label{btable5}}\\
+
+\hline
+\multicolumn{1}{|c}{\bf Name} &
+\multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+\multicolumn{1}{|c}{\bf Units} &
+\multicolumn{1}{|c|}{\bf Default}\\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+{\tt AC10} & temperature coefficient of {\tt C10}
+       \sym{A_{C10}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ACF0} & temperature coefficient of {\tt CF0}
+       \sym{A_{CF0}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AF}& flicker noise exponent\sym{A_F}& -    & 1 \X
+{\tt AE} & temperature coefficient of {\tt E}
+       \sym{A_{E}}&V$^{-1}$& 0\X
+{\tt AFAB} & slope factor of breakdown current ($\ge$ 0)
+       \sym{A_{FAB}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AFAG} & slope factor of gate conduction current
+       \sym{A_{FAG}}&V$^{-1}$& 38.696\X
+{\tt AGAM} & temperature coefficient of {\tt GAMA}
+       \sym{A_{\gamma}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AIDS}& linear temperature coefficient of {\tt IDSS}
+           \sym{A_{\lambda}}& \%/$^{\circ}$C& 0 \X
+{\tt AKE}    & temperature coefficient of {\tt KE}
+       \sym{A_{KE}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AKG}    & temperature coefficient of {\tt KG}
+       \sym{A_{KG}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARD}    & alternative keyword for {\tt TRD1}
+       \sym{A_{RD}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARG}    & alternative keyword for {\tt TRG1}
+       \sym{A_{RG}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARS}    & alternative keyword for {\tt TRS1}
+       \sym{A_{RS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AR10}  & temperature coefficient of {\tt R10}
+       \sym{A_{R10}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ASL}   & temperature coefficient of {\tt SL}
+       \sym{A_{SL}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ASS}   & temperature coefficient of {\tt SS}
+       \sym{A_{SS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AT}    & temperature coefficient of {\tt T}
+       \sym{A_{T}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AVBC} & linear temperature coefficient of {\tt VDC}
+             \sym{A_{VBC)}} &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt AVP0} & linear temperature coefficient of {\tt VP0}
+          \sym{A_{VP0)}} &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt C10}& gate-source Schottky barrier capacitance for\newline $V_{GS}$ = 0.
+        \sym{C_{10}}& F & 0 \X
+{\tt CF0}& gate-drain feedback capacitacne for $V_{GD}$ = 0.
+        \sym{C_{F0}}& F & 0 \X
+{\tt C1S}& constant parasitic component of gate-source capacitance
+        \sym{C_{1S}}& F & 0 \X
+{\tt CDE}& drain-source electrode capacitance
+        {\sc not used} \sym{C_{DE}}& F  & 0 \X
+{\tt CDGE}& drain-gate electrode capacitance
+        {\sc not used} \sym{C_{DGE}}& F & 0 \X
+{\tt CDS}& drain-source capacitance
+        \sym{C_{DS}}& F & 0 \X
+{\tt CDSD}& low frequency trapping capacitance ({\sc not used})
+        \newline\sym{C_{DSD}}& F    & 0 \X
+{\tt CGE}& gate-source electrode capacitance
+        {\sc not used} \sym{C_{DE}}& F  & 0 \X
+{\tt CGS0}& zero-bias gate-source p-n capacitance in Raytheon capacitance
+           model. Used if {\tt CLVL} = 2 \sym{C_{GS}}& F    & 0 \X
+{\tt CGD0}& zero-bias gate-drain p-n capacitance in Raytheon capacitance
+           model. Used if {\tt CLVL} = 2 \sym{C_{GS}}& F    & 0 \X
+{\tt CLVL}& capacitance model flag
+           \newline {\tt CLVLV = 1} use Materka-Kacprzak capacitance model
+           \newline {\tt CLVLV = 2} use Raytheon capacitance model
+           \sym{C_{LVL}}& - & 1 \X
+{\tt E}& constant part of drain current power \sym{E}& -    & 2\X
+{\tt FCC} & \sym{F_{CC}}& - & 0.8   \X
+{\tt GAMA}  & Voltage slope parameter of pinch-off voltage \sym{\gamma}
+            &$\mbox{V}^{-1}$& 0\X
+{\tt IB0}& current parameter of gate-drain breakdown
+            \newline  source ($\ge$ 0)\sym{I_{B0}}&A&0\X
+{\tt IDSS}& frain saturation current for $V_{GS}$ = 0\sym{I_{DSS}}&A    & 0.1 \X
+{\tt IG0}& saturation current of gate-source schottky\newline
+            barrier\sym{I_{G0}}&A&0\X
+{\tt K1}& slope parameter of gate-source capacitance\sym{K_1}
+            &$\mbox{V}^{-1}$& 1.25\X
+{\tt KE}& dependence of drain current  power on $V_{GS}$\sym{K_E}
+            &$\mbox{V}^{-1}$& 0\X
+{\tt KF}& slope parameter of gate-drain feedback capacitance\sym{K_F}& -    & 0 \X
+{\tt KFL}& flicker noise coefficient\sym{K_{FL}}& - & 0 \X
+{\tt KG}& linearregion drain current $V_{GS}$ dependence \sym{K_G}
+            &$\mbox{V}^{-1}$& 0\X
+{\tt KR}& slope factor of intrinsic channel resistance\sym{K_R}
+            &$\mbox{V}^{-1}$& 0\X
+{\tt LEVEL}& model index \hfill must be 5 & -  &  1 \X
+{\tt M} & gate p-n grading coefficient\sym{M}& -    & 0.5   \X
+{\tt MGS}& gate-source p-n grading coefficient \sym{M_{GS}}& - & M  \X
+{\tt MGD}& gate-drain p-n grading coefficient \sym{M_{GS}}& - & M   \X
+{\tt R10}   & intrinsic channel resistance for $V_{GS}$ = 0.
+          \sym{R_{10}}&$\Omega$& $\infty$   \X
+{\tt RD}    & drain resistance \sym{R_D}&$\Omega$& 0    \X
+{\tt RDSD}  & channel trapping resistance {\sc not used} \sym{R_{DSD}}
+          &$\Omega$& $\infty$   \X
+{\tt RG}& gate resistance \sym{R_G}&$\Omega$& 0 \X
+{\tt RS}    & source resistance \sym{R_S}&$\Omega$& 0\X
+{\tt SL}    & slope of $V_{GS}$ = 0 drain
+                  current, linear region \sym{S_L}&S& 0.15\X
+{\tt SS}    & slope of $V_{GS}$ = 0 drain
+                  current, saturated region \sym{S_S}&S& 0\X
+{\tt T} & channel transit time delay \sym{\tau}& s  &  0    \X
+{\tt TJ}    & junction temperature \version{\sspice} \sym{T_J} &K& 298 \X
+{\tt TNOM}  & model reference temperature ($> 0$) \version{\sspice}
+          \sym{T_{NOM}} &K& 298 \X
+{\tt TRG1} & temperature coefficient of {\tt RG}\sym{A_{RG}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0    \X
+{\tt TRD1} & temperature coefficient of {\tt RG}\sym{A_{RD}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0    \X
+{\tt TRS1} & temperature coefficient of {\tt RG}\sym{A_{RS}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0    \X
+{\tt VBC}  & breakdown voltage ($\ge 0$ \sym{V_{BC}} & V & $\infty$\X
+{\tt VBI}   & gate p-n potential in Raytheon capacitance
+           model. Used if {\tt CLVL} = 2.  \sym{V_{\ms{BI}}}& V & 1 \X
+{\tt VP0} &(VP-zero) pinch-off voltage for $V_{DS}$ = 0 \sym{V_{P0}}&V &-2.5\X
+\end{longtable}
+
+\noindent\underline{\sl \large Temperature Dependence}
+\index{GASFET, Temperature Dependence}
+\index{Temperature Dependence, see GASFET}
+
+\medskip
+
+\noindent
+The Materka-Kacprzak temperature effects are as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K).
+
+\begin{align}
+I_{DSS}(T) & =  I_{DSS}(T_{\ms{NOM}}
+                 \left( 1 + A_{IDSS}(T-T_{\ms{NOM}} ) \right)\\
+C_{10}(T)  & =  C_{10}(T_{\ms{NOM}}
+                 \left( 1 + A_{C10}(T-T_{\ms{NOM}} ) \right)\\
+C_{F0}(T)  & =  C_{F0}(T_{\ms{NOM}}
+                 \left( 1 + A_{CF0}(T-T_{\ms{NOM}} ) \right)\\
+E(T)       & =  E(T_{\ms{NOM}}
+                 \left( 1 + A_E(T-T_{\ms{NOM}} ) \right)\\
+K_E(T)     & =  K_E(T_{\ms{NOM}}
+                 \left( 1 + A_{KE}(T-T_{\ms{NOM}} ) \right)\\
+K_G(T)     & =  K_G(T_{\ms{NOM}}
+                 \left( 1 + A_{KG}(T-T_{\ms{NOM}} ) \right)\\
+\gamma (T) & =  \gamma(T_{\ms{NOM}}
+                 \left( 1 + A_{\gamma}(T-T_{\ms{NOM}}) \right)\\
+R_{10}(T)  & =  R_{10}(T_{\ms{NOM}}
+                 \left( 1 + A_{R10}(T-T_{\ms{NOM}} ) \right)\\
+R_G(T)     & =  R_G(T_{\ms{NOM}}
+                 \left( 1 + A_{RG}(T-T_{\ms{NOM}} ) \right)\\
+R_D(T)     & =  R_D(T_{\ms{NOM}}
+                 \left( 1 + A_{RD}(T-T_{\ms{NOM}} ) \right)\\
+R_S(T)     & =  R_S(T_{\ms{NOM}}
+                 \left( 1 + A_{RS}(T-T_{\ms{NOM}} ) \right)\\
+S_L(T)     & =  S_L(T_{\ms{NOM}}
+                 \left( 1 + A_{SL}(T-T_{\ms{NOM}} ) \right)\\
+S_S(T)     & =  S_S(T_{\ms{NOM}}
+                 \left( 1 + A_{SS}(T-T_{\ms{NOM}} ) \right)\\
+\tau(T)     & =  \tau(T_{\ms{NOM}}
+                 \left( 1 + A_{\tau}(T-T_{\ms{NOM}} ) \right)\\
+V_{BC}(T)  & =  V_{BC}(T_{\ms{NOM}}
+                 \left( 1 + A_{VBC}(T-T_{\ms{NOM}} ) \right)\\
+V_{P0}(T)  & =  V_{P0}(T_{\ms{NOM}}
+                 \left( 1 + A_{VP0}(T-T_{\ms{NOM}} ) \right)
+\end{align}
+
+
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see GASFET, \pspice}
+\index{GASFET, \pspice\ Parasitic Resistance}
+\index{GASFET, \pspice\ $R_S$}
+\index{GASFET, \pspice\ $R_G$}
+\index{GASFET, \pspice\ $R_D$}
+\index{MESFET, see GASFET (\pspice)}
+
+The resistive parasitics
+$R'_S$, and $R'_D$ are calculated from the sheet resistivities
+{\tt RS} (= $R_S$) and {\tt RD} (= $R_D$), and the
+$Area$ specified on the element line.
+{\tt RG} (= $R_G$) is used as supplied.
+\begin{eqnarray}
+R'_D & = & R_D/Area\\
+R'_G & = & \left\{ \begin{array}{ll}
+                          R_G      & \mbox{\pspice}\\
+                          R_G/Area & \mbox{\sspice}\\\end{array}\right. \\ %}
+R'_G & = & R_G/Area
+\\
+R'_S & = & R_S/Area
+\end{eqnarray}
+The parasitic resistance parameter dependencies are summarized in
+figure \ref{b5para}.
+\begin{figure}[h]
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt RD} \hfill $R_D$\\
+{\tt RG} \hfill $R_G$\\
+{\tt RS} \hfill $R_S$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE}\\
+\multicolumn{1}{|c|}{PARAMETERS}\\
+\hline
+\hspace*{\fill} $R'_D = f(Area, R_D)$\\
+\hspace*{\fill} $R'_G = f(Area, R_G$\\
+\hspace*{\fill} $R'_S = f(Area, R_S)$\\
+\hline
+\end{tabular}
+\caption{MESFET parasitic resistance parameter
+relationships. \label{b5para}}
+\end{figure}
+
+\noindent\underline{\sl {\tt LEVEL} 5 (Materka-Kacprzak Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL 5 (Materka-Kacprzak) Model, I/V}
+\index{GASFET, LEVEL 5 (Materka-Kacprza) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL 5} current/voltage characteristics are analytic
+except for the channel resistance $R_I$ determination.
+\begin{eqnarray}
+I_{DS}&=&Area I_{DSS} \left[ 1 + S_S {{V_{DS}} \over {I_{DSS}}} \right]
+         \left[ 1 - {{V_{GS}(t-\tau)} \over {V_{P0} + \gamma V_{DS}}}
+         \right]^{\textstyle (E + K_E V_{GS}(t-\tau))} \nonumber\\
+      & &\hspace*{1in} \times \mbox{tanh}\left[  {{S_L V_{DS}} \over
+                {I_{DSS} ( 1 - K_G V_{GS}(t-\tau))}} \right]
+      \label{b5id} \\
+I_{GS}&=&Area I_{G0} \left[ e^{\textstyle A_{FAG}V_{GS}} -1 \right]
+         - I_{B0} \left[ e^{\textstyle -A_{FAB}(V_{GS}+ V_{BC}}  \right]
+      \label{b5igs} \\
+I_{GD}&=&Area I_{G0} \left[ e^{\textstyle A_{FAG}V_{GD}} -1 \right]
+         - I_{B0} \left[ e^{\textstyle -A_{FAB}(V_{GD}+ V_{BC}}  \right]
+      \label{b5igd} \\
+R_I&=& \left\{ \begin{array}{ll}
+       R_{10} ( 1 - K_R V_{GS} )/Area  & K_R V_{GS} < 1.0\\
+       0                         & K_R V_{GS} \ge 1.0\\
+      \end{array} \right. %}
+      \label{b5ri}
+\end{eqnarray}
+
+The relationships of the parameters describing the I/V
+characteristics for the {\tt LEVEL} 5 model are summarized in figure
+\ref{blevel5i/v}.\\[0.1in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt AFAG} \hfill $A_{FAG}$\\
+{\tt AFAB} \hfill $A_{FAB}$\\
+{\tt GAMA} \hfill $\gamma$\\
+{\tt IDSS} \hfill $I_{DSS}$\\
+{\tt IB0} \hfill $I_{B0}$\\
+{\tt IG0} \hfill $I_{G0}$\\
+{\tt KG} \hfill $K_G$\\
+{\tt KE} \hfill $K_E$\\
+{\tt KR} \hfill $K_R$\\
+{\tt R10} \hfill $R_{10}$\\
+{\tt SS} \hfill $S_S$\\
+{\tt SL} \hfill $S_L$\\
+{\tt T} \hfill $\tau$\\
+{\tt VBC} \hfill $V_{BC}$\\
+{\tt VP0} \hfill $V_{P0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, E, \gamma, I_{DSS},
+       \newline\hspace*{\fill} K_E, K_G, S_L, S_S, \tau, V_{P0})$\\
+$I_{GS} = f(Area, A_{FAB}, A_{FAG},
+       \newline\hspace*{\fill} I_{B0}, I_{G0}, V_{BC})$ \\
+$I_{GD} = f(Area, A_{FAB}, A_{FAG},
+       \newline\hspace*{\fill} I_{B0}, I_{G0}, V_{BC})$ \\
+$R_I =  f(Area, K_R, R_{10}, V_{GS})$ \\
+\hline
+\end{tabular}
+\caption{LEVEL 5 (Materka-Kacprzak model) I/V dependencies. \label{bleve51i/v}}
+\end{figure}
+
+\noindent\underline{\sl LEVEL 5 (Materka-Kacprzak Model) Capacitances}\\[0.1in]
+Two capacitance models are available depending on the value of the $C_{LVL}$
+({\tt CLVL}) parameter.  With $C_{LVL}$ = 1 (default) the standard Materka
+capacitance model described below is used.
+With $C_{LVL}$ = 0 the Raytheon capacitance model
+described on page \pageref{b:raytheon:capacitance} is used.
+The Materka-Kacprzak capacitances are
+\begin{eqnarray}
+C'_{DS}&=&Area\, C_{DS} \\
+C'_{GS}&=&\left\{ \begin{array}{ll}
+         Area \left[ C_{10}( 1 - K_1 V_{GS} )^{M_{GS}} + C_{1S} \right]
+           & K_1V_{GS} < F_{CC}\\
+         Area \left[ C_{10}( 1 - F_{CC} )^{M_{GS}} + C_{1S} \right]
+           & K_1V_{GS} \ge F_{CC}\\
+         \end{array} \right. \\ %}
+C'_{GD}&=&\left\{ \begin{array}{ll}
+         Area \left[ C_{F0}( 1 - K_1 V_1 )^{M_{GD}} \right]
+           & K_1V_1 < F_{CC}\\
+         Area \left[ C_{F0}( 1 - F_{CC} )^{M_{GD}} \right]
+           & K_1V_1 \ge F_{CC}\\
+         \end{array} \right. %}
+\end{eqnarray}
+
+The {\tt LEVEL} 5 capacitance parameter dependencies are summarized in figure
+\ref{blevel5cap}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt FC} \hfill $F_C$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt M} \hfill $M$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} = f(Area, C_{10}, C_{1S},
+            \newline\hspace*{\fill} F_{CC}, K_1, V_{GS}, M_{GS})$\\
+$C'_{GS} = f(Area, C_{F0}, C_{1S},
+            \newline\hspace*{\fill} F_{CC}, K_1, V_1, V_{GS}, M_{GS})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 5 (Materka-Kacprzak model) capacitance dependencies.
+\label{blevel5cap}}
+\end{figure}
+
+\ \myThickLine
+\label{b:level6:start}
+{\bf LEVEL 6 (Angelov Model)}\myline
+
+The parameter keywords of the Materka-Kacprzak model are given in table
+\ref{btable6}.
+
+
+\begin{longtable}[h]{|p{0.6in}|p{3.5in}|p{0.6in}|p{0.6in}|}
+\caption[GASFET model 6 (Angelov) keywords.]{GASFET model 6 (Angelov)
+keywords.
+Parameters that are {\sc NOT USED} are reserved for future
+expansion.
+         \label{btable6}}\\
+
+\hline
+\multicolumn{1}{|c}{\bf Name} &
+\multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+\multicolumn{1}{|c}{\bf Units} &
+\multicolumn{1}{|c|}{\bf Default}\\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+{\tt AF}& flicker noise exponent\sym{A_F}& -    & 1 \X
+{\tt ACGS}  & linear temperature coefficient of {\tt CGS} \sym{A_{CGS}}
+    & $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ACGD}  & linear temperature coefficient of {\tt CGD} \sym{A_{CGD}}
+    & $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ALFA}  & saturation voltage parameter ($\ge 0$) \sym{\alpha}& V$^{-1}$ & 1.5 \X
+{\tt ARI}   & linear temperature coefficient of {\tt RI} \sym{A_{RI}}
+    & $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ARG}   & linear temperature coefficient of {\tt RG} \sym{A_{RG}}
+    & $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ARD}   & linear temperature coefficient of {\tt RD} \sym{A_{RD}}
+    & $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ARS}   & linear temperature coefficient of {\tt RS} \sym{A_{RS}}
+    & $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt B1}    & unsaturated coefficient of {\tt P1} \sym{B_1} &-& 0 \X
+{\tt B2}    & drain voltage slope parameter for {\tt B1} \sym{B_2}
+    &-& 3.0 \X
+{\tt BCGD}  & quadratic  temperature coefficient of {\tt CGD} \sym{B_{CGD}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BCGS}  & quadratic  temperature coefficient of {\tt CGS} \sym{B_{CGS}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRI}   & quadratic  temperature coefficient of {\tt RI} \sym{B_{RI}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRG}   & quadratic  temperature coefficient of {\tt RG} \sym{B_{RG}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRS}   & quadratic  temperature coefficient of {\tt RS} \sym{B_{RS}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRD}   & quadratic  temperature coefficient of {\tt RD} \sym{B_{RD}}
+    & $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt CGD0}  & gate-source capacitance at $\Psi_3=\Psi_4=0$ (>= 0)
+         \sym{C_{GD0}}&F&0\X
+{\tt CGS0}  & gate-source capacitance at $\Psi_1=\Psi_2=0$ (>= 0)
+         \sym{C_{GS0}}&F&0\X
+{\tt EG}    & barrier height at 0~K \sym{E_G} &V& 0.8 \X
+{\tt GAMA}  & voltage slope parameter for pinch-off
+                 \newline ({\sc NO LONGER USED})
+        &V$^{-1}$& 0 \X
+{\tt IB0}   & breakdown saturation current ($\ge 0$) \sym{I_{B0}} &A& 0 \X
+{\tt IPK}   & drain current at peak $g_m$ ($\ge 0$) \sym{I_{PK}} &A& 0.1 \X
+{\tt IS}    & diode saturation current ($\ge 0$) \sym{I_S} &A& 0 \X
+{\tt LAMB}& slope of the drain characteristic \sym{\lambda} &V$^{-1}$& 0 \X
+{\tt LEVEL}& model index \hfill must be 6 & -  &  1 \X
+{\tt N} & diode ideality factor ($> 0$\sym{N} &-& 1 \X
+{\tt NR}    & breakdown ideality factor ($> 0$ \sym{N_R} &-& 10 \X
+{\tt P2}    & polynomial coefficient of channel current \sym{P_2}
+         & V$^{-2}$ & 0 \X
+{\tt P3}    & polynomial coefficient of channel current \sym{P_3}
+         & V$^{-3}$ & 0 \X
+{\tt P4}    & polynomial coefficient of channel current \sym{P_4}
+         & V$^{-4}$ & 0 \X
+{\tt P5}    & polynomial coefficient of channel current \sym{P_5}
+         & V$^{-5}$ & 0 \X
+{\tt P6}    & polynomial coefficient of channel current \sym{P_6}
+         & V$^{-6}$ & 0 \X
+{\tt P7}    & polynomial coefficient of channel current \sym{P_7}
+         & V$^{-7}$ & 0 \X
+{\tt P8}    & polynomial coefficient of channel current \sym{P_7}
+         & V$^{-8}$ & 0 \X
+{\tt P10}   & polynomial coefficient of g-s capacitance \sym{P_{10}}
+    & - & 0 \X
+{\tt P11}   & polynomial coefficient of g-s capacitance \sym{P_{11}}
+    & V$^{-1}$ & 0 \X
+{\tt P12}   & polynomial coefficient of g-s capacitance \sym{P_{12}}
+    & V$^{-2}$ & 0 \X
+{\tt P13}   & polynomial coefficient of g-s capacitance \sym{P_{13}}
+    & V$^{-3}$ & 0 \X
+{\tt P14}   & polynomial coefficient of g-s capacitance \sym{P_{14}}
+    & V$^{-4}$ & 0 \X
+{\tt P20}   & polynomial coefficient of g-s capacitance \sym{P_{20}}
+    & - & 0 \X
+{\tt P21}   & polynomial coefficient of g-s capacitance \sym{P_{21}}
+    & V$^{-1}$ & 0 \X
+{\tt P22}   & polynomial coefficient of g-s capacitance \sym{P_{22}}
+    & V$^{-2}$ & 0 \X
+{\tt P23}   & polynomial coefficient of g-s capacitance \sym{P_{23}}
+    & V$^{-3}$ & 0 \X
+{\tt P24}   & polynomial coefficient of g-s capacitance \sym{P_{24}}
+    & V$^{-4}$ & 0 \X
+{\tt P30}   & polynomial coefficient of g-d capacitance \sym{P_{30}}
+    & - & 0 \X
+{\tt P31}   & polynomial coefficient of g-d capacitance \sym{P_{31}}
+    & V$^{-1}$ & 0 \X
+{\tt P32}   & polynomial coefficient of g-d capacitance \sym{P_{32}}
+    & V$^{-2}$ & 0 \X
+{\tt P33}   & polynomial coefficient of g-d capacitance \sym{P_{33}}
+    & V$^{-3}$ & 0 \X
+{\tt P34}   & polynomial coefficient of g-d capacitance \sym{P_{34}}
+    & V$^{-4}$ & 0 \X
+{\tt P40}   & polynomial coefficient of g-d capacitance \sym{P_{40}}
+    & - & 0 \X
+{\tt P41}   & polynomial coefficient of g-d capacitance \sym{P_{41}}
+    & V$^{-1}$ & 0 \X
+{\tt P42}   & polynomial coefficient of g-d capacitance \sym{P_{42}}
+    & V$^{-2}$ & 0 \X
+{\tt P43}   & polynomial coefficient of g-d capacitance \sym{P_{43}}
+    & V$^{-3}$ & 0 \X
+{\tt P44}   & polynomial coefficient of g-d capacitance \sym{P_{44}}
+    & V$^{-4}$ & 0 \X
+{\tt P1CC}  & polynomial coefficient of g-d capacitance \sym{P_{1CC}}
+    & & 0 \X
+{\tt PSAT}  & polynomial coefficient of channel current {\tt PSAT}  \sym{P_1}
+    & V$^{-1}$ & 1.3 \X
+{\tt RI}    & channel resistacne ($\ge 0$) {\sc NOT USED} \sym{R_I} & & 0 \X
+{\tt T} & channel time delay ($\ge 0$) \sym{\tau} &s& 0 \X
+%{\tt TCGD1}& alternative keyword for {\tt ACGD}\sym{A_{CGD}} & C$^{-1}$ & 0 \X
+%{\tt TCGD2}& alternative keyword for {\tt BCGD}\sym{B_{CGD}} & C$^{-1}$ & 0 \X
+%{\tt TCGS1}& alternative keyword for {\tt ACGS}\sym{A_{CGS}} & C$^{-1}$ & 0 \X
+%{\tt TCGS2}& alternative keyword for {\tt BCGS}\sym{B_{CGS}} & C$^{-1}$ & 0 \X
+%{\tt TCGD1}& alternative keyword for {\tt ACGD}\sym{A_{CGD}} & C$^{-1}$ & 0 \X
+%{\tt TCGD2}& alternative keyword for {\tt BCGD}\sym{B_{CGD}} & C$^{-1}$ & 0 \X
+{\tt TJ}    & junction temperature \sym{T_J} &K& 298 \X
+{\tt TM}    & $I_{DS}$ linear temperature coefficient \sym{T_M} & & 0 \X
+{\tt TME}   & $I_{DS}$ power law temperature coefficient \sym{T_{ME}}&&0 \X
+{\tt TNOM}  & model reference temperature ($> 0$) \sym{T_{NOM}} &K& 298 \X
+%{\tt TRD1}& alternative keyword for {\tt ARD}\sym{A_{RD}} & C$^{-1}$ & 0 \X
+%{\tt TRD2}& alternative keyword for {\tt BRD}\sym{B_{RD}} & C$^{-1}$ & 0 \X
+%{\tt TRG1}& alternative keyword for {\tt ARG}\sym{A_{RG}} & C$^{-1}$ & 0 \X
+%{\tt TRG2}& alternative keyword for {\tt BRG}\sym{B_{RG}} & C$^{-1}$ & 0 \X
+%{\tt TRI1}& alternative keyword for {\tt ARI}\sym{A_{RI}} & C$^{-1}$ & 0 \X
+%{\tt TRI2}& alternative keyword for {\tt BRI}\sym{B_{RI}} & & 0 \X
+%{\tt TRS1}& alternative keyword for {\tt ARS}\sym{A_{RS}} & & 0 \X
+%{\tt TRS2}& alternative keyword for {\tt BRS}\sym{B_{RS}} & & 0 \X
+{\tt VBD}   & breakdown voltage \sym{V_{BD}} & & 0 \X
+{\tt VPK0}  & gate-source voltage for unsaturated peak $g_m$\sym{V_{PK0}}
+    &V& -0.5 \X
+{\tt VPKS}  & gate-source voltage for peak $g_m$ \sym{V_{PKS}}
+    &V& 0 \X
+{\tt XTI}   & saturation current temperature exponent \sym{X_{TI}}
+    & & 2 \X
+\end{longtable}
+
+\noindent\underline{\sl \large Temperature Dependence}
+\index{GASFET, Temperature Dependence}
+\index{Temperature Dependence, see GASFET}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K) and
+the thermal voltage $V_{\ms{TH}} = kT / q$.
+\begin{eqnarray}
+\alpha(T)   &=& \alpha(T_{\ms{NOM}})  \left(
+                    1 + A_{\alpha} (T-T_{\ms{NOM}}) \right) \\
+C_{GS0}(T)  &=& C_{GS0}(T_{\ms{NOM}}) \left( 1 +
+    A_{CGS} (T-T_{\ms{NOM}}) + B_{CGS} (T-T_{\ms{NOM}})^2  \right) \\
+C_{GD0}(T)  &=& C_{GD0}(T_{\ms{NOM}}) \left( 1 +
+    A_{CGD} (T-T_{\ms{NOM}}) + B_{CGD} (T-T_{\ms{NOM}})^2  \right) \\
+E_G(T) & = & E_G(0) -
+      F_{\ms{GAP1}}{{4T^2} / \left( {T+F_{\ms{GAP2}}} \right) }\\
+\gamma(T)   &=& \gamma(T_{\ms{NOM}})  \left(
+                    1 + A_{\gamma} (T-T_{\ms{NOM}}) \right) \\
+I_{PK}(T)   &=& I_{PK}(T_{\ms{NOM}})  \left(
+                    1 + A_{IPK} (T-T_{\ms{NOM}}) \right) \\
+R_I(T)      &=& R_I(T_{\ms{NOM}})  \left( 1 +
+    A_{RI} (T-T_{\ms{NOM}}) + B_{RI} (T-T_{\ms{NOM}})^2  \right) \\
+R_G(T)      &=& R_G(T_{\ms{NOM}})  \left( 1 +
+    A_{RG} (T-T_{\ms{NOM}}) + B_{RG} (T-T_{\ms{NOM}})^2  \right) \\
+R_D(T)      &=& R_D(T_{\ms{NOM}})  \left( 1 +
+    A_{RD} (T-T_{\ms{NOM}}) + B_{RD} (T-T_{\ms{NOM}})^2  \right) \\
+R_S(T)      &=& R_S(T_{\ms{NOM}})  \left( 1 +
+    A_{RS} (T-T_{\ms{NOM}}) + B_{RS} (T-T_{\ms{NOM}})^2  \right) \\
+V_{PK}(T)   &=& V_{PK}(T_{\ms{NOM}})  \left(
+                    1 + A_{VPK} (T-T_{\ms{NOM}}) \right) \\
+V_{BD}(T)   &=& V_{BD}(T_{\ms{NOM}})  \left(
+                    1 + A_{VBD} (T-T_{\ms{NOM}}) \right) \\
+&&  {\tt TM} I_{DS} {\tt TME}  ????
+\end{eqnarray}
+
+
+
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see GASFET, \pspice}
+\index{GASFET, \pspice\ Parasitic Resistance}
+\index{GASFET, \pspice\ $R_S$}
+\index{GASFET, \pspice\ $R_G$}
+\index{GASFET, \pspice\ $R_D$}
+\index{MESFET, see GASFET (\pspice)}
+The resistive parasitics
+$R'_S$, and $R'_D$ are calculated from the sheet resistivities
+{\tt RS} (= $R_S$) and {\tt RD} (= $R_D$), and the
+$Area$ specified on the element line.
+{\tt RG} (= $R_G$) is used as supplied.
+\begin{eqnarray}
+R'_D & = & R_D/Area\\
+R'_G & = & R_G/Area\\
+R'_S & = & R_S/Area
+\end{eqnarray}
+The parasitic resistance parameter dependencies are summarized in
+Figure \ref{b6para}.
+
+\begin{figure}[h]
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt RD} \hfill $R_D$\\
+{\tt RG} \hfill $R_G$\\
+{\tt RS} \hfill $R_S$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE}\\
+\multicolumn{1}{|c|}{PARAMETERS}\\
+\hline
+\hspace*{\fill} $R'_D = f(Area, R_D)$\\
+\hspace*{\fill} $R'_G = f(Area, R_G)$\\
+\hspace*{\fill} $R'_S = f(Area, R_S)$\\
+\hline
+\end{tabular}
+\caption{MESFET parasitic resistance parameter
+relationships. \label{b6para}}
+\end{figure}
+
+\noindent\underline{\sl {\tt LEVEL} 6 (Angelov Model)
+I/V Characteristics}\\[0.1in]
+\index{GASFET, LEVEL 6 (Angelov) Model, I/V}
+\index{GASFET, LEVEL 6 (Angelov) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The {\tt LEVEL 6} current/voltage characteristics are analytic:
+\begin{eqnarray}
+I_{DS}&=& I_{PK} [ 1 + \mbox{tanh}(\Psi)]
+                 [ 1 + \lambda V_{DS}]
+                 \mbox{tanh}(\alpha V_{DS}) \\
+\Psi  &=& P_1 \left(V_{GS} - V_{PK} \right)
+        + P_2 \left(V_{GS} - V_{PK} \right) ^2
+        + P_3 \left(V_{GS} - V_{PK} \right) ^3 \nonumber\\
+     && + P_4 \left(V_{GS} - V_{PK} \right) ^4
+        + P_5 \left(V_{GS} - V_{PK} \right) ^5
+        + P_6 \left(V_{GS} - V_{PK} \right) ^6\nonumber\\
+     && + P_7 \left(V_{GS} - V_{PK} \right) ^7
+        + P_8 \left(V_{GS} - V_{PK} \right) ^8
+    \\
+P_1 &=& P_{\ms{SAT}}
+       \left[ 1 + B_1/\left(\mbox{cosh}^2(B_2 V_{DS}) \right)\right]\\
+V_{PK} &=& V_{PK0} + (V_{PKS}-V_{PK0}) \mbox{tanh}(\alpha V_{DS})\\
+I_{GS}&=&I_S \left[ e^{V_{GS}/(N V_{\ms{TH}})} -1 \right]
+         - I_{B0} \left[ e^{-(V_{GS}+ V_{BD})/(N_R V_{\ms{TH}})}  \right]
+      \label{b6igs} \\
+I_{GD}&=&I_S \left[ e^{V_{GD}/(N V_{\ms{TH}})} -1 \right]
+         - I_{B0} \left[ e^{-(V_{GD}+ V_{BD})/(N_R V_{\ms{TH}})}  \right]
+      \label{b6igd} \\
+      R_I &=& R'_I/Area
+\end{eqnarray}
+
+The relationships of the parameters describing the I/V
+characteristics for the {\tt LEVEL} 6 model are summarized in figure
+\ref{blevel6i/v}.
+
+\medskip
+
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt IPK} \hfill $ I_{PK}$\\
+{\tt LAMB} \hfill $ \lambda$\\
+{\tt ALFA} \hfill $ \alpha$\\
+{\tt P1} \hfill $ P_1$\\
+{\tt P2} \hfill $ P_2$\\
+{\tt P3} \hfill $ P_3$\\
+{\tt P4} \hfill $ P_4$\\
+{\tt P5} \hfill $ P_5$\\
+{\tt P6} \hfill $ P_6$\\
+{\tt P7} \hfill $ P_7$\\
+{\tt P8} \hfill $ P_8$\\
+{\tt IS} \hfill $ I_S$\\
+{\tt N} \hfill $ N$\\
+{\tt IB0} \hfill $I_{B0}$\\
+{\tt NR} \hfill $ N_R$\\
+{\tt VBD} \hfill $ V_{BD}$\\
+{\tt VPK0} \hfill $ V_{PK0}$\\
+{\tt VPKS} \hfill $ V_{PKS}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$I_{DS} = f(Area, I_{PK}, \lambda, \alpha,$\newline\hspace*{\fill}$
+ P_1, P_2, P_3, P_4, P_5, P_6, P_7, P_8,$\newline\hspace*{\fill}$
+ V_{PK0}, V_{PKS},)$\\
+$I_{GS} =$\newline\hspace*{\fill}$ f(Area, I_S, N, I_{B0}, V_{BD}, N_R)$\\
+$I_{GS} =$\newline\hspace*{\fill}$ f(Area, I_S, N, I_{B0}, V_{BD}, N_R)$\\
+\hline
+\end{tabular}
+\caption{LEVEL 6 (Angelov model) I/V dependencies. \label{bleve61i/v}}
+\end{figure}
+
+\noindent\underline{\sl LEVEL 6 (Angelov Model) Capacitances}\\[0.1in]
+The Angelov capacitances are
+\begin{eqnarray}
+C'_{DS}&=&Area\, C_{DS} \\
+C'_{GS}&=&Area C_{GS0} \left[ 1 + \mbox{tanh} (\Psi_1) \right]
+                       \left[ 1 + \mbox{tanh} (\Psi_2) \right]\\
+&&\Psi_1 = P_{10}+P_{11}V_{GS}+P_{12}V_{GS}^2+P_{13}V_{GS}^3+P_{14}V_{GS}^4\\
+&&\Psi_2 = P_{20}+P_{11}V_{DS}+P_{22}V_{DS}^2+P_{23}V_{DS}^3+P_{24}V_{DS}^4\\
+C'_{GD}&=&Area C_{GD0} \left[ 1 + \mbox{tanh} (\Psi_3) \right]
+                       \left[ 1 - \mbox{tanh} (\Psi_4) \right]\\
+&&\Psi_3 = P_{30}+P_{31}V_{GS}+P_{32}V_{GS}^2+P_{33}V_{GS}^3+P_{34}V_{GS}^4\\
+&&\Psi_4 = P_{40}+    \left( P_{41}+P_{1CC} V_GS \right) V_{DS}
+         + P_{42}V_{DS}^2+P_{43}V_{DS}^3+P_{44}V_{DS}^4
+\end{eqnarray}
+
+The {\tt LEVEL} 6 capacitance parameter dependencies are summarized in figure
+\ref{blevel6cap}.\\[0.2in]
+\begin{figure}[h]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{KEYWORD} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt CGD} \hfill $C_{GD}$\\
+{\tt CGS} \hfill $C_{GS}$\\
+{\tt CDS} \hfill $C_{DS}$\\
+{\tt FC} \hfill $F_C$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt M} \hfill $M$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETER} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$C'_{DS} = f(Area, C_{DS})$\\
+$C'_{GD} = f(Area, C_{10}, C_{1S},
+      \newline\hspace*{\fill} F_{CC}, K_1, V_{GS}, M_{GS})$\\
+$C'_{GS} = f(Area, C_{F0}, C_{1S},
+      \newline\hspace*{\fill} F_{CC}, K_1, V_1, V_{GS}, M_{GS})$\\
+\hline
+\end{tabular}
+\caption{LEVEL 6 (Angelov model) capacitance dependencies.
+\label{blevel6cap}}
+\end{figure}
+
+\noindent\underline{\sl \large AC Analysis}
+\index{GASFET, AC Analysis}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2.75in\pfig{gaasAC.ps}
+\caption[Small signal GASFET model]{Small signal GASFET model
+showing noise sources $I_{n,G}$, $I_{n,D}$, $I_{n,S}$, and
+$I_{n,DS}$ used in the noise analysis.
+$R_I$ is not used in \pspice .
+\label{fig:gaasAC} }
+\end{figure}
+The AC analysis uses the model of figure \ref{fig:gaasAC} with the capacitor
+values evaluated at the \dc\ operating point with\\
+\hspace*{\fill}
+$g_m={{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{GS}}}
+\hfill
+R_{GD}={{\textstyle\partial I_{GD}} \over {\textstyle\partial V_{GD}}}
+\hfill
+R_{GS}={{\textstyle\partial I_{GS}} \over {\textstyle\partial V_{GS}}}
+\hfill
+R_{DS}={{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{DS}}}$
+\inlineeq
+
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{GASFET, Noise Model}
+\index{GASFET, Noise Analysis}
+The MESFET noise model, see figure \ref{fig:gaasAC}, accounts for thermal
+noise generated in the
+parasitic resistamces and shot and flicker noise generated in the
+drain source current generator.  The rms (root-mean-square) values of
+thermal noise current generators shunting the three parasitic resistance
+$R_D$, $R_G$ and $R_S$ are
+
+\begin{eqnarray}
+I_{n,D} &=& \sqrt{4kT/R'_D}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,G} &=& \sqrt{4kT/R'_G}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,S} &=& \sqrt{4kT/R'_S}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+Shot and flicker noise are modeled by
+a noise current generator in series with the drain-source current generator
+$I_{DS}$.
+The rms value of this noise generator is given by
+\begin{eqnarray}
+I_{n,DS} &=& \sqrt{I_{\ms{SHOT},DS}^2 + I_{\ms{FLICKER},DS}^2}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{SHOT},DS} &=& \sqrt{4kTg_m\frac{2}{3}}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{FLICKER},DS} &=& \sqrt{{{\textstyle\KF I_{DS}^{\AF}}
+                         \over {\textstyle f }}}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+where $f$ is the analysis frequency.

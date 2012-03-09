@@ -1,0 +1,21 @@
+***** AC Test for the 4 Terminal Attenuator
+
+.ac start=1 stop=1e6 n_freqs=100
+
+***** Circuit Network
+vsource:v1 1 0 vac=4
+
+resistor:rin 1 2 r=50
+
+attenuatorgen:a1 2 0 3 4 zo=50 alpha=20
+
+resistor:rout 3	4 r=50
+
+***** Time Domain
+.options gnuplot 
+.out plot term 2 vf mag in "InputAtTerminal2.out"
+.out plot term 3 vf mag term 4 vf mag - in "InputAtTerminal34.out"
+
+.end
+
+

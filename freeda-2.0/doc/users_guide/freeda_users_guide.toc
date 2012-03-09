@@ -1,0 +1,92 @@
+\contentsline {chapter}{\numberline {1}Introduction}{7}
+\contentsline {section}{\numberline {1.1}Overview of fREEDA}{7}
+\contentsline {section}{\numberline {1.2}A Multi-Physics Simulator}{7}
+\contentsline {section}{\numberline {1.3}Supported Platforms}{9}
+\contentsline {section}{\numberline {1.4}Command Line Options}{9}
+\contentsline {section}{\numberline {1.5}Release Notes}{10}
+\contentsline {subsection}{\numberline {1.5.1}Installation Notes}{10}
+\contentsline {subsection}{\numberline {1.5.2}Directory Structure}{10}
+\contentsline {subsection}{\numberline {1.5.3}Setting up the Cygwin Environment}{11}
+\contentsline {subsection}{\numberline {1.5.4}Setting Up .bash\_profile}{11}
+\contentsline {subsection}{\numberline {1.5.5}Environment Variables}{11}
+\contentsline {subsection}{\numberline {1.5.6}Known Bugs}{12}
+\contentsline {section}{\numberline {1.6}Help}{12}
+\contentsline {chapter}{\numberline {2}Netlist Format}{13}
+\contentsline {section}{\numberline {2.1}Structure of fREEDA$^{\mathrm {TM}}$'s Netlist}{13}
+\contentsline {subsection}{\numberline {2.1.1}Lexical}{13}
+\contentsline {subsubsection}{Capitalization}{14}
+\contentsline {subsection}{\numberline {2.1.2}Continuation of Line}{14}
+\contentsline {subsection}{\numberline {2.1.3}Title Line}{15}
+\contentsline {subsection}{\numberline {2.1.4}Comments}{15}
+\contentsline {subsection}{\numberline {2.1.5}.options}{15}
+\contentsline {subsubsection}{Preset Options}{15}
+\contentsline {subsubsection}{Control Options}{16}
+\contentsline {subsection}{\numberline {2.1.6}.model}{16}
+\contentsline {subsection}{\numberline {2.1.7}Analysis Specification}{16}
+\contentsline {subsection}{\numberline {2.1.8}Element Specification}{16}
+\contentsline {subsection}{\numberline {2.1.9}End of Netlist}{17}
+\contentsline {subsection}{\numberline {2.1.10}Subcircuits}{17}
+\contentsline {section}{\numberline {2.2}Output Control}{17}
+\contentsline {subsubsection}{Output Commands}{17}
+\contentsline {subsection}{\numberline {2.2.1}Writing}{18}
+\contentsline {subsubsection}{Example}{18}
+\contentsline {subsection}{\numberline {2.2.2}Plotting}{18}
+\contentsline {subsubsection}{Example}{18}
+\contentsline {subsection}{\numberline {2.2.3}Running a System Command}{18}
+\contentsline {subsubsection}{Example}{19}
+\contentsline {subsection}{\numberline {2.2.4}Nomenclature}{19}
+\contentsline {subsection}{\numberline {2.2.5}Qualifiers}{19}
+\contentsline {subsection}{\numberline {2.2.6}Operators}{20}
+\contentsline {subsubsection}{General Operators}{20}
+\contentsline {subsection}{\numberline {2.2.7}Network Operators}{20}
+\contentsline {subsubsection}{RPN Arithmetic Operators}{20}
+\contentsline {subsubsection}{Mathematical Operators}{21}
+\contentsline {subsubsection}{Signal Processing Operators}{22}
+\contentsline {section}{\numberline {2.3}Example: Simulation of a Folded Slot Antenna}{22}
+\contentsline {chapter}{\numberline {3}Algebraic Expressions}{27}
+\contentsline {chapter}{\numberline {4}fREEDA Commands}{31}
+\contentsline {section}{\numberline {4.1}.inc \discretionary {-}{}{} Include Statement}{31}
+\contentsline {section}{\numberline {4.2}.lib \discretionary {-}{}{} Library Statement}{32}
+\contentsline {section}{\numberline {4.3}.locate \discretionary {-}{}{} Identify Location of Terminals}{33}
+\contentsline {section}{\numberline {4.4}.plot \discretionary {-}{}{} Plot Specification}{34}
+\contentsline {section}{\numberline {4.5}.print \discretionary {-}{}{} Print Specification}{38}
+\contentsline {section}{\numberline {4.6}Structure of a fREEDA Netlist}{45}
+\contentsline {subsection}{\numberline {4.6.1}Lexical Rules}{45}
+\contentsline {subsubsection}{Capitalization}{46}
+\contentsline {section}{\numberline {4.7}SPICE Elements}{48}
+\contentsline {section}{\numberline {4.8}General File Comments}{48}
+\contentsline {section}{\numberline {4.9}Element Instance Syntax}{48}
+\contentsline {section}{\numberline {4.10}Netlist Variables}{48}
+\contentsline {section}{\numberline {4.11}.couple --- Couple Elements}{49}
+\contentsline {subsection}{\numberline {4.11.1}.locate --- Identify Location of Terminals}{50}
+\contentsline {section}{\numberline {4.12}.model}{51}
+\contentsline {section}{\numberline {4.13}.options}{52}
+\contentsline {section}{\numberline {4.14}.out}{53}
+\contentsline {subsection}{\numberline {4.14.1}Qualifiers}{54}
+\contentsline {subsection}{\numberline {4.14.2}Nomenclature}{54}
+\contentsline {subsection}{\numberline {4.14.3}Operators}{56}
+\contentsline {section}{\numberline {4.15}.tran}{61}
+\contentsline {section}{\numberline {4.16}.tran2}{61}
+\contentsline {section}{\numberline {4.17}.tran4}{61}
+\contentsline {section}{\numberline {4.18}.tran basel}{62}
+\contentsline {chapter}{\numberline {5}Output Control}{65}
+\contentsline {section}{\numberline {5.1}Output Commands}{65}
+\contentsline {subsection}{\numberline {5.1.1}Writing}{65}
+\contentsline {subsubsection}{Example}{65}
+\contentsline {subsection}{\numberline {5.1.2}Plotting}{65}
+\contentsline {subsubsection}{Example}{66}
+\contentsline {subsection}{\numberline {5.1.3}Running a System Command}{66}
+\contentsline {subsubsection}{Example}{66}
+\contentsline {section}{\numberline {5.2}Nomenclature}{66}
+\contentsline {section}{\numberline {5.3}Qualifiers}{67}
+\contentsline {section}{\numberline {5.4}Operators}{68}
+\contentsline {subsection}{\numberline {5.4.1}General Operators}{68}
+\contentsline {subsection}{\numberline {5.4.2}Network Operators}{68}
+\contentsline {subsection}{\numberline {5.4.3}RPN Arithmetic Operators}{68}
+\contentsline {subsection}{\numberline {5.4.4}Mathematical Operators}{69}
+\contentsline {subsection}{\numberline {5.4.5}Signal Processing Operators}{70}
+\contentsline {chapter}{\numberline {6}Graphical User Interface}{71}
+\contentsline {section}{\numberline {6.1}Introduction}{71}
+\contentsline {section}{\numberline {6.2}The Netlist Editor}{71}
+\contentsline {section}{\numberline {6.3}The Analysis Window}{73}
+\contentsline {section}{\numberline {6.4}The Output Viewer Window}{73}

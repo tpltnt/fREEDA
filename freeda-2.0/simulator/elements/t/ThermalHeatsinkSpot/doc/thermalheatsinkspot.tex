@@ -1,0 +1,101 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{N-port grid array substrate with NxN
+surface \\
+heating elements}
+\hspace{\fill}\textbf{thermalnport}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+\textit{Form:}
+\newline
+$\tt thermalnport$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+\cdots$ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ and $n_2$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+ntimesteps: Number of time & INTEGER & 0 & no \\
+steps in transient simulation & & & \\
+\hline
+dt: Length of timestep (s) & DOUBLE & 0 & no \\
+\hline tambient: Ambient temperature (K) & DOUBLE & 300 & no \\
+\hline time\_d: Flag, if true, calculate in the time domain. & BOOLEAN & false & no \\
+\hline read\_input: Flag, read\_input & BOOLEAN & false & no\\
+thermal resistance matrices from file & & & \\
+\hline l: Substrate x-dimension in meters. & DOUBLE & 0.05 & no \\
+\hline w: Substrate y-dimension in meters & DOUBLE & 0.05 & no \\
+\hline d: Substrate z-dimension in meters. & DOUBLE & 0.0016 & no \\
+\hline ks: Thermal conductivity {($\mathrm{W/{m.K}}$)} & DOUBLE & 0.294 & no \\
+\hline rho: Density {($\mathrm{kg.{m^{-3}}}$)} & DOUBLE & 1900 & no \\
+\hline c: Specific heat {($\mathrm{J/{kg.K}}$)} & DOUBLE & 1150 & no \\
+\hline xi: Adjustment for $T\ast\ast4$ non linearity. & DOUBLE & 1.3 & no \\
+\hline eta: Adjustment for natural convection. & DOUBLE & 3 & no \\
+\hline epsilon: Emissivity. & DOUBLE & 0.7 & no \\
+\hline narray: Order of NxN grid array & INTEGER & n/a & yes \\
+\hline ndevices: Number of heat dissipating devices & INTEGER & 1 & no \\
+\hline b: Exponent in power law temperature & DOUBLE & 0 & no \\
+dependence of thermal conductivity & & & \\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{thermalnport:\ test1\ 12\ 22\ 32\ 42\ 52\ 62\ 72\ 82\ 92\
+10\ Ntimesteps = nsteps dt = deltat \\
+Tambient = temp time\_d=1 nfingers = 1 narray = 3 read\_input = 1}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson, Bill Batty & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+w.batty@elec-eng.leeds.ac.uk & & & \\
+\end{tabular}
+\newpage
+%Publications
+%\newline
+\noindent \linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Publications:}
+\begin{enumerate}
+\item W Batty, C. E. Christoffersen, A. J. Panks, S. David, C. M.
+Snowden and M. B. Steer, ``Electro-Thermal CAD of Power Devices
+and Circuits with Fully Physical Time-Dependent Compact Thermal
+Modelling of Complex Non Linear 3-D Systems,'' IEEE Transactions
+on Components and Packaging Technology, Vol. 34, No. 4, December
+2002, pp. 566-590.
+\item W. Batty , C. E. Christoffersen, C. M. Snowden and M. B. Steer,
+`` Fully Physical Coupled Electro-Thermal Modelling of Power Devices and
+Circuits,'' PSSD conference Digest, Ilkley, UK, March 2002.
+\item W. Batty, C. E. Christoffersen, S. David, A. J. Panks, R. G. Johnson,
+C. M. Snowden and M. B. Steer, ``Global Electro-thermal CAD of
+Complex Non Linear 3-D Systems Based on a Fully Physical
+Time-dependent Compact Thermal Model,'' 2001 IEEE Int. Microwave
+Symp. Digest, May 2001, pp. 667-670.
+\end{enumerate}
+\end{document}

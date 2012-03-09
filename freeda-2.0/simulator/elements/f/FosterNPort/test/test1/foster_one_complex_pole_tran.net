@@ -1,0 +1,30 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* One-port coupled antena test
+*
+
+.tran2 tstop=0.1 tstep=0.00001 opt
+
+vsource:vin 1 0 vac = 1v  f = 0.1 phase=90
+
+
+r:rin 1 port1 r=1
+
+FosterNPort:f1 port1 0 filename = "one_pole.txt" ports = 1
+
+l:1 port1 0 l=1
+r:1 port1 0 r=1
+
+*open:o1 1 0 
+
+.options gnuplot
+
+.out write term "port1" vt in "v2_tran.out"
+
+*.options preamble="set term x11 font 'helvetica,13';
+*         set title 'Voltage at Input of Foster 1 Port';
+*         set xlabel 'TIME (s)'; set ylabel 'VOLTAGE' "
+*.out plot term "port1" vt preamble in "v2_tran.out"
+
+
+.end

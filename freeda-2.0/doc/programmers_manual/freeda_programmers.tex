@@ -1,0 +1,57 @@
+% Version 1.1.1.
+\documentclass[10pt]{book}
+
+\usepackage{epsf,html}
+\usepackage{cite}
+
+\usepackage[nolineno]{lgrind} % Need for rest of doc (not nonlinear)
+% Update to use listings package...5/5/03 FPH
+\usepackage{listings}
+    % Set up a set of common parameters for listings package to format C++ code...
+    % These settings are "too wide" for the standalone doc, but should be about
+    % right once integrated into the overall fREEDA doc again.
+    \lstloadlanguages{[GNU]C++}
+        \lstset{language={[GNU]C++}, % p 12 of listings.dvi
+        numbers=left,           % p 29 of listings.dvi
+        numberstyle=\tiny,      % p 29 of listings.dvi
+        stepnumber=1,           % p 29 of listings.dvi
+        numbersep=5pt,          % p 29 of listings.dvi
+        showstringspaces=false  % p 29 of listings.dvi
+        xrightmargin=10mm,      % p 31 of listings.dvi
+        frame=lines,            % p 32 of listings.dvi
+        framexleftmargin=5mm,   % p 32 of listings.dvi
+        framexrightmargin=0mm,  % p 32 of listings.dvi change this to 15 when reintegrated?
+        texcl=false,            % p 35 of listings.dvi
+        mathescape=true,        % p 35 of listings.dvi
+        escapeinside={(*@}{@*)},  % p 49 of listings.dvi
+        basicstyle=\footnotesize}   % p 27 of listings.dvi
+    % End of adds for listings package
+
+\input{freeda.sty}
+
+%\includeonly{begin_programmer}
+%\includeonly{oosimfreeda}
+%\includeonly{linear_tutorial}
+%\includeonly{nonlinear_tutorial}
+%\includeonly{oobasics}
+%\includeonly{relnotes}
+%\includeonly{support_libraries}
+%\includeonly{resistort}
+%\includeonly{bib}
+
+%\includeonly{updated_begin_programmer, oosimfreeda, linear_tutorial, updated_nonlinear_tutorial, oobasics, bib}
+\onecolumn
+\begin{document}
+\include{begin_programmer}      % Title Page
+\pagenumbering{arabic}
+\include{oosimfreeda}           % Ch 1 Architecture
+\include{linear_tutorial}       % Ch 2 Adding Linear Elements
+\include{nonlinear_tutorial}    % Ch 3 Adding Nonlinear Elements - Major changes
+\appendix
+\include{oobasics}              % App A OOP Basics
+\include{relnotes}              % App B Release Notes
+\include{support_libraries}     % App C Support Libraries
+\include{resistort}
+%\include{fr_coding} bug in latex code
+\include{bib}                   % Bibliography
+\end{document}

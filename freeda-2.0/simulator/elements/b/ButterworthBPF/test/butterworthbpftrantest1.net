@@ -1,0 +1,23 @@
+**** tran2 butterworthbpf test #1 *****
+
+.tran2 tstop=16us tstep=1ns out_steps=2000
+
+vsource:vin 1 0 vac=1.0 f=1e6 
+
+R:Rin1 1 2 r=50
+Butterworthbpf:b1 2 3 0 order=5 fc=1e6 bw=400e3 z0=50
+R:Rout1 3 0 r=50
+
+.options gnuplot
+.options preample1="set term x11 font 'helvetica,13';
+set title 'Butterworth Filter Transient Response'; set xlabel 'TIME (microseconds)'; 
+set ylabel 'Voltage (V)"
+.out plot term 3 vt 1e6 scalex preample1 in "butterworthbpf.tran.out1"
+
+.end
+
+
+
+
+
+

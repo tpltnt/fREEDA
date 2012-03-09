@@ -1,0 +1,25 @@
+Isolator Test 1
+*sending a signal forward through the isolator
+
+*.ac start = .01e9 stop = 20e9 n_freqs = 100
+.tran2 tstart=0.1e-6 tstop=5e-6 tstep=.01e-6
+
+*4-port circuit
+vsource:vin 1 0 vac=2 f=1e6
+isolator:iso1 2 3 0 0 r=50
+resistor:rin 1 2 r=50
+resistor:rload 3 0 r=50 
+
+*2-port circuit
+*vsource:vin 1 0 vac=2 f=1
+*resistor:rin 1 2 r=50
+*gyr:gin 2 3 g1=.02 g2=.02
+*resistor:rload 3 0 r=50
+
+.out plot term 3 vt in "v3.out"
+.out plot term 2 vt in "v2.out"
+.out plot term 1 vt in "v1.out"
+.out plot term 0 vt in "v0.out"
+.end
+
+

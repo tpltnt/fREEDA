@@ -1,0 +1,60 @@
+* Test netlist of spiral inductor model
+.options verbose
+.options zo=50
+
+
+*** Spiral inductor model parameters
+.options rdc=2.778 ldc=4.325n rs1=26k ls1=1u ms1=13.61n
++ cw=10f 
++ cox1=19.71f csub11=64.67f gsub11=9.90m
++ cox2=73.01f csub21=10.82f gsub21=2.189m
++ cox3=15.27f csub31=31.06f gsub31=1.688m
+
+*** analyses
+*.tran2 tstop=10m tstep=0.25e-3 out_steps=5
+.ac start=100 stop=10GHz n_freqs=10000
+
+*** Network test circuit
+* ac source - note, no frequency specified
+vsource:vin 1 0 vdc=0 vac=.01
+
+* tran source
+* vsource:vin 1 0 vdc=0 vac=.01 f=1e3
+resistor:rin 1 2 r=zo
+resistor:rout 3 0 r=zo
+
+*** Spiral inductor circuit
+c:c1 2 3 c=cw
+
+l:l1 2 4 l=ldc 
+l:l2 4 5 l=ls1
+resistor:r1 4 6 r=rdc
+resistor:r2 5 6 r=rs1
+k:k1 l1="l:l1" l2="l:l2" coupling=ms1 
+
+l:l3 6 7 l=ldc
+l:l4 7 8 l=ls1
+resistor:r3 7 3 r=rdc
+resistor:r4 8 3 r=rs1
+k:k2 l1="l:l3" l2="l:l4" coupling=ms1 
+
+c:c2 2 9 c=cox1
+c:c3 6 10 c=cox2
+c:c4 3 11 c=cox3
+
+c:c5 9 0 c=csub11
+c:c6 10 0 c=csub21
+c:c7 11 0 c=csub31
+
+resistor:r5 9 0 r={1/gsub11}
+resistor:r6 10 0 r={1/gsub21}
+resistor:r7 11 0 r={1/gsub31}
+
+
+*** Transient
+.options gnuplot
+*.out plot term 1 vt in "sp_in.tran"
+*.out plot term 3 vt in "sp.tran"
+
+*** AC
+.out plot term 3 vf term 2 vf div mag db in "spiral.ac.out"

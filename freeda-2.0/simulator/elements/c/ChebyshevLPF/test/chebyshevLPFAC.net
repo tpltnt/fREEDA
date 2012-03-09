@@ -1,0 +1,13 @@
+* AC Analysis
+.ac start = 1e6 stop = 1GHz n_freqs=100
+vsource:v1 1 0 vac= 5
+resistor:rs1 1 2 r=50
+chebyshevLPF:f1 2 0 3 n=21 f0=300e6 z0=50 type=0 ripple=1
+resistor:rl1 3 0 r=50
+
+.options gnuplot
+.options plotVF1Preamble="set logscale x; set xlabel 'FREQUENCY (Hz)'; set ylabel 'Magnitude (dB)"
+.out plot term 3 vf term 1 vf 2 div div mag db plotVF1Preamble in "out.ac1.value"
+
+.end
+

@@ -1,0 +1,249 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{N Channel MOSFET BSIM3SOI model}
+\hspace{\fill} \textbf{mosnbsim3soi}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\pfig{m.ps}} \caption{N Channel MOSFET
+BSIM3SOI model}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt mosnbsim3soi5T1$:$\langle \tt{instance\ name}\rangle$ $n_1\
+n_2\ n_3\ n_4\ n_5\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+$n_4$ & is the substrate node, \\
+$n_5$ & is the bulk node. \\
+\end{tabular}
+% Parameter list
+\newpage
+%\newline
+\noindent\textit{Model Parameters:}
+\newline
+%The parameters used in the model are listed in the tables
+%~\ref{bsim4.params1} to ~\ref{bsim4.params8}.
+
+\begin{table}[H]
+\begin{tabular}{|c| c| c| c|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{l} & Length & 5.0e-06 & $m$\\
+\texttt{w} & Width & 5e-06 & $m$\\
+\texttt{tsi} & Silicon film thickness & 1e-07 & $m$\\
+\texttt{tbox} & Buried oxide thickness & 3.0e-07 & $m$\\
+\texttt{tox} & Gate oxide thickness & 1e-08 & $m$ \\
+\texttt{toxqm} & Effective oxide thickness & & \\
+          & considering quantum effect & tox & $m$\\
+\texttt{xj} & S/D junction depth & tsi & $m$\\
+\texttt{nch} & Channel doping concentration & 1.7e17 & $1/cm^{-3}$\\
+\texttt{nsub} & Substrate doping concenration & 6e16 & $1/cm^{-3}$\\
+\texttt{ngate} & Poly-gate doping concenration & 0.0 & $1/cm^{-3}$\\
+\texttt{vth0} & Threshold voltage @Vbs=0 for & &\\
+               & long and wide device & 0.7 & $V$\\
+\texttt{k1} & First order body effect coefficient & 0.6 & $V^0.5$\\
+\texttt{k1w1} & First body effect width dependent parameter & 0.0 & $m$\\
+\texttt{k2} & Second order body effect coefficient & 0.0 & -\\
+\texttt{k3} & Narrow width effect coefficient & 0.0 & -\\
+\texttt{k3b} & Body effect coefficient of k3 & 0.0 & $1/V$\\
+\texttt{kb1} & Backgate body charge coefficient & 1.0 & -\\
+\texttt{w0} & Narrow width effect parameter & 0.0 & $m$\\
+\texttt{nlx} & Lateral non-uniform doping parameter & 1.74e-07 & $m$\\
+\texttt{dvt0} & First coefficient of short-channel & &\\
+                & effect on Vth & 2.2 & -\\
+\texttt{dvt1} & Second coefficient of short-channel & & \\
+             & effect on Vth & 0.53 & -\\
+\texttt{dvt2} & Body-bias coefficient of & & \\
+            & short-channel effect on Vth & -0.032 & $1/V$\\
+\texttt{dvt0w} & First coefficient of narrow width & & \\
+            & effect on Vth for small channel length & 0.0 & -\\
+\texttt{dvt1w} & Second coefficient of narrow width & & \\
+             & effect on Vth for small channel length & 5.3e6 & -\\
+\texttt{dvt2w} & Body-bias coefficient of narrow width & & \\
+             & effect on Vth for small channel length & -0.032 & $1/V$\\
+\texttt{u0} & Mobility at Temp=Tnom & 0.067 & $cm^2/V-sec$\\
+\texttt{ua} & First-order mobility degradation coefficient & 2.25e-09 & $m/V$\\
+\hline
+\end{tabular}
+\caption{\label{bsim3nsoi.params1} MOS Model Parameter table 1}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{ub} & Second-order mobility degradation coefficient & 5.9e-19 & $m/V^2$\\
+\texttt{uc} & Body-effect of mobility degradation coefficient & -0.0465 & $1/V$\\
+\texttt{vsat} & Saturation velocity at Temp=Tnom & 8e4 & $m/sec$\\
+\texttt{a0} & Bulk charge effect coefficient & &\\
+            & for channel length & 1.0 & -\\
+\texttt{ags} & Gate bias coefficient of Abulk & 0.0 & $1/V$\\
+\texttt{b0} & Bulk charge effect coefficient for & & \\
+               & channel width & 0.0 & $m$\\
+\texttt{b1} & Bulk charge effect width offset & 0.0 & $m$\\
+\texttt{keta} & Body-bias coefficient of bulk & & \\
+               & charge effect & 0.0 & $1/V$\\
+\texttt{ketas} & Surface potential adjustment for & & \\
+              & bulk charge effect & 0.0 & $V$\\
+\texttt{a1} & First non-saturation effect parameter & 0.0 & $1/V$\\
+\texttt{a2} & Second non-saturation effect parameter & 1.0 & - \\
+\texttt{rdsw} & Parasitic resistance per unit width & 100 & $ohm-um$\\
+\texttt{prwb} & Body effect coefficient of rdsw & 0.0 & $1/V$\\
+\texttt{prwg} & Gate-bias effect coefficient of rdsw & 0.0 & -\\
+\texttt{wr} & Width offset from Weff for & & \\
+              & Rds calculation & 1.0 & -\\
+\texttt{nfactor} & Subthreshold swing factor & 1.0 & -\\
+\texttt{wint} & Width offset fitting parameter & & \\
+             & from I-V without bias & 0.0 & $m$\\
+\texttt{lint} & Length offset fitting parameter & &\\
+             & from I-V without bias & 0.0 & $m$\\
+\texttt{dwg} & Coefficient of Weff's gate dependence & 0.0 & $m/V$\\
+\texttt{dwb} & Coefficient of Weff's substrate & &\\
+             & body bias dependence & 0.0 & $(m/V)^0.5$\\
+\texttt{dwbc} & Width offset for body contact isolation edge & 0.0 & $m$\\
+\texttt{voff} & Offset voltage in the threshold region & & \\
+              & for large W and L & -0.08 & $V$ \\
+\texttt{eta0} & DIBL coefficient subthreshold region & 0.08 & -\\
+\texttt{etab} & Body bias coefficient for the & & \\
+              & subthreshold DIBL effect & -0.07 & $1/V$\\
+\texttt{dsub} & DIBL coefficient in the subthreshold region & 0.56 & -\\
+\texttt{cit} & Interface trap capacitance & 0.0 & $F/m^2$\\
+\texttt{cdsc} & Drain/Source to channel coupling capacitance & 2.4e-04 & $F/m^2$\\
+\hline
+\end{tabular}
+\caption{\label{bsim3soi.params2} MOS Model Parameter table 2}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{cdscb} & Body-bias sensitivity of cdsc & 0.0 & $F/m^2$\\
+\texttt{cdscd} & Drain-bias sensitivity of cdsc & 0.0 & $F/m^2$\\
+\texttt{pclm} & Channel length modulation parameter & 1.3 & -\\
+\texttt{pdibl1} & First output resistance DIBL & & \\
+            & effect correction parameter & 0.39 & -\\
+\texttt{pdibl2} & Second output resistance DIBL & & \\
+             & effect correction parameter & 0.0086 & -\\
+\texttt{pvag} & Gate dependence of Early voltage & 0.0 & -\\
+\texttt{delta} & Effective Vds parameter & 0.01 & -\\
+\texttt{alpha0} & The first parameter of impact & & \\
+            & ionization current & 0.0 & $m/V$\\
+\texttt{beta0} & First Vds dependent parameter of & & \\
+            & impact ionization current & 0.0 & $1/V$\\
+\texttt{beta1} & Second Vds dependent parameter of & & \\
+            & impact ionization current & 0.0 & -\\
+\texttt{beta2} & Third Vds dependent parameter of & &\\
+                 & impact ionization current & 0.1 & $V$ \\
+\texttt{vdsatii0} & Nominal drain saturation voltage at & &\\
+                    & threshold for impact ionization current & 0.9 & $V$\\
+\texttt{cgeo} & Gate substrate overlap capacitance & & \\
+               & per unit channel length & 0.0 & $F/m$\\
+\texttt{cjswg} & Source/Drain (gate side) sidewall junction & & \\
+                & capacitance per unit width & &\\
+                & (normalized to 100nm tsi) & 1e-10 & $F/m^2$\\
+\texttt{pbswg} & Source/Drain (gate side) sidewall junction & & \\
+                & capacitance built in potential & 0.7 & $V$\\
+\texttt{mjswg} & Source/Drain (gate side) sidewall junction & & \\
+                & capacitance grading coefficient & 0.5 & $V$\\
+\texttt{tt} & Diffusion capacitance transit time coefficient & 1.0e-12 & $sec$\\
+\texttt{csdesw} & S/D sidewall fringing capacitance per unit length & 0.0 & $F/m$\\
+\texttt{cgs1} & Light doped source-gate region overlap capacitance & 0.0 & $F/m$\\
+\texttt{cgd1} & Light doped drain-gate region overlap capacitance & 0.0 & $F/m$\\
+\texttt{ckappa} & Coefficient for lightly doped region overlap & &\\
+                & capacitance fringing field capacitance & 0.6 & $F/m$\\
+\texttt{clc} & Constant term for the short channel model & 0.1e-07 & $m$\\
+\texttt{cle} & Exponential term for the short channel model & 0.0 & -\\
+\texttt{dlc} & Length offset fitting parameter for gate charge & lint & $m$\\
+\texttt{dlcb} & Length offset fitting parameter for body charge & 0.0 & $m$\\
+\texttt{dlbg} & Length offset fitting parameter for backgate charge & 0.0 & $m$\\
+\texttt{dwc} & Width offset fitting parameter from C-V & wint & $m$\\
+\hline
+\end{tabular}
+\caption{\label{bsim3soi.params3} MOS Model Parameter table 3}
+\end{table}
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{delvt} & Threshold voltage adjust for C-V & 0.0 & $V$\\
+\texttt{fbody} & Scaling factor for body charge & 1.0 & -\\
+\texttt{moin} & Coefficient for the gate-bias dependent & & \\
+              & surface potential & 15.0 & $V^{0.5}$\\
+\texttt{tnom} & Parameter measurement temperature & 300.15 & $K$\\
+\texttt{ute} & Temperature coefficient of mobility & -1.5 & -\\
+\texttt{kt1} & Temperature coefficient of Vth & -0.11 & -\\
+\texttt{kt1l} & Channel length dependence of the & & \\
+             & temperature coefficient of Vth & 0.0 & $V*m$\\
+\texttt{kt2} & Body-bias coefficient of the Vth temperature effect & 0.022 & -\\
+\texttt{ua1} & Temperature coefficient for ua & 4.31e-09 & $m/V$\\
+\texttt{ub1} & Temperature coefficient for ub& -7.61e-18 & $(m/V)^2$\\
+\texttt{uc1} & Temperature coefficient for uc & -0.056 & $1/V$\\
+\texttt{at} & Temperature coefficient of vsat & 3.3e4 & $m/sec$\\
+\texttt{prt} & Temperature coefficient of rdsw & 0.0 & $ohm-um$\\
+\texttt{vbm} & Maximum body voltage & -3.0 & -\\
+\texttt{xt1} & Doping depth & 1.55e-07 & -\\
+\texttt{pdiblb} & Body-effect on drain induced barrier lowering & 0.0 & -\\
+\texttt{ll} &  Length reduction parameter & 0.0 & $m$\\
+\texttt{llc} &  Length reduction parameter & 0.0 & $m$\\
+\texttt{lln} & Length reduction parameter & 1.0 & $m$\\
+\texttt{lw} & Length reduction parameter & 0.0 & $m$\\
+\texttt{lwc} & Length reduction parameter & 0.0 & $m$\\
+\texttt{lwn} & Length reduction parameter & 0.0 & $m$\\
+\texttt{lwl} & Length reduction parameter & 0.0 & $m$\\
+\texttt{lwlc} & Length reduction parameter & 0.0 & $m$\\
+\texttt{wl} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wlc} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wln} & Width reduction parameter & 1.0 & $m$\\
+\texttt{ww} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wwc} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wwn} & Width reduction parameter & 1.0 & $m$\\
+\texttt{wwl} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wwlc} & Width reduction parameter & 0.0 & $m$\\
+\texttt{temp} & Circuit temperature & 300.15 & $K$\\
+\texttt{acde} & Exponential coefficient for charge & 1.0 & $m/V$\\
+\hline
+\end{tabular}
+\caption{\label{bsim3soi.params4} MOS Model Parameter table 4}
+\end{table}
+
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2003.08.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Ramya Mohan & NC State University & August 2003 & \epsfxsize=1in\pfig{logo.eps} \\
+rmohan@unity.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

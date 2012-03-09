@@ -1,0 +1,36 @@
+% SSPICE.STY  Specific style option for CSI's superspice.
+%
+% Nothing is output for spicethreeonly
+%is output otherwise
+\newcommand{\spicetwoonly}[1]{}
+\newcommand{\spicethreeonly}[1]{}
+\newcommand{\pspiceonly}[1]{#1}
+\newcommand{\pspiceninetytwoonly}[1]{}
+\newcommand{\sspiceonly}[1]{#1}
+\newcommand{\notforsspice}[1]{}
+\renewcommand{\pspiceform}[1]{\form{#1}}
+\renewcommand{\pspiceninetytwoform}[1]{}
+\renewcommand{\spicethreeform}[1]{}
+\renewcommand{\pspice}{\sspice}
+\renewcommand{\spice}{\sspice}
+\renewcommand{\Spice}{\sspice}
+\renewcommand{\elementx}[3]{\markright{#3}\clearpage\rm
+   \addcontentsline{toc}{section}{#1, #3}
+   \mymarginpar{#1}{#3} \label{#1element} \index{#1} \index{#3} }
+\renewcommand{\modelx}[3]{{
+   \noindent\vspace{0.2in}\parbox{\textwidth}{
+   \noindent\rule{\textwidth}{.5mm} \\[0.1in]
+   {\large \bf #1 Model} \label{#1model} \hfill {\large #3} \\
+   \noindent\rule{\textwidth}{.5mm} \index{#1} \index{#3}}}}
+\renewcommand{\statementx}[3]{\clearpage\rm\rm\markright{#3:#2}
+   \addcontentsline{toc}{section}{#1, #3}
+   \mymarginpar{#1}{#3} \index{#1:#2} \index{#3:#2} \label{#1statement}}
+\renewcommand{\modelversion}[1]{}
+\newcommand{\fornutmeg}[1]{}
+\newcommand{\sspicetwoonly}[1]{}
+\renewcommand{\version}[1]{}
+\renewcommand{\kwversion}[1]{}
+\renewcommand{\kwversionNote}[1]{}
+\renewcommand{\versions}[1]{}
+\renewcommand{\kwversions}[1]{}
+\renewcommand{\kwversionsNote}[1]{}

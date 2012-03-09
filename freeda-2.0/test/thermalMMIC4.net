@@ -1,0 +1,46 @@
+*** Electro-thermal turn-on transient for 1-port thermalMMIC with thermal MESFET ***
+
+.options f0=1.0e5 deltat=0.5us nsteps=100 temp=300. 
+
+*.svtr  tstop = 50us n_freqs = 8 tstep=deltat check_imp=0
+.tran2 tstop = 50us tstep=deltat im=0
+
+inductor:l1 1 2 l=1e-9 
+capacitor:c1 2 3 c=20e-11 
+
+inductor:l2 3 7 l=15e-9  
+resistor:r2 7 8 r=100
+
+inductor:l3 4 5 l=15e-9  
+resistor:r3 5 6 r=10
+capacitor:cload 4 9 c=20e-12 
+resistor:rload 9 0 r=50.
+
+vsource:vbias 8 0  vdc = 0.3
+vsource:vdrain 6 0 vdc = 3.
+resistor:rin 11 1 r = 50
+vsource:vs 11 0 
+* f = f0 vac = .4
+
+resistor:rs 123 0 r=1.144
+
+*** Mesfet with power dissipation
+mesfetct:m1 3 4 123 1000 "tref"
++ a0 = .016542 a1 = .0500214 a2 = .02012 a3 = -.00806592
++ gama = 2.16505 t = 5e-12 beta = -.0394707 is = 1e-9
++ vbd = 15 nr = 10 ib0 = 1e-9 cgs0 = .52785e-12 cgd0 = .087e-12 
+
+*** Thermal circuit
+thermalheatsinkmmic1:test1 1000 1001 Tambient=temp time_d=1 dt=deltat ntimesteps=nsteps
++ nfingers = 5
+vsource:t1 1001 "tref" vdc=temp
+resistor:rdummy 1000 1001 r=1e5
+
+.ref "tref"
+
+.out plot element "mesfetc:m1" 1 ut in "tran.vds"
+.out plot element "thermalheatsinkmmic1:test1" 0 ut in "tran.temp"
+.out plot element "mesfetc:m1" 1 it in "tran.ids"
+.out plot element "mesfetc:m1" 2 it in "tran.power"
+
+.end

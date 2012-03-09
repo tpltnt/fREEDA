@@ -1,0 +1,511 @@
+%--- Hey emacs, this is -*-LaTeX-*-
+\chapter{\FDA Architecture} \label{ch:oo}
+
+%--------------------------------------------------------------------------
+\section{Introduction}
+
+The architecture of \FDA is based on faithful application of object
+oriented (OO) design practice\cite{eliens,dep_inv,open,liskov,int_seg,uml_tut}
+\footnote{These references are available on line at http://www.objectmentor.com/}.
+The OO abstraction is well suited to modeling engineering systems, for
+example, in circuit simulation circuit elements are already viewed as discrete
+objects and at the same time as an integral part of a (circuit) continuum.
+The OO view is a unifying concept that maps extremely well onto the way
+humans perceive the world around them.  Non-OO circuit simulators
+always become complicated with many layers of special cases.
+Referring to circuit elements again, traditional simulation
+implementations have many ``if-then'' like statements and individually
+identify every element in many places for special handling.
+
+There are a few key premises that drove the architecture of \FDA. One of
+these is the adoption of a very strong OO paradigm throughout to
+obtain a modular design. A second key premise is the separation of the core
+components embodying numerical methods from the modeling and solver
+formulation process with the result that numerical techniques
+developed by computer scientists and mathematicians can be formulated
+using formal correctness procedures. Thus, what is adopted here, is
+that the circuit abstraction is adapted so that highly reliable and
+efficient pre-developed libraries can be used.
+
+C++ is the core implementation language and was once considered slow
+for scientific applications. Advances in compilers and programming
+techniques, however, have made this language
+attractive and in some benchmarks C++ outperforms Fortran
+\cite{kai,c++fortran}. Several OO numerical libraries have been
+developed \cite{oonpage}.  Of great importance to the work described
+here is the incorporation of the standard template library
+(STL)~\cite{STL}. The STL is a C++ library of container classes,
+algorithms, and iterators; it provides many of the basic algorithms
+and data structures of computer science. The STL is a generic library,
+meaning that its components are heavily parameterized: almost every
+component in the STL is a template.  The current ISO/ANSI C++
+standard~\cite{todd} has not been fully implemented and C++ compilers
+support a variable subset of the standard. The biggest areas of
+noncompliance being the templates and the standard library.
+
+In this chapter the focus is on the design of the object-oriented
+structure of \FDA. The goal in the design of \FDA was to obtain speed in
+development, to use `off-the-shelf' advanced numerical techniques, and
+to allow easy expansion and implementation of new models and numerical
+methods.
+
+The design intent was to to combine the advantages of previous OO circuit
+simulators with these new developments as well as expanding
+capability. \FDA uses C++ libraries \cite{adol-c:96,mv++} and
+several written in C or Fortran \cite{FFTW,Sparse,NNES}.
+
+OO-design embodies a body of concepts that should be understood before
+a full appreciation of what follows can be made.
+This fits in beautifully with the idea of code resue as here we utilize concept reuse.
+The first concept required is an understanding of the Unified Markup Language (UML).
+This is a universal way of presenting relationships among objects and is not specific to computer coding.
+UML can be viewed as a substitute for flowcharts.
+A flowchart permits a very limited set of relationships to be described
+and results in what is called spaghetti code: code that has many linear streams and complex connections between the threads.
+Common code is multiplicated and perhaps slightly changed in each instance
+as the concept of using existing code and overriding only the differences is not supported.
+UML is different and fosters code reuse and much simpler coding.
+So if you are not familiar with UML study Appendix \ref{app:oo}
+before proceeding.
+
+\section{The Network Package}
+%
+\begin{figure}
+\centerline{\epsfxsize=13cm \epsfbox{network_package.eps}}
+\caption{Class diagram: The network package is the core of the
+simulator.\label{fig:network}}
+\end{figure}
+%
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=6cm \epsfbox{netlistitemclass.eps}}
+\caption{The {\bf NetListItem} class.}
+\label{fig:netlistitemclass}
+\end{figure}
+%
+The network package is the core of the simulator. All the elements and
+the analysis classes are built upon it as shown in the class diagram
+of Figure~\ref{fig:network}. R(resistor), D(diode) and MesfetM shown
+here are examples of particular elements. Xsubckt is the \texttt{SPICE}
+X subcircuit element. The terminals of an element are specifically
+referred to as terminals and not as nodes as used in \texttt{SPICE}
+as the concept of a node is more general than that of a terminal. For
+example elements and terminals are both graph nodes.
+(See Appendix \ref{app:oo} for a description of the class diagram syntax.)
+Following the suggestion made in~\cite{davis1}, there is a {\bf NetListItem}
+class that is the base for all classes of objects that appear in the input
+netlist. This is the base class that handles parameters.
+Figure~\ref{fig:netlistitemclass} shows some of the methods provided by
+this class. All the netlist items share a common syntax so that the
+element model developer does not need to worry about the details of element
+parsing and there is no need to modify the parser to add new elements.
+For compatibility reasons, Spice-type syntax (which does not have a consistent
+grammar) is supported by the parser outside the network package. Support
+for the elements using \texttt{SPICE} syntax is implemented for each
+element in the parser where each \texttt{SPICE} element is renamed as a \FDA element.
+
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=6cm \epsfbox{elementclass.eps}} \caption{The
+{\bf Element} class.} \label{fig:elementclass}
+\end{figure}
+%
+The {\bf Element} class contains basic methods common to all elements
+as well as the interface methods for the evaluation routines.  Some of
+the methods of this class (Figure~\ref{fig:elementclass}) need to be
+overridden by the derived classes. For example, in class {\bf D},
+{\tt svTran()} is intended to contain the code to evaluate the time
+domain response of a diode. This function is used by DC and transient
+analyses. The same happens with {\tt svHB()} and {\tt fillMNAM()}.
+The overhead imposed by these virtual functions is small compared to
+the time spent evaluating the functions themselves and so this
+approach is a good compromise between flexibility and efficiency. This
+idea has been used in \cite{codecs,davis1,feldmann}. \FDA also
+offers a more elaborate mechanism for nonlinear element evaluation
+functions which will be described in Section \ref{sec:nlelem}.
+
+%
+%\begin{figure}[htpb]
+%\centerline{\epsfxsize=13cm \epsfbox{transim_manual_example.ps}}
+%\caption{Documentation generated for an element.}
+%\label{fig:manual}
+%\end{figure}
+%
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=6cm \epsfbox{circuitclass.eps}} \caption{The
+{\bf Circuit} class.} \label{fig:circuitclass}
+\end{figure}
+%
+The {\bf ElementManager} class is mainly responsible for keeping a
+catalog of all the existing elements. Note that this class is the only
+one that `knows' about each and every type of element but this
+dependency is weak.  The element list is included from an
+automatically generated file. {\bf ElementManager} is also used to
+automatically generate documentation for the element in html format.
+The {\bf Circuit} class
+represents either a main circuit or a subcircuit as a collection of
+elements and terminals. It provides methods to add, remove and find
+elements and terminals using different criteria and it also provides
+methods related to circuit topology. More details about this class are
+given in Figure~\ref{fig:circuitclass}.  All the {\bf Element} and
+{\bf Terminal} instances must be stored in data structure inside the
+{\bf Circuit} instance and the \emph{map} container of the
+STL~\cite{STL}. The map is a \emph{Sorted Associative Container} that
+associates objects of type \emph{Key} with objects of type
+\emph{Data}. Here \emph{Data} is either {\bf Element} or {\bf
+Terminal} and \emph{Key} is \emph{int} (the ID number). This is an
+example of where the features of C++ are used to reduce development
+time. This is achieved at no overhead as an optimum implementation of
+these concepts is embedded in the compiler.
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=6cm \epsfbox{xsubcktclass.eps}} \caption{The
+{\bf Xsubckt} class: This class handles the \texttt{SPICE} {\bf X} element.}
+\label{fig:xsubcktclass}
+\end{figure}
+%
+Subcircuit instances are represented by the {\bf Xsubckt} class, see
+Figure~\ref{fig:xsubcktclass}.  The method {\tt attachDefinition()} is
+used to associate a {\bf Circuit} instance where the actual subcircuit
+is stored to the particular {\bf Xsubckt} instance and {\tt
+expandToCircuit()} takes a {\bf Circuit} pointer as argument and
+expands the subcircuit.
+Note that before expansion the complete hierarchy of a circuit is
+available in memory, so this engine could eventually be used to
+perform hierarchical simulation. The reason for this is that a subcircuit
+can be invoked (by an {\bf X} element) before the subcircuit is defined
+(in a .SUBCKT block).
+
+% \section{Example of Element Implementation: CPW Transmission Line}
+%
+% %
+% \begin{figure}[htpb]
+% \centerline{\epsfxsize=12cm \epsfbox{CPW_line.eps}}
+% \caption{A CPW transmission line} \label{fig:CPW}
+% \end{figure}
+% %
+% %
+% \begin{figure}[htpb]
+% \centerline{\epsfxsize=10cm \epsfbox{transim_cpwelem.eps}}
+% \caption{Implementation of an element using another element as a building
+% block} \label{fig:cpwelem}
+% \end{figure}
+% %
+% The flexibility for element creation is illustrated by showing one
+% implementation of the CPW transmission line element,
+% Figure~\ref{fig:CPW}. Other implementations are also possible.  Since
+% the CPW model is similar in concept to the physical transmission line
+% model (Tlinp4 element) shown in Figure~\ref{fig:manual}, the CPW
+% element can be implemented as shown in Figure~\ref{fig:cpwelem}. The
+% {\bf Element} class (Figure~\ref{fig:elementclass}) provides a default
+% {\tt init()} function which is executed after all the parameters
+% values and the terminal connections are set. This method is
+% \emph{overridden} by the {\bf CPW} class (this means the default
+% function is replaced by a custom function for the {\bf CPW} class) as
+% follows. After all the CPW parameters are set, the CPW {\tt init()}
+% function calculates the equivalent parameters for a Tlinp4 element
+% (see Figure~\ref{fig:manual} for a description of parameters) and
+% inserts it in the circuit.  The actual transmission line equations are
+% then handled by the underlying Tlinp4 element and this relationship
+% applies to nearly every other aspect of the model such as the
+% information to check local reference nodes
+% \cite{local:reference:node:christoffersen,local:reference:node:khalil}.
+%
+% This kind of code reuse could also be achieved using the conventional
+% procedural paradigm of programming. The advantage of the OO approach is
+% that all the data, as well as all the functions needed to implement
+% the physical transmission line element are contained in one class,
+% thus making it easier to handle the elements as independent
+% `blocks'. This is known as the \emph{encapsulation} mechanism which
+% provides modularity of the code (see Appendix 2).
+%
+% The concept of this example can also be used to create elements
+% composed of a set of other elements, or `hardwired subcircuits',
+% although no elements of this type are currently implemented.
+
+\section{The Analysis Classes}
+
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=13cm \epsfbox{analysis_package.eps}}
+\caption{The analysis classes: {\tt AC}, {\tt DC}, {\tt SVTr} and {\tt SVHB} are
+different analysis types.} \label{fig:analysis}
+\end{figure}
+%
+Figure \ref{fig:analysis} shows the relation between the network
+package, the elements and the analysis classes.  Each of these classes
+stores analysis-specific data that would traditionally be global. This
+leads to the key desired attribute of flexibility in incorporating a
+new type of analysis, or even different implementations of the same
+analysis type. Examples are the {\bf SVTr} and {\bf SVHB} classes
+which contain the state-variable convolution transient and state-variable
+harmonic balance analyses described in \cite{carlos_phd}.
+
+There are some components common to two or more analysis types. The
+natural way of handling these components is by creating a class which
+is shared by the different analysis types. For example, the {\bf
+FreqMNAM} class handles a Modified Nodal Admittance Matrix (MNAM) in
+the frequency domain.  In a microwave simulator, the frequency domain
+admittance matrix is a key element for most analysis types. Since it
+is used so often, special care was taken to optimize efficiency.  The
+elements fill the matrix directly without the need for intermediate
+storage of the element stamp.  They do that by means of in-line
+functions to reduce function call overhead. Elements can fill the
+source vector in a similar way.  The elements depend on the {\bf
+FreqMNAM} methods, but this is not a problem since the interface is
+very unlikely to change.  The current implementation of MNAM uses the
+Sparse library, described in the next Section, and is completely
+encapsulated inside the {\bf FreqMNAM} class.  In the same way, the
+{\bf NLSInterface} class encapsulates the nonlinear solver
+routines. Therefore it is possible to replace the underlying
+libraries, if that is desired, without the need for any code
+modification outside the wrapper classes.  A final observation is that
+it is possible to add any kind of analysis type provided that the
+appropriate interface is defined and the member functions are written
+for each element type.
+
+\section{Nonlinear Elements} \label{sec:nlelem}
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=8cm \epsfbox{depinversion.eps}}
+\caption{Dependency inversion was used to make the elements
+independent of the analysis classes.} \label{fig:depinversion}
+\end{figure}
+%
+Nonlinear elements often use service routines provided by the analysis
+classes. In order to maximize code reuse and to avoid the dependence
+of the element code on a particular analysis routines, in \FDA
+elements depend on interface classes
+(Figure~\ref{fig:depinversion}). The concept is similar to the
+\emph{dependency inversion} \cite{dep_inv}. This is a technique which
+relies on interface classes (normally implemented using abstract
+classes in C++) to make different parts of a program independent of
+each other. They only depend on the interfaces. To achieve greater
+efficiency, in \FDA the dependency inversion is implemented using
+a concrete class with heavy in-lining and pass-by-reference.
+
+In this way, the element routines and the analysis depend on an
+interface class, {\bf TimeDomainSV} (not shown in
+Figure~\ref{fig:network} for clarity).  {\bf TimeDomainSV} is a class
+that is used to exchange information between an element and a state
+variable based time domain analysis. It also provides some basic
+algorithms such as time differentiation methods. This approach enables
+the element routines to be reused by several analysis types without
+the need to modify the element code (as long as the new analysis is
+state variable-based). For example, the {\bf DC} analysis uses the
+same interface element as the {\bf SVTr}.
+
+\FDA offers a more refined way to implement nonlinear elements,
+based on state variables (See chapter \ref{nonlinear:addition}).
+By implementing those parametric equations
+using a special syntax in only one function, \FDA can obtain the
+analysis functions {\tt svHB()}, {\tt svTran()} and derivatives
+automatically. This mechanism is termed \emph{generic evaluation}.
+
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=16cm \epsfbox{adolcelement.eps}}
+\caption{Class diagram for an element using generic evaluation.
+{\tt D}(diode) and MesfetM are elements.}
+\label{fig:adolcelement}
+\end{figure}
+%
+Figure \ref{fig:adolcelement} shows the class diagram for an element
+using this feature. Note that the {\bf Diode} class is derived from a
+class ({\bf AdolcElement}) which itself provides the analysis routines
+and deals with the analysis interfaces. The {\bf Diode} class only
+needs to implement the {\tt eval()} function with the parametric
+equations.
+
+{\bf AdolcElement} uses the Adol-C library (see Section
+\ref{sec:adolc} for a detailed explanation) to evaluate the parametric
+function and derivatives, but the concept is independent of automatic
+differentiation. If automatic differentiation were not used, then the
+derived class (\emph{e.g.} the {\bf Diode} class) would have to
+provide the Jacobian for the parametric equations.
+
+The idea is in a way similar to the one used in \cite{aplac2},
+\emph{i.e.} the primitive equations are `wrapped' in analysis-specific
+generic functions and so there is no need to write a separate routine
+for each analysis type. In the current work there are two additional
+features. The first is that the generic evaluation is combined with
+the state variable concept of Section \ref{review:rizzoli} and
+automatic differentiation. This provides unprecedented simplicity in
+creating nonlinear element models. The second is that a single
+mechanism is not mandatory. There are cases where it may not be
+practical to use this approach, or the overhead involved (which is
+completely acceptable even for simple models such as a diode) may not
+be properly amortized. In those cases, the element can implement the
+analysis functions directly, without using the {\bf AdolcElement}
+class.
+
+It is important to remark that generic evaluation is implemented
+efficiently so there are no superfluous calculations. The current
+implementation supports elements with any number of state
+variables. Each element selects the input variables as a subset of the
+following: the state variables, the first derivatives, the second
+derivatives and a time delayed version of the variables (the delay may
+be different for each). No derivation, time delaying nor
+transformation is performed on the unselected inputs.
+
+For example, an element with only an algebraic nonlinearity (such as
+the VCT: voltage controlled transducer) only selects the state
+variables without any derivatives or delays. As another example, the
+{\bf MesfetM} class implements the Materka-Kacprzac model for a
+MESFET. It requires two state variables, but only one of them needs to
+be delayed.
+
+A consequence of having a library of elements using generic evaluation
+is that it is possible to add a new analysis type by just adding the
+appropriate evaluation routines to the {\bf AdolcElement} class. Thus,
+the maintainance and expansion of the simulator is simplified. Put
+another way the code for a circuit element need only be implemented
+once and the identical code can be used by many different types of
+analyses including, hopefully any future analysis type implemented
+in the future.
+
+\section{Example: Use of Polymorphism}
+
+The concept of polymorphism is briefly explained in the introduction
+to object oriented programming in Appendix \ref{app:oo}. The scheme
+presented in Section \ref{sec:nlelem} constitutes a good example of the
+use of polymorphism to solve a complex problem.  Consider the segment
+of code of Figure \ref{fig:nleval}. This code evaluates the nonlinear
+element functions in state variable convolution transient analysis. {\tt
+elem\_vec} is a vector of {\bf Element} pointers implemented using the
+vector container of the C++ STL.
+%
+\begin{figure}[htpb]
+\begin{verbatim}
+  // Number of elements
+  int n_elem = elem_vec.size();
+  int i = 0;
+  // Go through all the nonlinear elements
+  for (int k = 0; k < n_elem; k++) {
+    // Set base index in interface object
+    tdsv->setIBase(i);
+    // nonlinear element evaluation
+    elem_vec[k]->svTran(tdsv);
+    i += elem_vec[k]->getNumberOfStates();
+  }
+\end{verbatim}
+\caption{Nonlinear element function evaluation in convolution transient.}
+\label{fig:nleval}
+\end{figure}
+%
+There is no need to keep the size of the vector in a separate variable
+as {\tt elem\_vec.size()} returns the size of the vector. Also, the
+memory management of the vector is dynamic and automatic; and {\tt
+elem\_vec[k]} returns the Element pointer at position $k$ in the
+vector.
+
+Each pointer inside {\tt elem\_vec} points to different kinds of
+elements. For the transient routine the actual type of each element
+does not matter. The line containing
+{\tt elem\_vec[k]->svTran(tdsv)} will call the appropriate evaluation
+routine depending on the actual type of Element pointer. The element
+may implement the routine directly or through generic evaluation,
+but it makes no difference for the analysis routine.
+
+The resulting code is therefore simple and there is no need for lists
+of ``if-then'' statements. Those lists would be very difficult to
+maintain, because each time an element is added or removed, all the
+lists would have to be updated.
+
+\section{Documentation}
+
+\FDA\ uses LaTeX as the main documentation language. Documentation is distributed in the directory freeda-version/doc . Element (in .../doc/fr\_elements.html ) and Analysis (in .../doc/fr\_analysis.html ) as well as the entire contents of the .../doc/elements directory are automatically generated.  Elements are handled as special way, as various implementations of \FDA\ can have different model sets (other than the standard distribution to include proprietary models for example) \FDA\ which generate html documentation of individual elements. This documentation is generated from the internal data structures so it is known to be right.  The convention is to also to provide PDF documentation of individual elements which are in the directory structure for the element. Environment Variables are discussed in the User's Guide in the subsection "Setting up the Cygwin Environment."  To create a set of analysis and element documentation ready for web use you should set the environment variables as follows
+
+\begin{center}
+\begin{tabular}{ll}
+\newline {\tt \$ENV\_FREEDA\_DOCUMENTATION} & .../\emph{freeda-version}/doc \\
+{\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION} & .../\emph{freeda-version}/doc \\
+\end{tabular}
+\end{center}
+
+\noindent where \emph{freeda-version} is either just /myhome/freeda/freeda (if soft linking has been used) or something like /myhome/freeda/freeda/freeda-1.3 and myhome is the user name.  Then `run freeda -c' and `run freeda -c'. This will put fr\_eleemnst.html and fr\_analysis.html in .../\emph{freeda-version}/doc and all of the element pdf files from the tree
+{\tt \$ENV\_FREEDA\_SIMULATOR}/elements tree in .../\emph{freeda-version}/doc/elements .
+
+\subsection{Automatically Generated Documentation}
+
+\FDA supports automatic generation of documentation for elements and analyses. These are derived from the internal data structures and is likely to be more up-to-date than separately generated documentation. The command lines to generate documentation are
+\begin{itemize}
+\item freeda -c
+\item freeda -c \emph{elementName}
+\item freeda -a
+\end{itemize}
+or, if using the cygwin environment:
+\begin{itemize}
+\item freeda.exe -c
+\item freeda.exe -c \emph{elementName}
+\item freeda.exe -a
+\end{itemize}
+
+\subsubsection{Analysis Catalog, freeda -a}
+
+This generates the analysis catalog and puts it in the file fr\_analysis.html in the directory {\tt \$ENV\_FREEDA\_DOCUMENTATION} .
+
+
+\subsubsection{Element Catalog, freeda -c}
+
+This generates a catalog of all elements and puts it in the file fr\_elements.html in the directory {\tt \$ENV\_FREEDA\_DOCUMENTATION} (this is the environment variable). Individual html files of each element are also generated and put in the directory {\tt \$ENV\_FREEDA\_DOCUMENTATION/elements}.  The individual element html files will include a link to a more detailed pdf file for the element.  This must be generated by the developer who created the element model.  There are two ways of handling the links to the pdf files.
+
+If the environment variable {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION} points to a local filesystem then the element pdf's are copied from the {\tt .../simulator/elements} tree and put in the directory {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION/elements} and the individual element html's point to the local pdfs.
+
+If the environment variable {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION} does not point to a local filesystem (e.g. http://www.freeda.org/doc ) then the individual element html file xxxx.html internally points to  {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION/elements/xxxx.pdf}. Typically this would be {\tt http://www.freeda.org/doc/elements/xxxx.pdf }.
+
+Environment Variables are discussed in the User's Guide.
+
+
+\subsubsection{Individual Element Documentation, freeda -c \emph{ElementName}}
+
+This generates an individual html file for the element with the name {\emph ElementName}. This is put in the directory {\tt \$ENV\_FREEDA\_DOCUMENTATION/elements}.  The  html file will include a link to a more detailed pdf file for the element.  This must be generated by the developer who created the element model.  There are two ways of handling the links to the pdf files.
+
+If the environment variable {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION} points to a local filesystem then the element's pdf's points to the pdf directly in the same directory, that is in
+\newline
+{\tt \$ENV\_FREEDA\_DOCUMENTATION/elements}.
+
+If the environment variable {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION} does not point to a local filesystem  then the individual element html file xxxx.html internally points to
+\newline {\tt \$ENV\_FREEDA\_WEB\_DOCUMENTATION/elements/xxxx.pdf}.
+
+
+
+\subsection{Enhanced Element Documentation}
+
+The static information for an element is contained in the following data structure in the file
+\newline
+{\tt NetListItem.h }:
+
+\begin{verbatim}
+// Structure to hold static information about the item.
+struct ItemInfo
+{
+  char* name; // Name of netlist item
+  char* description; // Expanded name of netlist item
+  char* author; // Acknowledge the author
+  char* documentation; // documentation string
+  char* version; // include version number yyyy_mm_dd
+};
+\end{verbatim}
+
+Enhanced element documentation is contained in the {\tt documentation} variable.  This is not currently used (as of \FDA\ version 1.3) but will be included at some time. New elements should set this string.  The syntax is a comma and semicolon delimited string:
+
+\indent
+{\tt type1:arg1,arg2;type2:arg1}
+
+The string is terminated in either a semicolon or a null.
+
+An example for a microstrip line is
+
+\indent
+{\tt category:microstrip,transmission line}
+
+The intent is for {\tt category:} to be used to sort documentation into categories. The developer can use any argument in category.  Other fields (e.g. tyupe2 ) are for future expansion but particularly for enhancing documentation.
+
+\section{Contributors}
+The following contributed to this chapter
+\begin{itemize}
+\item[] Carlos Christoffersen
+\item[] Michael Steer.
+\end{itemize}

@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Electromagnetic Grid Excitation}
+\hspace{\fill} \textbf{gridex}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+%\linethickness{0.5mm} \line(1,0){425}
+%\newline
+\textit{Form:}
+\newline
+$\tt gridex$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+\cdots$ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$, $n_2$ $\cdots$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+ifilename: File containing normalized currents. & STRING &
+n/a & yes \\
+\hline
+efilename: File containing field coefficients for currents.
+& STRING & n/a & yes \\
+\hline
+freq: Frequency of the excitation(Hz). & DOUBLE & 0 & no \\
+\hline
+delay: Time before which the output current is set to 0 (s)
+& DOUBLE & 0 & no \\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{gridex:iin\ 10\ 100\ 20\ 200\ ifilename = "unitcell.i"
+efilename = "dummy.e"}
+\newline
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson, Mark Summers & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{figures/logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

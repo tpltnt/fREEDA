@@ -1,0 +1,201 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{N Channel MOSFET BSIM3 model}
+\hspace{\fill} \textbf{mosnbsim3}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\epsfbox{figures/m.ps}} \caption{N Channel MOSFET
+BSIM3 model}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt mosnbsim3$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_3\ n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+$n_4$ & is the bulk node. \\
+\end{tabular}
+% Parameter list
+\newpage
+%\newline
+\noindent\textit{Model Parameters:}
+\newline
+%The parameters used in the model are listed in the tables
+%~\ref{bsim4.params1} to ~\ref{bsim4.params8}.
+
+\begin{table}[H]
+\begin{tabular}{|c| c| c| c|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{l} & Length of the device & 1.0e-6 & $m$\\
+\texttt{w} & Width of the device & 1.0e-6 & $m$\\
+\texttt{tox} & Gate oxide thickness & 150.0e-10 & $m$ \\
+\texttt{toxm} & Gate oxide thickness used in & &\\
+              & extraction & tox & $m$\\
+\texttt{cdsc} & Drain/Source and channel & &\\
+              & coupling capacitance & 2.4e-4 & $F/m^2$ \\
+\texttt{cdscb} & Body-bias dependence of cdsc & 0.0 & $F/m^2$\\
+\texttt{cdscd} & Drain-bias dependence of cdsc & 0.0 & $F/m^2$\\
+\texttt{cit} & Interface state capacitance & 0.0 & $F/m^2$\\
+\texttt{nfactor} & Subthreshold swing coefficient & 1.0 & -\\
+\texttt{xj} & Junction depth & 0.15e-6 & $m$\\
+\texttt{vsat} & Saturation velocity at tnom & 8.0e4 & $m/s$\\
+\texttt{at} & Temperature coefficient of Vsat & 3.3e4 & $m/s$\\
+\texttt{a0} & Non-uniform depletion width & & \\
+             & effect coefficient & 1.0 & -\\
+\texttt{ags} & Gate bias coefficient of Abulk & 0.0 & $V^{-1}$\\
+\texttt{a1} & Non-saturation effect coefficient & 0.0 & $V^{-1}$\\
+\texttt{a2} & Non-saturation effect coefficient & 1.0 & $V^{-1}$\\
+\texttt{keta} & Boy-bias coefficient of non-uniform & & \\
+              & depletion width effect & -0.047 & $v^{-1}$\\
+\texttt{nsub} & Substrate doping concentration & 6.0e16 & $cm^{-3}$\\
+\texttt{nch} & Channel doping concentration & 1.7e17 & $cm^{-3}$\\
+\texttt{ngate} & Poly-gate doping concentration & 0.0 & $cm^{-3}$\\
+\texttt{vbm} & Maximum body voltage & -3.0 & $V$\\
+\texttt{xt1} & Doping depth & 1.55e-7 & $m$\\
+\texttt{kt1} & Temperature coefficient of Vth & -0.11 & $V$\\
+\texttt{kt1l} & Temperature coefficient of Vth & 1.0 & $Vm$\\
+\texttt{kt2} & Body coefficient of kt1 & 0.022 & $-$\\
+\texttt{k3} & Narrow width effect coefficient & 80.0 & -\\
+\texttt{k3b} & Body effect coefficient of k3 & 0.0 & $V^{-1}$\\
+\texttt{w0} & Narrow width effect parameter & 2.5e-6 & $m$\\
+\texttt{nlx} & Lateral non-uniform doping effect & 1.74e-7 & $m$\\
+\texttt{dvt0} & Short channel effect coefficient 0 & 2.2 & -\\
+\texttt{dvt1} & Short channel effect coefficient 1 & 0.53 & -\\
+\texttt{dvt2} & Short channel effect coefficient 2 & -0.032 & -\\
+\texttt{dvt0w} & Narrow width effect coefficient 0 & 0.0 & -\\
+\texttt{dvt1} & Narrow width effect coefficient 1 & 5.3e6 & -\\
+\texttt{dvt2w} & Narrow width effect coefficient 2 & -0.032 & - \\
+\texttt{drout} & DIBL coefficient of output resistance & 0.56 & -\\
+\texttt{dsub} & DIBL coefficient in the sub-threshold & & \\
+              & region & 0.56 & - \\
+\hline
+\end{tabular}
+\caption{\label{bsim3.params1} MOS Model Parameter table 1}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{ua} & Linear gate dependence of mobility & 2.25e-9 & $m/V$\\
+\texttt{ub} & Quadratic gate dependence of & & \\
+            & mobility & 5.87e-19 & $m^2/V^2$\\
+\texttt{uc} & Body-bias dependence of mobility & -4.65e-11 & $m/V$\\
+\texttt{u0} & Low-field mobility at tnom & 0.067 & $m^2/Vs$\\
+\texttt{voff} & Threshold voltage offset & -0.08 & $V$\\
+\texttt{tnom} & Parameter measurement temperature & 300.0 & $ ^oK$\\
+\texttt{elm} & Non-quasi-static Elmore constant parameter & 5.0 & - \\
+\texttt{delta} & Effective Vds parameter & 0.01 & $V$\\
+\texttt{rdsw} & Source-drain resistance per width & 0.0 & $\Omega$\\
+\texttt{prwg} & Gate-bias effect on parasitic & &\\
+              & resistance & 0.0 & $V^{-1}$\\
+\texttt{prwb} & Body-effect on parasitic resistance & 0.0 & $V^{-0.5}$\\
+\texttt{prt} & Temperature coefficient of parasitic & &\\
+             & resistance & 0.0 & $V^{-1}$\\
+\texttt{eta0} & Subthreshold region DIBL coefficient & 0.08 & - \\
+\texttt{etab} & Subthreshold region DIBL coefficient & -0.07 & -\\
+\texttt{pclm} & Channel length modulation coefficent & 1.3 & - \\
+\texttt{pdibl1} & Drain-induced barrier lowering & & \\
+                & coefficient & 0.39 & - \\
+\texttt{pdibl2} & Drain-induced barrier lowering & & \\
+                & coefficient & 0.0086 & - \\
+\texttt{pdiblb} & Body-effect on drain induced & & \\
+                 & barrier lowering & 0.0 & $V^{-1}$\\
+\texttt{pscbe1} & Substrate current body-effect & & \\
+                & coefficient & 4.24e8 & $V/m$\\
+\texttt{pscbe2} & Substrate current body-effect & & \\
+                & coefficent & 1.0e-5 & $m/V$\\
+\texttt{pvag} & Gate dependence of output & & \\
+              & resistance parameter & 0.0 & - \\
+\texttt{vfb} & Flat band voltage & -1.0 & $V$ \\
+\texttt{acde} & Exponential coefficient for finite & & \\
+              & charge thickness & 1.0 & $m/V$\\
+\texttt{moin} & Coefficient for gate-bias & & \\
+              & dependent surface potential & 15.0 & - \\
+\texttt{noff} & C-V turn-on/off parameter & 1.0 & -\\
+\texttt{voffcv} & C-V lateral shift parameter & 0.0 & $V$\\
+\texttt{lint} & Length reduction parameter & 0.0 & $m$\\
+\texttt{ll} & Length reduction parameter & 0.0 & $m$\\
+\texttt{llc} & Length reduction parameter for C-V & ll & $m$\\
+\texttt{lln} & Length reduction parameter & 1.0 & $m$\\
+\texttt{lw} & Length reduction parameter & 0.0 & $m$\\
+\texttt{lwc} & Length reduction parameter for C-V & lw & $m$\\
+\texttt{lwn} & Length reduction parameter & 1.0 & $m$\\
+\texttt{lwl} & Length reduction parameter & 0.0 & $m$\\
+\texttt{lwlc} & Length reduction parameter for C-V & lwl & $m$\\
+\hline
+\end{tabular}
+\caption{\label{bsim3.params2} MOS Model Parameter table 2}
+\end{table}
+
+
+\newpage
+\begin{table}[H]
+\begin{tabular}{|l| l| l| l|}
+\hline
+\textbf{Parameter} & \textbf{Description} & \textbf{Default} & \textbf{Units} \\
+\hline
+\texttt{wr} & Width dependence of rds & 1.0 & $m$\\
+\texttt{wint} & Width reduction parameter & 0.0 & $m$\\
+\texttt{dwg} & Width reduction parameter & 0.0 & $m$\\
+\texttt{dwb} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wl} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wlc} & Width reduction parameter for C-V & wl & $m$\\
+\texttt{wln} & Width reduction parameter & 1.0 & $m$\\
+\texttt{ww} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wwc} & Width reduction parameter for C-V & ww & $m$\\
+\texttt{wwn} & Width reduction parameter & 1.0 & $m$\\
+\texttt{wwl} & Width reduction parameter & 0.0 & $m$\\
+\texttt{wwlc} & Width reduction parameter for C-V & wwl & $m$\\
+\texttt{b0} & Abulk narrow width parameter & 0.0 & $m$\\
+\texttt{b1} & Abulk narrow width parameter & 0.0 & $m$\\
+\texttt{clc} & Vdsat parameter for C-V model & 0.1e-6 & $m$\\
+\texttt{cle} & Vdsat parameter for C-V model & 0.6 & -\\
+\texttt{alpha0} & Substrate current model parameter & 0.0 & $Am/V$\\
+\texttt{alpha1} & Substrate current model parameter & 0.0 & $A/V$\\
+\texttt{beta0} & Diode limiting current & 30.0 & $V$\\
+\texttt{ute} & Temperature coefficient of mobility & -1.5 & -\\
+\texttt{k1} & First order body-effect coefficient & 0.53 & -\\
+\texttt{k2} & Second order body-effect coefficient & -0.0186 & -\\
+\texttt{temp} & Circuit temperature & 300.0 & $^oK$\\
+\texttt{ua1} & Temperature coefficient for ua & 4.31e-9 & $m/V$\\
+\texttt{ub1} & Temperature coefficient for ub & -7.61e-18 & $(m/V)^2$\\
+\texttt{uc1} & Temperature coefficient for uc & -5.6e-11 & $m/V$\\
+\hline
+\end{tabular}
+\caption{\label{bsim3.params3} MOS Model Parameter table 3}
+\end{table}
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.12.31 \\
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Ramya Mohan & NC State University & December 2002 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+ramya@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

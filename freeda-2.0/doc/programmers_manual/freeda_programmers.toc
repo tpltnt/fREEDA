@@ -1,0 +1,61 @@
+\contentsline {chapter}{\numberline {1}{\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}Architecture}{1}{chapter.1}
+\contentsline {section}{\numberline {1.1}Introduction}{1}{section.1.1}
+\contentsline {section}{\numberline {1.2}The Network Package}{2}{section.1.2}
+\contentsline {section}{\numberline {1.3}The Analysis Classes}{5}{section.1.3}
+\contentsline {section}{\numberline {1.4}Nonlinear Elements}{6}{section.1.4}
+\contentsline {section}{\numberline {1.5}Example: Use of Polymorphism}{8}{section.1.5}
+\contentsline {section}{\numberline {1.6}Documentation}{9}{section.1.6}
+\contentsline {subsection}{\numberline {1.6.1}Automatically Generated Documentation}{9}{subsection.1.6.1}
+\contentsline {subsubsection}{Analysis Catalog, freeda -a}{9}{section*.2}
+\contentsline {subsubsection}{Element Catalog, freeda -c}{9}{section*.3}
+\contentsline {subsubsection}{Individual Element Documentation, freeda -c \emph {ElementName}}{10}{section*.4}
+\contentsline {subsection}{\numberline {1.6.2}Enhanced Element Documentation}{10}{subsection.1.6.2}
+\contentsline {section}{\numberline {1.7}Contributors}{10}{section.1.7}
+\contentsline {chapter}{\numberline {2}Adding Linear Elements to {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}}{11}{chapter.2}
+\contentsline {section}{\numberline {2.1}The {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}Circuit Simulator}{11}{section.2.1}
+\contentsline {section}{\numberline {2.2}Example: Adding a Linear Resistor}{11}{section.2.2}
+\contentsline {subsection}{\numberline {2.2.1}Netlist syntax}{11}{subsection.2.2.1}
+\contentsline {subsection}{\numberline {2.2.2}Class Name, Required Files, etc.}{12}{subsection.2.2.2}
+\contentsline {subsection}{\numberline {2.2.3}The Header File}{12}{subsection.2.2.3}
+\contentsline {subsection}{\numberline {2.2.4}The Class Source File}{13}{subsection.2.2.4}
+\contentsline {subsection}{\numberline {2.2.5}Filling the Modified Nodal Admittance Matrix}{15}{subsection.2.2.5}
+\contentsline {subsection}{\numberline {2.2.6}Modifications to the rest of the {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}Source Files}{17}{subsection.2.2.6}
+\contentsline {section}{\numberline {2.3}Template Files for New Linear Elements}{17}{section.2.3}
+\contentsline {subsection}{\numberline {2.3.1}Header File}{17}{subsection.2.3.1}
+\contentsline {subsection}{\numberline {2.3.2}Class Source File}{18}{subsection.2.3.2}
+\contentsline {section}{\numberline {2.4}Contributors}{19}{section.2.4}
+\contentsline {chapter}{\numberline {3}Adding Nonlinear Elements to {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}}{21}{chapter.3}
+\contentsline {section}{\numberline {3.1}The {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}Circuit Simulator}{21}{section.3.1}
+\contentsline {section}{\numberline {3.2}Example: Adding a Nonlinear Electro-Thermal Resistor}{21}{section.3.2}
+\contentsline {subsection}{\numberline {3.2.1}Netlist syntax}{22}{subsection.3.2.1}
+\contentsline {subsection}{\numberline {3.2.2}Class Name, Required Files, etc.}{22}{subsection.3.2.2}
+\contentsline {subsection}{\numberline {3.2.3}The Header File}{23}{subsection.3.2.3}
+\contentsline {subsection}{\numberline {3.2.4}The Class Source File}{25}{subsection.3.2.4}
+\contentsline {subsubsection}{Preprocessor Directives}{25}{section*.5}
+\contentsline {subsubsection}{Static Variables and Model Parameters}{25}{section*.6}
+\contentsline {subsubsection}{Constructor for a Nonlinear Instance of Tresistor}{26}{section*.7}
+\contentsline {subsubsection}{Building Arguments for \texttt {createTape(\nobreakspace {})}}{28}{section*.8}
+\contentsline {subsubsection}{Constructor for Linear instance of Tresistor}{31}{section*.9}
+\contentsline {subsubsection}{Local Reference Nodes and the getLocalRefIdx(\nobreakspace {}) function}{31}{section*.10}
+\contentsline {subsubsection}{The Eval function and using \texttt {condassign()}}{33}{section*.11}
+\contentsline {subsubsection}{The fillMNAM function}{34}{section*.12}
+\contentsline {subsection}{\numberline {3.2.5}Using the \texttt {cout} routine for debugging}{35}{subsection.3.2.5}
+\contentsline {subsection}{\numberline {3.2.6}Modifications to the rest of the {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}Source Files}{35}{subsection.3.2.6}
+\contentsline {subsection}{\numberline {3.2.7}Header File}{35}{subsection.3.2.7}
+\contentsline {subsection}{\numberline {3.2.8}Class Source File}{36}{subsection.3.2.8}
+\contentsline {section}{\numberline {3.3}A Note on the Eval Routines in {\textsl {\textsf {f}}}{\textup {\textsf {REEDA}}}{\textsuperscript {\relax \fontsize {5}{6}\selectfont {\texttrademark }}}}{38}{section.3.3}
+\contentsline {subsection}{\numberline {3.3.1}Parameterized Device Models}{38}{subsection.3.3.1}
+\contentsline {section}{\numberline {3.4}Contributors}{39}{section.3.4}
+\contentsline {chapter}{\numberline {A}Object Oriented Programming Basics}{41}{appendix.A}
+\contentsline {section}{\numberline {A.1}UML diagrams}{42}{section.A.1}
+\contentsline {subsection}{\numberline {A.1.1}Collaboration Diagrams}{42}{subsection.A.1.1}
+\contentsline {section}{\numberline {A.2}Contributors}{43}{section.A.2}
+\contentsline {chapter}{\numberline {B}Support Libraries}{45}{appendix.B}
+\contentsline {section}{\numberline {B.1}Solution of Sparse Linear Systems (Sparse, SuperLU)}{45}{section.B.1}
+\contentsline {section}{\numberline {B.2}Vectors and Matrices (MV++, MTL)}{45}{section.B.2}
+\contentsline {section}{\numberline {B.3}Solution of Nonlinear Systems (NNES)}{46}{section.B.3}
+\contentsline {section}{\numberline {B.4}Fourier Transform (FFTW)}{46}{section.B.4}
+\contentsline {section}{\numberline {B.5}Automatic Differentiation (Adol-C)}{46}{section.B.5}
+\contentsline {section}{\numberline {B.6}Contributors}{48}{section.B.6}
+\contentsline {chapter}{\numberline {C}Thermal Resistor}{49}{appendix.C}
+\contentsline {chapter}{\hbox to\@tempdima {\hfil }References}{54}{appendix.C}

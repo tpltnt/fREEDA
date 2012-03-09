@@ -1,0 +1,67 @@
+In \pspice\ most places where a numeric value is normally used
+an expression (within braces {\tt \{ $\ldots$ \})} can be used instead.
+An expression can contain any supported mathematical operation, constant numeric
+values or expressions. Exceptions are 
+     \begin{itemize}
+     \item Polynomial coefficients.
+     \item The values of the transmission line device parameters {\tt NL} and
+           {\tt F}.
+     \item The values of the piece-wise linear characteristic in the {\tt PWL}
+           form of the independent voltage ({\tt V}) and current ({\tt I})
+           sources.
+     \item The values of the resistor device parameter {\tt TC}.
+     \item As node numbers.
+     \item[and]
+     \item Values of most statements (such as .TEMP, .AC, .TRAN etc.)
+     \end{itemize}
+Specifically included are
+     \begin{itemize}
+     \item The values of all other device parameters.
+     \item The values in {\tt .IC} and {\tt .NODESET} statements.
+     \item The values in {\tt .SUBCKT} statements.
+     \item[and]
+     \item The values of all model parameters.
+           {\tt F}.
+     \end{itemize}
+
+Operators that can be used in expressions are listed in Table
+\ref{table:expression:operators}.
+\clearpage
+\begin{table}
+\caption{Expression operators.\label{table:expression:operators}}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+{\bf Operator }	& {\bf   Syntax } & {\bf Description}  \\
+\hline
+PLUS		& {\it x}{\tt +}{\it y}		& plus \\
+MINUS		& {\it x}{\tt -}{\it y}		& minus \\
+UNARY\_PLUS	& {\tt +}{\it x}            & unary plus \\
+UNARY\_MINUS	& {\tt -}{\it x}            & unary minus \\
+MULTIPLY	& {\it x}{\tt *}{\it y}		& multiply \\
+DIVIDE		& {\it y}{\tt /}{\it x}	        & divide \\
+POW		& {\it x}{\tt \^{ }}{\it y}  or
+                  {\it x}{\tt **}{\it y} & raise to a power, $x^y$ \\
+AND		& {\it x}{\tt \&}{\it y}           & AND \\
+OR		& {\it x}{\tt |}{\it y}           & OR \\
+NOT		& {\tt !}{\it x}		& NOT \\
+XOR		& {\it x}{\tt ~}{\it y}		& XOR (exclusive or) \\
+SIN		& {\tt sin(}{\it x}{\tt )}	& sine, argument in radians \\
+COS		& {\tt cos(}{\it x}{\tt )}	& cosine, argument in radians \\
+TAN		& {\tt tan(}{\it x}{\tt )}& tangent, argument in radians \\
+ASIN		& {\tt asin(}{\it x}{\tt )}& arcsine, argument in radians \\
+ACOS		& {\tt acos(}{\it x}{\tt )}& arccosine, argument in radians \\
+ATAN		& {\tt atan(}{\it x}{\tt )}& arctangent, argument in radians \\
+SINH		& {\tt sinh(}{\it x}{\tt )}	& hyperbolic sine \\
+COSH		& {\tt cosh(}{\it x}{\tt )}	& hyperbolic cosine \\
+TANH		& {\tt tanh(}{\it x}{\tt )}	& hyperbolic tangent \\
+EXP		& {\tt exp(}{\it x}{\tt )}	& exponentiation, $e^x$ \\
+ASINH		& {\tt asinh(}{\it x}{\tt )}& arc-hyberbolic sine \\
+ACOSH		& {\tt acosh(}{\it x}{\tt )}& arc-hyberbolic cosine \\
+ATANH		& {\tt atanh(}{\it x}{\tt )}& arc-hyberbolic tangent \\
+ABS		& {\tt abs(}{\it x}{\tt )}	& absolute, $|x|$ \\
+SQRT		& {\tt sqrt(}{\it x}{\tt )}	& square root, $\sqrt{x}$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}

@@ -1,0 +1,332 @@
+\element{K}{Mutual Inductor}
+
+\begin{figure}[h]
+\centering
+\ \pfig{k_spice.ps}
+\caption{K --- Mutual inductor element.}
+\end{figure}
+
+\form{ {\tt K}name {\tt L}name1 {\tt L}name2 CouplingValue}
+
+\pspiceform{
+{\tt K}name {\tt L}name1 {\tt L}name2 \B ...  {\tt L}nameN \E
+ CouplingValue\\[0.1in]
+{\tt K}name {\tt L}name1 \B {\tt L}name2 ...  {\tt L}nameN \E
+ CouplingValue \B \B ModelName \B size \E \E}
+
+
+\begin{widelist}
+\item[{\tt L}{\it name1}] is the name of the first inductor of the
+coupled inductor list. The first node of {\tt L}{\it name1} is
+dotted using the dot convention.
+In the mutual coupled inductor model (the default model) the value of
+{\tt L}{\it name1} is the self inductance $L_1$.
+In the transformer {\tt CORE} model
+(which is used if a {\it ModelName} is supplied)
+the value of {\tt L}{\it name1} is the number of turns $N_1$.
+(Note, {\it ModelName} can not be specified with the
+\spicetwo\ and \spicethree\ simulators.)\\
+(Required)
+
+\item[{\tt L}{\it name2}] is the name of the second inductor in the
+coupled inductor list. The first node of {\tt L}{\it name1} is
+dotted using the dot convention.
+In the mutual coupled inductor model the value of
+{\tt L}{\it name1} is the self inductance $L_2$.
+In the transformer {\tt CORE} model (which is used if a {\it ModelName}
+is supplied the value of {\tt L}{\it name2} is the number of turns $N_2$.\\
+(\spicetwo\ and \spicethree: Required.)\\
+(\pspice : Required if {\it Modelname} not supplied;
+Optional if {\it Modelname} supplied.)
+\end{widelist}
+
+\begin{widelist}
+\item[{\tt L}{\it nameN}] is the name of $N$th inductor in the
+coupled inductor list. The first node of {\tt L}{\it nameN} is
+dotted using the dot convention.
+In the mutual inductor model the value of
+{\tt L}{\it nameN} is the self inductance $L_N$.
+In the transformer {\tt CORE} model (which is used if a {\it ModelName}
+is supplied
+the value of {\tt L}{\it name2} is the number of turns $N_N$.\\
+Not valid in \spicetwo\ or \spicethree\ for $N > 2$.\\
+(\pspice :
+Optional if {\it Modelname} supplied.)
+
+\item[{\it CouplingValue}]  is  the  coefficient of mutual coupling of
+the inductors.\\
+(Units: none; Required; Symbol: $K_{\ms{COUPLING}}$;
+$ 0 < K_{\ms{COUPLING}} \le 1$)
+
+\item[{\it ModelName}]  is  the optional  model name.
+\pspice\ only.
+
+\item[{\it Size}]  is the size scaling factor. It scales the magnetic
+cross-section and represents the number of lamination layers.\\
+               (Units: none; Optional; Default: 1; Symbol: $Size$)
+\end{widelist}
+
+\example{K43 LAA LBB 0.999 \\
+         KXFRMR L1 L2 0.87 }
+
+\pspiceexample{KTFMR LAA LBB LCC LDD TRANSFORMER 2.5}
+
+\modeltype{IND\hfill \pspice\ only}
+
+\note{
+\item The mutual coupled inductor model represents coupled inductors by
+      self inductances $L_i$ and mutual inductances $M_{ij}$.
+      This is the model used in \spicetwo\ and spicthree\ and in \pspice\ 
+      if a {\tt CORE model} is not supplied.
+      Here $L_i$ is the self inductance of the $i$th inductor element
+      and $M_{ij}$ is the mutual inductance of the $i$th and $j$th
+      inductor elements.  The mathematical model
+      of the coupled element consists of voltage sources controlled by
+      the time derivatives of current.
+      If two inductors are coupled
+      \begin{equation}
+      V_1 = L_1 {\frac{\textstyle dI_1}{\textstyle dt}}
+         + M_{12} + {\frac{\textstyle dI_2}{\textstyle dt}}
+      \end{equation}
+      and
+      \begin{equation}
+      V_2 = L_2 {\frac{\textstyle dI_2}{\textstyle dt}}
+         + M_{21} + {\frac{\textstyle dI_1}{\textstyle dt}}
+      \end{equation}
+      If $N$ inductors are coupled, as supported in \pspice\ ,
+      the mathematical model is
+}
+
+\note{
+\item[]
+      \begin{equation}
+      V_i = L_i {\frac{\textstyle dI_i}{\textstyle dt}}
+         + \sum_{\shortstack{$j=1$\\ $j\ne i$}}^N
+         M_{ij} {\frac{\textstyle dI_j}{\textstyle dt}}
+      \end{equation}
+\item[2] The mutual inductance $M_{ij}$
+      is determined from the self-inductances $L_i$ and $L_j$ of the inductors
+      and the coupling coefficient $K_{\ms{COUPLING}}$ supplied as an element
+      parameter by
+      \begin{equation}
+      K_{\ms{COUPLING}} = \sqrt{{\frac{\textstyle M_{ij}}{\textstyle L_iL_j}}}
+      \end{equation}
+      $K_{\ms{COUPLING}}$ may have any value between 0 and 1 including 1.
+      Ferrite core provides almost
+      ideal coupling with $K$ = 0.999 or higher.
+\item[3] In \spicetwo\ and \spicethree\ a transformer with several coils
+      must be represented by several {\tt K} elements.  For example,
+      a transformer with one primary and two secondaries is specified
+      as\\ \offset
+      \parbox{2.5in}{
+      \tt  * PRIMARY\\
+           L1 1 2 100U\\
+    \  * FIRST SECONDARY\\
+       L2 3 4 100U\\
+    \  * SECOND SECONDARY\\
+       L3 5 6 100U\\
+    \  * TRANSFORMER\\
+       K1 L1 L2 0.999\\
+       K2 L1 L3 0.999\\
+       K2 L2 L3 0.999}
+\item[4] In \pspice\ the transformer above can be either represented
+      using the \spicetwo\ and \spicethree\ format above or by the more compact
+      format\\ \offset
+      \parbox{2.5in}{
+      \tt  * PRIMARY\\
+           L1 1 2 100U\\
+    \  * FIRST SECONDARY\\
+       L2 3 4 100U\\
+    \  * SECOND SECONDARY\\
+       L3 5 6 100U\\
+    \  * TRANSFORMER\\
+       K1 L1 L2 L3 0.999}
+}
+
+
+
+\modelx{CORE}{\pspice\ Only}{Magnetic Core Model}
+\label{COREmodelpspice}
+
+\form{ {\tt .MODEL} ModelName {\tt CORE(} \B  \B keyword = value\E  ... \E
+{\tt )}}
+
+\example{ .MODEL TRANSFORMER CORE(AREA=1 PATH=9.8 GAP=0.1 MS=1.250M) }
+
+\begin{longtable}[h]{|p{0.6in}|p{3.5in}|p{0.6in}|p{0.6in}|}
+\caption[Model parameters.]{Model parameters.}\\
+
+\hline
+\multicolumn{1}{|c}{\bf Name} &
+\multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+\multicolumn{1}{|c}{\bf Units} &
+\multicolumn{1}{|c|}{\bf Default}\\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+{\tt A} &
+shape parameter
+\sym{A}&A/M     &$10^3$ \X
+{\tt ALPHA} &
+\sym{\alpha}
+interdomain coupling parameter
+     & -    &0.001 \X
+{\tt AREA} &mean magnetic crossection\sym{Area}&$\mbox{cm}^2$  &0.1 \X
+{\tt GAMMA} &domain damping parameter.
+           \sym{\gamma}& -    &$\infty$ \X
+{\tt C} &domain flexing parameter\sym{C}& -    &0.2 \X
+{\tt GAP} &effective air-gap length\sym{L_{\ms{GAP}}}&cm     &0 \X
+{\tt K}   & domain anisotopy parameter (pinning constant)\sym{K}
+          &A/M     &500 \X
+{\tt MS} &magnetization saturation\sym{M_S}&A/M     &$10^6$ \X
+{\tt PACK} &pack (stacking) factor\sym{F_{\ms{PACK}}}&cm     &0 \X
+{\tt PATH} &mean magnetic path length in the core\sym{L_{\ms{PATH}}}&cm  &1 \X
+\end{longtable}
+
+The {\tt CORE} model models a transformer core.
+It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}C$) specified in the most recent {\tt .OPTIONS} statement
+preceeding the {\tt .MODEL} statement.
+
+The {\tt CORE} model uses the Jiles-Atherton model described in
+\cite{jiles:atherton:86}. This model is based on domain wall motion and
+includes flexing of the domain wall, interdomain coupling, coercivity,
+remanence and magnetic saturation.  Hysteresis due to domain wall pinning at
+defect sites is modeled. This impedance to domain wall motion
+dominates the characteristics of magnetic devices.
+
+As with the default mutually coupled inductor model, the {\tt CORE}
+model calculates the voltage across the $i$th set of windings from
+the total ampere turns which is the magnetomotive force $MMF$.
+Thus
+\begin{equation}
+V_i = {\frac{\textstyle d \phi_i }{\textstyle d t}} = f( MMF )
+\end{equation}
+where
+\begin{equation}
+MMF = \sum_{j=1}^N N_j I_j
+\end{equation}
+Here the number of turns of the $j$th winding, $N_j$, is
+the ``{\it InductanceValue}'' of $L_j$ the name of which is the $j$th
+{\tt L}{\it name} given on the {\tt K} element
+line. $I_i$ is the curent flowing through the $i$th winding.
+$A_{\ms{TURNS}}$ produces the magnetic field $H_{\ms{CORE}}$ in the core.
+This in turn produces the $B$ field.
+The $B$ field is
+proportional to the flux, in the core and hence to the voltage $V_i$.
+The relationship between $B$ and $H$ in the core is nonlinear
+and hysteretic. The airgap also affects the B-H relationship.\\[0.1in]
+\noindent\underline{Air-Gap Effect}\\[0.1in]
+Along the complete magnetic path
+\begin{equation}
+H_{\ms{CORE}} L_{\ms{PATH}} + H_{\ms{GAP}} L_{\ms{GAP}} = MMF
+\end{equation}
+where $H_{\ms{CORE}}$ is the magnetic field in the core and
+$H_{\ms{GAP}}$ is the magnetic field in the air gap.
+$L_{\ms{PATH}}$ and $L_{\ms{GAP}}$ are the model parameters {\tt PATH} and
+{\tt GAP}.
+If the air gap is small then  all of the flux in the core passes through the
+air gap so that $B_{\ms{GAP}}$ = $B_{\ms{CORE}}$.
+In the air-gap the magnetization is negligible so that
+$B_{\ms{GAP}}$ = $H_{\ms{GAP}}$
+
+This leads to a relationship beween the $B$ and $H$ fields in the core:
+\begin{equation}
+H_{\ms{CORE}} L_{\ms{PATH}} + B_{\ms{CORE}} L_{\ms{GAP}} = MMF
+\label{k:eqn:MMF}
+\end{equation}
+It is a simple matter to solve for $B_{\ms{CORE}}$ and $H_{\ms{CORE}}$
+if $L_{\ms{GAP}}$ =0 as then
+\begin{equation}
+H_{\ms{CORE}} = {\frac{MMF}{L_{\ms{PATH}}}}
+\end{equation}
+If $L_{\ms{GAP}} > 0$ then (\ref{k:eqn:MMF})
+must be solved in conjunction with the relationship between
+$H_{\ms{CORE}}$ and magnetization $M$ in the core.
+This relationship is based on the theory of loosely coupled domains
+developed by Jiles and Atherton.
+
+\noindent\underline{Jiles-Atherton Model}\\[0.1in]
+The B-H curve of a magnetic material biased by \ac\ and \dc\ magnetic
+fields is called the anhysteric and is mathematically described by
+the Jiles-Atherton model. This model determines
+an anhysteric magnetization $M_{\ms{AN}}$ which is related to the saturation
+magnetization $M_S$ by
+\begin{equation}
+M_{\ms{AN}} = M_S \left[ \mbox{coth}\left(
+       {{\textstyle H_{\ms{EFF}}} \over {\textstyle Size\,A}}\right)
+       - {{\textstyle Size\, A} \over {\textstyle H_{\ms{EFF}}}} \right]
+\end{equation}
+where $A$ is the shape parameter and the effective field in the core
+\begin{equation}
+H_{\ms{EFF}} = H_{\ms{CORE}} + \alpha M_{\ms{AN}}
+% - {\tt DEMAG} M    used in sspice ???
+\end{equation}
+Here H is the magnetizing influence.
+Domain wall flux is magnetic current which is
+proportional to the change in magnetization.
+The change in magnetization consists of a reversible component due to flexing
+of the domain walls and an irreversible component due to movement of
+domain walls from one pinning location to another.  Energy is
+dissipated (hence the motion is irreversible) in moving the domain wall from one
+pinning
+location to another but energy is stored (hence reversible) when the domain
+wall flexs.  This is mathematicly modeled by
+\begin{equation}
+{{\textstyle d M } \over {{\textstyle d H_{\ms{CORE}}}}} =
+\left({{\textstyle d M } \over
+ {{\textstyle d H_{\ms{CORE}}}}}\right)_{\ms{REVERSIBLE}} +
+\left({{\textstyle d M } \over
+ {{\textstyle d H_{\ms{CORE}}}}}\right)_{\ms{IRREVERSIBLE}}
+\label{eqn:k:eqn:dmdh}
+\end{equation}
+where the reversible component
+\begin{equation}
+\left({{\textstyle d M } \over
+ {{\textstyle d H_{\ms{CORE}}}}}\right)_{\ms{REVERSIBLE}}
+= C {{\textstyle d( M_{\ms{AN}} - M)} \over {{\textstyle d H}}}
+\end{equation}
+and the irreversible component
+\begin{equation}
+\left({{\textstyle d M } \over
+{{\textstyle d H_{\ms{CORE}}}}}\right)_{\ms{IRREVERSIBLE}}
+= {{\textstyle M_{\ms{AN}} - M } \over {{\textstyle K }}}
+\end{equation}
+where $K$ is the pinning energy per volume and is akin to mechanical drag.
+$M$ and $H_{\ms{CORE}}$ are found by solving
+(\ref{eqn:k:eqn:dmdh}) and (\ref{k:eqn:MMF}) simultaneously.
+
+The small signal relative permeability of the core is
+\begin{equation}
+\mu_{r} = \left\{ \left[ \left(
+{{\textstyle d M } \over {\textstyle d H_{\ms{CORE}}}} + 1 \right)
+F_{\ms{PACK}} \right]^{-1} +
+{{\textstyle L_{\ms{GAP}}} \over {{\textstyle L_{\ms{PATH}}}}} \right\}^{-1}
+\end{equation}
+and the flux passing through the $i$th winding is
+\begin{equation}
+\phi_i = \mu_0 (M + H_{\ms{CORE}}) N_i F_{\ms{PACK}} \, Size\, Area
+\end{equation}
+% L_i = \mu_0\mu_rN_i^2\,Size\,Area {{\textstyle 1} \over {\textstyle
+%L_{\ms{PATH}}}}
+The voltage across the $i$th winding is then found as
+\begin{equation}
+V_i = {{\textstyle d \phi_i} \over {\textstyle d t}}
+\end{equation}
+
+\noindent\underline{\sl \large AC Analysis}\\[0.1in]
+\index{CORE, AC Analysis}
+\index{K, AC Analysis}
+For \ac\ analysis the mutual inductor model is used even if a {\tt CORE}
+model is specified.  This allows a different coefficient of mutual coupling to
+be used in \ac\ analysis than would otherwise be determined by nonlinear
+model evaluation.
+\\[0.2in]
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+The {\tt K} element does not contribute to noise.

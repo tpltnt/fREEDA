@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Amplitude Modulated Voltage Source}
+\hspace{\fill}\textbf{vam}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.75in\epsfbox{v_spice.ps}}
+\caption{Independent Voltage Source Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt vam$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+$n_2$ & is the negative element node. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+oc: Offset Constant (Dimensionless) & DOUBLE & 0 & no\\
+\hline
+sa: Signal amplitude (V) & DOUBLE & 0 & no\\
+\hline
+fcarrier: Carrier frequency (Hz) & DOUBLE & 0 & no\\
+\hline
+fmod: modulation frequency(Hz) & DOUBLE & 0 & no\\
+\hline
+td: Time Delay (seconds) & DOUBLE & 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%Change this%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\texttt{vam:vsignal\ 8\ 0\ oc=1 sa=10 fcarrier=1K fmod=100 td=1m}
+\newline
+\texttt{vam:v2\ 8\ 0\ oc=1 sa=10 fcarrier=100 fmod=1K td=1m}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The waveform for this source is
+\begin{equation}
+v = sa{oc + \sin[2.\pi.fmod.(t - td)]}sin[2.\pi.fcarrier.(t - td)]
+\end{equation}
+%\begin{figure}[h]
+%\centerline{\epsfxsize=3in\pfig{vexp.eps}} \caption{Voltage source
+%transient exponential waveform for \texttt{vexp:vsignal\ 8\ 0\
+%v1=0.1 v2=0.8 tdr=1 tdf=2 tcr=0.35 tcf=1}}
+%\end{figure}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{V} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.05.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & May 2002 & \epsfxsize=1in\epsfbox{logo.eps} \\
+uvs@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

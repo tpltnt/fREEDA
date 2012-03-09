@@ -1,0 +1,32 @@
+.options f0=5.1e9 method=1 jupdm=1
+
+*** DC Analysis
+*.dc sweep="vsource:vgate" start=-2 stop=3 step=.01
+*.dc
+
+*** AC Analysis
+*.ac start = 0 stop = 500e6 n_freqs = 10
+
+*** Transient Analysis
+.tran2 tstop = 2E-9 tstep = 1E-11 out_steps=1
+
+*** Sources
+*vsource:vgate 1 0 vdc=1.5
+vpulse:v1 1 0 v1=0 v2=4 td=0 tr=50e-12 tf=50e-12 pw=100e-12 per=200e-12
+*vsource:vgate 1 0 vdc=1.5 vac=0.5 f=1Ghz delay=0
+
+*** Network
+resistor:r1 1 2 r=1000
+resistor:r2 2 0 r=1000
+resistor:r3 3 0 r=1000000
+capacitormos:c1 1 3 0 w=1e-4 l=1e-4
+
+***Transient and DC
+.out plot term 1 vt in "node1.out"
+.out plot term 2 vt in "node2.out"
+.out plot element "moscap1:c1" 0 it in "itunn.out"
+
+*** ac analysis
+*.out plot term 1 vf mag  in "node1.out"
+*.out plot term 2 vf mag  in "node2.out"
+*.out plot element "moscap1:c1" 0 if mag in "itunn.out"

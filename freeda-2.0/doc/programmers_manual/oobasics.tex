@@ -1,0 +1,163 @@
+%--------------------------------------------------------------------------
+\chapter{Object Oriented Programming Basics} \label{app:oo}
+
+Object oriented programming (OOP) \cite{eliens} provides a means for
+abstraction in both programming and design. OOP does not deal with
+programming in the sense of developing algorithms or data structures
+but it must be studied as a means for the organization of programs
+and, more generally, techniques for designing programs.
+
+As the primary means for structuring a program or design, OOP provides
+\emph{objects}. Objects may model real life entities, may function to
+capture abstractions of arbitrary complex phenomena, or may represent
+system artifacts such as stacks or graphics.  Operationally, objects
+control the computation. From the perspective of program development,
+however, the most important characteristic of objects is not their
+behavior as such, but the fact that the behavior of an object may be
+described by an abstract characterization of its interface. Having
+such a characterization suffices for the design. The actual behavior
+of the object may be implemented later and refined according to the
+need. A \emph{class} specifies the behavior of the objects which are
+its instances. Also, classes act as templates from which actual
+objects may be created.  An \emph{instance} of a class is an object
+belonging to that class. A procedure (or function) inside an object is
+called a \emph{method}. A \emph{message} to an object is a request to
+execute a method.
+
+\emph{Inheritance} is the mechanism which allows the reuse of class
+specifications. The use of inheritance results in a class hierarchy
+that, from an operational point of view, decides what is the method
+that will be selected in response to a message.
+
+Finally, an important feature of OO languages is their support for
+\emph{polymorphism}. This makes it possible to hide different
+implementations behind a common interface.
+
+The notion of flow diagram in procedural programming is replaced in
+OOP by a set of objects which interact by sending messages to each
+other.
+
+We will briefly review what are traditionally considered to be
+features and benefits of OOP. Both \emph{information hiding} (also
+known as \emph{encapsulation}) and \emph{data abstraction} relieve the
+task of the programmer using existing OO code, since with these
+mechanisms the programmer's attention is no longer distracted by
+irrelevant implementation details. The flexible dispatching behavior
+of objects that lends them their polymorphic behavior is due to the
+dynamic binding of methods to messages. For the C++ language,
+polymorphic object behavior is effected by using \emph{virtual
+functions}, for which in contrast to ordinary functions, the binding
+to an actual function takes place at run time and not at compile time.
+
+Encapsulation promotes \emph{modularity}, meaning that objects may be
+regarded as the building blocks of a complex system. Another advantage
+often attributed to the OOP is code reuse. Inheritance is an invaluable
+mechanism in this respect, since it enables the programmer to modify
+the behavior of a class of objects without requiring access to the
+source code.
+
+Although an object oriented approach to program development indeed
+offers great flexibility, some of the problems it addresses are
+intrinsically difficult and cannot really be solved by mechanisms
+alone. For example, it is more likely to achieve a stable
+modularization when shifting focus from programming to design.
+
+C++ virtual functions \cite{todd} can have big performance penalties
+such as extra memory accesses or the possibility of an unpredictable
+branch so pipelines can grind to a halt (note however, that some
+architectures have branch caches which can avoid this problem). There
+are several research projects which have demonstrated success at
+replacing virtual function calls with direct dispatches. Note however,
+that virtual functions are not always bad when it comes to
+performance. The important questions are: How much code is inside the
+virtual function? How often is it used? If there is a lot of code
+(\emph{i.e.} more than 25 flops), then the overhead of the virtual
+function will be insignificant. But if there is a small amount of code
+and the function is called very often (\emph{e.g.}  inside a loop),
+then the overhead can be critical.
+
+
+%--------------------------------------------------------------------------
+\section{UML diagrams}
+
+The Unified Modeling Language (UML)~\cite{rational,uml_tut} is a
+language for specifying, visualizing, and constructing the artifacts
+of software systems as well as for business modeling. The goal of UML
+is to become a common language for creating models of object oriented
+computer software.  It is used here to graphically illustrate the
+relationship of classes using what is called a class diagram.  A class
+diagram is a graph of Classifier elements with connections indicating
+by their various static relationships (Figure~\ref{fig:network}). (Note
+that a ``class'' diagram may also contain interfaces, packages,
+relationships, and even instances, such as objects and links. Perhaps
+a better name would be ``static structural diagram'' but ``class
+diagram'' is shorter and its use is well established.)  A class is
+drawn as a solid-outline rectangle with 3 compartments separated by
+horizontal lines. The top name compartment holds the class name and
+other general properties of the class (including stereotype); the
+middle list compartment holds a list of attributes; the bottom list
+compartment holds a list of operations.  Either or both of the
+attribute and operation compartments may be suppressed. A separator
+line is not drawn for a missing compartment. If a compartment is
+suppressed, no inference can be drawn about the presence or absence of
+elements in it.
+
+Each instance of type {\bf Element}, for example, seems to contain an
+instance of type {\bf ElementData}.  This class relationship is
+indicated by the joining line.  The relationship is composition ---
+indicated by the solid diamond symbol.  The arrowhead denotes that the
+relationship is navigable in only one direction, \emph{i.e.}, {\bf
+ElementData} does not know anything about {\bf Element}.  The
+inheritance relationship in UML is depicted by the triangular
+arrowhead and points to the base class.  A line from the base of the
+arrowhead connects it to the derived classes, e.g. {\bf Element} is
+derived from {\bf NetListItem}.
+
+Other forms of containment do not have whole/part implications and are
+called association relationships indicated by a line drawn between the
+participating classes. (This relationship will almost certainly be
+implemented using pointers unless it is very weak.)  If the
+relationship between two classes is very weak (\emph{i.e.} very
+little data is shared) then a dashed line is used.  For example, in
+Figure~\ref{fig:network}, {\bf ElementManager} somehow depends upon {\bf
+Diode}.  (In C++ the weak relationship is almost always implemented
+using an {\tt \#include}.)
+
+An illustration showing examples for the notation is given in
+Figure \ref{fig:classdiag_ex}.
+%
+\begin{figure}[t]
+\centerline{\epsfxsize=13cm \epsfbox{classdiagram_example.eps}}
+\caption{Notation for a class diagram.}
+\label{fig:classdiag_ex}
+\end{figure}
+%
+
+\subsection{Collaboration Diagrams}
+
+The collaboration diagram \cite{rational} is part of the Unified
+Modeling Language (UML), a language for specifying, visualizing, and
+constructing the artifacts of software systems as well as for business
+modeling. The UML represents a collection of `best engineering
+practices' that have proven successful in the modeling of large and
+complex systems. Behavior is implemented by sets of objects that
+exchange messages within an overall interaction to accomplish a
+purpose. To understand the mechanisms used in a design, it is
+important to see only the objects and the messages involved in
+accomplishing a purpose or a related set of purposes, projected from
+the larger system of which they are part for other purposes. Such a
+static construct is called a collaboration. A collaboration is a set
+of participants and relationships that are meaningful for a given set
+of purposes. The identification of participants and their
+relationships does not have global meaning. In the collaboration
+diagram, each box represents an object (in this case, either a
+terminal or an element). The lines between boxes represent
+associations and the arrows are messages. The order in which messages
+are sent is shown by the numbers.
+
+\section{Contributors}
+The following contributed to this chapter
+\begin{itemize}
+\item[] Carlos Christoffersen
+\item[] Michael Steer.
+\end{itemize}

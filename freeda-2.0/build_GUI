@@ -1,0 +1,55 @@
+#!/bin/sh                                                                                                                             
+
+cd ifreeda
+
+cd components
+qmake -project
+awk '{gsub("TEMPLATE = app","TEMPLATE = lib",$0);print $0}' components.pro > t1
+awk '{gsub(/INCLUDEPATH \+= \./,"INCLUDEPATH += . ..\nQT",$0);print $0}' t1 > t2
+awk '{gsub("QT","QT += qt3support",$0);print $0}' t2 > components.pro
+qmake
+make staticlib
+rm -rf t1 t2
+
+cd ../diagrams
+qmake -project
+awk '{gsub("TEMPLATE = app","TEMPLATE = lib",$0);print $0}' diagrams.pro > t1
+awk '{gsub(/INCLUDEPATH \+= \./,"INCLUDEPATH += . ..\nQT",$0);print $0}' t1 > t2
+awk '{gsub("QT","QT += qt3support",$0);print $0}' t2 > diagrams.pro
+qmake
+make staticlib
+rm -rf t1 t2
+
+cd ../dialogs
+qmake -project
+awk '{gsub("TEMPLATE = app","TEMPLATE = lib",$0);print $0}' dialogs.pro > t1
+awk '{gsub(/INCLUDEPATH \+= \./,"INCLUDEPATH += . ..\nQT",$0);print $0}' t1 > t2
+awk '{gsub("QT","QT += qt3support",$0);print $0}' t2 > dialogs.pro
+qmake
+make staticlib
+rm -rf t1 t2
+
+cd ../paintings
+qmake -project
+awk '{gsub("TEMPLATE = app","TEMPLATE = lib",$0);print $0}' paintings.pro > t1
+awk '{gsub(/INCLUDEPATH \+= \./,"INCLUDEPATH += . ..\nQT",$0);print $0}' t1 > t2
+awk '{gsub("QT","QT += qt3support",$0);print $0}' t2 > paintings.pro
+qmake
+make staticlib
+rm -rf t1 t2
+
+cd ..
+
+qmake
+make
+if [ "$?" = 0 ]; then
+  echo "ifREEDA BUILD COMPLETE"
+else
+  echo "***Make  error."
+  exit 1
+fi
+
+mv ifreeda ../simulator
+
+echo *iFREEDA installed!*
+

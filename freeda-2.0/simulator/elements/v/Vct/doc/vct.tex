@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Voltage-to-Current
+Transducer}\hspace{\fill}\textbf{vct}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+%\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.6in\epsfbox{vct.ps}}
+\caption{Voltage-to-Current Transducer element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt vct$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$, $n_2$ and $n_3$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+gamma: Element parameter & DOUBLE & n/a & yes  \\
+\hline
+beta: Element parameter & DOUBLE & n/a & yes \\
+\hline
+kf: Element parameter & DOUBLE & n/a & yes \\
+\hline
+poly: Element parameter & DOUBLE VECTOR & See source file.
+& no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{vct:a11\ 1\ 3\ 2\ gamma=-2.3 beta=8 kf=0.0025 poly =
+<5.979287283058695e-4 \\
+-2.334033466242205e-02 6.282215276145409e-02
+-4.319540162756818e-02\\
+9.169340904889009e-03>}
+%\newline
+%\linethickness{0.5mm} \line(1,0){425}
+%\newline
+%\textit{Description:}\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%FIND OUT%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no SPICE compatible element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Mark Summers and Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

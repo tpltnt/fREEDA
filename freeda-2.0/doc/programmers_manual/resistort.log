@@ -1,0 +1,11 @@
+This is pdfeTeX, Version 3.141592-1.30.6-2.2 (MiKTeX 2.5) (preloaded format=latex 2006.11.28)  26 JUN 2007 12:37
+entering extended mode
+**resistort.tex
+(resistort.tex
+LaTeX2e <2005/12/01>
+Babel <v3.8g> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, french, loaded.
+! Undefined control sequence.
+l.3 \chapter
+            {Thermal Resistor}
+? 

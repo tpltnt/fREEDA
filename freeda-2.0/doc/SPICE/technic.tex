@@ -1,0 +1,206 @@
+\chapter{How Spice Works}
+
+\section{Introduction}
+
+\justspice\ has three basic analyses:
+\dc\ analysis --- initiated by the {\tt .DC} statement;
+\ac\ analysis --- initiated by the {\tt .AC} statement; and
+transient analysis --- initiated by the {\tt .TRAN} statement.
+\ac\ analysis involves incorporating the relations relating
+terminal voltages and device currents into a matrix equation
+This matrix equation is called the network equation and embodies the topology of
+the network and the
+constitutive relations \index{constitutive relations}
+(that is, device equation) describing individual devices.
+It derives from a mathematical statement of Kirchoff's current law with device
+currents replaced by node voltages with the substitution achieved by using the
+constitutive relations of individual devices.
+Extensions to this basic form of the network equation (called the modal
+formulation of the network equation) is required for elements that can not be
+mathematicly modeled as a current or currents in terms of voltages.
+\ac\ analysis is the appropriate place to begin a technical exposition of the
+analysis algorithms in \spice\ as it illustrates the method of development of
+network equation is used by all other analyses.
+
+Transient analysis requires, as well, that a time-stepping numerical integration
+algorithm be incorporated into the network equations.
+A straight forward approach to transient analysis, which was used prior to the
+development of the ``\spice '' approach, is to derive the
+state equations \index{state equations}
+in state space (that is in differential form using the {\it s} operator)
+and apply the time discretization of a numerical integration method to the
+complete network equation.
+However, in \spice\ the time discretization is incorporated in the constitutive
+relations before the network equation is developed.
+The time discretized network equation must be solved iteratively and the Newton
+iteration procedure is applied to the device equations along
+with the time-discretization step.
+This has proved to be a particularly robust approach and is the main reason
+\spice\ is so widely accepted.
+
+\dc\ analysis is a special case of transient analysis without the time
+discretization step and so is discussed after transient analysis.
+
+\section{AC Small Signal Analysis \label{.ACsection}}
+\index{ac Analysis}\index{small signal analysis}\index{analysis, AC}%
+\index{analysis, small signal}\marginid{{\tt .AC}}
+
+\ac\ small signal analysis is inititated by the {\tt .AC} statement (see page
+\pageref{.ACstatement}).  The aim in \ac\ analysis is to determine the \ac\
+voltage at every node in the circuit which is now linear because of the
+small-signal approximation.
+First of all a matrix equation is
+developed that relates node voltages to external current sources.
+Through Thevenin's theorem external voltage sources are converted to
+external current sources and node voltages are easily related to
+voltages across elements.
+This formulation  of the network equation is called the nodal admittance
+formulation.
+Unfortunately there are several elements, such as the current controlled
+voltage source element, which do not have an admittance description
+as required in this approach.
+A method of circumventing this problem is discussed in section \ref{section:mna}
+and is a direct extension of the method discussed below.
+
+Consider the general network \Net\ in Figure \ref{fig:gen:net}(a) with $N$
+internal 
+\begin{figure}
+\hspace*{\fill}
+\ \epsfxsize=2.5in\pfig{gnet.ps}
+\hspace*{\fill}
+\hspace*{\fill}
+\ \epsfxsize=2.5in\pfig{np.ps}
+\hspace*{\fill}\\
+\hspace*{\fill}(a)\hspace*{\fill}\hspace*{\fill}(b)\hspace*{\fill}\\
+\caption{\label{fig:gen:net}Definition of networks: (a) \Net; and (b) \Nprime.}
+\end{figure}
+nodes in addition to the reference node.
+In general the reference node is not part of the circuit and
+the development of the network equations is simplified by treating all of the
+nodes (except the external reference node) in the same way.
+
+All of the nodes of the network have external current
+sources $J$ with $J_{n}$
+being the external current source between the $n$~th node and the reference node.
+In practice most of the external current sources, the $J$'s, are zero and those
+that are not are due to independent sources.
+The network equations used in \spice\ relate the node voltages, the $v$'s, and
+the $J$'s. In matrix form
+\begin{equation}
+\m{Y} \m{v}_{n} = \m{J}_{n}
+            \label{nodal:yvj}
+\end{equation}
+where $\m{v}_{n}$ is the vector of node voltages, and $\m{J}_n$ is the vector of
+external currents.
+Solution of equation (\ref{nodal:vyj}) enablEs 
+the node voltages to be evaluated given the external current sources.
+
+In \spice\ the grounded reference node, node ``{\tt 0}'', is part of the network
+and so there is a linear dependence of the rows of $\m{Y}$ ($| \m{Y} | = 0$).
+Hence $\m{Y}$ is called the indefinite nodal admittance matrix.\index{indefinite
+nodal admittance matrix} One row and one column can be deleted from
+$\m{Y}$ without the lossing any
+information to yield what is called the definite nodal admittance matrix.
+For now consider that the reference node is an arbitrary node.
+The correction required because the reference node is
+actually part of the circuit is discussed in section \ref{section:soln:ne}.
+
+
+\section{DC Analysis \label{.DCsection}}
+\marginid{{\tt .DC}}
+
+The analysis of nonlinear resistive circuits, or equivalently the analysis of
+circuits at \dc \  is an important first step in \ac
+and transient analysis.
+In both cases nonlinear resistive analysis determines the initial starting
+point for further analysis incorporating energy storage elements such as
+capacitors and inductors.
+
+\dc\ analysis is \justspice\ is identical to transient analysis discussed in
+the previous section except that the contributions of capacitors and
+inductors are ignored.
+\dc\ analysis has better convergence properties ithan
+transient analysis since energy
+storage elements, and thus resonant responses, are eliminated.
+As well the analysis is numericly efficient since only a steady-state response
+is required and calculated.
+
+\section{Discussion}
+
+\spice\ supports several analyses other than those discussed above.
+Essentially these are extensions of the \ac, \dc\ and transient analyses.
+
+The transfer function analysis, initiated by the {\tt .TF} statement, 
+calculates a transfer function as the ratio of the \dc\ value of an output
+quantity to the \dc\ value of an input quantity over a range of values of the
+input quantity.
+A \dc\ analysis at each value of the input quantity is performed.
+
+With the {\tt .DISTO} statement a distortion  analysis is performed by
+dteremining the steady-state harmonic and intermodulation
+products for small input signal. 
+Evaluation of the small-signal  distortion
+is based on a third-order multi-dimensional Volterra series expansion of
+nonlinearities around their operating  point.
+The method for calculating of the distortion products parallels \ac\ analysis
+algorithm.
+
+The sensitivity analysis calculates the \dc\ small-signal sensitivities of each
+output quantity with respect to every circuit parameter. It is initiated by the
+{\tt .SENS} statement.
+The transfer function computed is the sensitivity (or partial derivative) of the
+\dc\ value of the output quantity
+with respect to the each and every circuit parameter.
+
+If the {\tt .NOISE} statement is included in the input file
+the noise generated by active devices and resistors is evaluated.
+All active devices and some passive devices have noise models consisting of
+uncorrelated noise current sources.  These noise current sources are used as
+the external current sources in \ac analysis.  One noise source at a time is
+considered and the response at the output terminals and sources specified are
+calculated.  The contributions from each source are added in a root-mean-squared
+sense as they are uncorrelated.  The noise analysis utilizes the network
+equation formulated and solved in \ac\ analysis.
+
+A Monte Carlo analysis is performed when the {\tt .MC} statement is
+specified.  In the Monte Carlo analysis either a \dc, an \ac, or a transient
+analysis is performed multiple times.
+
+An operating point analysis initiated by the {\tt .OP} statement is just a
+single \dc analysis.
+
+The Fourier analysis performed when the {\tt .FOUR} statement is used
+is not really a separate analysis at all.  Really it is a way of examiing the
+results of a transient analysis by taking the Fourier transform of a
+voltage or current response.
+
+\section{To Explore Further}
+
+The essential aspects of \spice\ are the models of devices and the algorithms
+for formulating and solving the network equations.
+The derivation of the \ac\ model of devices is straightforward
+requiring the $y$ parameters of the device.  These are obtained 
+from the analytic derivatives of the device equations calculated at the
+operating point of the circuit as determined from a \dc\ analysis.
+For transient and \dc\ analysis the associated discrete circuit model
+must be calculated from the device equations.  The device equations of
+semiconductor devices are calculated from knowledge of the device physics.
+Derivation of the models used for semiconductor devices in \spicetwo\ and
+\spicethree\ are described in \cite{antognetti:massobrio:88}
+({\it Semiconductor Device Modeling with SPICE}
+edited by P. Antognetti and G. Massobrio).
+Without fail the models in \spicetwo\ are available in all 
+commercial versions of \spice.  \spicethree\ and most commercial versions
+of \spice\ provide additional or enhanced models.
+Derivations of more advanced models are described in
+\cite{lee:shur:93} ({\it Semiconductor Device Modeling for VLSI}
+by K. Lee, M. Shur, T. Fjeldly and T. Ytterdal).
+
+In \justspice\ the network equations are stored in sparse matrices
+to conserve memory usage.  This also results in much faster
+solution of the network equations than if regular matrices were used.
+Greater detail than that provided in this chapter of the numerical algorithms
+used in \spice\ can be found in
+\cite{mccalla}
+({\it Fundamentals of Computer-Aided Circuit Simulation,''}
+by W.~J. McCalla).

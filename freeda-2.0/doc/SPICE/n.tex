@@ -1,0 +1,112 @@
+\element{N}{Digital Input Interface}
+
+\begin{figure}[h]
+\centering
+\ \pfig{n_spice.ps}
+\caption{N --- Digital input interface element. Converts from a digital (state)
+signal to an analog signal.}
+\end{figure}
+
+\form{{\tt N}name InterfaceNode LowLevelNode HighLevelNode ModelName
+  \B{\tt SIGNAME = } DigitalSignalName \E
+  \B{\tt IS = } InitialState \E}
+
+\begin{widelist}
+\item[{\it InterfaceNode}]
+     Identifier of node interfacing between digital signal and
+     continuous time circuit.
+\item[{\it LowLevelNode}]
+     Identifier of low level reference node. Normally this is the logic ``zero''
+     voltage.
+\item[{\it HighLevelNode}]
+     Identifier of high level reference node. Normally this is the logic ``one''
+     voltage.
+\item[{\it ModelName}]
+     Name of the model specifying transitions times and resistances and
+     capacitances of each logic state
+\item[{\tt SIGNAME}]
+     Keyword for digital signal name. (optional)
+\item[{\it DigitalSignalName}]
+     Digital signal name.
+     {\it DigitalSignalName} is the name of the signal specified in the
+     input file specified in the element model.  If it is omitted then
+     {\it DigitalSignalName} defaults element name {\it {\tt N}name}
+     stripped of the prefix {\tt N} (i.e. {\it name}).
+\item[{\tt IS }]
+     Keyword for initial state. (optional)
+\item[{\it InitialState}]
+     Integer speciftying the initial state. If specified, it must be
+     0, 1, ..., or 19. This over rides the state specified at {\tt TIME}=0
+     in the digital input file (see the model specification).
+     The state of the digital interface input ({\tt N}) element
+     remains as the {\it InitialState} state until a state (other than the
+     state at {\tt TIME}=0 is input from the specified file.
+\end{widelist}
+
+\example{
+    N100 1 0 2 INTERFACE\_FROM\_REGISTER SIGNAME=REG1 IS=0 \\
+    NCONTROL 1 0 2 CONTROL
+    }
+
+\modeltype{DINPUT}
+
+The digital input interface is modeled by time variable resistances between
+the {\it Interface Node} and the {\it Low Level Node} and between the
+the {\it Interface Node} and the {\it High Level Node}.
+The variable resistances are shunted by fixed capacitances.
+The resistance are controlled by parameters specified in the model
+{\it ModelName}.
+The resistance varies exponentially from the old state to the new state over
+the time period indicated for the new state.
+This approximates the output of a digital gate. \\[0.2in]
+
+\model{DINPUT}{Digital Input Interface Model}
+
+\begin{figure}[h]
+\centering
+\ \pfig{din.ps}
+\caption{Digital input interface model.}
+\end{figure}
+
+
+The digital input interface is modeled by time variable resistances between
+the {\it Interface Node} and the {\it Low Level Node} and between the
+the {\it Interface Node} and the {\it High Level Node}.
+The variable resistances are shunted by fixed capacitances.
+The parameters are controlled by parameters specified in the model.
+Upon a state transition the two resistances vary exponentially from the old
+state to the new state over the time period indicated for the new state.
+This approximates the output of a digital gate.  The sequence of states and
+the state change times are specified in the file specified by the {\tt FILE}
+= ({\it InputFileName})
+keyword in the model.  The initial state at {\tt TIME} 0 is taken from this
+file unless the {\tt IS} keyword is specified on the
+element line. In the $\IS$ (= {\it InitialState}) keyword is specified
+then the state of the digital input interface is {\it InitialState}
+until a state transition at {\tt TIME} $>$ 0 is specified in the file
+{\it InputFileName}.
+
+\keyword{
+{\tt FILE}  & digital input filename.
+          If more than one model refers to the same file then the
+                  filenames specified must be identical and not logicly
+                  equivalent.  This ensures that the file is opened
+                  only once.
+        & - & \reqd \X
+{\tt FORMAT}    & digital input file format & - & 1 \X
+{\tt TIMESTEP}& digital input file time step    & s & 1NS   \X
+{\tt CLO}   & capacitance to low level node & F & 0 \X
+{\tt CHI}   & capacitance to high level node& F & 0 \X
+{\tt S{\it n}NAME}  & state ``n'' character abreviation\newline
+      {\it n} = 0, 2, ..., or 19
+    & - & \reqd \X
+{\tt S{\it n}TSW}   & state ``n'' switching time\newline
+      {\it n} = 0, 2, ..., or 19
+    & s & \reqd \X
+{\tt S{\it n}RLO}   & state ``n'' resistance to low level node\newline
+      {\it n} = 0, 2, ..., or 19
+    & $\Omega$& \reqd   \X
+{\tt S{\it n}RHI}   & state ``n'' resistance to high level node\newline
+      {\it n} = 0, 2, ..., or 19
+    & $\Omega$& \reqd   \X
+}

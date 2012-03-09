@@ -1,0 +1,2024 @@
+
+**********  fREEDA 2.0 running on Tue Jul  7 17:37:55 2009  **********
+
+**  Environment variables: **
+FREEDA_HOME = /spriyad/freeda
+FREEDA_LIBRARY = /spriyad/freeda/library
+FREEDA_PROJECTS = /spriyad/freeda/projects
+FREEDA_PATH = /spriyad/freeda/freeda
+FREEDA_BIN = /spriyad/freeda/freeda/bin
+FREEDA_SIMULATOR = /spriyad/freeda/freeda/simulator
+FREEDA_ELEMENTS = /spriyad/freeda/freeda/simulator/elements
+FREEDA_DOCUMENTATION = /tmp
+FREEDA_WEB_DOCUMENTATION = http://www.freeda.org/doc
+FREEDA_BROWSER = firefox
+
+* Thermal CMOS Inverter DC Analysis
+
+* Thermal CMOS Inverter DC Analysis
+
+**** This netlist is for DC Analysis of Thermal Cmos Inverter. The Inverter is based on EKV mosfet model
+.options inittmp=300
+.ref "tref"
+.ref 0
+.dc sweep="vsource:vin" start=0 stop=5 step=0.01
+
+*** Vdd connection 
+vsource:vdd 1 0 vdc=5
+
+**** Input DC source
+vsource:vin 2 0
+
+***** Instantiation of Thermal Cmos Inverter
+cmosinvt:invt 1 2 3 0 2000 "tref" tmp=inittmp wn=20e-6 wp=40e-6
+
+**** Load Resistance
+r:rout 3 0 r=1000000
+**** Load Capacitance
+c:cout 3 0 c=1e-12
+
+****Thermal 
+r:rthermal 2000 2001 r=20e3
+c:cthermal 2000 2001 c=1e-12
+vsource:vt1 2001 "tref" vdc=inittmp
+
+***Plot
+.options gnuplot
+.out plot term 3 vt in "vout_300k_20k.out"
+.out plot term 2000 vt in "junctiontemp_300k_20k.out"
+.out plot element "vsource:vt1" 0 it in "iheat_300k_20k.out"
+**.out plot term 2 vt in "vin.out"
+
+   *** Starting analysis ...
+
+-----------------------------------------------------------------------------
+   *** State Variable-Based DC Analysis ***
+-----------------------------------------------------------------------------
+
+   I hope your DC parameters make sense (no checking made)
+   Using Line Search Method - (Back Track).
+   Number of state variables = 4
+   Residual = 7.15228e-07
+   --- Starting DC simulation ...
+
+-----------------------------------------------------------------------------
+   |   Step  (V)    |   Residual (V) |
+-----------------------------------------------------------------------------
+   |  1.000000e-02  |  7.178427e-07  |
+   |  2.000000e-02  |  7.215978e-07  |
+   |  3.000000e-02  |  7.253832e-07  |
+   |  4.000000e-02  |  7.292007e-07  |
+   |  5.000000e-02  |  7.330523e-07  |
+   |  6.000000e-02  |  7.369406e-07  |
+   |  7.000000e-02  |  7.408691e-07  |
+   |  8.000000e-02  |  7.448423e-07  |
+   |  9.000000e-02  |  7.488659e-07  |
+   |  1.000000e-01  |  7.529477e-07  |
+   |  1.100000e-01  |  7.570978e-07  |
+   |  1.200000e-01  |  7.613293e-07  |
+   |  1.300000e-01  |  7.656595e-07  |
+   |  1.400000e-01  |  7.701111e-07  |
+   |  1.500000e-01  |  7.747137e-07  |
+   |  1.600000e-01  |  7.795060e-07  |
+   |  1.700000e-01  |  7.845384e-07  |
+   |  1.800000e-01  |  7.898768e-07  |
+   |  1.900000e-01  |  7.956072e-07  |
+   |  2.000000e-01  |  8.018411e-07  |
+   |  2.100000e-01  |  8.087238e-07  |
+   |  2.200000e-01  |  8.164442e-07  |
+   |  2.300000e-01  |  8.252476e-07  |
+   |  2.400000e-01  |  8.354528e-07  |
+   |  2.500000e-01  |  8.474744e-07  |
+   |  2.600000e-01  |  8.618526e-07  |
+   |  2.700000e-01  |  8.792922e-07  |
+   |  2.800000e-01  |  9.007167e-07  |
+   |  2.900000e-01  |  9.273415e-07  |
+   |  3.000000e-01  |  9.607766e-07  |
+   |  3.100000e-01  |  1.003171e-06  |
+   |  3.200000e-01  |  1.057423e-06  |
+   |  3.300000e-01  |  1.127481e-06  |
+   |  3.400000e-01  |  1.218802e-06  |
+   |  3.500000e-01  |  1.339029e-06  |
+   |  3.600000e-01  |  1.499033e-06  |
+   |  3.700000e-01  |  1.714513e-06  |
+   |  3.800000e-01  |  2.008486e-06  |
+   |  3.900000e-01  |  2.415189e-06  |
+   |  4.000000e-01  |  2.986215e-06  |
+   |  4.100000e-01  |  3.800174e-06  |
+   |  4.200000e-01  |  4.977908e-06  |
+   |  4.300000e-01  |  6.706277e-06  |
+   |  4.400000e-01  |  9.275042e-06  |
+   |  4.500000e-01  |  1.313323e-05  |
+   |  4.600000e-01  |  1.897366e-05  |
+   |  4.700000e-01  |  2.785680e-05  |
+   |  4.800000e-01  |  4.138704e-05  |
+   |  4.900000e-01  |  6.195525e-05  |
+   |  5.000000e-01  |  9.305976e-05  |
+   |  5.100000e-01  |  1.397126e-04  |
+   |  5.200000e-01  |  2.089278e-04  |
+   |  5.300000e-01  |  3.102747e-04  |
+   |  5.400000e-01  |  4.564629e-04  |
+   |  5.500000e-01  |  6.639071e-04  |
+   |  5.600000e-01  |  9.532110e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0013495
+
+   *** Step: 2    Residual: 0.0013495
+
+   *** Step: 3    Residual: 0.0013495
+
+   *** Step: 4    Residual: 0.0013495
+
+   *** Step: 5    Residual: 0.0013495
+
+   *** Step: 6    Residual: 0.0013495
+
+   *** Step: 7    Residual: 0.0013495
+
+   *** Step: 8    Residual: 0.0013495
+
+   *** Step: 9    Residual: 0.0013495
+
+   *** Step: 10    Residual: 0.0013495
+
+   |  5.700000e-01  |  1.349502e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00188256
+
+   *** Step: 2    Residual: 0.00188256
+
+   *** Step: 3    Residual: 0.00188256
+
+   *** Step: 4    Residual: 0.00188256
+
+   *** Step: 5    Residual: 0.00188256
+
+   *** Step: 6    Residual: 0.00188256
+
+   *** Step: 7    Residual: 0.00188256
+
+   *** Step: 8    Residual: 0.00188256
+
+   *** Step: 9    Residual: 0.00188256
+
+   *** Step: 10    Residual: 0.00188256
+
+   |  5.800000e-01  |  1.882556e-03  |
+   |  5.900000e-01  |  1.979023e-07  |
+   |  6.000000e-01  |  7.752351e-07  |
+   |  6.100000e-01  |  1.490584e-06  |
+   |  6.200000e-01  |  2.800738e-06  |
+   |  6.300000e-01  |  5.131081e-06  |
+   |  6.400000e-01  |  9.171053e-06  |
+   |  6.500000e-01  |  1.600272e-05  |
+   |  6.600000e-01  |  2.728024e-05  |
+   |  6.700000e-01  |  4.546830e-05  |
+   |  6.800000e-01  |  9.011255e-05  |
+   |  6.900000e-01  |  7.157572e-05  |
+   |  7.000000e-01  |  4.991791e-05  |
+   |  7.100000e-01  |  2.597350e-05  |
+   |  7.200000e-01  |  8.410144e-07  |
+   |  7.300000e-01  |  2.436581e-05  |
+   |  7.400000e-01  |  4.827196e-05  |
+   |  7.500000e-01  |  6.995891e-05  |
+   |  7.600000e-01  |  8.934086e-05  |
+   |  7.700000e-01  |  1.081913e-04  |
+   |  7.800000e-01  |  1.312780e-04  |
+   |  7.900000e-01  |  1.663370e-04  |
+   |  8.000000e-01  |  2.215744e-04  |
+   |  8.100000e-01  |  3.028057e-04  |
+   |  8.200000e-01  |  4.130769e-04  |
+   |  8.300000e-01  |  5.536017e-04  |
+   |  8.400000e-01  |  7.242647e-04  |
+   |  8.500000e-01  |  9.235571e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00114827
+
+   *** Step: 2    Residual: 0.00114827
+
+   *** Step: 3    Residual: 0.00114827
+
+   *** Step: 4    Residual: 0.00114827
+
+   *** Step: 5    Residual: 0.00114827
+
+   *** Step: 6    Residual: 0.00114827
+
+   *** Step: 7    Residual: 0.00114827
+
+   *** Step: 8    Residual: 0.00114827
+
+   *** Step: 9    Residual: 0.00114827
+
+   *** Step: 10    Residual: 0.00114827
+
+   |  8.600000e-01  |  1.148275e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00139318
+
+   *** Step: 2    Residual: 0.00139318
+
+   *** Step: 3    Residual: 0.00139318
+
+   *** Step: 4    Residual: 0.00139318
+
+   *** Step: 5    Residual: 0.00139318
+
+   *** Step: 6    Residual: 0.00139318
+
+   *** Step: 7    Residual: 0.00139318
+
+   *** Step: 8    Residual: 0.00139318
+
+   *** Step: 9    Residual: 0.00139318
+
+   *** Step: 10    Residual: 0.00139318
+
+   |  8.700000e-01  |  1.393178e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00165071
+
+   *** Step: 2    Residual: 0.00165071
+
+   *** Step: 3    Residual: 0.00165071
+
+   *** Step: 4    Residual: 0.00165071
+
+   *** Step: 5    Residual: 0.00165071
+
+   *** Step: 6    Residual: 0.00165071
+
+   *** Step: 7    Residual: 0.00165071
+
+   *** Step: 8    Residual: 0.00165071
+
+   *** Step: 9    Residual: 0.00165071
+
+   *** Step: 10    Residual: 0.00165071
+
+   |  8.800000e-01  |  1.650710e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00191085
+
+   *** Step: 2    Residual: 0.00191085
+
+   *** Step: 3    Residual: 0.00191085
+
+   *** Step: 4    Residual: 0.00191085
+
+   *** Step: 5    Residual: 0.00191085
+
+   *** Step: 6    Residual: 0.00191085
+
+   *** Step: 7    Residual: 0.00191085
+
+   *** Step: 8    Residual: 0.00191085
+
+   *** Step: 9    Residual: 0.00191085
+
+   *** Step: 10    Residual: 0.00191085
+
+   |  8.900000e-01  |  1.910846e-03  |
+   |  9.000000e-01  |  8.773613e-08  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00196043
+
+   *** Step: 2    Residual: 0.00196043
+
+   *** Step: 3    Residual: 0.00196043
+
+   *** Step: 4    Residual: 0.00196043
+
+   *** Step: 5    Residual: 0.00196043
+
+   *** Step: 6    Residual: 0.00196043
+
+   *** Step: 7    Residual: 0.00196043
+
+   *** Step: 8    Residual: 0.00196043
+
+   *** Step: 9    Residual: 0.00196043
+
+   *** Step: 10    Residual: 0.00196043
+
+   |  9.100000e-01  |  1.960426e-03  |
+   |  9.200000e-01  |  1.184389e-07  |
+   |  9.300000e-01  |  9.683917e-08  |
+   |  9.400000e-01  |  1.059393e-07  |
+   |  9.500000e-01  |  1.087365e-07  |
+   |  9.600000e-01  |  1.034444e-07  |
+   |  9.700000e-01  |  8.929287e-08  |
+   |  9.800000e-01  |  6.723903e-08  |
+   |  9.900000e-01  |  4.053383e-08  |
+   |  1.000000e+00  |  1.483604e-08  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00191131
+
+   *** Step: 2    Residual: 0.00191131
+
+   *** Step: 3    Residual: 0.00191131
+
+   *** Step: 4    Residual: 0.00191131
+
+   *** Step: 5    Residual: 0.00191131
+
+   *** Step: 6    Residual: 0.00191131
+
+   *** Step: 7    Residual: 0.00191131
+
+   *** Step: 8    Residual: 0.00191131
+
+   *** Step: 9    Residual: 0.00191131
+
+   *** Step: 10    Residual: 0.00191131
+
+   |  1.010000e+00  |  1.911307e-03  |
+   |  1.020000e+00  |  1.577282e-06  |
+   |  1.030000e+00  |  3.216265e-06  |
+   |  1.040000e+00  |  2.374333e-06  |
+   |  1.050000e+00  |  1.614742e-06  |
+   |  1.060000e+00  |  9.891073e-07  |
+   |  1.070000e+00  |  5.138440e-07  |
+   |  1.080000e+00  |  1.958686e-07  |
+   |  1.090000e+00  |  9.358155e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00113231
+
+   *** Step: 2    Residual: 0.00113231
+
+   *** Step: 3    Residual: 0.00113231
+
+   *** Step: 4    Residual: 0.00113231
+
+   *** Step: 5    Residual: 0.00113231
+
+   *** Step: 6    Residual: 0.00113231
+
+   *** Step: 7    Residual: 0.00113231
+
+   *** Step: 8    Residual: 0.00113231
+
+   *** Step: 9    Residual: 0.00113231
+
+   *** Step: 10    Residual: 0.00113231
+
+   |  1.100000e+00  |  1.132314e-03  |
+   |  1.110000e+00  |  2.652382e-07  |
+   |  1.120000e+00  |  2.539578e-07  |
+   |  1.130000e+00  |  4.462795e-07  |
+   |  1.140000e+00  |  6.257586e-07  |
+   |  1.150000e+00  |  7.474417e-07  |
+   |  1.160000e+00  |  7.776247e-07  |
+   |  1.170000e+00  |  7.011981e-07  |
+   |  1.180000e+00  |  5.330614e-07  |
+   |  1.190000e+00  |  3.406356e-07  |
+   |  1.200000e+00  |  2.695208e-07  |
+   |  1.210000e+00  |  2.797958e-07  |
+   |  1.220000e+00  |  8.451156e-08  |
+   |  1.230000e+00  |  5.764607e-07  |
+   |  1.240000e+00  |  1.896334e-06  |
+   |  1.250000e+00  |  4.088618e-06  |
+   |  1.260000e+00  |  7.320127e-06  |
+   |  1.270000e+00  |  1.168792e-05  |
+   |  1.280000e+00  |  1.717978e-05  |
+   |  1.290000e+00  |  2.363430e-05  |
+   |  1.300000e+00  |  3.070656e-05  |
+   |  1.310000e+00  |  3.784725e-05  |
+   |  1.320000e+00  |  4.430596e-05  |
+   |  1.330000e+00  |  4.917149e-05  |
+   |  1.340000e+00  |  5.146376e-05  |
+   |  1.350000e+00  |  5.029162e-05  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00163496
+
+   *** Step: 2    Residual: 0.00163496
+
+   *** Step: 3    Residual: 0.00163496
+
+   *** Step: 4    Residual: 0.00163496
+
+   *** Step: 5    Residual: 0.00163496
+
+   *** Step: 6    Residual: 0.00163496
+
+   *** Step: 7    Residual: 0.00163496
+
+   *** Step: 8    Residual: 0.00163496
+
+   *** Step: 9    Residual: 0.00163496
+
+   *** Step: 10    Residual: 0.00163496
+
+   |  1.360000e+00  |  1.634961e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00139842
+
+   *** Step: 2    Residual: 0.00139842
+
+   *** Step: 3    Residual: 0.00139842
+
+   *** Step: 4    Residual: 0.00139842
+
+   *** Step: 5    Residual: 0.00139842
+
+   *** Step: 6    Residual: 0.00139842
+
+   *** Step: 7    Residual: 0.00139842
+
+   *** Step: 8    Residual: 0.00139842
+
+   *** Step: 9    Residual: 0.00139842
+
+   *** Step: 10    Residual: 0.00139842
+
+   |  1.370000e+00  |  1.398419e-03  |
+   |  1.380000e+00  |  6.811121e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00139332
+
+   *** Step: 2    Residual: 0.00139332
+
+   *** Step: 3    Residual: 0.00139332
+
+   *** Step: 4    Residual: 0.00139332
+
+   *** Step: 5    Residual: 0.00139332
+
+   *** Step: 6    Residual: 0.00139332
+
+   *** Step: 7    Residual: 0.00139332
+
+   *** Step: 8    Residual: 0.00139332
+
+   *** Step: 9    Residual: 0.00139332
+
+   *** Step: 10    Residual: 0.00139332
+
+   |  1.390000e+00  |  1.393315e-03  |
+   |  1.400000e+00  |  1.661882e-07  |
+   |  1.410000e+00  |  2.433732e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00164579
+
+   *** Step: 2    Residual: 0.00164579
+
+   *** Step: 3    Residual: 0.00164579
+
+   *** Step: 4    Residual: 0.00164579
+
+   *** Step: 5    Residual: 0.00164579
+
+   *** Step: 6    Residual: 0.00164579
+
+   *** Step: 7    Residual: 0.00164579
+
+   *** Step: 8    Residual: 0.00164579
+
+   *** Step: 9    Residual: 0.00164579
+
+   *** Step: 10    Residual: 0.00164579
+
+   |  1.420000e+00  |  1.645793e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00183567
+
+   *** Step: 2    Residual: 0.00183567
+
+   *** Step: 3    Residual: 0.00183567
+
+   *** Step: 4    Residual: 0.00183567
+
+   *** Step: 5    Residual: 0.00183567
+
+   *** Step: 6    Residual: 0.00183567
+
+   *** Step: 7    Residual: 0.00183567
+
+   *** Step: 8    Residual: 0.00183567
+
+   *** Step: 9    Residual: 0.00183567
+
+   *** Step: 10    Residual: 0.00183567
+
+   |  1.430000e+00  |  1.835673e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00119282
+
+   *** Step: 2    Residual: 0.00119282
+
+   *** Step: 3    Residual: 0.00119282
+
+   *** Step: 4    Residual: 0.00119282
+
+   *** Step: 5    Residual: 0.00119282
+
+   *** Step: 6    Residual: 0.00119282
+
+   *** Step: 7    Residual: 0.00119282
+
+   *** Step: 8    Residual: 0.00119282
+
+   *** Step: 9    Residual: 0.00119282
+
+   *** Step: 10    Residual: 0.00119282
+
+   |  1.440000e+00  |  1.192820e-03  |
+   |  1.450000e+00  |  5.856286e-04  |
+   |  1.460000e+00  |  2.171000e-04  |
+   |  1.470000e+00  |  7.071085e-05  |
+   |  1.480000e+00  |  7.214764e-05  |
+   |  1.490000e+00  |  6.673521e-05  |
+   |  1.500000e+00  |  5.934471e-05  |
+   |  1.510000e+00  |  7.683253e-04  |
+   |  1.520000e+00  |  7.850196e-04  |
+   |  1.530000e+00  |  6.288300e-04  |
+   |  1.540000e+00  |  4.706449e-04  |
+   |  1.550000e+00  |  3.344210e-04  |
+   |  1.560000e+00  |  2.234182e-04  |
+   |  1.570000e+00  |  1.374489e-04  |
+   |  1.580000e+00  |  7.501806e-05  |
+   |  1.590000e+00  |  3.366232e-05  |
+   |  1.600000e+00  |  1.014620e-05  |
+   |  1.610000e+00  |  7.015277e-07  |
+   |  1.620000e+00  |  1.372571e-06  |
+   |  1.630000e+00  |  8.179568e-06  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00167763
+
+   *** Step: 2    Residual: 0.00167763
+
+   *** Step: 3    Residual: 0.00167763
+
+   *** Step: 4    Residual: 0.00167763
+
+   *** Step: 5    Residual: 0.00167763
+
+   *** Step: 6    Residual: 0.00167763
+
+   *** Step: 7    Residual: 0.00167763
+
+   *** Step: 8    Residual: 0.00167763
+
+   *** Step: 9    Residual: 0.00167763
+
+   *** Step: 10    Residual: 0.00167763
+
+   |  1.640000e+00  |  1.677629e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00175769
+
+   *** Step: 2    Residual: 0.00175769
+
+   *** Step: 3    Residual: 0.00175769
+
+   *** Step: 4    Residual: 0.00175769
+
+   *** Step: 5    Residual: 0.00175769
+
+   *** Step: 6    Residual: 0.00175769
+
+   *** Step: 7    Residual: 0.00175769
+
+   *** Step: 8    Residual: 0.00175769
+
+   *** Step: 9    Residual: 0.00175769
+
+   *** Step: 10    Residual: 0.00175769
+
+   |  1.650000e+00  |  1.757693e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0017141
+
+   *** Step: 2    Residual: 0.0017141
+
+   *** Step: 3    Residual: 0.0017141
+
+   *** Step: 4    Residual: 0.0017141
+
+   *** Step: 5    Residual: 0.0017141
+
+   *** Step: 6    Residual: 0.0017141
+
+   *** Step: 7    Residual: 0.0017141
+
+   *** Step: 8    Residual: 0.0017141
+
+   *** Step: 9    Residual: 0.0017141
+
+   *** Step: 10    Residual: 0.0017141
+
+   |  1.660000e+00  |  1.714097e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00164481
+
+   *** Step: 2    Residual: 0.00164481
+
+   *** Step: 3    Residual: 0.00164481
+
+   *** Step: 4    Residual: 0.00164481
+
+   *** Step: 5    Residual: 0.00164481
+
+   *** Step: 6    Residual: 0.00164481
+
+   *** Step: 7    Residual: 0.00164481
+
+   *** Step: 8    Residual: 0.00164481
+
+   *** Step: 9    Residual: 0.00164481
+
+   *** Step: 10    Residual: 0.00164481
+
+   |  1.670000e+00  |  1.644807e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00155927
+
+   *** Step: 2    Residual: 0.00155927
+
+   *** Step: 3    Residual: 0.00155927
+
+   *** Step: 4    Residual: 0.00155927
+
+   *** Step: 5    Residual: 0.00155927
+
+   *** Step: 6    Residual: 0.00155927
+
+   *** Step: 7    Residual: 0.00155927
+
+   *** Step: 8    Residual: 0.00155927
+
+   *** Step: 9    Residual: 0.00155927
+
+   *** Step: 10    Residual: 0.00155927
+
+   |  1.680000e+00  |  1.559270e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00148063
+
+   *** Step: 2    Residual: 0.00148063
+
+   *** Step: 3    Residual: 0.00148063
+
+   *** Step: 4    Residual: 0.00148063
+
+   *** Step: 5    Residual: 0.00148063
+
+   *** Step: 6    Residual: 0.00148063
+
+   *** Step: 7    Residual: 0.00148063
+
+   *** Step: 8    Residual: 0.00148063
+
+   *** Step: 9    Residual: 0.00148063
+
+   *** Step: 10    Residual: 0.00148063
+
+   |  1.690000e+00  |  1.480626e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00144902
+
+   *** Step: 2    Residual: 0.00144902
+
+   *** Step: 3    Residual: 0.00144902
+
+   *** Step: 4    Residual: 0.00144902
+
+   *** Step: 5    Residual: 0.00144902
+
+   *** Step: 6    Residual: 0.00144902
+
+   *** Step: 7    Residual: 0.00144902
+
+   *** Step: 8    Residual: 0.00144902
+
+   *** Step: 9    Residual: 0.00144902
+
+   *** Step: 10    Residual: 0.00144902
+
+   |  1.700000e+00  |  1.449016e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00151567
+
+   *** Step: 2    Residual: 0.00151567
+
+   *** Step: 3    Residual: 0.00151567
+
+   *** Step: 4    Residual: 0.00151567
+
+   *** Step: 5    Residual: 0.00151567
+
+   *** Step: 6    Residual: 0.00151567
+
+   *** Step: 7    Residual: 0.00151567
+
+   *** Step: 8    Residual: 0.00151567
+
+   *** Step: 9    Residual: 0.00151567
+
+   *** Step: 10    Residual: 0.00151567
+
+   |  1.710000e+00  |  1.515674e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.001717
+
+   *** Step: 2    Residual: 0.001717
+
+   *** Step: 3    Residual: 0.001717
+
+   *** Step: 4    Residual: 0.001717
+
+   *** Step: 5    Residual: 0.001717
+
+   *** Step: 6    Residual: 0.001717
+
+   *** Step: 7    Residual: 0.001717
+
+   *** Step: 8    Residual: 0.001717
+
+   *** Step: 9    Residual: 0.001717
+
+   *** Step: 10    Residual: 0.001717
+
+   |  1.720000e+00  |  1.716999e-03  |
+   |  1.730000e+00  |  4.645268e-08  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00191746
+
+   *** Step: 2    Residual: 0.00191746
+
+   *** Step: 3    Residual: 0.00191746
+
+   *** Step: 4    Residual: 0.00191746
+
+   *** Step: 5    Residual: 0.00191746
+
+   *** Step: 6    Residual: 0.00191746
+
+   *** Step: 7    Residual: 0.00191746
+
+   *** Step: 8    Residual: 0.00191746
+
+   *** Step: 9    Residual: 0.00191746
+
+   *** Step: 10    Residual: 0.00191746
+
+   |  1.740000e+00  |  1.917458e-03  |
+   |  1.750000e+00  |  1.807826e-07  |
+   |  1.760000e+00  |  1.139284e-07  |
+   |  1.770000e+00  |  1.830790e-07  |
+   |  1.780000e+00  |  2.618022e-07  |
+   |  1.790000e+00  |  2.030446e-04  |
+   |  1.800000e+00  |  1.436103e-07  |
+   |  1.810000e+00  |  1.284042e-07  |
+   |  1.820000e+00  |  1.137289e-07  |
+   |  1.830000e+00  |  9.559904e-08  |
+   |  1.840000e+00  |  7.442945e-08  |
+   |  1.850000e+00  |  5.133080e-08  |
+   |  1.860000e+00  |  1.932358e-04  |
+   |  1.870000e+00  |  2.002776e-04  |
+   |  1.880000e+00  |  2.073784e-04  |
+   |  1.890000e+00  |  2.149437e-04  |
+   |  1.900000e+00  |  2.230022e-04  |
+   |  1.910000e+00  |  2.315885e-04  |
+   |  1.920000e+00  |  2.407434e-04  |
+   |  1.930000e+00  |  2.505150e-04  |
+   |  1.940000e+00  |  2.609612e-04  |
+   |  1.950000e+00  |  2.721521e-04  |
+   |  1.960000e+00  |  2.841722e-04  |
+   |  1.970000e+00  |  2.971250e-04  |
+   |  1.980000e+00  |  3.111366e-04  |
+   |  1.990000e+00  |  3.263619e-04  |
+   |  2.000000e+00  |  3.429912e-04  |
+   |  2.010000e+00  |  3.612593e-04  |
+   |  2.020000e+00  |  3.814560e-04  |
+   |  2.030000e+00  |  4.039407e-04  |
+   |  2.040000e+00  |  4.291594e-04  |
+   |  2.050000e+00  |  4.576678e-04  |
+   |  2.060000e+00  |  4.901591e-04  |
+   |  2.070000e+00  |  5.275012e-04  |
+   |  2.080000e+00  |  5.707832e-04  |
+   |  2.090000e+00  |  6.213759e-04  |
+   |  2.100000e+00  |  6.810092e-04  |
+   |  2.110000e+00  |  7.518734e-04  |
+   |  2.120000e+00  |  8.367496e-04  |
+   |  2.130000e+00  |  9.391797e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00106369
+
+   *** Step: 2    Residual: 0.00106369
+
+   *** Step: 3    Residual: 0.00106369
+
+   *** Step: 4    Residual: 0.00106369
+
+   *** Step: 5    Residual: 0.00106369
+
+   *** Step: 6    Residual: 0.00106369
+
+   *** Step: 7    Residual: 0.00106369
+
+   *** Step: 8    Residual: 0.00106369
+
+   *** Step: 9    Residual: 0.00106369
+
+   *** Step: 10    Residual: 0.00106369
+
+   |  2.140000e+00  |  1.063687e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00121606
+
+   *** Step: 2    Residual: 0.00121606
+
+   *** Step: 3    Residual: 0.00121606
+
+   *** Step: 4    Residual: 0.00121606
+
+   *** Step: 5    Residual: 0.00121606
+
+   *** Step: 6    Residual: 0.00121606
+
+   *** Step: 7    Residual: 0.00121606
+
+   *** Step: 8    Residual: 0.00121606
+
+   *** Step: 9    Residual: 0.00121606
+
+   *** Step: 10    Residual: 0.00121606
+
+   |  2.150000e+00  |  1.216059e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00140372
+
+   *** Step: 2    Residual: 0.00140372
+
+   *** Step: 3    Residual: 0.00140372
+
+   *** Step: 4    Residual: 0.00140372
+
+   *** Step: 5    Residual: 0.00140372
+
+   *** Step: 6    Residual: 0.00140372
+
+   *** Step: 7    Residual: 0.00140372
+
+   *** Step: 8    Residual: 0.00140372
+
+   *** Step: 9    Residual: 0.00140372
+
+   *** Step: 10    Residual: 0.00140372
+
+   |  2.160000e+00  |  1.403718e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00163618
+
+   *** Step: 2    Residual: 0.00163618
+
+   *** Step: 3    Residual: 0.00163618
+
+   *** Step: 4    Residual: 0.00163618
+
+   *** Step: 5    Residual: 0.00163618
+
+   *** Step: 6    Residual: 0.00163618
+
+   *** Step: 7    Residual: 0.00163618
+
+   *** Step: 8    Residual: 0.00163618
+
+   *** Step: 9    Residual: 0.00163618
+
+   *** Step: 10    Residual: 0.00163618
+
+   |  2.170000e+00  |  1.636176e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00192561
+
+   *** Step: 2    Residual: 0.00192561
+
+   *** Step: 3    Residual: 0.00192561
+
+   *** Step: 4    Residual: 0.00192561
+
+   *** Step: 5    Residual: 0.00192561
+
+   *** Step: 6    Residual: 0.00192561
+
+   *** Step: 7    Residual: 0.00192561
+
+   *** Step: 8    Residual: 0.00192561
+
+   *** Step: 9    Residual: 0.00192561
+
+   *** Step: 10    Residual: 0.00192561
+
+   |  2.180000e+00  |  1.925614e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00152244
+
+   *** Step: 2    Residual: 0.00152244
+
+   *** Step: 3    Residual: 0.00152244
+
+   *** Step: 4    Residual: 0.00152244
+
+   *** Step: 5    Residual: 0.00152244
+
+   *** Step: 6    Residual: 0.00152244
+
+   *** Step: 7    Residual: 0.00152244
+
+   *** Step: 8    Residual: 0.00152244
+
+   *** Step: 9    Residual: 0.00152244
+
+   *** Step: 10    Residual: 0.00152244
+
+   |  2.190000e+00  |  1.522439e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00156207
+
+   *** Step: 2    Residual: 0.00156207
+
+   *** Step: 3    Residual: 0.00156207
+
+   *** Step: 4    Residual: 0.00156207
+
+   *** Step: 5    Residual: 0.00156207
+
+   *** Step: 6    Residual: 0.00156207
+
+   *** Step: 7    Residual: 0.00156207
+
+   *** Step: 8    Residual: 0.00156207
+
+   *** Step: 9    Residual: 0.00156207
+
+   *** Step: 10    Residual: 0.00156207
+
+   |  2.200000e+00  |  1.562074e-03  |
+   |  2.210000e+00  |  1.784529e-05  |
+   |  2.220000e+00  |  2.123059e-05  |
+   |  2.230000e+00  |  2.549536e-05  |
+   |  2.240000e+00  |  3.062415e-05  |
+   |  2.250000e+00  |  3.679789e-05  |
+   |  2.260000e+00  |  4.423615e-05  |
+   |  2.270000e+00  |  5.320625e-05  |
+   |  2.280000e+00  |  6.403399e-05  |
+   |  2.290000e+00  |  7.711681e-05  |
+   |  2.300000e+00  |  9.293985e-05  |
+   |  2.310000e+00  |  1.120959e-04  |
+   |  2.320000e+00  |  1.353096e-04  |
+   |  2.330000e+00  |  1.634674e-04  |
+   |  2.340000e+00  |  1.976545e-04  |
+   |  2.350000e+00  |  2.391992e-04  |
+   |  2.360000e+00  |  2.897285e-04  |
+   |  2.370000e+00  |  3.512353e-04  |
+   |  2.380000e+00  |  4.261604e-04  |
+   |  2.390000e+00  |  5.174930e-04  |
+   |  2.400000e+00  |  6.288923e-04  |
+   |  2.410000e+00  |  7.648352e-04  |
+   |  2.420000e+00  |  9.307950e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00113346
+
+   *** Step: 2    Residual: 0.00113346
+
+   *** Step: 3    Residual: 0.00113346
+
+   *** Step: 4    Residual: 0.00113346
+
+   *** Step: 5    Residual: 0.00113346
+
+   *** Step: 6    Residual: 0.00113346
+
+   *** Step: 7    Residual: 0.00113346
+
+   *** Step: 8    Residual: 0.00113346
+
+   *** Step: 9    Residual: 0.00113346
+
+   *** Step: 10    Residual: 0.00113346
+
+   |  2.430000e+00  |  1.133456e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00138097
+
+   *** Step: 2    Residual: 0.00138097
+
+   *** Step: 3    Residual: 0.00138097
+
+   *** Step: 4    Residual: 0.00138097
+
+   *** Step: 5    Residual: 0.00138097
+
+   *** Step: 6    Residual: 0.00138097
+
+   *** Step: 7    Residual: 0.00138097
+
+   *** Step: 8    Residual: 0.00138097
+
+   *** Step: 9    Residual: 0.00138097
+
+   *** Step: 10    Residual: 0.00138097
+
+   |  2.440000e+00  |  1.380971e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00168327
+
+   *** Step: 2    Residual: 0.00168327
+
+   *** Step: 3    Residual: 0.00168327
+
+   *** Step: 4    Residual: 0.00168327
+
+   *** Step: 5    Residual: 0.00168327
+
+   *** Step: 6    Residual: 0.00168327
+
+   *** Step: 7    Residual: 0.00168327
+
+   *** Step: 8    Residual: 0.00168327
+
+   *** Step: 9    Residual: 0.00168327
+
+   *** Step: 10    Residual: 0.00168327
+
+   |  2.450000e+00  |  1.683271e-03  |
+   |  2.460000e+00  |  6.221067e-07  |
+   |  2.470000e+00  |  1.132876e-06  |
+   |  2.480000e+00  |  4.446461e-05  |
+   |  2.490000e+00  |  5.551259e-05  |
+   |  2.500000e+00  |  6.949722e-05  |
+   |  2.510000e+00  |  8.738441e-05  |
+   |  2.520000e+00  |  1.103815e-04  |
+   |  2.530000e+00  |  1.401080e-04  |
+   |  2.540000e+00  |  1.787509e-04  |
+   |  2.550000e+00  |  2.292816e-04  |
+   |  2.560000e+00  |  2.957649e-04  |
+   |  2.570000e+00  |  3.837990e-04  |
+   |  2.580000e+00  |  5.011459e-04  |
+   |  2.590000e+00  |  6.586421e-04  |
+   |  2.600000e+00  |  8.715176e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00116132
+
+   *** Step: 2    Residual: 0.00116132
+
+   *** Step: 3    Residual: 0.00116132
+
+   *** Step: 4    Residual: 0.00116132
+
+   *** Step: 5    Residual: 0.00116132
+
+   *** Step: 6    Residual: 0.00116132
+
+   *** Step: 7    Residual: 0.00116132
+
+   *** Step: 8    Residual: 0.00116132
+
+   *** Step: 9    Residual: 0.00116132
+
+   *** Step: 10    Residual: 0.00116132
+
+   |  2.610000e+00  |  1.161315e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00155869
+
+   *** Step: 2    Residual: 0.00155869
+
+   *** Step: 3    Residual: 0.00155869
+
+   *** Step: 4    Residual: 0.00155869
+
+   *** Step: 5    Residual: 0.00155869
+
+   *** Step: 6    Residual: 0.00155869
+
+   *** Step: 7    Residual: 0.00155869
+
+   *** Step: 8    Residual: 0.00155869
+
+   *** Step: 9    Residual: 0.00155869
+
+   *** Step: 10    Residual: 0.00155869
+
+   |  2.620000e+00  |  1.558689e-03  |
+   |  2.630000e+00  |  1.611991e-06  |
+   |  2.640000e+00  |  3.375797e-06  |
+   |  2.650000e+00  |  7.070345e-06  |
+   |  2.660000e+00  |  1.517433e-05  |
+   |  2.670000e+00  |  3.335677e-05  |
+   |  2.680000e+00  |  7.494680e-05  |
+   |  2.690000e+00  |  1.712295e-04  |
+   |  2.700000e+00  |  3.935393e-04  |
+   |  2.710000e+00  |  8.911881e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00191595
+
+   *** Step: 2    Residual: 0.00191595
+
+   *** Step: 3    Residual: 0.00191595
+
+   *** Step: 4    Residual: 0.00191595
+
+   *** Step: 5    Residual: 0.00191595
+
+   *** Step: 6    Residual: 0.00191595
+
+   *** Step: 7    Residual: 0.00191595
+
+   *** Step: 8    Residual: 0.00191595
+
+   *** Step: 9    Residual: 0.00191595
+
+   *** Step: 10    Residual: 0.00191595
+
+   |  2.720000e+00  |  1.915948e-03  |
+   |  2.730000e+00  |  1.525966e-05  |
+   |  2.740000e+00  |  3.728297e-05  |
+   |  2.750000e+00  |  1.138219e-05  |
+   |  2.760000e+00  |  8.268098e-06  |
+   |  2.770000e+00  |  4.831572e-06  |
+   |  2.780000e+00  |  2.001091e-06  |
+   |  2.790000e+00  |  2.488195e-06  |
+   |  2.800000e+00  |  3.576372e-09  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00135905
+
+   *** Step: 2    Residual: 0.00135905
+
+   *** Step: 3    Residual: 0.00135905
+
+   *** Step: 4    Residual: 0.00135905
+
+   *** Step: 5    Residual: 0.00135905
+
+   *** Step: 6    Residual: 0.00135905
+
+   *** Step: 7    Residual: 0.00135905
+
+   *** Step: 8    Residual: 0.00135905
+
+   *** Step: 9    Residual: 0.00135905
+
+   *** Step: 10    Residual: 0.00135905
+
+   |  2.810000e+00  |  1.359054e-03  |
+   |  2.820000e+00  |  4.248083e-04  |
+   |  2.830000e+00  |  4.903453e-06  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00129488
+
+   *** Step: 2    Residual: 0.00129488
+
+   *** Step: 3    Residual: 0.00129488
+
+   *** Step: 4    Residual: 0.00129488
+
+   *** Step: 5    Residual: 0.00129488
+
+   *** Step: 6    Residual: 0.00129488
+
+   *** Step: 7    Residual: 0.00129488
+
+   *** Step: 8    Residual: 0.00129488
+
+   *** Step: 9    Residual: 0.00129488
+
+   *** Step: 10    Residual: 0.00129488
+
+   |  2.840000e+00  |  1.294878e-03  |
+   |  2.850000e+00  |  9.192049e-05  |
+   |  2.860000e+00  |  7.730255e-06  |
+   |  2.870000e+00  |  1.300402e-04  |
+   |  2.880000e+00  |  1.394879e-05  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00153961
+
+   *** Step: 2    Residual: 0.00153961
+
+   *** Step: 3    Residual: 0.00153961
+
+   *** Step: 4    Residual: 0.00153961
+
+   *** Step: 5    Residual: 0.00153961
+
+   *** Step: 6    Residual: 0.00153961
+
+   *** Step: 7    Residual: 0.00153961
+
+   *** Step: 8    Residual: 0.00153961
+
+   *** Step: 9    Residual: 0.00153961
+
+   *** Step: 10    Residual: 0.00153961
+
+   |  2.890000e+00  |  1.539608e-03  |
+   |  2.900000e+00  |  1.041069e-04  |
+   |  2.910000e+00  |  2.967105e-06  |
+   |  2.920000e+00  |  3.995323e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00181864
+
+   *** Step: 2    Residual: 0.00181864
+
+   *** Step: 3    Residual: 0.00181864
+
+   *** Step: 4    Residual: 0.00181864
+
+   *** Step: 5    Residual: 0.00181864
+
+   *** Step: 6    Residual: 0.00181864
+
+   *** Step: 7    Residual: 0.00181864
+
+   *** Step: 8    Residual: 0.00181864
+
+   *** Step: 9    Residual: 0.00181864
+
+   *** Step: 10    Residual: 0.00181864
+
+   |  2.930000e+00  |  1.818637e-03  |
+   |  2.940000e+00  |  1.206044e-04  |
+   |  2.950000e+00  |  3.574602e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00115009
+
+   *** Step: 2    Residual: 0.00115009
+
+   *** Step: 3    Residual: 0.00115009
+
+   *** Step: 4    Residual: 0.00115009
+
+   *** Step: 5    Residual: 0.00115009
+
+   *** Step: 6    Residual: 0.00115009
+
+   *** Step: 7    Residual: 0.00115009
+
+   *** Step: 8    Residual: 0.00115009
+
+   *** Step: 9    Residual: 0.00115009
+
+   *** Step: 10    Residual: 0.00115009
+
+   |  2.960000e+00  |  1.150090e-03  |
+   |  2.970000e+00  |  2.442573e-06  |
+   |  2.980000e+00  |  1.742745e-06  |
+   |  2.990000e+00  |  9.088193e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0015957
+
+   *** Step: 2    Residual: 0.0015957
+
+   *** Step: 3    Residual: 0.0015957
+
+   *** Step: 4    Residual: 0.0015957
+
+   *** Step: 5    Residual: 0.0015957
+
+   *** Step: 6    Residual: 0.0015957
+
+   *** Step: 7    Residual: 0.0015957
+
+   *** Step: 8    Residual: 0.0015957
+
+   *** Step: 9    Residual: 0.0015957
+
+   *** Step: 10    Residual: 0.0015957
+
+   |  3.000000e+00  |  1.595702e-03  |
+   |  3.010000e+00  |  1.323862e-06  |
+   |  3.020000e+00  |  1.210725e-05  |
+   |  3.030000e+00  |  6.864346e-05  |
+   |  3.040000e+00  |  9.558482e-05  |
+   |  3.050000e+00  |  4.841691e-04  |
+   |  3.060000e+00  |  4.952043e-04  |
+   |  3.070000e+00  |  4.193946e-04  |
+   |  3.080000e+00  |  3.015771e-04  |
+   |  3.090000e+00  |  1.825570e-04  |
+   |  3.100000e+00  |  6.655207e-05  |
+   |  3.110000e+00  |  1.185063e-05  |
+   |  3.120000e+00  |  8.088631e-07  |
+   |  3.130000e+00  |  1.023545e-08  |
+   |  3.140000e+00  |  8.866201e-08  |
+   |  3.150000e+00  |  1.918247e-06  |
+   |  3.160000e+00  |  9.192141e-06  |
+   |  3.170000e+00  |  2.541164e-05  |
+   |  3.180000e+00  |  5.271110e-05  |
+   |  3.190000e+00  |  9.156775e-05  |
+   |  3.200000e+00  |  1.409297e-04  |
+   |  3.210000e+00  |  1.985299e-04  |
+   |  3.220000e+00  |  2.612650e-04  |
+   |  3.230000e+00  |  3.255750e-04  |
+   |  3.240000e+00  |  3.877908e-04  |
+   |  3.250000e+00  |  4.444326e-04  |
+   |  3.260000e+00  |  4.924502e-04  |
+   |  3.270000e+00  |  5.045786e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00163401
+
+   *** Step: 2    Residual: 0.00163401
+
+   *** Step: 3    Residual: 0.00163401
+
+   *** Step: 4    Residual: 0.00163401
+
+   *** Step: 5    Residual: 0.00163401
+
+   *** Step: 6    Residual: 0.00163401
+
+   *** Step: 7    Residual: 0.00163401
+
+   *** Step: 8    Residual: 0.00163401
+
+   *** Step: 9    Residual: 0.00163401
+
+   *** Step: 10    Residual: 0.00163401
+
+   |  3.280000e+00  |  1.634012e-03  |
+   |  3.290000e+00  |  3.719066e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00112942
+
+   *** Step: 2    Residual: 0.00112942
+
+   *** Step: 3    Residual: 0.00112942
+
+   *** Step: 4    Residual: 0.00112942
+
+   *** Step: 5    Residual: 0.00112942
+
+   *** Step: 6    Residual: 0.00112942
+
+   *** Step: 7    Residual: 0.00112942
+
+   *** Step: 8    Residual: 0.00112942
+
+   *** Step: 9    Residual: 0.00112942
+
+   *** Step: 10    Residual: 0.00112942
+
+   |  3.300000e+00  |  1.129417e-03  |
+   |  3.310000e+00  |  4.067524e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00136181
+
+   *** Step: 2    Residual: 0.00136181
+
+   *** Step: 3    Residual: 0.00136181
+
+   *** Step: 4    Residual: 0.00136181
+
+   *** Step: 5    Residual: 0.00136181
+
+   *** Step: 6    Residual: 0.00136181
+
+   *** Step: 7    Residual: 0.00136181
+
+   *** Step: 8    Residual: 0.00136181
+
+   *** Step: 9    Residual: 0.00136181
+
+   *** Step: 10    Residual: 0.00136181
+
+   |  3.320000e+00  |  1.361814e-03  |
+   |  3.330000e+00  |  5.236971e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0019861
+
+   *** Step: 2    Residual: 0.0019861
+
+   *** Step: 3    Residual: 0.0019861
+
+   *** Step: 4    Residual: 0.0019861
+
+   *** Step: 5    Residual: 0.0019861
+
+   *** Step: 6    Residual: 0.0019861
+
+   *** Step: 7    Residual: 0.0019861
+
+   *** Step: 8    Residual: 0.0019861
+
+   *** Step: 9    Residual: 0.0019861
+
+   *** Step: 10    Residual: 0.0019861
+
+   |  3.340000e+00  |  1.986102e-03  |
+   |  3.350000e+00  |  5.593079e-07  |
+   |  3.360000e+00  |  4.090443e-07  |
+   |  3.370000e+00  |  4.651884e-07  |
+   |  3.380000e+00  |  4.996705e-07  |
+   |  3.390000e+00  |  5.119811e-07  |
+   |  3.400000e+00  |  5.034457e-07  |
+   |  3.410000e+00  |  4.772238e-07  |
+   |  3.420000e+00  |  4.375337e-07  |
+   |  3.430000e+00  |  3.889485e-07  |
+   |  3.440000e+00  |  3.358400e-07  |
+   |  3.450000e+00  |  2.819977e-07  |
+   |  3.460000e+00  |  2.304188e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00181111
+
+   *** Step: 2    Residual: 0.00181111
+
+   *** Step: 3    Residual: 0.00181111
+
+   *** Step: 4    Residual: 0.00181111
+
+   *** Step: 5    Residual: 0.00181111
+
+   *** Step: 6    Residual: 0.00181111
+
+   *** Step: 7    Residual: 0.00181111
+
+   *** Step: 8    Residual: 0.00181111
+
+   *** Step: 9    Residual: 0.00181111
+
+   *** Step: 10    Residual: 0.00181111
+
+   |  3.470000e+00  |  1.811109e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00113111
+
+   *** Step: 2    Residual: 0.00113111
+
+   *** Step: 3    Residual: 0.00113111
+
+   *** Step: 4    Residual: 0.00113111
+
+   *** Step: 5    Residual: 0.00113111
+
+   *** Step: 6    Residual: 0.00113111
+
+   *** Step: 7    Residual: 0.00113111
+
+   *** Step: 8    Residual: 0.00113111
+
+   *** Step: 9    Residual: 0.00113111
+
+   *** Step: 10    Residual: 0.00113111
+
+   |  3.480000e+00  |  1.131107e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00103579
+
+   *** Step: 2    Residual: 0.00103579
+
+   *** Step: 3    Residual: 0.00103579
+
+   *** Step: 4    Residual: 0.00103579
+
+   *** Step: 5    Residual: 0.00103579
+
+   *** Step: 6    Residual: 0.00103579
+
+   *** Step: 7    Residual: 0.00103579
+
+   *** Step: 8    Residual: 0.00103579
+
+   *** Step: 9    Residual: 0.00103579
+
+   *** Step: 10    Residual: 0.00103579
+
+   |  3.490000e+00  |  1.035787e-03  |
+   |  3.500000e+00  |  9.015550e-04  |
+   |  3.510000e+00  |  7.812218e-04  |
+   |  3.520000e+00  |  6.710237e-04  |
+   |  3.530000e+00  |  5.719074e-04  |
+   |  3.540000e+00  |  4.842005e-04  |
+   |  3.550000e+00  |  4.080568e-04  |
+   |  3.560000e+00  |  1.056845e-06  |
+   |  3.570000e+00  |  1.371860e-06  |
+   |  3.580000e+00  |  8.185739e-07  |
+   |  3.590000e+00  |  4.743824e-07  |
+   |  3.600000e+00  |  2.685163e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00160168
+
+   *** Step: 2    Residual: 0.00160168
+
+   *** Step: 3    Residual: 0.00160168
+
+   *** Step: 4    Residual: 0.00160168
+
+   *** Step: 5    Residual: 0.00160168
+
+   *** Step: 6    Residual: 0.00160168
+
+   *** Step: 7    Residual: 0.00160168
+
+   *** Step: 8    Residual: 0.00160168
+
+   *** Step: 9    Residual: 0.00160168
+
+   *** Step: 10    Residual: 0.00160168
+
+   |  3.610000e+00  |  1.601685e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00173625
+
+   *** Step: 2    Residual: 0.00173625
+
+   *** Step: 3    Residual: 0.00173625
+
+   *** Step: 4    Residual: 0.00173625
+
+   *** Step: 5    Residual: 0.00173625
+
+   *** Step: 6    Residual: 0.00173625
+
+   *** Step: 7    Residual: 0.00173625
+
+   *** Step: 8    Residual: 0.00173625
+
+   *** Step: 9    Residual: 0.00173625
+
+   *** Step: 10    Residual: 0.00173625
+
+   |  3.620000e+00  |  1.736251e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00128377
+
+   *** Step: 2    Residual: 0.00128377
+
+   *** Step: 3    Residual: 0.00128377
+
+   *** Step: 4    Residual: 0.00128377
+
+   *** Step: 5    Residual: 0.00128377
+
+   *** Step: 6    Residual: 0.00128377
+
+   *** Step: 7    Residual: 0.00128377
+
+   *** Step: 8    Residual: 0.00128377
+
+   *** Step: 9    Residual: 0.00128377
+
+   *** Step: 10    Residual: 0.00128377
+
+   |  3.630000e+00  |  1.283770e-03  |
+   |  3.640000e+00  |  8.589073e-04  |
+   |  3.650000e+00  |  5.575888e-04  |
+   |  3.660000e+00  |  3.554881e-04  |
+   |  3.670000e+00  |  2.216183e-04  |
+   |  3.680000e+00  |  1.339570e-04  |
+   |  3.690000e+00  |  7.766544e-05  |
+   |  3.700000e+00  |  4.258379e-05  |
+   |  3.710000e+00  |  2.164000e-05  |
+   |  3.720000e+00  |  9.877628e-06  |
+   |  3.730000e+00  |  3.835509e-06  |
+   |  3.740000e+00  |  1.133816e-06  |
+   |  3.750000e+00  |  1.874466e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0012395
+
+   *** Step: 2    Residual: 0.0012395
+
+   *** Step: 3    Residual: 0.0012395
+
+   *** Step: 4    Residual: 0.0012395
+
+   *** Step: 5    Residual: 0.0012395
+
+   *** Step: 6    Residual: 0.0012395
+
+   *** Step: 7    Residual: 0.0012395
+
+   *** Step: 8    Residual: 0.0012395
+
+   *** Step: 9    Residual: 0.0012395
+
+   *** Step: 10    Residual: 0.0012395
+
+   |  3.760000e+00  |  1.239498e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00165387
+
+   *** Step: 2    Residual: 0.00165387
+
+   *** Step: 3    Residual: 0.00165387
+
+   *** Step: 4    Residual: 0.00165387
+
+   *** Step: 5    Residual: 0.00165387
+
+   *** Step: 6    Residual: 0.00165387
+
+   *** Step: 7    Residual: 0.00165387
+
+   *** Step: 8    Residual: 0.00165387
+
+   *** Step: 9    Residual: 0.00165387
+
+   *** Step: 10    Residual: 0.00165387
+
+   |  3.770000e+00  |  1.653869e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00198156
+
+   *** Step: 2    Residual: 0.00198156
+
+   *** Step: 3    Residual: 0.00198156
+
+   *** Step: 4    Residual: 0.00198156
+
+   *** Step: 5    Residual: 0.00198156
+
+   *** Step: 6    Residual: 0.00198156
+
+   *** Step: 7    Residual: 0.00198156
+
+   *** Step: 8    Residual: 0.00198156
+
+   *** Step: 9    Residual: 0.00198156
+
+   *** Step: 10    Residual: 0.00198156
+
+   |  3.780000e+00  |  1.981563e-03  |
+   |  3.790000e+00  |  1.145114e-08  |
+   |  3.800000e+00  |  6.387607e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00115329
+
+   *** Step: 2    Residual: 0.00115329
+
+   *** Step: 3    Residual: 0.00115329
+
+   *** Step: 4    Residual: 0.00115329
+
+   *** Step: 5    Residual: 0.00115329
+
+   *** Step: 6    Residual: 0.00115329
+
+   *** Step: 7    Residual: 0.00115329
+
+   *** Step: 8    Residual: 0.00115329
+
+   *** Step: 9    Residual: 0.00115329
+
+   *** Step: 10    Residual: 0.00115329
+
+   |  3.810000e+00  |  1.153291e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00156045
+
+   *** Step: 2    Residual: 0.00156045
+
+   *** Step: 3    Residual: 0.00156045
+
+   *** Step: 4    Residual: 0.00156045
+
+   *** Step: 5    Residual: 0.00156045
+
+   *** Step: 6    Residual: 0.00156045
+
+   *** Step: 7    Residual: 0.00156045
+
+   *** Step: 8    Residual: 0.00156045
+
+   *** Step: 9    Residual: 0.00156045
+
+   *** Step: 10    Residual: 0.00156045
+
+   |  3.820000e+00  |  1.560445e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00198943
+
+   *** Step: 2    Residual: 0.00198943
+
+   *** Step: 3    Residual: 0.00198943
+
+   *** Step: 4    Residual: 0.00198943
+
+   *** Step: 5    Residual: 0.00198943
+
+   *** Step: 6    Residual: 0.00198943
+
+   *** Step: 7    Residual: 0.00198943
+
+   *** Step: 8    Residual: 0.00198943
+
+   *** Step: 9    Residual: 0.00198943
+
+   *** Step: 10    Residual: 0.00198943
+
+   |  3.830000e+00  |  1.989428e-03  |
+   |  3.840000e+00  |  6.897092e-05  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00131129
+
+   *** Step: 2    Residual: 0.00131129
+
+   *** Step: 3    Residual: 0.00131129
+
+   *** Step: 4    Residual: 0.00131129
+
+   *** Step: 5    Residual: 0.00131129
+
+   *** Step: 6    Residual: 0.00131129
+
+   *** Step: 7    Residual: 0.00131129
+
+   *** Step: 8    Residual: 0.00131129
+
+   *** Step: 9    Residual: 0.00131129
+
+   *** Step: 10    Residual: 0.00131129
+
+   |  3.850000e+00  |  1.311287e-03  |
+   |  3.860000e+00  |  7.074199e-05  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.001833
+
+   *** Step: 2    Residual: 0.001833
+
+   *** Step: 3    Residual: 0.001833
+
+   *** Step: 4    Residual: 0.001833
+
+   *** Step: 5    Residual: 0.001833
+
+   *** Step: 6    Residual: 0.001833
+
+   *** Step: 7    Residual: 0.001833
+
+   *** Step: 8    Residual: 0.001833
+
+   *** Step: 9    Residual: 0.001833
+
+   *** Step: 10    Residual: 0.001833
+
+   |  3.870000e+00  |  1.833001e-03  |
+   |  3.880000e+00  |  7.769444e-05  |
+   |  3.890000e+00  |  5.911775e-05  |
+   |  3.900000e+00  |  6.260663e-05  |
+   |  3.910000e+00  |  6.448363e-05  |
+   |  3.920000e+00  |  6.644480e-05  |
+   |  3.930000e+00  |  6.841131e-05  |
+   |  3.940000e+00  |  7.045535e-05  |
+   |  3.950000e+00  |  7.266410e-05  |
+   |  3.960000e+00  |  7.514615e-05  |
+   |  3.970000e+00  |  7.802503e-05  |
+   |  3.980000e+00  |  8.143115e-05  |
+   |  3.990000e+00  |  8.549189e-05  |
+   |  4.000000e+00  |  9.032127e-05  |
+   |  4.010000e+00  |  9.601110e-05  |
+   |  4.020000e+00  |  1.026250e-04  |
+   |  4.030000e+00  |  1.101964e-04  |
+   |  4.040000e+00  |  1.187290e-04  |
+   |  4.050000e+00  |  1.282011e-04  |
+   |  4.060000e+00  |  1.385692e-04  |
+   |  4.070000e+00  |  1.497728e-04  |
+   |  4.080000e+00  |  1.617386e-04  |
+   |  4.090000e+00  |  1.743828e-04  |
+   |  4.100000e+00  |  1.876137e-04  |
+   |  4.110000e+00  |  2.013331e-04  |
+   |  4.120000e+00  |  2.154373e-04  |
+   |  4.130000e+00  |  2.298175e-04  |
+   |  4.140000e+00  |  2.443602e-04  |
+   |  4.150000e+00  |  2.589475e-04  |
+   |  4.160000e+00  |  2.734575e-04  |
+   |  4.170000e+00  |  2.877637e-04  |
+   |  4.180000e+00  |  3.017358e-04  |
+   |  4.190000e+00  |  3.152399e-04  |
+   |  4.200000e+00  |  3.281380e-04  |
+   |  4.210000e+00  |  3.402893e-04  |
+   |  4.220000e+00  |  3.515501e-04  |
+   |  4.230000e+00  |  3.617741e-04  |
+   |  4.240000e+00  |  3.708139e-04  |
+   |  4.250000e+00  |  3.785208e-04  |
+   |  4.260000e+00  |  3.847470e-04  |
+   |  4.270000e+00  |  3.893458e-04  |
+   |  4.280000e+00  |  3.921742e-04  |
+   |  4.290000e+00  |  3.930941e-04  |
+   |  4.300000e+00  |  3.919750e-04  |
+   |  4.310000e+00  |  3.886969e-04  |
+   |  4.320000e+00  |  3.831537e-04  |
+   |  4.330000e+00  |  3.752570e-04  |
+   |  4.340000e+00  |  3.649412e-04  |
+   |  4.350000e+00  |  3.521690e-04  |
+   |  4.360000e+00  |  5.874247e-06  |
+   |  4.370000e+00  |  6.280643e-06  |
+   |  4.380000e+00  |  6.176584e-06  |
+   |  4.390000e+00  |  5.963609e-06  |
+   |  4.400000e+00  |  5.647145e-06  |
+   |  4.410000e+00  |  5.238199e-06  |
+   |  4.420000e+00  |  4.752702e-06  |
+   |  4.430000e+00  |  4.210707e-06  |
+   |  4.440000e+00  |  3.635191e-06  |
+   |  4.450000e+00  |  3.050539e-06  |
+   |  4.460000e+00  |  2.480817e-06  |
+   |  4.470000e+00  |  1.947988e-06  |
+   |  4.480000e+00  |  1.470239e-06  |
+   |  4.490000e+00  |  1.060611e-06  |
+   |  4.500000e+00  |  7.261221e-07  |
+   |  4.510000e+00  |  4.675211e-07  |
+   |  4.520000e+00  |  5.872250e-06  |
+   |  4.530000e+00  |  1.784853e-06  |
+   |  4.540000e+00  |  5.527311e-07  |
+   |  4.550000e+00  |  1.271327e-07  |
+   |  4.560000e+00  |  7.801591e-04  |
+   |  4.570000e+00  |  2.894140e-06  |
+   |  4.580000e+00  |  2.397073e-05  |
+   |  4.590000e+00  |  4.804352e-07  |
+   |  4.600000e+00  |  5.531534e-07  |
+   |  4.610000e+00  |  1.343666e-05  |
+   |  4.620000e+00  |  3.181035e-04  |
+   |  4.630000e+00  |  3.193847e-07  |
+   |  4.640000e+00  |  2.627624e-07  |
+   |  4.650000e+00  |  1.507727e-06  |
+   |  4.660000e+00  |  6.931841e-06  |
+   |  4.670000e+00  |  2.694467e-05  |
+   |  4.680000e+00  |  9.477029e-05  |
+   |  4.690000e+00  |  3.206701e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00112419
+
+   *** Step: 2    Residual: 0.00112419
+
+   *** Step: 3    Residual: 0.00112419
+
+   *** Step: 4    Residual: 0.00112419
+
+   *** Step: 5    Residual: 0.00112419
+
+   *** Step: 6    Residual: 0.00112419
+
+   *** Step: 7    Residual: 0.00112419
+
+   *** Step: 8    Residual: 0.00112419
+
+   *** Step: 9    Residual: 0.00112419
+
+   *** Step: 10    Residual: 0.00112419
+
+   |  4.700000e+00  |  1.124193e-03  |
+   |  4.710000e+00  |  2.182126e-06  |
+   |  4.720000e+00  |  1.416556e-06  |
+   |  4.730000e+00  |  2.396523e-06  |
+   |  4.740000e+00  |  3.824501e-06  |
+   |  4.750000e+00  |  5.663311e-06  |
+   |  4.760000e+00  |  7.761337e-06  |
+   |  4.770000e+00  |  9.782097e-06  |
+   |  4.780000e+00  |  1.121167e-05  |
+   |  4.790000e+00  |  3.192491e-05  |
+   |  4.800000e+00  |  2.240766e-05  |
+   |  4.810000e+00  |  1.462372e-05  |
+   |  4.820000e+00  |  8.057600e-06  |
+   |  4.830000e+00  |  3.458327e-06  |
+   |  4.840000e+00  |  9.616655e-07  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00189951
+
+   *** Step: 2    Residual: 0.00189951
+
+   *** Step: 3    Residual: 0.00189951
+
+   *** Step: 4    Residual: 0.00189951
+
+   *** Step: 5    Residual: 0.00189951
+
+   *** Step: 6    Residual: 0.00189951
+
+   *** Step: 7    Residual: 0.00189951
+
+   *** Step: 8    Residual: 0.00189951
+
+   *** Step: 9    Residual: 0.00189951
+
+   *** Step: 10    Residual: 0.00189951
+
+   |  4.850000e+00  |  1.899507e-03  |
+   |  4.860000e+00  |  2.859192e-06  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00162604
+
+   *** Step: 2    Residual: 0.00162604
+
+   *** Step: 3    Residual: 0.00162604
+
+   *** Step: 4    Residual: 0.00162604
+
+   *** Step: 5    Residual: 0.00162604
+
+   *** Step: 6    Residual: 0.00162604
+
+   *** Step: 7    Residual: 0.00162604
+
+   *** Step: 8    Residual: 0.00162604
+
+   *** Step: 9    Residual: 0.00162604
+
+   *** Step: 10    Residual: 0.00162604
+
+   |  4.870000e+00  |  1.626038e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0016531
+
+   *** Step: 2    Residual: 0.0016531
+
+   *** Step: 3    Residual: 0.0016531
+
+   *** Step: 4    Residual: 0.0016531
+
+   *** Step: 5    Residual: 0.0016531
+
+   *** Step: 6    Residual: 0.0016531
+
+   *** Step: 7    Residual: 0.0016531
+
+   *** Step: 8    Residual: 0.0016531
+
+   *** Step: 9    Residual: 0.0016531
+
+   *** Step: 10    Residual: 0.0016531
+
+   |  4.880000e+00  |  1.653100e-03  |
+   |  4.890000e+00  |  9.453349e-05  |
+   |  4.900000e+00  |  4.862363e-05  |
+   |  4.910000e+00  |  1.035556e-04  |
+   |  4.920000e+00  |  2.255045e-04  |
+   |  4.930000e+00  |  4.019382e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00156624
+
+   *** Step: 2    Residual: 0.00156624
+
+   *** Step: 3    Residual: 0.00156624
+
+   *** Step: 4    Residual: 0.00156624
+
+   *** Step: 5    Residual: 0.00156624
+
+   *** Step: 6    Residual: 0.00156624
+
+   *** Step: 7    Residual: 0.00156624
+
+   *** Step: 8    Residual: 0.00156624
+
+   *** Step: 9    Residual: 0.00156624
+
+   *** Step: 10    Residual: 0.00156624
+
+   |  4.940000e+00  |  1.566235e-03  |
+   |  4.950000e+00  |  2.380179e-04  |
+   |  4.960000e+00  |  8.224828e-04  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.0014931
+
+   *** Step: 2    Residual: 0.0014931
+
+   *** Step: 3    Residual: 0.0014931
+
+   *** Step: 4    Residual: 0.0014931
+
+   *** Step: 5    Residual: 0.0014931
+
+   *** Step: 6    Residual: 0.0014931
+
+   *** Step: 7    Residual: 0.0014931
+
+   *** Step: 8    Residual: 0.0014931
+
+   *** Step: 9    Residual: 0.0014931
+
+   *** Step: 10    Residual: 0.0014931
+
+   |  4.970000e+00  |  1.493101e-03  |
+   Performing source stepping.
+   *** Step: 1    Residual: 0.00131905
+
+   *** Step: 2    Residual: 0.00131905
+
+   *** Step: 3    Residual: 0.00131905
+
+   *** Step: 4    Residual: 0.00131905
+
+   *** Step: 5    Residual: 0.00131905
+
+   *** Step: 6    Residual: 0.00131905
+
+   *** Step: 7    Residual: 0.00131905
+
+   *** Step: 8    Residual: 0.00131905
+
+   *** Step: 9    Residual: 0.00131905
+
+   *** Step: 10    Residual: 0.00131905
+
+   |  4.980000e+00  |  1.319052e-03  |
+   |  4.990000e+00  |  8.166495e-04  |
+   |  5.000000e+00  |  3.058856e-04  |
+-----------------------------------------------------------------------------
+
+   --- Writing output voltages and currents ...
+ Plotting output file: vout_300k_20k.out.
+ Plotting output file: junctiontemp_300k_20k.out.
+ Plotting output file: iheat_300k_20k.out.
+
+
+**************  fREEDA 2.0 stopping on Tue Jul  7 17:37:56 2009  ***********

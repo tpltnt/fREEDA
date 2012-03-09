@@ -1,0 +1,57 @@
+\element{H}{Current-Controlled Voltage Source}
+
+\begin{figure}[h]
+\centering
+\ \pfig{h_spice.ps}
+\caption{H --- current-controlled voltage source element.}
+\end{figure}
+
+\form{
+     {\tt H}name $N_{+}$ $N_{-}$ VoltageSourceName Transresistance\\
+     {\tt H}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     VoltageSourceName$_1$ ...  VoltageSourceName$_D$ PolynomialCoefficients
+     }
+
+\begin{widelist}
+\item[$N_{+}$] is the positive voltage source node.
+\item[$N_{-}$] is the negative voltage source node.
+\item[{\it VoltageSourceName}] is the name of the voltage source the current
+through which is the controlling current. The voltage source must be a {\tt V}
+element.
+\item[{\it Transresistance}] is the Transresistance of the element.
+\item[{\tt POLY}] is the identifier for the polynomial form of the element
+\item[{\it D}] is the degree of the poynomial. The number of pairs of
+           controlling nodes must be equal to {\it Degree}.
+\item[{\it VoltageSourceName$_i$}] is the name of the voltage source the current
+through which is the $i$th controlling current.
+The voltage source must be a {\tt V} element.
+\item[{\it PolynomialCoefficients}] is the set of polynomial coefficients
+which must be specified in the standard polynomial coefficient format
+discussed on page \pageref{section:poly}.
+\end{widelist}
+
+\example{E1 2 3 14 1 2.0}
+
+\noindent\underline{Linear Transresistance Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt H}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ Transresistance }\\[0.1in]
+The value of the voltage generator is linearly proportional to the controlling
+current:
+\begin{equation}
+v_o = Transresistance\,v_c
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt POLY}nomial Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt H}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     {\tt (}$N_{C1+}$ $N_{C1-}{\tt)}$
+     ... {\tt (}$N_{CD+}$ $N_{CD-}{\tt )}$ PolynomialCoefficients }\\[0.1in]
+The value of the voltage generator is a polynomial function of the controlling
+voltages:
+\begin{equation}
+v_o = f(i_{c1}, ...,  i_{ci}, ...  i_{cD}
+\end{equation}
+where the number of controlling currents is $D$ --- the degree of the polynomial
+specified on the element line.
+$i_{ci}$ is the $i$th controlling current and is the current flowing from the
+$+$ terminal to the $-$ terminal in the
+$i$th voltage source of name {\it VoltageSourceName}.

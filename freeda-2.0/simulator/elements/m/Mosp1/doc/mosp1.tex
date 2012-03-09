@@ -1,0 +1,55 @@
+\documentclass{article}
+\usepackage{epsf}
+\usepackage{graphics}
+\newcommand{\fig}[1]{/#1}
+\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+\newcommand{\TPG}{T_{PG}}
+\newcommand{\PHI}{2\phi_{B}}
+\newcommand{\GAMMA}{\gamma}
+\newcommand{\FDA}{FreeDa}
+\newcommand{\LAMBDA}{\lambda}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+\begin{document}
+{\noindent{\LARGE \textbf{P Channel MOSFET level 1} \hspace{25mm}
+\textbf{mosp1}}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\epsfbox{figures/m.ps}} \caption{N Channel MOSFET
+Level 1 model}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt mosp1$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{r l}
+instance name & is the model name, \\
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+$n_4$ & is the bulk node. \\
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+\newline
+See documentation for Mosn1 .\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Aaron Walker & NC State University & August 2002 & www.ncsu.edu \\
+nmkripla@unity.ncsu.edu & & & www.ncsu.edu
+\end{tabular}
+\end{document}

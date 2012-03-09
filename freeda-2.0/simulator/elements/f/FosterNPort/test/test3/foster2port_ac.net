@@ -1,0 +1,21 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* Test two-port coupled lines considered.
+*
+
+.ac start=10 stop=1e6 n_freqs=400
+
+*vsource:vin 3 0 vac=1 f=1megaHz
+vsource:vin 3 0 vac=1
+
+r:source 3 1 r=50
+
+FosterNPort:f1 1 2 0 filename = "two_port.yp" ports = 2
+
+r:load 2 0 r=50.
+
+.options gnuplot
+
+.out plot term 1 vf mag in "v1.out"
+.out plot term 2 vf mag in "v2.out"
+.end

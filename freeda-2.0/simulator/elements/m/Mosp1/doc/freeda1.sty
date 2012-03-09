@@ -1,0 +1,585 @@
+% SUMMARY OF USEFUL MACROS
+%
+% 1. \marginpar[LeftText]{RightText} Standard Latex \marginpar
+%
+% 2. \mymarginpar{MarginText}{BodyText} Places MarginText in margin and
+%     BodyText in main text opposite margin. Places lineas above and below
+%     text.  Used in element and model catalogs and elsewhere.
+%
+% 3. \marginlabel{text} Places large text in margin and underlines. Used
+%    to put element name in margin at top of page for continued
+%    descriptions.  Does not automaticly put it at the top of a page
+%    and so a \clearpage is required.
+%
+% 4. \marginid{text} Used to place a short identifier in the margin. Just one
+%    word and justified to the outside edge.
+%
+% 5. \offset a standard indent.
+%
+% 6. \offsetparbox{} Places text in an offset parbox.  Use
+%    \hspace*{\fill} \offsetparbox{text}        to insert an offset text.
+%
+% 7. \boxed{} similar to above but starts a new line and right justifies
+%    offsetparbox.
+%
+% 8. \form
+%
+% 9. \example
+%
+%10. \begin{widelist}  .... \end{widelist} 
+%    A widelist that has 1 inch wide labels that has additional left hand
+%    margin of 0.6 inch.
+%
+%11. \spicethreeonly{} Text is inserted only if output is for spice3.
+%
+%12. \pspiceonly{} 
+%    Text is inserted only if output is for pspice (superspice for the most
+%    part is upwards compatible to pspice).
+%
+%13. \sspiceonly{} 
+%    Text is inserted only if output is for superspice but not for pspice.
+
+%14. \sym{}
+%    Right justifies a symbol in a keyword table.
+%
+%15. Use the following wherever as then we can have a standard way to
+%    report them.  Note that "\dc\ " is required to get a space after dc.
+%    \dc
+%    \ac
+%    \SPICE
+%
+%16. \kwnote{}  This is a convenient way to include notes in a keyword table.
+%    It right justifies a note in the description column and starts it on a
+%    newline.
+\newcommand{\kwnote}[1]{\newline\hspace*{\fill} #1}
+
+%
+%17. \kwversion{} This is a convenient way to indicate versions in a keyword
+%    table. It does a \kwnote .  It should not printed when outputing for
+%     specific versions.
+% typical usage is \kwversion{\sspice ; \hspice} to produce the output
+%            VERSIONS: SUPERSPICE; HSPICE
+% typical usage is \kwversionNote{\sspice ; \hspice} to produce the output
+%                 |                    VERSIONS: SUPERSPICE; HSPICE |
+%for unifomity the recommended version order is:
+%    \hspice \pspice \sspice \spicetwo \spicethree
+\newcommand{\version}[1]{({\sc version: #1})}
+\newcommand{\kwversion}[1]{\newline({\sc version: #1})}
+\newcommand{\kwversionNote}[1]{\kwnote{({\sc version: #1})}}
+\newcommand{\versions}[1]{({\sc versions: #1})}
+\newcommand{\kwversions}[1]{\newline({\sc versions: #1})}
+\newcommand{\kwversionsNote}[1]{\kwnote{({\sc versions: #1})}}
+
+%
+
+
+\newcommand{\mymargin}{1in}   % Use to set width of margin notes
+\newcommand{\mymarginparsep}{0.1in}
+\newcommand{\mymarginparsepplustext}{5.6in}
+\newcommand{\mymarginplus}{1.1in}
+\newcommand{\mymarginplustext}{6.6in}
+\newcommand{\underlinehead}{\\[-0.1in] \rule{\mymarginplustext}{0.01in}}
+\newcommand{\overlinefoot}{\rule{\mymarginplustext}{0.01in}\\}
+% WIDEPARBOX uses margin space as well.
+\newcommand{\wideparbox}[1]{\parbox[t]{\mymarginplustext}{#1}}
+%
+% HEADER AND FOOT
+% Standard header and foot, but includes copyright notice.a
+% To omit copyrite notice do not include copyrite.sty
+%
+\newcommand{\mycopyrite}{}
+\def\ps@headings{\let\@mkboth\markboth
+\def\@oddfoot{\wideparbox{\overlinefoot\rm\today \hfill \mycopyrite}}
+\def\@evenfoot{\hspace*{-\mymarginplus}\wideparbox{\overlinefoot
+\mycopyrite\hfill \today}}
+\def\@evenhead{\hspace*{-\mymarginplus}\wideparbox{\rm
+\thepage\hfill \sl \leftmark \underlinehead }}
+\def\@oddhead{\wideparbox{\hbox{}\sl \rightmark \hfill
+\rm\thepage \underlinehead}}\def\chaptermark##1{\markboth {\uppercase{\ifnum
+\c@secnumdepth
+>\m@ne
+ \@chapapp\ \thechapter. \ \fi ##1}}{}}\def\sectionmark##1{\markright
+ {\uppercase{\ifnum \c@secnumdepth >\z@
+  \thesection. \ \fi ##1}}}}
+
+%\oddsidemargin 0.25in \topmargin 0.0in \textwidth 6.5in \textheight 9in
+%\evensidemargin 0.25in \headheight 0.18in \footskip 0.16in
+
+%\input{epsf}
+\usepackage{epsf}
+\oddsidemargin 0.25in \evensidemargin 0.25in
+\topmargin 0.0in
+\textwidth 6.5in \textheight 9in
+\headheight 0.18in \footskip 0.16in
+\leftmargin -0.5in \rightmargin -0.5in
+
+\newcommand{\fig}[1]{figures/#1}
+\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+\newcommand{\newfig}[1]{\epsffile{\fig{#1}}}
+
+\newcommand{\fdaelement}[1]{elements/#1}
+\newcommand{\spiceelement}[1]{equivalent_spice_elements/#1}
+
+\newcommand{\FREEDA}{{\Huge{\textsl{\textsf{f}}}${\mathsf{REEDA}}^{{\tiny{\textsf{TM}}}}$}}
+\newcommand{\FDA}{{\textsl{\textsf{f}}}${\mathsf{REEDA}}^{{\tiny{\textsf{TM}}}}$}
+\newcommand{\notforsspice}[1]{#1}
+\newcommand{\spicetwoonly}[1]{#1}
+\newcommand{\spicethreeonly}[1]{#1}
+\newcommand{\pspiceonly}[1]{#1}
+\newcommand{\pspiceninetytwoonly}[1]{#1}
+\newcommand{\sspiceonly}[1]{}
+\newcommand{\fornutmeg}[1]{}
+\newcommand{\sspicetwoonly}[1]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\marginparwidth=\mymargin
+\marginparsep=\mymarginparsep
+\newcommand{\textplusmarginparwidth}{\textwidth+\marginparsep+\mymargin}
+\newcommand{\X}{\\ \hline}    % line terminataion in keyword environment
+\newcommand{\B}{{ \rm [}}     % begin optional parameter in \form{}
+\newcommand{\E}{{\ \rm\hspace{-0.04in}] }}   % end optional parameter in \form{}
+\newcommand{\expr}{{\sc Expressions supported}}
+\newcommand{\reqd}{{\scriptsize REQUIRED}}
+\newcommand{\omitted}{{\scriptsize OMITTED}}
+\newcommand{\inferred}{{\scriptsize INFERRED}}
+\newcommand{\para}{\newline{\scriptsize (PARASITIC)}}
+\newcommand{\opt}{{\tiny  OPTIONAL}}
+
+\newcommand{\Spice}{{\sc Spice}}
+\newcommand{\spice}{{\sc Spice}}
+\newcommand{\justspice}{{\sc Spice}}
+\newcommand{\nutmeg}{{\sc NUTMEG}}
+\newcommand{\probe}{{\sc Probe}}
+
+\newcommand{\accusim}{{\sc AccuSim}}
+\newcommand{\contec}{{\sc ContecSpice}}
+\newcommand{\cdsspice}{{\sc CDS Spice}}
+\newcommand{\hpimpulse}{{\sc HP Impulse}}
+\newcommand{\hspice}{{\sc HSpice}}
+\newcommand{\igspice}{{\sc IG\_SPICE}}
+\newcommand{\isspice}{{\sc IsSpice}}
+\newcommand{\mspice}{{\sc Microwave Spice}}
+\newcommand{\pspice}{{\sc PSpice}}
+\newcommand{\justpspice}{{\sc PSpice}}
+\newcommand{\spectre}{{\sc Spectre}}
+\newcommand{\spicetwo}{{\sc Spice2g6}}
+\newcommand{\spicethree}{{\sc Spice3}}
+\newcommand{\spiceplus}{{\sc SpicePlus}}
+\newcommand{\sspice}{{\sc SuperSpice}}
+
+\newcommand{\modelversion}[1]{& #1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% set up a counter for all occasions
+%
+\newcounter{count}
+
+% set up new commands
+%
+\newcommand{\vshift}{\vspace{0.2in}}
+% OFFSET
+\newcommand{\offset}{\hspace*{0.45in} }
+% OFFSETPARBOXWIDTH argument should be \textwith - offset
+\newcommand{\offsetparbox}[1]{\parbox[t]{5in}{#1}}
+
+% note: no labeling
+\newcommand{\elementx}[3]{\clearpage\rm\markright{#3:#2}
+\addcontentsline{toc}{section}{#1, #2: #3}
+\mymarginparx{#1}{#2}{#3}\index{#1:#2}\index{#3:#2}}
+
+% macros for sub elements
+\newcommand{\subelement}[2]{\clearpage 
+   \noindent\rule{\textwidth /2}{.5mm} \\[0.1in]
+   {\large \bf #1} \hspace{0.2in} {\bf #2} \\
+   \noindent\rule{\textwidth /2}{.5mm} \index{#1} \index{#2}}
+% macros for models
+\newcommand{\model}[2]{{
+   \noindent\vspace{0.2in}\parbox{\textwidth}{
+   \noindent\rule{\textwidth}{.5mm} \\[0.1in]
+   {\large \bf #1 Model} \label{#1model} \hfill {\large #2} \\
+   \noindent\rule{\textwidth}{.5mm} \index{#1} \index{#2}}}}
+\newcommand{\modelx}[3]{{
+   \noindent\vspace{0.2in}\parbox{\textwidth}{
+   \noindent\rule{\textwidth}{.5mm} \\[0.1in]
+   {\large \bf #1 Model} \hfill {\large #2} \hfill {\large #3} \\
+   \noindent\rule{\textwidth}{.5mm} \index{#1} \index{#2}}}}
+
+
+
+% BOXED
+\newcommand{\boxed}[1]{\noindent
+\newline \vshift \hspace*{\fill} {\tt \offsetparbox{\tt #1}}
+ \vshift}
+
+
+%
+% KEYWORD
+%
+\newcommand{\keywordtable}[1]{
+        \sloppy
+        \hyphenation{ca-pac-i-t-an-ce} 
+        \begin{center}
+    \sf
+        \begin{tabular}[t]
+        {|p{0.58in}|p{3.07in}|p{0.55in}|p{0.60in}|}
+        \hline
+        \multicolumn{1}{|c}{\bf Name} &
+        \multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+        \multicolumn{1}{|c}{\bf Units} &
+        \multicolumn{1}{|c|}{\bf Default} \X
+        #1
+        \end{tabular}
+        \end{center}
+    }
+
+\newcommand{\keywordtwotable}[2]{
+        \sloppy
+        \hyphenation{ca-pac-i-t-an-ce} 
+        \begin{center}
+    \sf
+        \begin{tabular}[t]
+        {|p{0.58in}|p{2.38in}|p{0.55in}|p{0.60in}|p{0.53in}|}
+        \hline
+        \multicolumn{1}{|c}{\bf Name} &
+        \multicolumn{1}{|c}{\parbox{2.20in}{\bf Description}}  &
+        \multicolumn{1}{|c}{\bf Units} &
+        \multicolumn{1}{|c}{\bf Default} &
+        \multicolumn{1}{|c|}{\bf #1} \X
+        #2
+        \end{tabular}
+        \end{center}
+    }
+
+\newcommand{\kw}[2]{
+     \samepage{
+     \noindent {\sl #1} \vspace{-0.5in} \\
+     \keywordtable{#2} }}
+
+\newcommand{\kwtwo}[3]{
+     \samepage{
+     \noindent {\sl #1} \vspace{-0.4in} \\
+     \keywordtwotable{#2}{#3} }}
+
+\newcommand{\keyword}[1]{\kw{Keywords:}{#1}}
+\newcommand{\keywordtwo}[2]{\kwtwo{Keywords:}{#1}{#2}}
+\newcommand{\modelkeyword}[1]{\kw{Model Keywords}{#1}}
+\newcommand{\modelkeywordtwo}[2]{\kwtwo{Model Keywords}{#1}{#2}}
+
+\newcommand{\myline}{\\[-0.1in]
+\noindent \rule{\textwidth}{0.01in} \newline}
+
+\newcommand{\myThickLine}{\\[-0.1in]
+\noindent \rule{\textwidth}{0.02in} \newline}
+
+
+% SPICE 2G6 FORM
+%\newcommand{\spicetwoform}[1]{
+%\spicetwoonly{\samepage{\noindent{\sl\spicetwo\form{#1}}}}}
+
+% PSPICE88 FORM
+%\newcommand{\pspiceform}[1]{
+%\pspiceonly{\samepage{\noindent{\sl\pspice}\form{#1}}}}
+
+% PSPICE92 FORM
+%\newcommand{\pspiceninetytwoform}[1]{
+%\pspiceninetytwoonly{\samepage{\noindent{\sl\pspice92\form{#1}}}}}
+
+
+% SPICE3E2 FORM
+%\newcommand{\spicethreeform}[1]{
+%\spicethreeonly{\samepage{\noindent{\sl\spicethree\form{#1}}}}}
+
+% FORM
+\newcommand{\form}[1]{\samepage{\noindent
+ {\sl Form} \myline
+% \hspace*{\fill} % For some reason \fill = 0 when \pspiceform{} is used?
+\offset
+\it  \offsetparbox{#1}}
+\\[0.1in]}
+
+% ELEMENT FORM
+\newcommand{\elementform}[1]{\samepage{\noindent
+ {\sl Element Form} \myline
+% \hspace*{\fill} % For some reason \fill = 0 when \pspiceform{} is used?
+\offset
+\it  \offsetparbox{#1}}
+\\[0.1in]}
+
+% MODEL FORM
+\newcommand{\modelform}[1]{\samepage{\noindent
+ {\sl Model Form} \myline
+% \hspace*{\fill} % For some reason \fill = 0 when \pspiceform{} is used?
+\offset
+\it  \offsetparbox{#1}}
+\\[0.1in]}
+
+% LIMITS
+\newcommand{\mylimits}[1]{\samepage{\noindent
+ {\sl Limits} \myline
+ \hspace*{\fill} \it  \offsetparbox{#1}}
+ \vshift}
+
+% EXAMPLE
+\newcommand{\example}[1]{\samepage{\noindent
+{\sl Example} \myline
+\offset \tt  \offsetparbox{#1}}
+ \vshift}
+
+% PSPICE88 EXAMPLE
+\newcommand{\pspiceexample}[1]{\samepage{\noindent
+{\sl \pspice\ Example} \myline
+\offset \tt  \offsetparbox{#1}}
+ \vshift}
+
+% MODEL TYPES
+\newcommand{\modeltype}[1]{\samepage{\noindent
+{\sl Model Type} \myline
+ \hspace*{\fill} \tt \offsetparbox{#1}}
+ \\[0.1in]}
+
+% MODEL TYPES
+\newcommand{\modeltypes}[1]{\samepage{\noindent
+{\sl Model Types:} \myline
+ \hspace*{\fill} \tt \offsetparbox{\tt #1}}
+ \vshift}
+
+% OFFSET ENUMERATE
+\newcommand{\offsetenumerate}[1]{
+     \offset \hspace*{-0.1in} {\begin{enumerate} #1 \end{enumerate}}}
+
+% NOTE
+\newcommand{\note}[1]{
+\vshift\samepage{\noindent {\sl Note}\myline\vspace{-0.24in}}
+ \offsetenumerate{#1} }
+
+% SPECIAL NOTE
+\newcommand{\specialnote}[2]{
+\vshift\samepage{\noindent {\sl #1}\myline\vspace{-0.24in}}\\#2}
+
+\newcommand{\dc}{\mbox{\tt DC}}
+\newcommand{\ac}{\mbox{\tt AC}}
+\newcommand{\SPICE}{\mbox{\tt SPICE}}
+\newcommand{\m}[1]{{\bf #1}}                           % matrix command  \m{}
+
+% ////// Changing nodes to terminals///////
+% print terminals in \tt and enclose in a circle use outside
+\newcommand{\terminal}[1]{\: \mbox{\tt #1} \!\!\!\! \bigcirc }
+%
+% set up environment for example
+%
+\newcounter{excount}
+\newcounter{dummy}
+\newenvironment{eg}{\vspace{0.1in}\noindent\rule{\textwidth}{.5mm}
+   \begin{list}
+   {{\addtocounter{excount}{1}
+   \em Example\/ \arabic{chapter}.\arabic{excount}\/}:}
+   {\usecounter{dummy}
+   \setlength{\rightmargin}{\leftmargin}}
+   }{\end{list} \rule{\textwidth}{.5mm}\vspace{0.1in}}
+%
+% set up environment for block
+% currently this draws a horizontal line at the start of block and another
+% at the end of block.
+%
+\newenvironment{block}{\vspace{0.1in}\noindent\rule{\textwidth}{.5mm}
+   }{\rule{\textwidth}{.5mm}\vspace{0.1in}}
+%
+
+%
+% Macros for element summaries
+%
+% macros for element summary
+%\newcommand{\summaryelement}[2]{
+%   \vspace{0.4in}
+%   \mymarginpar{#1}{#2} 
+%   \addcontentsline{toc}{section}{#1, #2}
+%   \vspace{-0.6in} \\
+%   \noindent Full description on page \pageref{#1element}. \vshift\\
+%   }
+
+% Summary MODEL TYPE
+%\newcommand{\summarymodeltype}[1]{\samepage{\noindent
+%{\sl Model Type} \myline
+% \hspace*{\fill} \tt \offsetparbox{\tt #1
+% \hfill Summary on \pageref{#1summary} \index{#1}}}
+% }
+
+% Summary MODEL TYPES
+%\newcommand{\summarymodeltypes}[1]{\samepage{\noindent
+%{\sl Model Types} \myline
+% \hspace*{\fill} \tt \offsetparbox{\tt #1
+% \hfill Summary on \pageref{#1summary} \index{#1}}}
+% }
+
+%
+% macros for model summary
+%\newcommand{\summarymodel}[2]{\clearpage
+%   \addcontentsline{toc}{section}{#1, #2}
+%   \mymarginpar{#1}{#2} \label{#1summary}
+%   \index{#1} \index{#2}
+%   \noindent Full description on page \pageref{#1model} \\[0.1in]
+%   }
+
+
+
+%
+% set up wide descriptive list
+%
+\newenvironment{widelist}
+    {\begin{list}{}{\setlength{\rightmargin}{0in} \setlength{\itemsep}{0.1in}
+    \setlength{\labelwidth}{0.95in} \setlength{\labelsep}{0.1in}
+\setlength{\listparindent}{0in} \setlength{\parsep}{0in}
+    \setlength{\leftmargin}{1.0in}}
+    }{\end{list}}
+
+\newcommand{\STAR}{\hspace*{\fill} * \hspace*{\fill}}
+
+\newcommand{\sym}[1]{\hspace*{\fill} ($#1$)}
+
+%
+% The thebibliography environment is redefined so the the word References is
+% not output
+%\def\thebibliography#1{\list
+% {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+% \advance\leftmargin\labelsep
+% \usecounter{enumi}}
+% \def\newblock{\hskip .11em plus .33em minus -.07em}
+% \sloppy\clubpenalty4000\widowpenalty4000
+% \sfcode`\.=1000\relax}
+%\let\endthebibliography=\endlist
+% END thebibliography environment redefinition
+
+
+
+%\newcommand{\eskipv}[1]{\clearpage\marginlabel{#1}}
+%\newcommand{\eskip}[1]{\vspace*{\fill}\clearpage\marginlabel{#1}}
+%\newcommand{\eskipnv}[1]{\newpage\marginlabel{#1}}
+%\newcommand{\eskipn}[1]{\vspace*{\fill}\newpage\marginlabel{#1}}
+
+%marginlabel is very wide
+%\newcommand{\eskipfullv}[1]{\clearpage\marginlabelfull{#1}}
+%\newcommand{\eskipfull}[1]{\vspace*{\fill}\clearpage\marginlabelfull{#1}}
+%\newcommand{\eskipfullnv}[1]{\newpage\marginlabelfull{#1}}
+%\newcommand{\eskipfulln}[1]{\vspace*{\fill}\newpage\marginlabelfull{#1}}
+
+%\newcommand{\mycontentsline}[5]{\parbox{#1}{#2}#3
+%\hspace{0.1in}\dotfill\parbox{0.3in}{\hfill\pageref{#4#5}}\\[0.1in]}
+%\newcommand{\mysline}[2]{\mycontentsline{1.2in}{#1}{#2}{#1}{statement}}
+%\newcommand{\mymline}[2]{\mycontentsline{0.7in}{#1}{#2}{#1}{model}}
+%\newcommand{\myeline}[2]{\mycontentsline{0.7in}{#1}{#2}{#1}{element}}
+
+%\newcommand{\myincontentsline}[5]{\vspace{0.05in}\noindent\parbox{#1}{#2}#3
+%\hspace{0.1in}
+%\dotfill\parbox{0.7in}{\hfill Page \pageref{#4#5}}\\[0.05in]\noindent}
+%\newcommand{\myinsline}[2]{\myincontentsline{1.2in}{#1}{#2}{#1}{statement}}
+%\newcommand{\myinmline}[2]{\myincontentsline{0.5in}{#1}{#2}{#1}{model}}
+%\newcommand{\myineline}[2]{\myincontentsline{0.5in}{#1}{#2}{#1}{element}}
+
+%
+%
+% The following a symbols that could used alot.
+\newcommand{\ms}[1]{\mbox{\scriptsize #1}}
+\newcommand{\AF}{A_F}
+\newcommand{\CBD}{C'_{BD}}
+\newcommand{\CBS}{C'_{BS}}
+\newcommand{\CGBO}{C_{GBO}}
+\newcommand{\CGDO}{C_{GDO}}
+\newcommand{\CGSO}{C_{GSO}}
+\newcommand{\CJ}{C_J}
+\newcommand{\CJSW}{C_{J,\ms{SW}}}
+\newcommand{\DELTA}{\delta}
+\newcommand{\ETA}{\eta}
+\newcommand{\FC}{F_C}
+\newcommand{\GAMMA}{\gamma}
+\newcommand{\IS}{I_S}
+\newcommand{\JS}{J_S}
+\newcommand{\KAPPA}{\kappa}
+\newcommand{\KF}{K_F}
+\newcommand{\KP}{K_P}
+\newcommand{\LAMBDA}{\lambda}
+\newcommand{\LD}{X_{JL}}
+\newcommand{\LEVEL}{M_J}
+\newcommand{\MJ}{M_J}
+\newcommand{\MJSW}{M_{J,\ms{SW}}}
+\newcommand{\NSUB}{N_B}
+\newcommand{\NSS}{N_{\ms{SS}}}
+\newcommand{\NFS}{N_{\ms{FS}}}
+\newcommand{\NEFF}{N_{\ms{EFF}}}
+\newcommand{\PB}{\phi_J}
+\newcommand{\PHI}{2\phi_B}
+\newcommand{\RD}{R_D}
+\newcommand{\RS}{R_S}
+\newcommand{\RSH}{R_{\ms{SH}}}
+\newcommand{\THETA}{\theta}
+\newcommand{\TOX}{T_{OX}}
+\newcommand{\TPG}{T_{\ms{PG}}}
+\newcommand{\UCRIT}{U_C}
+\newcommand{\UEXP}{U_{\ms{EXP}}}
+\newcommand{\UO}{\mu_0}
+\newcommand{\UTRA}{U_{\ms{TRA}}}
+\newcommand{\VMAX}{V_{\ms{MAX}}}
+\newcommand{\VTZERO}{V_{T0}}
+\newcommand{\VTO}{V_{T0}}
+\newcommand{\XJ}{X_J}
+\newcommand{\Length}{L} %  \L already used
+\newcommand{\N}{N}
+\newcommand{\PBSW}{\phi_{J,{\ms{SW}}}}
+\newcommand{\RB}{R_B}
+\newcommand{\RG}{R_B}
+\newcommand{\RDS}{R_{DS}}
+\newcommand{\TT}{\tau_T}
+\newcommand{\W}{W}
+\newcommand{\WD}{W_D}
+\newcommand{\XQC}{X_{QC}}
+\newcommand{\JSSW}{J_{S,{\ms{SW}}}}
+\newcommand{\DL}{\Delta_L}
+\newcommand{\DW}{\Delta_W}
+\newcommand{\DELL}{\Delta_{L,\ms{SW}}}
+\newcommand{\KONE}{K_1}
+\newcommand{\KTWO}{K_2}
+\newcommand{\MUS}{\mu_S}
+\newcommand{\MUZ}{\mu_Z}
+\newcommand{\NZERO}{N_0}
+\newcommand{\NB}{N_B}
+\newcommand{\ND}{N_D}
+\newcommand{\TEMP}{T}
+\newcommand{\VDD}{V_{DD}}
+\newcommand{\WDF}{W_{\ms{DF}}}
+\newcommand{\VFB}{V_{\ms{FB}}}
+\newcommand{\UZERO}{U_0}
+\newcommand{\UONE}{U_1}
+\newcommand{\XTWOE}{X_{2E}}
+\newcommand{\XTWOMS}{X_{2\ms{MS}}}
+\newcommand{\XTWOMZ}{X_{2\ms{MZ}}}
+\newcommand{\XTWOUZERO}{X_{2\ms{U0}}}
+\newcommand{\XTWOUONE}{X_{2\ms{U1}}}
+\newcommand{\XTHREEE}{X_{3E}}
+\newcommand{\XTHREEMS}{X_{3\ms{MS}}}
+\newcommand{\XTHREEMZ}{X_{3\ms{MZ}}}
+\newcommand{\XTHREEUZERO}{X_{3\ms{U0}}}
+\newcommand{\XTHREEUONE}{X_{3\ms{U1}}}
+\newcommand{\XPART}{X_{\ms{PART}}}
+\newcommand{\PS}{P_S}
+\newcommand{\PD}{P_D}
+\newcommand{\NRS}{N_{RS}}
+\newcommand{\NRG}{N_{RG}}
+\newcommand{\NRB}{N_{RB}}
+\newcommand{\NRD}{N_{RD}}
+
+
+\newcommand{\Net}{{${\cal N}$}}                          % network \N
+\newcommand{\Nprime}{{${\cal N}^{\prime}$}}            % another network \Nprime
+\newcommand{\Nold}{{${\cal N}^{\mbox{old}}$}}          % old network  \Nold
+\newcommand{\Nnew}{{${\cal N}^{\mbox{new}}$}}          % new network  \Nnew
+
+\newcommand{\GMIN}{{G_{\ms{MIN}}}}
+
+\newcommand{\optionitem}[2]{
+\item[{\tt #1}{#2}]\label{.OPTION#1}\index{.OPTIONS, #1}\index{#1}}
+
+\newcommand{\error}[1]{\vspace{0.1in}\noindent{\tt #1}\\}
+
+
+%For numbering an equation which is incoorporated
+%with text.
+\newcommand{\inlineeq}{\hspace*{\fill}\refstepcounter{equation}{\rm
+(\theequation)}\\}

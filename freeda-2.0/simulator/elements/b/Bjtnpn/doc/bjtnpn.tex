@@ -1,0 +1,402 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{../../../style/freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Bipolar Junction Transistor}
+\hspace{\fill}\textbf{bjtnpn}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+% the bjt figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\pfig{q1.eps}} \caption[Q --- bipolar
+junction transistor element]{Q --- Bipolar Polar Junction
+Transistor: (a) NPN transistor; (b) PNP transistor.}
+\end{figure}
+\newline
+% form for Transim
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{\FDA Form:}
+%\newline
+$\tt bjtnpn$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+$ $\langle \tt{parameter\ list}\rangle$
+\newline
+% explanation of the parameters
+\begin{tabular}{r l}
+$n_1$ & is the base node \\
+&  \\
+$n_2$ & is the collector node \\
+&  \\
+$n_3$ & is the emitter node \\
+& \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% SPICE form
+\newline
+\noindent\texttt{SPICE} \textit{Form:}
+%\newline
+%\linethickness{0.5mm}
+%\line(1,0){425}
+\newline
+{\tt Q}name  NCollector NBase NEmitter  [NSubstrate]  ModelName
+[Area] [{\tt OFF}] {\tt} [{\tt IC=}Vbe,Vce] \\
+where \\
+\begin{tabular}{r l}
+{\it NCollector} & is the collector node. \\
+& \\
+{\it NBase} & is the base node. \\
+& \\
+{\it NEmitter} & is the emitter node. \\
+& \\
+{\it NSubstrate} & is the optional substrate node. If not specified, then the ground is used as the \\
+& substrate node. If {\it NSubstrate} is a name as allowed in it must be enclosed in \\
+& square brackets, e.g. {\tt [{\it NSubstrate}]}, to distinguish it from {\it ModelName}. \\
+& \\
+{\it ModelName} & is  the  model  name. \\
+& \\
+{\it Area} & is  the  area  factor. If the area  factor  is  omitted,  a  value of 1.0 is assumed. \\
+& (Units: none; Optional; Default: 1; Symbol: $Area$) \\
+& \\
+{\tt OFF} & indicates an (optional) initial condition on the device for the dc\ analysis. If \\
+& specified the dc\ operating point is calculated with the terminal voltages set to \\
+& zero. Once convergence is obtained, the program continues to iterate to obtain \\
+& the exact value of the  terminal  voltages.  The OFF option is used to enforce \\
+& the solution to  correspond to  a  desired state if the circuit has \\
+& more than one stable state. \\
+& \\
+{\tt IC} & is the optional initial condition specification using  {\tt IC=}$V_{BE},V_{CE}$ is  intended \\
+& for use with the {\tt UIC} option on the {\tt .TRAN} line, when a transient analysis is \\
+& desired  starting  from  other than  the  quiescent  operating  point. See  the {\it .IC} \\
+& line description for a better way to set transient initial conditions.
+\end{tabular}
+\newpage
+%\vspace{4mm}
+% example in SPICE
+%\newline
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\noindent\textit{Example:}
+\newline
+%\newline
+bjtnpn:Q20 10 50 0\\
+bjtnpn:QFAST IC=0.65,15.0 \\
+bjtnpn:Q5PUSH 10 29 14 200 MODEL1
+% Parameter table
+%\newpage
+\newline
+\linethickness{0.5mm}\line(1,0){425}
+
+\noindent\textit{Model Parameters:}\\
+\newline
+\begin{tabular}{|r|l|c|c|} \hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+\texttt{AREA} & Current multiplier & & 1.0 \\
+\hline
+\texttt{BF} & Ideal maximum forward beta ($B_F$) & & 100.0 \\
+\hline
+\texttt{BR} & Ideal maximum reverse beta ($B_R$) & & 1.0  \\
+\hline
+\texttt{C2} & Base-emitter leakage saturation coefficient & & $I_{SE} / I_S$ \\
+\hline
+\texttt{C4} & Base-collector leakage saturation coefficient & & ($I_{SC} / I_S$) \\
+\hline
+\texttt{CJC} & Base collector zero bias p-n capacitance ($C_{JC}$) & F &  0.0\\
+\hline
+\texttt{CJE} & Base emitter zero bias p-n capacitance ($C_{JE}$) & F & 0.0\\
+\hline
+\texttt{EG} & Bandgap voltage ($E_G$) & eV & 1.11 \\
+\hline
+\texttt{FC} & Forward bias depletion capacitor coefficient ($F_C$) & & 0.5 \\
+\hline
+\texttt{IKF} & Corner of forward beta high-current roll-off ($I_{KF}$) & A & $10^{-10}$ \\
+\hline
+\texttt{IKR} & Corner for reverse-beta high current roll off ($I_{KR}$) & & $10^{-10}$ \\
+\hline
+\texttt{IS} & Transport saturation current ($I_S$) & A & $10^{-16}$  \\
+\hline
+\texttt{ISC} & Base collector leakage saturation current ($I_{SC}$) & A & 0.0 \\
+\hline
+\texttt{ISE} & Base-emitter leakage saturation current ($I_{SE}$) & A & 0.0\\
+\hline
+\texttt{IRB} & Current at which \texttt{RB} falls to half of \texttt{$R_{BM}$} ($I_{RB}$) & A & $10^{-10}$ \\
+\hline
+\texttt{ITF} & Transit time dependency on \texttt{IC} ($I_{TF}$) & A & 0.0 \\
+\hline
+\texttt{MJC} & Base collector p-n grading factor ($M_{JC}$) & & 0.33 \\
+\hline
+\texttt{MJE} & Base emitter p-n grading factor ($M_{JE}$) & & 0.33 \\
+\hline
+\texttt{NC} & Base-collector leakage emission coefficient ($N_C$) & & 2.0\\
+\hline
+\texttt{NE} & Base-emitter leakage emission coefficient ($N_E$) &  & 1.5 \\
+\hline
+\texttt{NF} & Forward current emission coefficient ($N_F$) & & 1.0 \\
+\hline
+\texttt{NR} & Reverse current emission coefficient ($N_R$) & & 1.0 \\
+\hline
+\texttt{RB} & Zero bias base resistance ($R_B$) & $\Omega$ & 0.0 \\
+\hline
+\texttt{RBM} & Minimum base resistance ($R_{BM}$) & $\Omega$ & $R_B$ \\
+\hline
+\texttt{RE} & Emitter ohmic resistance ($R_E$) & $\Omega$ & 0.0 \\
+\hline
+\texttt{RC} & Collector ohmic resistance ($R_C$) & $\Omega$ &  0.0 \\
+\hline
+\texttt{T} & Operating Temperature $T$& K &  300 \\
+\hline
+\texttt{TF} & Ideal forward transit time ($T_S$) & secs & 0.0 \\
+\hline
+\texttt{TNOM} & Nominal temperature ($T_{NOM}$) & K & 300 \\
+\hline
+\texttt{TR} & Ideal reverse transit time ($T_R$) & S & 0.0 \\
+\hline
+\texttt{TRB1} & \texttt{RB} temperature coefficient (linear) ($T_{RB1}$) & & 0.0 \\
+\hline
+\texttt{TRB2} & \texttt{RB} temperature coefficient  (quadratic) ($T_{RB2}$) & & 0.0 \\
+\hline
+\texttt{TRC1} & \texttt{RC} temperature coefficient (linear) ($T_{RC1}$) & & 0.0 \\
+\hline
+\texttt{TRC2} & \texttt{RC} temperature coefficient (linear) ($T_{RC2}$) & & 0.0 \\
+\hline
+\texttt{TRE1} & \texttt{RE} temperature coefficient (linear) ($T_{RE1}$) & & 0.0 \\
+\hline
+\texttt{TRE2} & \texttt{RE} temperature coefficient (quadratic) ($T_{RE2}$) & & 0.0 \\
+\hline
+\texttt{TRM1} & \texttt{RBM} temperature coefficient (linear) ($T_{RM1}$) & & 0.0 \\
+\hline
+\texttt{TRM2} & \texttt{RBM} temperature coefficient (quadratic) ($T_{RM2}$) & & 0.0 \\
+\hline
+\end{tabular}
+
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+\texttt{VA} & alternative keyword for \texttt{VAF} ($V_A$) & V & $10^{-10}$ \\
+\hline
+\texttt{VAF} & Forward early voltage ($V_{AF}$) & V & $10^{-10}$ \\
+\hline
+\texttt{VAR} & Reverse early voltage ($V_{AR}$) & & $10^{-10}$ \\
+\hline
+\texttt{VB} & alternative keyword for \texttt{VAR} ($V_B$) & & $10^{-10}$ \\
+\hline
+\texttt{VJC} & Base collector built in potential ($V_{JC}$) & V & 0.75\\
+\hline
+\texttt{VJE} & Base emitter built in potential ($V_{JE}$) & V & 0.75 \\
+\hline
+\texttt{VTF} & Transit time dependency on \texttt{VBC} ($V_{TF}$) & V & $10^{-10}$ \\
+\hline
+\texttt{XCJC} & Fraction of \texttt{CBC} connected internal to \texttt{RB} ($X_{CJC}$) & & 1.0 \\
+\hline
+\texttt{XTB} & Forward and reverse beta temperature coefficient ($X_{TB}$) & & 0.0\\
+\hline
+\texttt{XTF} & Transit time bias dependence coefficient ($X_{TF}$) & & 0.0 \\
+\hline
+\texttt{XTI} & \texttt{IS} temperature effect exponent ($X_{TI}$) & & 3.0 \\
+\hline
+\end{tabular}
+\newline
+%\vspace{6mm}
+\newpage
+%\linethickness{0.5mm}
+\textbf{ELEMENT Model}
+\newline
+%\line(1,0){425}
+%\vspace{2mm}
+%\newline
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\pfig{bipolar1.eps}}
+\caption{Schematic
+of the BJT Model}
+\end{figure}
+\newline
+%\vspace{5mm}
+% Device equations start
+\newpage
+\noindent\underline{\large Standard Calculations}\\
+
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzman's constant &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+Absolute temperatures (in kelvins, K) are used.
+The thermal voltage
+\begin{equation}
+V_{TH}(T_{NOM}) = {{k\ T_{NOM}} / q} .
+\end{equation}
+\newline
+%\vspace{6mm}
+% Current charactersitics
+\noindent\underline{Current Characteristics}\\
+
+\noindent{The base-emitter current, }
+\begin{equation}
+I_{BE} = {{\textstyle I_{BF} } / {\textstyle \beta_F }} + I_{LE}
+\end{equation}
+
+\noindent{the base-collector current, }
+\begin{equation}
+I_{BC} = {{\textstyle I_{BR} } / {\textstyle \beta_R }} + I_{LC}
+\end{equation}
+
+\noindent{and the collector-emitter current,}
+\begin{equation}
+I_{CE} = {{\textstyle I_{BF} - I_{BR} } / {\textstyle K_{QB} }}
+\end{equation}
+
+\noindent{where the forward diffusion current,}
+\begin{equation}
+I_{BF} = I_S\left(e^{\textstyle V_{BE}/(N_F V_{TH}) - 1} \right)
+\end{equation}
+
+\noindent{the nonideal base-emitter current,}
+\begin{equation}
+I_{LE}=I_{SE}\left(e^{\textstyle V_{BE}/(N_E V_{TH}) - 1} \right)
+\end{equation}
+
+\noindent{the reverse diffusion current,}
+\begin{equation}
+I_{BR} = I_S\left(e^{\textstyle V_{BC}/(N_R V_{TH}) - 1} \right)
+\end{equation}
+
+\noindent{the non-ideal base-collector current,}
+\begin{equation}
+I_{LC}=I_{SC}\left(e^{\textstyle V_{BC}/(N_C V_{TH}) - 1} \right)
+\end{equation}
+
+\noindent{and the base charge factor,}
+\begin{equation}
+K_{QB} = {{\textstyle 1}/{2}} \left[1 -
+{{\textstyle V_{BC}}/{\textstyle V_{AF}}}- {{\textstyle V_{BE}}/{\textstyle V_{AB}}}
+    \right]^{-1} \left(1 + \sqrt{1 + 4\left(
+        {{\textstyle I_{BF}}/{\textstyle I_{KF}}}+
+         {{\textstyle I_{BR}}/{\textstyle I_{KR}}}
+        \right)}\right)\\
+\end{equation}
+
+\noindent{Thus the conductive current flowing into the base,}
+\begin{equation}
+I_B = I_{BE}+I_{BC}
+\end{equation}
+
+\noindent{the conductive current flowing into the collector,}
+\begin{equation}
+I_C = I_{CE}-I_{BC}
+\end{equation}
+
+\noindent{and the conductive current flowing into the emitter,}
+\begin{equation}
+I_C = I_{BE}+I_{CE}
+\end{equation}
+
+%\vspace{0.1in}
+% Capacitances
+\noindent\underline{\large Capacitances}\\
+
+$C_{BE} = Area( C_{BE\tau} + C_{BEJ})$
+where the base-emitter transit time or diffusion capacitance
+
+\begin{equation}
+C_{BE\tau} = \tau_{F,EFF} {{\textstyle\partial I_{BF}} /
+       {\textstyle\partial V_{BE}}}
+\end{equation}
+
+the effective base transit time is empirically modified to account for base
+puchout, space-charge limited current flow, quasi-saturation and lateral
+spreading which tend to increase $\tau_F$
+
+\begin{equation}
+\tau_{F,EFF} =\tau_F\left[ 1+X_{TF}(3x^2-2x^3)
+     e^{\textstyle (V_{BC}/(1.44V_{TF})}\right]
+\end{equation}
+and $x = {I_{BF}}/(I_{BF} + Area I_{TF})$.
+
+
+The base-emitter junction (depletion) capacitance
+\begin{equation}
+C_{BEJ} = \left\{ \!\! \begin{array}{ll}
+C_{JE} \left(1-{{\textstyle V_{BE}} / {\textstyle V_{JE}}}\right)^{\textstyle -M_{JE}} & \! V_{BE} \le F_C V_{JE}\\
+C_{JE} \left(1-F_C\right)^{\textstyle -(1+M_{JE})} \left(1-F_C(1+M_{JE})+M_{JE}{{\textstyle V_{BE}} / {\textstyle V_{JE}}} \right) & \! V_{BE} > F_C V_{JE}
+                         \end{array}
+         \right.
+\end{equation}
+
+
+The base-collector capacitance,
+$C_{BC} = Area(C_{BC\tau} +X_{CJC} C_{BCJ})$
+where the base-collector transit time or diffusion capacitance
+\begin{equation}
+C_{BC\tau} = \tau_R {{\textstyle\partial I_{BR}} /
+       {\textstyle\partial V_{BC}}}
+\end{equation}
+
+
+The base-collector junction (depletion) capacitance
+\begin{equation}
+C_{BCJ} = \left\{ \! \! \begin{array}{ll}
+C_{JC} \left(1-{{\textstyle V_{BC}}/{\textstyle V_{JC}}}\right)^{\textstyle -M_{JC}} & \! V_{BC} \le F_C V_{JC}\\
+C_{JC} \left(1-F_C\right)^{\textstyle -(1+M_{JC})}\left(1-F_C(1+M_{JC})+M_{JC}{{\textstyle V_{BC}}/ {\textstyle V_{JC}}} \right) & \! V_{BC} > F_C V_{JC}
+                       \end{array}
+         \right.
+\end{equation}
+
+
+
+The capacitance between the extrinsic base and the intrinsic collector
+\begin{equation}
+C_{BX} = \left\{ \begin{array}{ll}
+Area(1-X_{CJC}) C_{JC} \left(1-{{\textstyle V_{BX}} / {\textstyle V_{JC}}}\right)^{\textstyle -M_{JC}} & V_{BX} \le F_C V_{JC}\\ \\
+(1-X_{CJC}) C_{JC} \left(1-F_C\right)^{\textstyle -(1+M_{JC})} & V_{BX} > F_C V_{JC}\\
+\;\;\;\;\;\times\; \left(1-F_C(1+M_{JC})+M_{JC}{{\textstyle V_{BX}} / {\textstyle V_{JC}}} \right)  &
+                \end{array}
+        \right.
+\end{equation}\\
+%\vspace{6mm}
+%The substrate junction capacitance
+%\begin{equation}
+%C_{JS} = \left\{ \begin{array}{ll}
+%Area C_{JS} \left(1-{{\textstyle V_{CJS}} / {\textstyle V_{JS}}}\right)^{\textstyle -M_{JS}} & V_{CJS} \le 0\\
+%Area C_{JS} \left(1+M_{JS}{{\textstyle V_{CJS}} / {\textstyle V_{JS}}} \right) & V_{CJS} > 0
+%                   \end{array}
+%       \right.
+%\end{equation}
+
+% Bugs
+%\newline
+\noindent \linethickness{0.5mm}\line(1,0){425}
+\newline
+\noindent\textit{Bugs:}\\
+\newline
+Parameters: OFF and IC are not functional.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.09.01 \\
+% Credits
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\noindent\textit{Credits:}
+\newline
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date &  \\
+Senthil Velu & North Carolina State University & Sept 2002 & \epsfxsize=1in\pfig{logo.eps} \\
+\end{tabular}
+%Publications
+\newline
+\noindent \linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Publications:}
+\begin{enumerate}
+\item C. Christoffersen, S. Velu and M. B. Steer, `` A Universal Parameterized Nonlinear
+Device Model Formulation for Microwave Circuit Simulation,'' 2002
+IEEE Int. Microwave Symp. Digest, June 2002, pp 2189-2192.
+\end{enumerate}
+\end{document}

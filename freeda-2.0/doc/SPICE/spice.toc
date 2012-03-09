@@ -1,0 +1,142 @@
+\contentsline {part}{PART I SPICE BASICS}{1}
+\contentsline {chapter}{\numberline {1}Introduction}{1}
+\contentsline {section}{\numberline {1.1}Introduction}{1}
+\contentsline {section}{\numberline {1.2}How to use this book}{1}
+\contentsline {section}{\numberline {1.3}What {\sc Spice}\ Does}{2}
+\contentsline {section}{\numberline {1.4}justspice\ versions}{2}
+\contentsline {section}{\numberline {1.5}Documentation Conventions}{3}
+\contentsline {chapter}{\numberline {2}Getting Started}{5}
+\contentsline {section}{\numberline {2.1}The Input File}{5}
+\contentsline {section}{\numberline {2.2}Running Spice and Viewing the Output}{8}
+\contentsline {section}{\numberline {2.3}Error Messages}{8}
+\contentsline {chapter}{\numberline {3}Carrying On}{13}
+\contentsline {section}{\numberline {3.1}Elements}{13}
+\contentsline {subsection}{\numberline {3.1.1}Inductors and Mutual Inductors}{13}
+\contentsline {subsection}{\numberline {3.1.2}Active Devices}{14}
+\contentsline {subsubsection}{Diodes and Bipolar Transistors}{14}
+\contentsline {subsubsection}{MOSFETs}{14}
+\contentsline {subsection}{\numberline {3.1.3}Transmission Lines}{16}
+\contentsline {subsection}{\numberline {3.1.4}Voltage and Current Sources}{16}
+\contentsline {subsubsection}{Independent Sources}{16}
+\contentsline {subsubsection}{Dependent Sources}{18}
+\contentsline {section}{\numberline {3.2}Analyses}{20}
+\contentsline {subsection}{\numberline {3.2.1}Transient Analysis}{20}
+\contentsline {subsubsection}{DC Convergence}{20}
+\contentsline {subsubsection}{Nodeset and Initial Conditions}{21}
+\contentsline {subsubsection}{Simulation Time Step Size}{21}
+\contentsline {subsubsection}{Transient Analysis Convergence Problems}{22}
+\contentsline {subsubsection}{Spectral Analysis -- Fourier Transform}{23}
+\contentsline {subsection}{\numberline {3.2.2}DC Analyses}{24}
+\contentsline {subsection}{\numberline {3.2.3}Small Signal AC Analysis}{26}
+\contentsline {subsection}{\numberline {3.2.4}Monte Carlo Analysis}{27}
+\contentsline {subsection}{\numberline {3.2.5}Transfer Function Specification}{27}
+\contentsline {subsection}{\numberline {3.2.6}Parameteric Analysis}{28}
+\contentsline {subsection}{\numberline {3.2.7}Sensistivity and Worst Case Analysis}{28}
+\contentsline {chapter}{\numberline {4}How Spice Works}{33}
+\contentsline {section}{\numberline {4.1}Introduction}{33}
+\contentsline {section}{\numberline {4.2}AC Small Signal Analysis }{33}
+\contentsline {section}{\numberline {4.3}DC Analysis }{34}
+\contentsline {section}{\numberline {4.4}Discussion}{34}
+\contentsline {section}{\numberline {4.5}To Explore Further}{35}
+\contentsline {part}{PART II SPICE SYNTAX}{36}
+\contentsline {chapter}{\numberline {5}Input File}{37}
+\contentsline {section}{\numberline {5.1}Introduction}{37}
+\contentsline {section}{\numberline {5.2}Circuit Model}{37}
+\contentsline {section}{\numberline {5.3}Input Lines}{37}
+\contentsline {subsection}{\numberline {5.3.1}Analysis Statements}{39}
+\contentsline {subsection}{\numberline {5.3.2}Control Statements}{40}
+\contentsline {subsection}{\numberline {5.3.3}Elements}{41}
+\contentsline {subsubsection}{Passive Elements}{41}
+\contentsline {subsubsection}{Active Elements}{42}
+\contentsline {subsection}{\numberline {5.3.4}Distributed Elements}{42}
+\contentsline {subsection}{\numberline {5.3.5}Source Elements}{42}
+\contentsline {subsection}{\numberline {5.3.6}Interface Elements}{43}
+\contentsline {section}{\numberline {5.4}Input Grammar}{43}
+\contentsline {subsection}{\numberline {5.4.1}Prefixes and Units}{44}
+\contentsline {section}{\numberline {5.5}Parameters }{44}
+\contentsline {section}{\numberline {5.6}Expressions }{46}
+\contentsline {subsection}{\numberline {5.6.1}Polynomials }{47}
+\contentsline {subsection}{\numberline {5.6.2}Laplace Expressions }{49}
+\contentsline {subsection}{\numberline {5.6.3}Chebyschev }{49}
+\contentsline {section}{\numberline {5.7} Function Definition .FUNC {\sc PSpice}\ Only}{49}
+\contentsline {section}{\numberline {5.8}Syntax Variations}{50}
+\contentsline {part}{PART III CATALOG}{51}
+\contentsline {chapter}{\numberline {6}Statement Catalog}{51}
+\contentsline {section}{.AC, AC Analysis}{53}
+\contentsline {section}{COMMENT, Comment Card}{54}
+\contentsline {section}{.DC, DC Analysis}{55}
+\contentsline {section}{.DISTO, Small-Signal Distortion Analysis}{58}
+\contentsline {section}{.DISTRIBUTION, Distribution Specification}{61}
+\contentsline {section}{.END, End Statement}{62}
+\contentsline {section}{.ENDS, End Subcircuit Statement}{63}
+\contentsline {section}{.FOUR, Fourier Analysis}{64}
+\contentsline {section}{.FUNC, Function Definition}{65}
+\contentsline {section}{.IC, Initial Conditions}{66}
+\contentsline {section}{.INC, Include Statement}{67}
+\contentsline {section}{.LIB, Library Statement}{68}
+\contentsline {section}{.MC, Monte Carlo Analysis}{69}
+\contentsline {section}{.MODEL, Model Statement}{72}
+\contentsline {section}{.NODESET, Node Voltage Initialization}{76}
+\contentsline {section}{.NOISE, Small-Signal Noise Analysis}{77}
+\contentsline {section}{.OP, Operating Point Analysis}{82}
+\contentsline {section}{.OPTIONS, Option Specification}{83}
+\contentsline {section}{.PARAM, {\sc PSpice}\ Only}{86}
+\contentsline {section}{.PLOT, Plot Specification}{88}
+\contentsline {section}{.PRINT, Print Specification}{92}
+\contentsline {section}{.PROBE, Data Output Specification}{98}
+\contentsline {section}{.PZ, Pole-Zero Analysis}{99}
+\contentsline {section}{.SAVEBIAS, Save Bias Conditions}{100}
+\contentsline {section}{.SENS, Sensitivity Analysis}{101}
+\contentsline {section}{.STEP, Parameteric Analysis}{102}
+\contentsline {section}{.SUBCKT, Subcircuit Statement}{103}
+\contentsline {section}{.TEMP, Temperature Specification}{105}
+\contentsline {section}{.TEXT, Text Parameter Definition}{106}
+\contentsline {section}{.TF, Transfer Function Specification}{107}
+\contentsline {section}{TITLE, Title Line}{108}
+\contentsline {section}{.TRAN, Transient Analysis}{109}
+\contentsline {section}{.WATCH, Watch Analysis Statement}{111}
+\contentsline {section}{.WCASE, Sensitivity and Worst Case Analysis}{112}
+\contentsline {section}{.WIDTH, Width Specification}{114}
+\contentsline {chapter}{\numberline {7}Element Catalog}{115}
+\contentsline {section}{A, Convolution}{117}
+\contentsline {section}{B, GaAs MESFET}{118}
+\contentsline {section}{C, Capacitor}{150}
+\contentsline {section}{D, Diode}{153}
+\contentsline {section}{E, Voltage-Controlled Voltage Source}{157}
+\contentsline {section}{F, Current-Controlled Current Source}{161}
+\contentsline {section}{G, Voltage-Controlled Current Source}{163}
+\contentsline {section}{H, Current-Controlled Voltage Source}{167}
+\contentsline {section}{I, Independent Current Source}{169}
+\contentsline {section}{J, Junction Field-Effect Transistor}{176}
+\contentsline {section}{K, Mutual Inductor}{182}
+\contentsline {section}{L, Inductor}{188}
+\contentsline {section}{M, MOSFET}{190}
+\contentsline {section}{N, Digital Input Interface}{222}
+\contentsline {section}{O, Digital Output Interface}{225}
+\contentsline {section}{P, Port Element}{227}
+\contentsline {section}{Q, Bipolar Junction Transistor}{228}
+\contentsline {section}{R, Resistor}{237}
+\contentsline {section}{S, Voltage Controlled Switch}{240}
+\contentsline {section}{T, Transmission Line}{243}
+\contentsline {section}{U, Universal Element}{246}
+\contentsline {section}{V, Independent Voltage Source}{247}
+\contentsline {section}{W, Current Controlled Switch}{255}
+\contentsline {section}{X, Subcircuit Call}{258}
+\contentsline {section}{Z, Distributed Discontinuity}{259}
+\contentsline {section}{Z, MESFET}{265}
+\contentsline {chapter}{\numberline {8}Examples}{273}
+\contentsline {section}{\numberline {8.1}Simple Differential Pair}{273}
+\contentsline {section}{\numberline {8.2}MOS Output Characteristics }{273}
+\contentsline {section}{\numberline {8.3}Simple RTL Inverter}{274}
+\contentsline {section}{\numberline {8.4}Adder}{276}
+\contentsline {section}{\numberline {8.5}Operational Amplifier}{276}
+\contentsline {subsection}{\numberline {8.5.1}\unhbox \voidb@x \hbox {\tt DC}\ Analysis ({\tt .DC})}{276}
+\contentsline {subsection}{\numberline {8.5.2}Transfer characteristics.}{276}
+\contentsline {subsection}{\numberline {8.5.3}Operating Point Analysis ({\tt .OP})}{276}
+\contentsline {subsection}{\numberline {8.5.4}\unhbox \voidb@x \hbox {\tt AC}\ Analysis ({\tt .AC})AC}{276}
+\contentsline {subsection}{\numberline {8.5.5}Distortion Analysis ({\tt .DISTO})}{276}
+\contentsline {subsection}{\numberline {8.5.6}Monte Carlo Analysis ({\tt .MC})}{276}
+\contentsline {chapter}{\hbox to\@tempdima {\hfil }References}{277}
+\contentsline {chapter}{\numberline {A}Error}{283}
+\contentsline {section}{\numberline {A.1}Introduction}{283}
+\contentsline {section}{\numberline {A.2}List of Errors}{283}

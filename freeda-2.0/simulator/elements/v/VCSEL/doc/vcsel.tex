@@ -1,0 +1,794 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Vertical Cavity Self-Emitting Laser Diode\newline(Mena et al. Model)}
+\hspace*{\fill}\textbf{VCSEL}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+
+\begin{figure}[H]
+\centerline{\epsfxsize=4.5in\epsfbox{figures/vcsel.eps}} \caption{Vertical Cavity Self-Emitting Laser Diode (Mena et al. Model). The terminals labeled open should be connected to opens or very large resistors in a circuit.  The reference terminals should be specified as local reference terminals, see the command .REF, e.g. use .REF $n_{\mathrm{nref}}$ in the netlist.}
+\end{figure}
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{fREEDA Form:}
+$\tt VCSEL $:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_n\ n_{\textrm{nref}}\ n_t\ n_{\textrm{tref}}\ n_o\ n_{\textrm{oref}}\ n_p\ n_{\textrm{pref}}\ n_l\ n_{\textrm{lref}}$ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the electrical anode terminal \\
+&  \\
+$n_2$ & is the electrical cathode terminal \\
+&  \\
+$n_n$ & is the carrier density terminal \\
+$n_{\textrm{nref}}$ & is the carrier reference terminal \\
+& \\
+$n_t$ & is the thermal terminal \\
+$n_{\textrm{tref}}$ & is the thermal reference terminal \\
+& \\
+$n_o$ & is the photon density terminal \\
+$n_{\textrm{oref}}$ & is the photon density reference terminal \\
+& \\
+$n_p$ & is the optical power terminal \\
+$n_{\textrm{pref}}$ & is the optical reference terminal \\
+& \\
+$n_l$ & is the wavelength terminal \\
+$n_{\textrm{lref}}$ & is the wavelength reference terminal \\
+& \\
+parameter list & see table for parameter list
+\end{tabular}\\[0.1in]
+
+Note that  
+$n_n$, $n_o$, $n_p$, $n_l$ must be connected to open circuits in the circuit as zero"current" is the solution of an internal equation.  The $n_t$ must also be connected to open as the thermal resistance, $r_{th}$, is included in the model.  If $r_{th}$ is open (or a very large value) then this terminal can be connected to a thermal circuit.
+
+The quantities available by printing the voltage at the terminals are as follows (with $n_\textrm{nref}$, $n_\textrm{oref}$, $n_\textrm{tref}$, $n_\textrm{pref}$, and $n_\textrm{lref}$ identified as local reference terminals using  the .REF command).\\
+\centerline{\begin{tabular}{r l}
+``voltage'' at terminal $n_1$ & is electrical voltage \\
+&  \\
+``voltage'' at terminal $n_2$ & is electrical voltage \\
+&  \\
+``voltage'' at terminal $n_n$ & is the carrier density \\
+& \\
+``voltage'' at terminal $n_t$ & is the temperature in centigrade \\
+& \\
+``voltage'' at terminal $n_o$ & is the photon density \\
+& \\
+``voltage'' at terminal $n_p$ & is the optical power \\
+& \\
+``voltage'' at terminal $n_l$ & is the optical wavelength
+\end{tabular}}\\[0.1in]
+
+
+\noindent\textbf{Parameter Table}\\[0.1in]
+
+\begin{table}[ht]
+\caption{Parameters for the VCSEL Laser Diode Model}
+\centering{\begin{tabular}{|l| l| l| l|}
+\hline
+ \textbf{Parameters} & \textbf{Description} & \textbf{Values} & \textbf{Units} \\
+ \hline
+ {\tt $\eta_i$} &Injection Efficiency & 1 & - \\
+ {\tt $\beta$} &Spontaneous Emission Coupling Coefficient & 1e-6 & - \\
+ {\tt $\tau_n$} &Carrier Recombination Lifetime & 5e-9& s \\
+ {\tt $k$} &Output coupling efficiency & 2.6e-8& W \\
+ {\tt $g_0$} &Gain Coefficient & 1.6e4& s$^{-1}$ \\
+ {\tt $n_0$} &Carrier Transparency number & 1.94e7& - \\
+ {\tt $\tau_p$} &Photon Lifetime & 2.28e-12& s \\
+ {\tt $a_0$} &1st temperature coefficient of the offset current & 1.246e-3& A \\
+ {\tt $a_0$} &2nd temperature coefficient of the offset current & -2.545e-5& A/K\\
+ {\tt $a_1$} &3rd temperature coefficient of the offset current& 2.908e-7& A/K$^2$\\
+ {\tt $a_0$} &4th temperature coefficient of the offset current & -2.531e-10& A/K$^3$\\
+ {\tt $a_1$} &5th temperature coefficient of the offset current& 1.022e-12& A/K$^4$\\
+ {\tt $\rho$} &Refractive index change& 2.4e-9& -\\
+ {\tt $n$} &Refractive Index & 3.5& -\\
+ {\tt $\lambda_0$} &Wavelength& 863e-9& m\\
+ {\tt $R_{th}$} &Thermal Impedance& 2.6e3& $^o$C/W\\
+ {\tt $\tau_{th}$} &Thermal time constant & 1e-6& s\\
+ {\tt $T_0$} &Ambient Temperature& 20& $^o$C\\
+\hline
+\end{tabular}}
+\label{table:p:vcsel}
+\end{table}
+
+\newpage
+
+\noindent\textbf{Description}\\[0.1in]
+
+\begin{figure}[h]
+\centerline{\epsfxsize=5.306in \epsfbox{figures/vcsel_structure.eps}}
+\caption{VCSEL Structure laser.
+After~\cite{neifeld:vcselst:2003}.} \label{fig:svcsel:vcsels}
+\end{figure}
+
+\noindent Vertical-Cavity Surface-Emitting Lasers (VCSEL's)  posses a single-longitudinal-mode of operation and a
+circular output beam. Also their planar structure, where the
+optical cavity is formed along the device's growth direction as
+shown in Fig.~\ref{fig:svcsel:vcsels}, results in many important
+advantages such as compatibility with on-wafer probing, and one
+and two-dimensional (1-D and 2-D) integration of VCSEL arrays. The
+laser diode analyzed here is an 863 nm bottom-emitting VCSEL with
+a 16 mm diameter, as described in~\cite{ohiso:flip-chip:1996}. The
+laser diode model is based on the simple thermal VCSEL model
+developed by Mena \textit{et.al.}~\cite{mena:asimple:1999}. It is
+a semi-empirical model based on the standard laser rate equations
+and a thermally dependent empirical offset current. The following
+sections describes in details the governing equations of the model
+and its implementation in fREEDA. The work is described in References \cite{pant:neifeld:2005}
+and
+\cite{kanj:thesis}.\\[0.1in]
+
+\noindent\textbf{Analysis}\\[0.1in]
+
+\noindent One of the most recognized limitation of a VCSEL's
+performance is its thermal behavior. Due to the large electrical resistance
+introduced by the Distributed Bragg Reflector
+(DBR's)~\cite{mena:asimple:1999} and their poor heat dissipation
+characteristics, typical VCSEL's undergo relatively severe heating
+and consequently can exhibit strong thermally dependent behavior.
+That is why the effects of self heating on the output
+characteristics of VCSEL's are very significant. For example,
+thermal lensing can yield considerable differences between cw (continuous wave) and
+pulsed operation, as well as altering the emission profile of the
+laser's optical modes. However, the most important effect is
+exhibited in the device's static $LI$ (light versus current) characteristics. First, as
+with edge-emitters, VCSEL's exhibit temperature-dependent
+threshold current. Also, because the active-region temperature
+increases severely with the injection current, cw operation is
+limited by a sharp roll-over in the output
+power~\cite{hasnain:performance:1991}.
+
+Clearly, for any VCSEL model to be effective for the design of
+optoelectronic applications, the model should capture thermal
+effects, in particular the temperature-dependent threshold current
+and output power roll-over. Also, the model must be able to
+simulate both static and dynamic modulation of the laser. To meet
+the above criteria, the model should be based on temperature
+dependent rate equations. The strong thermal dependence of VCSEL's
+can be attributed to a number of
+mechanisms~\cite{mena:asimple:1999} such as Auger recombination
+and optical losses, however, the most important effects during
+static, or cw, operation are due to the temperature-dependent gain
+and carrier leakage out of the active region. For simplicity, the
+model in~\cite{mena:asimple:1999} ignores the
+temperature-dependence of the gain and the carrier leakage is
+taken into account by introducing a thermally dependent empirical
+offset current into the model equations.
+
+The above threshold static $LI$ characteristics of the VCSEL can be
+modeled using $P_o=\eta(T)(I-I_{th}(N,T))$, where $P_o$ is the
+optical output power, $\eta(T)$ is the temperature dependent
+differential slope efficiency, $I$ is the injection current, and
+$I_{th}(N,T)$ is the threshold current as a function of the
+carrier number $N$ and the active region temperature $T$. Assuming
+that the temperature dependence of the differential slope efficiency is minimal,
+and neglecting the effect of spatial hole
+burning~\cite{mena:asimple:1999}, the output power expression
+becomes:
+\begin{equation}
+\label{eqn:svcsel:po}
+P_o=\eta(I-I_{th}(T))
+\end{equation}
+where $I_{th}(T)$ can be expressed as a constant value $I_{tho}$
+plus an empirical thermal offset current $I_{\mathrm{off}}(T)$, that is
+$I_{th}(T)=I_{tho}+I_{\mathrm{off}}(T)$. The temperature-dependent offset
+current could be a function of any form, but for simplicity, it is
+taken as a polynomial function of temperature
+\begin{equation}
+\label{eqn:svcsel:ioff}
+I_{\mathrm{off}}(T)=a_0 + a_1 T + a_2 T^2 + a_3 T^3 + a_4 T^4 + \cdots
+\end{equation}
+where the coefficient $a_0-a_4$ can be determined during parameter
+extraction. It is important to note that because
+Eqn.~\ref{eqn:svcsel:ioff} is not exclusively an increasing
+function of temperature, it should be able to capture the general
+temperature dependence of the VCSEL's $LI$ curves.
+
+Now that we have described a method to consider the thermal effect
+on the leakage current, we need an expression of the temperature
+characteristics of the VCSEL. While it is possible to
+adopt a numerical representation of a VCSEL's temperature profile as a
+function of the heat dissipation the device, a better method
+and more suitable for circuit level simulations is to describe the
+active region temperature via a thermal rate equation as
+follows~\cite{mena:asimple:1999}:
+\begin{equation}
+\label{eqn:svcsel:tre}
+T=T_o + (IV-P_o) R_{th} - \tau_{th}\frac{dT}{dt}
+\end{equation}
+where $T_o$ is the ambient temperature, $V$ is the terminal
+voltage of the laser, $R_{th}$ is the VCSEL's thermal impedance
+which relates temperature change to the heat power dissipation,
+and $\tau_{th}$ is the thermal time constant which accounts to the
+nonzero response time of the device temperature (observed to be on
+the order of 1 $\mu s$~\cite{mena:asimple:1999}). Eqn.~\ref{eqn:svcsel:tre}
+also captures the thermal dynamics which is important in the transient
+characteristics of a VCSEL.\\[0.1in]
+
+\noindent\textbf{Rate Equations}\\[0.1in]
+\noindent As discussed before, the model should be able to
+simulate both static (DC) and dynamic (transient) modulation of the
+VCSEL. To do this, the model should be based on the laser rate
+equations. Fortunately, the simple above-threshold LI curves
+described by $P_o=\eta(I-I_{th})$ can be described by the standard
+laser rate equations~\cite{agrawal:semi:1993}. Thus, by
+introducing the empirical offset current $I_{\mathrm{off}}(T)$ into these
+equations, the model should be able to simulate the LI curves of
+the VCSEL at different temperature as well as the dynamic behavior
+such as small-signal and transient modulation.
+
+After the addition of the offset current, the laser rate equations
+become:
+\begin{equation}
+\label{eqn:svcsel:ren}
+\frac{dN}{dt}=\frac{\eta_i(I-I_{off}(T))}{q} - \frac{N}{\tau_n} -
+\frac{G_o(N-N_o)S}{1+\varepsilon S}
+\end{equation}
+\begin{equation}
+\label{eqn:svcsel:res}
+\frac{dS}{dt}=-\frac{S}{\tau_p}+\frac{\beta
+N}{\tau_n}+\frac{G_o(N-N_o)S}{1+\varepsilon S}
+\end{equation}
+where $S$ is the photon number, $N$ is the carrier number, $N_o$
+is the carrier transparency number, $\eta_i$ is the injection
+efficiency, $\tau_n$ is the carrier recombination lifetime, $G_o$
+is the gain coefficient, $\tau_p$ is the photon lifetime, and
+$\beta$ is the spontaneous emission coupling coefficient. As we
+can see, the introduction of the offset current into the rate
+equations is quite simple, however, it is an extremely effective
+means of describing the thermal dependence of the VCSEL's
+continuous wave $LI$ characteristics. In addition, since the
+model is based on the rate equations, it should be able to
+simulate the non-dc behavior of the VCSEL. Finally, the optical
+output power is described using $P_o=kS$, where $k$ is a scaling
+factor accounting for the output coupling efficiency of the laser.\\[0.1in]
+
+
+\noindent\textbf{Current/Voltage characteristics}\\[0.1in]
+\label{sec:svcsel:cvc}
+\noindent The current-voltage relationship of the VCSEL can be expressed
+in great detail based on its diode-like characteristics, however,
+the voltage across the device in this model has been selected to
+be an arbitrary empirical function of current and temperature as
+follows:
+\begin{equation}
+\label{eqn:svcsel:ivc} V=f(I,T)\cdot
+\end{equation}
+Then, the complete electrical characteristics of the VCSEL can be
+accounted for by introducing capacitors and other parasitics
+components in parallel with this voltage (in which case
+Eqn.~\ref{eqn:svcsel:tre} should be modified such that it depends
+on the total device current and not just $I$). The advantage of
+this approach is that since different VCSELs have different $IV$
+characteristics, the specific form of Eqn.~\ref{eqn:svcsel:ivc}
+can be determined on a device-by-device basis. For example, the $IV$
+relationship could be modeled as $V=IR_s+V_T\ln(1+I/I_s)$ where
+$R_s$ is a series resistance, $I_s$ is the diode's saturation
+current, and $V_T$ is the diode's thermal voltage which is usually
+temperature dependent. In other cases, a polynomial function of
+current and temperature~\cite{mena:asimple:1999} such as
+\begin{equation}
+\label{eqn:svcsel:ivp}
+V=(b_0+b_1T+b_2T^2+\cdots).(c_0+c_1I+c_2I^2+\cdots)
+\end{equation}
+can be used, where $b_n$ and $c_n$ are constant
+parameters to be extracted. It is important to note that if
+experimental $IV$ data is used to determine all the other parameters
+of the model first, then the exact form of
+Eqn.~\ref{eqn:svcsel:ivc} can be determined at the very end of
+parameter extraction of a specific device. This approach actually
+has may advantages. First, it allows the voltage's current and
+temperature dependence to be accurately modeled. Second, it
+permits the optical and electrical characteristics to to be
+decoupled from one another, therefore simplifying the extraction
+of the model's parameters. For the VCSEL in consideration, the
+author provides only the $IV$ characteristics at room temperature.
+That is why the $IV$ data was fitted simply to a polynomial function
+of current as follows:
+\begin{eqnarray}
+\label{eqn:svcsel:ivpext}
+V&=&1.721 + 275 I - 2.439~\times~10^4I^2 + 1.338~\times~10^6I^3 \nonumber \\
+&&- 4.154~\times~10^7I^4 + 6.683~\times~10^8I^5 - 4.296~\times~10^9I^6~.
+\end{eqnarray}\\[0.1in]
+
+
+\noindent\textbf{Implementation}\\[0.1in]
+\label{sec:svcsel:impl}
+
+\noindent The large-signal model of the VCSEL follows from
+the rate equations, Eqn.~\ref{eqn:svcsel:ren} and Eqn.~\ref{eqn:svcsel:res},
+from the temperature dependent offset current $I_{\mathrm{off}}(T)$, from the thermal
+rate equation, Eqn.~\ref{eqn:svcsel:tre}, and from the current/voltage
+characteristics of the diode described in Sec.~\ref{sec:svcsel:cvc}.
+However, the implementation of the above equations as they are will
+lead to convergence problems and this is why variable transformation
+was used and the rate equations were normalized. First, $S$ is transformed
+into a new variable $X_s$ via $S=X_s/k$, and $N$ into $X_n$
+via $N=z_nX_n$, where $k$ is the output coupling efficiency and $z_n$ is an
+arbitrary constants in the order of $10^7$. This will ensure that
+the state variables ($X_s$ and $X_n$ as discussed in the next section)
+will not take on very large values. Second, the rate equations
+were normalized so that every term in those equations is well behaved. That is,
+Eqn.~\ref{eqn:svcsel:tre} is divided by $R_{th}$, Eqn.~\ref{eqn:svcsel:ren} is
+multiplied by $q/\eta_i$ and Eqn.~\ref{eqn:svcsel:res} is multiplied by $\tau_pk$.
+The resulting equations are as follows:
+\begin{equation}
+\label{eqn:svcsel:tre_norm}
+\frac{T}{R_{th}}=\frac{T_o}{R_{th}} + (IV-P_o) - \frac{\tau_{th}}{R_{th}}\frac{dT}{dt}
+\end{equation}
+\begin{equation}
+\label{eqn:svcsel:ren_norm}
+\frac{qzn}{\eta_i}\frac{dX_n}{dt}=(I-I_{off}(T)) - \frac{qznX_n}{\eta_i\tau_n} -
+\frac{q}{\eta_ik} \frac{G_o(znX_n-N_o)X_s}{1+\frac{\varepsilon}{k} X_s}
+\end{equation}
+\begin{equation}
+\label{eqn:svcsel:res_norm}
+\tau_p\frac{dX_s}{dt}=-X_s+\frac{k \tau_p \beta
+znX_n}{\tau_n}+\frac{\tau_p G_o(znX_n-N_o)X_s}{1+\frac{\varepsilon}{k}X_s}
+\end{equation}
+
+Also, the model was modified to
+include the output wavelength $\lambda$ which can be calculated
+from the carrier density $N$ with the following
+equation~\cite{neifeld:packaging:1995}:
+\begin{equation}
+\label{eqn:svcsel:wle}
+\lambda=\lambda_o[1-\frac{\rho}{n}(N-N_o)]
+\end{equation}
+where $\lambda_o$ is the intrinsic band gap wavelength, $\rho$ is
+the total variation of the refractive index due to the differences
+in injected current levels, and $n$ is the refractive index of the
+medium.
+
+To implement the model, we start by identifying
+the state variables, then by writing the model equations as a
+function of those state variables and their derivatives. Since the
+terminal voltage $V$ is expressed in Eqn.~\ref{eqn:svcsel:ivpext}
+as a function of the current $I$ (which could be the input
+terminal current or not depending on wether a parasitic capacitor
+$C_l$ is included or
+not), $I$ is chosen as the first state variable. Then, if $C_l$ is
+not included, $V$ can be directly written as a function of $I$. On
+the other hand, if $C_l$ is included, then the total input current
+is expressed as $I_{tot}=I+I_{Cl}$ where $I_{Cl}=C_ldV/dt$ and can
+be expressed as:
+\begin{equation}
+\label{eqn:svcsel:icl}
+I_{Cl}=C_l(c_1+2c_2I+3c_3I^2+4c_4I^3+5c_5I^4)\cdot
+\end{equation}
+
+Second, the three rate
+equations, Eqn.~\ref{eqn:svcsel:tre_norm},~\ref{eqn:svcsel:ren_norm},
+and~\ref{eqn:svcsel:res_norm}, need to be satisfied.
+This is done by first augmenting the model with three ports (three terminals
+with their respective local reference terminals), second by letting the above
+equations be equal to the current at each of the
+respective port, and finally forcing that current to zero by connecting an
+open circuit to that port. It is very much in the same way
+Eqn.~\ref{eqn:dhld:resn} was satisfied as described in
+Sec.~\ref{sec:dhld:imp}.
+
+Finally, the voltage at the designated optical output power is
+described by $P_o=(v_m+\delta)$ where the current is
+meaningless. The same should also be done for implementing
+Eqn.~\ref{eqn:svcsel:wle}.\\[0.1in]
+
+
+\noindent\textbf{Simulations and Results}\\[0.1in]
+\noindent The purpose of the following sections is to present
+some of the results of the VCSEL model implemented in
+fREEDA.
+
+In Sec.~\ref{sec:svcsel:dcanl}, a DC analysis is performed on the
+implemented VCSEL model. Graphs of the $IV$ and $LI$ curves at
+different ambient temperature are shown and compared to
+the measurments. Also, plots of the carrier
+number, output wavelength, and active region temperature versus
+the input current are presented.
+
+Sec.~\ref{sec:svcsel:tranl} presents the results of the transient
+analysis. The model is driven by an input current pulse of finite
+rise and fall time. All the transient simulations are carried out
+at 20 $^o$C ambient temperature. Graphs of the carrier number and
+active region temperature versus time are presented. Also, plots
+of the optical output power and wavelength chirp are shown.
+
+In Sec.~\ref{sec:svcsel:hbanl} a Harmonic Balance simulation
+is performed on the implemented VCSEL model. First, the frequency
+response of the VCSEL for an input rf power of --8 dBm is presented.
+Second, plots of the large signal wavelength
+chirp for different bias current is presented. Finally, the power ratio of the second
+harmonic to the fundamental $P_{2f}/P_f$ and of the intermodulation
+distortion to the fundamental $P_{IM3}/P_f$ as a function of bias
+current and temperature are shown.
+
+The fREEDA netlists which
+was used to generate the plots in the Reference \cite{kanj:thesis}.\\[0.1in]
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_v_dc.eps}}
+\caption{DC Analysis comparison of the $IV$ curve of the VCSEL model and the measurement.
+Measurements from~\cite{mena:asimple:1999}.}
+\label{fig:svcsel:vdc}
+\end{figure}
+
+
+\noindent\textbf{DC Analysis}\\[0.1in]
+\label{sec:svcsel:dcanl}
+
+\noindent The input terminal current is varied from 0 mA to 37 mA
+and the simulation is run at 3 different ambient temperature, 20
+$^o$C, 60 $^o$C, and 100 $^o$C. Fig.~\ref{fig:svcsel:vdc} shows
+the $IV$ curve of the VCSEL (only one curve is show since the $IV$
+characteristics of the diode is modeled as an independent function
+of temperature).
+
+Plots in Fig.~\ref{fig:svcsel:ndc} shows a family of curves of the
+carrier number in the active region as a function of the input
+current at different ambient temperature. From this graph, we can
+clearly deduce two things. First, and as expected, the carrier
+number will not increase anymore once threshold is reached.
+Second, carrier leakage starts at a much lower input current at
+high ambient temperature. Also, as seen in
+Fig.~\ref{fig:svcsel:ldc}, the wavelength is constant above
+threshold. This is due to the fact that the output wavelength is
+mainly a function of the carrier number. Finally,
+Fig.~\ref{fig:svcsel:tdc} shows the plots of the active region
+temperature versus the input current for different ambient
+temperature. It is clear from these plots how severely the VCSEL
+can be heated.
+
+\begin{figure}[!h]
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_n_dc.eps}}
+\caption{DC Analysis plots of the carrier number at different ambient
+temperature.}
+\label{fig:svcsel:ndc}
+\end{figure}
+
+\begin{figure}[!h]
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_l_dc.eps}}
+\caption{DC Analysis plots of the output wavelength at different ambient
+temperature.}
+\label{fig:svcsel:ldc}
+\end{figure}
+
+The optical output power as a function of the input current is
+shown in Fig.~\ref{fig:svcsel:pdc}. From these plots, we can
+deduce a lot of things. First, there is a threshold current shift
+at different ambient temperatures. In addition, there is a
+significant reduction in the slope efficiency and the maximum
+output power. Finally, the effect of carrier leakage is obvious
+and manifest itself clearly in the optical output roll over and
+the complete turn-off of the laser.
+
+As we can see in the $IV$ and $LI$ plots, there is an excellent agreement
+between the simulations in fREEDA and the measurements.\\[0.1in]
+
+
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_t_dc.eps}}
+\caption{DC Analysis plots of the active region temperature increase at
+different ambient temperature.}
+\label{fig:svcsel:tdc}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.2in \epsfbox{figures/SVCSELD_p_dc.eps}}
+\caption{DC Analysis comparison of the $LI$ curves at different ambient
+temperature with the measurement. Measurements from~\cite{mena:asimple:1999}.}
+\label{fig:svcsel:pdc}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_n_T0_20_pulse.eps}}
+\caption{Transient analysis plot of the carrier number at 20 $^o$C.}
+\label{fig:svcsel:ntran}
+\end{figure}
+
+\newpage
+\noindent\textbf{Transient Analysis}\\[0.1in]
+\label{sec:svcsel:tranl}
+
+\noindent While DC simulations are very important to identify key
+factors such as threshold current, maximum output power and
+temperature effects in the VCSEL, transient analysis is also a
+crucial part in the design of OEICs. This is the main
+reason why the model was based on the laser rate equations.
+
+The VCSEL is driven by a current pulse that has a peak value of 15
+mA, a period of 5 nano-seconds, and a rise and fall time of 0.1
+ns. The ambient temperature is set to 20 $^o$C during
+the simulations. The plots in Fig.~\ref{fig:svcsel:ntran} show
+the carrier number versus time while Fig.~\ref{fig:svcsel:ltran}
+shows the plots of wavelength chirp which is a critical factor in
+the design of Wavelength Division Multiplexed (WDM) Systems.
+Fig.~\ref{fig:svcsel:ttran} shows how fast is the increase in the
+active region temperature and plots in Fig.~\ref{fig:svcsel:ptran}
+shows the optical output power. In the last figure, the optical
+output power shows the well known laser turn-on delay and ringing
+effects.\\[0.1in]
+
+
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_l_T0_20_pulse.eps}}
+\caption{Transient analysis plot of the wavelength chirp at 20 $^o$C.}
+\label{fig:svcsel:ltran}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_t_T0_20_pulse.eps}}
+\caption{Transient analysis plot of the increase in the active
+region temperature at 20 $^o$C.}
+\label{fig:svcsel:ttran}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSELD_p_T0_20_pulse.eps}}
+\caption{Transient analysis plot of the output optical power at 20 $^o$C.}
+\label{fig:svcsel:ptran}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=3.5in \epsfbox{figures/SVCSEL_parasitics.eps}}
+\caption{Parasitic network used in HB simulation. After~\cite{bruensteiner:extraction:1999}.}
+\label{fig:svcsel:parasitic}
+\end{figure}
+
+\noindent\textbf{Harmonic Balance}\\[0.1in]
+\label{sec:svcsel:hbanl}
+
+\noindent VCSEL diodes are promising light sources for low-cost, high-performance
+optical microwave links in microcellular networks and high speed phased-array radar
+antenna~\cite{carlsson:analog:2002}. Lately, analog fiber-optic link based on
+directly modulated VCSELs was also proposed to get rid of the digital data transmission
+limitations in hazardous highly radioactive environment with large temperature variation
+from 50 to 200 $^o$C such as thermonuclear reactors~\cite{fernandez:toward:2002}.
+It is therefore of great importance
+to characterize the VCSEL's behavior for analog applications at microwave frequencies.
+
+In this section, Harmonic Balance was used to study the VCSEL's characteristics of
+importance to microwave modulation such as the modulation response, the large signal
+wavelength chirp, and most importantly the VCSEL's linearity as a function of bias
+current and ambient temperature. First, the laser was connected to the parasitic network shown
+in Fig.~\ref{fig:svcsel:parasitic} and the VCSEL's harmonic response was characterized.
+The laser was driven by a single tone rf-input power of --8 dBm and the amplitude of the first
+three harmonic peaks were monitored as the signal frequency was varied. Fig.~\ref{fig:svcsel:freqres12}
+shows the modulation response of the VCSEL at a bias current of 12 mA while Fig.~\ref{fig:svcsel:freqres14}
+and~\ref{fig:svcsel:freqres16} are the plots at a bias current of 14 mA and 16 mA respectively.
+As we can see, the first-order relaxation resonance frequency appears to be around 4 GHz
+and shifts towards 5 GHz at higher bias current. Also, the laser appears extremely nonlinear
+at this high input power specifically around the resonant frequency.
+
+
+\begin{figure}
+\centerline{\epsfxsize=4.2in \epsfbox{figures/SVCSEL_freq_res_12mA.eps}}
+\caption{Frequency response of the first three harmonics for a constant
+input signal power of --8 dBm at 12 mA bias current.}
+\label{fig:svcsel:freqres12}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.2in \epsfbox{figures/SVCSEL_freq_res_14mA.eps}}
+\caption{Frequency response of the first three harmonics for a constant
+input signal power of --8 dBm at 14 mA bias current.}
+\label{fig:svcsel:freqres14}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.2in \epsfbox{figures/SVCSEL_freq_res_16mA.eps}}
+\caption{Frequency response of the first three harmonics for a constant
+input signal power of --8 dBm at 16 mA bias current.}
+\label{fig:svcsel:freqres16}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSEL_chirp.eps}}
+\caption{Plots of the wavelength chirp versus frequency at different
+bias current.}
+\label{fig:svcsel:chirp}
+\end{figure}
+
+Fig.~\ref{fig:svcsel:chirp} shows the large signal wavelength chirp as the input frequency
+was varied at different bias current. The plots shows that the wavelength chirp increases with
+increasing bias current and it peaks at the resonant frequency.
+
+Second, the VCSEL was driven by a single tone RF-input signal of --20 dBm at 1 GHz. Fig.~\ref{fig:svcsel:p2f}
+shows plots of the power ratio of the second harmonic to the fundamental $P_{2f}/P_f$ as a function of bias
+current at different ambient temperature. The results shows that there is an increase in linearity with
+bias current up to the power rollover point where linearity starts to decrease again.
+It is also interesting to see this linearity level given the nonlinear $LI$ curves of the laser
+(Fig.~\ref{fig:svcsel:pdc}) and that the VCSEL is mostly linear around the maximum output power bias point.
+However, the VCSEL's linearity decreases considerably with increasing ambient temperature and this could
+be explained by the fact that at higher ambient temperature, the same input RF power will drive the VCSEL
+more into the off region leading to more harmonic distortion.
+
+Finally, the VCSEL was driven by two signals of equal input power of -20 dBm at 1.0 GHz and 1.01 GHz.
+Fig.~\ref{fig:svcsel:im3} shows the power ratio of the third-order intermodulation product to the
+carrier $P_{IM3}/P_f$ as a function of the bias current at different ambient temperature. Again, the
+results shows that the VCSEL's nonlinear behavior is similar to the results described in the previous
+figure.
+
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSEL_P2f.eps}}
+\caption{Power ratio of second harmonic to fundamental
+as a function of bias current for different temperature.}
+\label{fig:svcsel:p2f}
+\end{figure}
+
+\begin{figure}
+\centerline{\epsfxsize=4.5in \epsfbox{figures/SVCSEL_IM3.eps}}
+\caption{Power ratio of third-order intermodulation products
+to carrier as a function of bias current for different temperature.}
+\label{fig:svcsel:im3}
+\end{figure}
+
+
+\begin{thebibliography}{99}
+
+\bibitem{pant:neifeld:2005}
+R. Pant, M. A. Neifeld, M. B. Steer, H. Kanj, and A. C. Cangellaris, “Electrical package impact on VCSEL-based optical interconnects ;” Optics Communication, Vol. 245, Issue 1-6, Jan. 2005, p. 315-332.
+
+\bibitem{kanj:thesis}
+H. Kanj, Circuit-Level Modeling of Laser Diodes , M.S., North Carolina State University, 2003
+
+\bibitem{Bewtra:modeling:1995} N. Bewtra, D. A. Suda, G. L. Tan,
+F. Chatenoud, and J. M. Xu, ``Modeling of Quantum-Well Lasers with
+Electro-Opto-Thermal Interaction,'' {\em IEEE J. of Selected
+Topics in Quantum Electronics}, Vol. 1, No. 2, pp. 331-340, June
+1995.
+
+\bibitem{morikuni:simulation:1998} J. Morikuni, G. Dare, P. Mena,
+A. Harton, K. Wyatt, ``Simulation of optical interconnect devices,
+circuits, and systems using analog behavioral modeling tools,''
+{\em IEEE Lasers and Electro-Optics Society Annual Meeting}, Vol.
+1, pp. 235--236, Dec 1998.
+
+\bibitem{freeda:2002} {\em http://www.freeda.org}.
+
+\bibitem{griewank:adol-c:1996} A. Griewank, D. Juedes and J. Utke,
+``Adol-C: A Package for the Automatic Differenciation of
+Algorithms Written in C/C++'' ACM TOMS, Vol. 22(2), pp. 131–-167,
+June 1996.
+
+\bibitem{hecht:laser:1992} J. Hecht,
+``Laser Pioneers'' {\em Boston: Academic Press}, 1992.
+
+\bibitem{dupuis:anintro:1987} R. D. Dupuis ``An Introduction to
+the Developement of the Semiconductor Laser'' {\em IEEE J. of
+Quantum Electronics}, Vol. QE-23, No. 6, June 1987.
+
+\bibitem{morikuni:optoelectronic:1998} J. Morikuni, P. Mena,
+A. Harton, K. Wyatt, ``Optoelectronic Computer-Aided Design,''
+{\em IEEE Lasers and Electro-Optics Society Summer Topical
+Meetings}, pp. 53--54, July 1998.
+
+\bibitem{seung-woo:optical:1999} L. Seung-Woo, C. Eun-Chang, C.
+Woo-Young, ``Optical interconnection system analysis using SPICE,
+'' {\em The Pacific Rim Conference on Lasers and Electro-Optics},
+Vol. 2, pp. 391--392, Sep 1999.
+
+\bibitem{christoffersen:global:2001} C. E. Christoffersen,
+{\em Global Modeling of Nonlinear Microwave Circuits}, Ph.D.
+Dissertation, Dept. of Electrical Engineering, North Carolina
+State University, 2001.
+
+\bibitem{joyce:electrical:1978} W. B. Joyce, R. W. Dixon,
+``Electrical characterization of heterostructure lasers,'' {\em in
+J. Appl. Phys.}, Vol. 49, No. 7, July 1978.
+
+\bibitem{tucker:circuit:1981} R. S. Tucker, ``Circuit model of
+double-heterojunction laser below threshold,'' {\em in IEE Proc.
+on Solid-State \& Electron Devices--Part I}, Vol. 128, No. 3, pp.
+101--106, 1981.
+
+\bibitem{tucker:large:1981} R. S. Tucker, ``Large-signal circuit
+model for simulation of injection-laser modulation dynamics,''
+{\em in IEE Proc. on Solid-State \& Electron Devices--Part I},
+Vol. 128, No. 5, pp. 180--184, 1981.
+
+\bibitem{casey:hetero:1978} H.C. Casey, M.B. Panish,
+``Heterosructure Lasers, part A and part B'' {\em Academic Press},
+1978.
+
+\bibitem{coldren:diode:1995} L.A. Coldren, S.W. Corzine,
+``Diode Lasers and Photonic Integrated Circuits,''
+{\em John Wiley \& Sons, Inc.}, 1995.
+
+\bibitem{rizzoli:state:1992} V. Rizzoli, A. Lipparini, A. Costanzo,
+F. Mastri, C. Cecchetti, A. Neri, D. Masotti, ``State-of-the-art
+harmonic-balance simulation of forced nonlinear microwave circuits
+by the piecewise technique,'' {\em IEEE Transactions on Microwave
+Theory and Techniques}, Vol. 40, issue 1, pp. 12--28, Jan. 1992.
+
+\bibitem{velu:charge:2002} S. N. Velu,
+{\em Charge Based Modeling in State Variable Based Simulator},
+M.S. Thesis, Dept. of Electrical Engineering, North Carolina State
+University, 2002.
+
+
+\bibitem{way:large:1987} W. I. Way, ``Large Signal Nonlinear
+Distortion Prediction for a  Single-Mode Laser Diode Under
+Microwave Intensity Modulation,'' {\em IEEE J. of Lightwave
+Technology}, Vol. LT-5, No. 3, March 1987.
+
+\bibitem{iezekiel:nonlinear:1990} S. Iezekiel, C. M. Snowden,
+``Nonlinear Circuit Analysis of Laser Diodes Under Microwave
+Direct Modulation,'' {\em IEEE MTT-S International}, Vol. 2, pp.
+937--940, 1990.
+
+\bibitem{towe:ahistorical:2000} E. Towe, R. F. Leheny, A. Yang,
+``A Historical Perspective of the Developement of the
+Vertical-Cavity Surface-Emitting Laser,'' {\em IEEE J. on Selected
+Topics in Quantum Electronics}, Vol.6, No. 6, Nov/Dec 2000.
+
+\bibitem{ohiso:flip-chip:1996} Y. Ohiso, K. Tateno, Y. Kohama,
+A. Wakatsuki, H. Tsunetsugu, and T. Kurokawa, ``Flip-chip bonded
+0.85-$\mu m$ bottom-emitting vertical-cavity laser array on an
+AlGaAs substrate,'' {\em IEEE Photon. Technol. Lett.}, Vol. 8, pp.
+1115-1117, Sep 1996.
+
+\bibitem{mena:asimple:1999} P. V. Mena, J. J. Morikuni, S.-M.
+Kang, A. V. Harton, K. W. Wyatt, ``A Simple Rate-Equation-Based
+Thermal VCSEL Model,'' {\em IEEE J. of Lightwave Technology}, Vol.
+17, No. 5, May 1999.
+
+\bibitem{neifeld:vcselst:2003} M. A. Neifeld (private communication),
+2003.
+
+\bibitem{hasnain:performance:1991} G. Hasnain, K. Tai, L. Yang,
+Y. H. Wang, R. J. Fisher, J. D. Wynn, B. Weir, N. K. Dutta, and A.
+Y. Cho, ``Performance of Gain-guided Surface Emitting Lasers with
+Semiconductor Distributed Bragg Reflectors,'' {\em IEEE J. of
+Quantum Electron.}, Vol. 27, No. 6, pp. 1377-1385, 1991.
+
+\bibitem{agrawal:semi:1993} G. P. Agrawal, and N. K. Dutta,
+``Semiconductor Laser, 2nd ed.'' {\em New York: Van Nostrand
+Reinhold}, 1995.
+
+\bibitem{neifeld:packaging:1995} M. A. Neifeld and W. C. Chou,
+``Electrical packaging impact on source components in optical
+interconnect,'' {\em IEEE Transactions on Components, Packaging,
+and Manufacturing Technology --- Part B}, Vol. 18, pp. 578--595,
+Aug. 1995.
+
+\bibitem{bruensteiner:extraction:1999} M. Bruensteiner, G. C. Papen,
+``Extraction of VCSEL Rate-Equation Parameters for Low-Bias System
+Simulation,'' {\em IEEE J. of Selected Topics in Quantum Electron},
+Vol. 5, No. 3, 1999.
+
+\bibitem{carlsson:analog:2002} C. Carlsson, H. Martinsson, R. Schatz, J. Halonen,
+A. Larsson ``Analog Modulation Properties of Oxide Confined VCSELs at
+Microwave Frequencies,'' {\em IEEE J. of Lightwave
+Technology}, Vol. 20, No. 9, September 2002.
+
+\bibitem{fernandez:toward:2002} A. F. Fernandez, F. Berghmans, B. Brichard,
+M. Decreton, ``Toward The Developement of Radiation-Tolerant Instrumentation
+Data Links for Thermonuclear Fusion Experiments,'' {\em IEEE Transactin on
+Nuclear Science}, Vol. 49, No. 6, December 2002.
+
+\end{thebibliography}
+
+\noindent\linethickness{0.5mm} \line(1,0){425}
+\newline\textit{Known Bugs:}\\
+Several aspects of the model are hard coded for a specific case.  The model needs to be generalized. \\[0.1in]
+\noindent\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2003.01.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Logo \\
+Houssam Kanj & NC State University & 2003 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+www.ncsu.edu & & & \\
+Michael Steer & NC State University & 2003 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+www4.ncsu.edu/~mbs & & & \\
+\end{tabular}
+
+\end{document}

@@ -1,0 +1,262 @@
+
+\chapter{Local Reference Node} \label{ch_local}
+
+
+\section{Introduction}
+
+The distributed nature of many microwave and millimeter-wave circuits
+necessitates electromagnetic modeling. Thus the full application of
+computer-aided engineering (CAE) to these circuits requires the
+integration of electromagnetic models of distributed structures with
+conventional circuit analysis. In the formative stages of the CAE of
+microwave circuits, ports were used in specifying the
+interconnectivity of networks.  The utilization of ports avoided the
+issue of specifying reference nodes.  In analysis, using matrix
+manipulations or signal flow graphs, one of the terminals of a port
+was used implicitly as a reference node and generally ignored in
+formulating the mathematical model.  In one commercial nonlinear
+microwave simulator ports are still used in circuit specification.
+The connection of discrete elements is specified nodally but at the
+highest level of the hierarchy port-based descriptions are used. While
+it is possible to analyze any circuit with this arrangement it becomes
+increasingly difficult to specify the connections of large spatially
+distributed circuits, and also to specify and extract desired output
+quantities.  The alternative to using a port-only descriptions is to
+exclusively use the nodal connectivity description the only method
+used in general purpose circuit simulators.  The conventional nodal
+specification enables circuit elements to be connected in any possible
+combination and only one reference node (commonly called the global
+reference node or simply ground) is used.  So nodal specification
+provides tremendous flexibility in circuit specification but the
+multiple reference nodes leads to M-fold indefiniteness of the
+(modified) nodal admittance matrix.  Also, with spatially distributed
+circuits it is possible to make illegal connections such as connecting
+a non-spatially distributed element, say a resistor, across a
+spatially distributed element, \emph{e.g.} a transmission line.  The
+purpose of this paper is two-fold: firstly to describe an
+implementation of the local reference node theory described by Khalil
+and Steer in Reference .  Secondly to develop and describe the
+implementation of a scheme for checking the legal connections of a
+network with mixed spatially distributed and conventional elements.
+
+
+
+\section{Background}
+
+A circuit is a graphical construct (which can be specified in textual
+form as a netlist) for coupling together algebraic and first order
+differential equations. These equations arise from the constitutive
+relations of the individual elements, which specify the actual form of
+the individual equations, and from Kirchoff's current law which
+specifies how the equations are coupled. With but a few modifications,
+the analysis thus described is called nodal admittance analysis. It is
+important to note that circuits have no sense of space a circuit is
+defined as though it existed at a point. The problem is then how to
+incorporate an electromagnetic model of a structure that is inherently
+distributed in space. Of two approaches, one is to insert the device
+equations into an appropriate time-stepping electromagnetic simulator
+such as a finite difference time domain (FDTD) simulator
+\cite{imtiaz,kuo}. This reduces the level of abstraction of the
+`circuit' and embeds the constitutive relations of the conventional
+circuit elements into the analysis grid of the FDTD method. An
+alternative is to retain the high-level circuit abstraction and
+incorporate the results of a field analysis (the spatially distributed
+circuit) into a circuit structure
+\cite{larique,todd1,antenna,kunisch}. Thus the problem is one of
+taking an electromagnetic solution and using a physically consistent
+approach to inserting it is a circuit element. This is a less direct
+approach, that is more abstract, but potentially much more general and
+compatible with the large body of existing computer-aided circuit
+analysis theory and knowledge that has been developed.
+
+At this point it is useful to review modified nodal admittance (MNA)
+analysis to indicate the basis for the work presented here. MNA
+analysis was developed to handle elements that do not have nodal
+admittance descriptions.  For each such element one or more additional
+equations are added to the nodal admittance equations and these new
+equations become additional rows and columns in the evolving matrix
+system of equations.  A similar approach can be followed for the
+electromagnetic elements.  The process is a little more sophisticated
+as it is no longer sufficient to add additional rows.  Instead the
+concept of local reference nodes was developed
+\cite{local:reference:node:khalil} as a generalization of the
+compression matrix approach \cite{kunisch}. This concept provides
+another way to incorporate alternate equations in the evolving MNA
+matrix. However, rather than adding additional constitutive relations,
+the local reference node concept changes the way the port-based
+parameters are used.  shows a circuit with a spatially distributed
+circuit and with local reference nodes indicated by the diagonal
+symbol.  In a conventional circuit only one reference node (ground) is
+possible so that application of KCL to the global reference node
+introduces just one additional redundant row and column in the
+indefinite form of the MNA matrix. For a spatially distributed
+circuit, KCL is applied to each locally referenced group one at a time
+and, as the local reference nodes are electrically connected only
+through a spatially distributed element, each application results in a
+redundant row and column in the MNA matrix. This is a particular
+property of the port-based characterization of the spatially
+distributed element \cite{local:reference:node:khalil}. Thus only
+appropriate electromagnetic analyses are suitable. The mathematical
+description of the required extension to the nodal admittance analysis
+is given in \cite{local:reference:node:khalil}.
+
+\section{Method}
+
+The basis of the method is that in a multi-port element, the terminals
+of ports with different local reference nodes can be considered
+isolated.  For example, if we write the equivalent circuit of a
+two-element derived from the port-based admittance ($y$) parameters,
+\[
+  \left[ \begin{array}{c}
+    i1 \\
+    i2 \end{array} \right] =
+ \left[ \begin{array}{cc}
+    y_{11} & y_{12} \\
+    y_{21} & y_{22}
+  \end{array} \right]
+  \left[ \begin{array}{c}
+    v1 \\
+    v2 \end{array} \right]
+\]
+we obtain the equivalent circuit in Fig. \ref{fig:2_port_y}. Note that
+no current can flow
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2.5in \pfig{2_port_y.eps}}
+\caption{Equivalent circuit of a two-port distributed element.}
+\label{fig:2_port_y}
+\end{figure}
+%
+between the two ports. This type of circuit model can be generalized
+for an n-port element where external and internal local reference
+nodes are defined. The local references shown in are internal because
+they are used internally in the element to measure the voltages at its
+ports. An external local reference terminal, on the other hand, is an
+arbitrarily chosen terminal from a locally referenced group. In
+general, for any spatially distributed circuit
+(Fig. \ref{fig:port_node_2}) there is no current between port groups
+inside the spatially-distributed element. Thus the circuit can be
+divided into subcircuits, each with a local reference terminal, as
+shown in Fig. \ref{fig:potatoes}. Each subcircuit is isolated with
+respect to the others, so there is no change in the solution if all
+the reference nodes are connected together. The difference is that now
+there is only one global reference node for all the circuit, and
+standard nodal methods can be used to formulate the circuit equations.
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2.5in \pfig{port_node_2.eps}}
+\caption{Generic spatially distributed circuit.} \label{fig:port_node_2}
+\end{figure}
+%
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2.in \pfig{potatoes.eps}}
+\caption{The locally referenced groups are isolated,
+therefore the solution is unchanged if the local references
+are connected.} \label{fig:potatoes}
+\end{figure}
+%
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2.5in \pfig{current_loop.eps}}
+\caption{Illegal connection between groups.} \label{fig:current_loop}
+\end{figure}
+%
+The problem becomes that of detecting violations to the assumption
+that each locally referenced group is isolated from the others and
+that there is exactly one reference terminal for each one. Such a
+situation is shown in Fig. \ref{fig:current_loop}. The effect of this
+connection is the creation of a current loop that is non-physical
+since the two circuits cannot be connected instantaneously. On the
+other hand, it is valid for two subcircuits to be connected by more
+than one spatially distributed element. It is also possible for two
+ports of a spatially distributed element to be connected to the same
+locally referenced group (for example a delay line). In that case, the
+external local reference node would be the same for both ports of the
+line, but internally, the line still has two local reference nodes.
+After all the checking is done, all the local reference nodes are
+merged into a single global reference node, and the solution of the
+circuit is found by standard procedures. The nodal voltages found are
+coincident with the voltages referred to each local reference node.
+
+
+\section{Implementation}
+
+Implementation of the technique can be described using a conventional
+procedural approach or an object oriented approach.  While not obvious
+to those not conversant with object oriented practice, the object
+oriented view maps onto the circuit analysis problem cleanly.  A
+circuit is a collection of objects (resistors, inductors, transmission
+lines, etc.) that are related to each other (they share nodes).  With
+the introduction of spatially distributed elements along with the
+conventional elements there are certain rules that describe allowable
+interconnections. The rule is \medskip \\ \emph{Spatially distributed
+objects can be connected together in any manner but the
+interconnections of non-spatially distributed elements cannot span
+spatially distributed elements.} \medskip \\ In fREEDA, each element
+and each terminal is a node in a graph structure. The algorithm to
+detect violations is a variation of the depth-search algorithm and is
+best illustrated using what is called a collaboration diagram. The
+algorithm could also be implemented using conventional procedural
+programming \cite{cormen:90}. The collaboration diagram \cite{rational}
+is part of the Unified Modeling Language (UML), a language for
+specifying, visualizing, and constructing the artifacts of software
+systems as well as for business modeling. The UML represents a
+collection of `best engineering practices' that have proven successful
+in the modeling of large and complex systems. Behavior is implemented
+by sets of objects that exchange messages within an overall
+interaction to accomplish a purpose. To understand the mechanisms used
+in a design, it is important to see only the objects and the messages
+involved in accomplishing a purpose or a related set of purposes,
+projected from the larger system of which they are part for other
+purposes. Such a static construct is called a collaboration. A
+collaboration is a set of participants and relationships that are
+meaningful for a given set of purposes. The identification of
+participants and their relationships does not have global meaning. In
+the collaboration diagram, each box represents an object (in this
+case, either a terminal or an element). The lines between boxes
+represent associations and the arrows are messages. The order in which
+messages are sent is shown by the numbers.
+
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2.5in \pfig{circuit_view.eps}}
+\caption{Circuit containing an illegal element. The numbers at the
+nodes indicate the order in which terminals are discovered.}
+\label{fig:circuit_view}
+\end{figure}
+%
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=3in \pfig{collaboration_error.eps}}
+\caption{Collaboration diagram showing the violation detection
+algorithm.} \label{fig:collaboration_error}
+\end{figure}
+%
+Figure \ref{fig:circuit_view} shows the circuit view corresponding to
+the collaboration diagram of Figure \ref{fig:collaboration_error}. The
+terminal numbers indicate the order in which terminals are discovered
+by the algorithm. Note also that the internal local reference
+terminals of the spatially distributed element do not need to be
+coincident with the external references. The search begins at each
+local reference terminal. The local reference terminal sends a message
+to propagate its identifier (id) to all the adjacent elements. If the
+element that receive the message has only one local reference terminal
+(lumped), it continues the propagation to the other adjacent
+terminals. Otherwise it only propagates the id to the element
+terminals with the same internal reference. If an element attempts to
+propagate a reference id to a terminal already marked with another
+reference id, then a violation is detected: there is an illegal
+connection between two locally referenced groups. A check to detect
+floating parts of the circuit can be made by finding any terminal that
+does not belong to any locally referenced group.  All these checks are
+implemented in fREEDA. Note that the bias circuit often violates the
+condition that the locally referenced groups are isolated between
+them. To overcome this either the distributed elements should include
+the DC characteristics or an independent DC source should be
+considered in each group.  In the input netlist, the local reference
+nodes are identified with the command {\tt.ref <{\it terminal}>}. By
+default the nodes named 0 and {\tt gnd} are assumed to be reference
+nodes.
+
+

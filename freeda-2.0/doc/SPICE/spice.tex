@@ -1,0 +1,42 @@
+%\documentstyle[clbiba,cite,myindex,spice,copyrite,sspice]{book}
+%\documentstyle[cite,rotate,myindex,spice,copyrite,allspice]{book}
+\documentclass[10pt]{book}
+% To omit copyrite notice on each page do not include copyrite.sty above
+% To include copyrite notice on each page copyrite as last style option.
+
+% There are style options that permit output of particular spice variants
+% allspice.sty prints out all spice variants
+%
+% sspice.sty prints out superspice specific variants and nothing that does
+% not relate to superspice.
+
+\usepackage{epsfig}
+\usepackage{cite}
+\usepackage{longtable}
+\usepackage{amsmath}
+\allowdisplaybreaks[1]
+\input{myindex.sty}
+\input{spice.sty}
+\input{allspice.sty}
+
+\onecolumn
+%\makeindex
+\begin{document}
+\pagestyle{headings}
+
+\include{begin}
+\pagenumbering{arabic}
+\include{intro}
+\include{chap2}
+\include{chap3}
+\include{technic}
+\include{input}
+\include{statemen}
+\include{element}
+\include{example}
+\include{refs}
+\appendix
+\include{error}
+\include{spice_ind}
+
+\end{document}

@@ -1,0 +1,93 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight
+7.375in \evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[L \- Inductor]{\noindent{\LARGE \textbf{Inductor}} \hspace{107mm}\huge \textbf{L}}
+%\newline
+\linethickness{1mm} \line(1,0){425} \normalsize
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\pfig{l_spice.ps}} \caption{L ---
+Inductor Element.}
+\end{figure}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+%\vspace{2mm}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form:}
+\newline
+\texttt{L}\textit{name} $n_1$ $n_2$
+\texttt{[}\textit{ModelName}\texttt{]} \textit{Inductor Value}
+[\texttt{IC}=$I_L$]
+\newline
+%\vspace{2mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+$n_2$ & is the negative element node, \\
+\textit{ModelName} & is the optional model name, (\textit{ModelType} is \texttt{IND}.)\\
+\textit{InductorValue} & is the inductance, (Units: Henries; Required) \\
+\texttt{IC}  & is the optional initial condition specification. Using \texttt{IC}=$I_L$ is used with \\
+             & the \textit{UIC} option on the .\textit{TRAN} line when a transient analysis is desired  \\
+             & with initial current $I_L$ through the inductor rather than the quiescent  \\
+             & operating point. Specification of  the transient initial condition using the  \\
+             & .\texttt{IC} is preferred and is more convenient.
+\end{tabular}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter table
+%\vspace{4mm}
+\newline
+\textit{Model Parameters:}
+\newline
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameters
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+\texttt{L} & Inductor Value & henries & - \\
+\hline
+\texttt{intres} & Internal resistance value & ohms & - \\
+\hline
+\texttt{timed} & Flag: if true then calculate in the time domain & - & - \\
+\hline
+\end{tabular}
+%\vspace{4mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in SPICE
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+%L2 20 52 LSERIES 10U IC=16.9MA
+\texttt{L2\ 20\ 52\ LSERIES\ 10U\ IC=16.9mA}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{L} element. See
+\texttt{L} for full documentation.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+%\newline
+%\vspace{4mm}
+%\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

@@ -1,0 +1,213 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE\textbf{MESFET Materka-Kacprzac Model}
+\hspace{\fill}\textbf{mesfetm}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the mesfet figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1.5in\epsfbox{figures/b.ps}} \caption{B --- MESFET
+element.}
+\end{figure}
+\newline
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{\FDA Form:}
+%\newline
+%\newline
+$\tt mesfetm $:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_3\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node \\
+&  \\
+$n_2$ & is the gate node \\
+&  \\
+$n_3$ & is the source node \\
+& \\
+parameter list & see table 1 for parameter list
+\end{tabular}\\
+\newline
+%\vspace{2mm}
+% explanation of terms in the SPICE form
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node \\
+& \\
+$n_2$ & is the gate node \\
+&  \\
+$n_3$ & is the source node \\
+& \\
+\textit{ModelName} & is the model name \\
+&  \\
+\textit{Area} & is the optional relative area factor. (Units: none; Default: 1; Symbol:Area)\\
+\end{tabular}
+% example in TRANSIM
+\newline
+%\vspace{2mm}
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}\\
+\newline
+%\newline
+In \textit{\FDA:}\\
+\texttt{mesfetm:b1\ 2\ 0\ 3}
+\newline
+% example in SPICE
+%\vspace{4mm}
+\newline
+In \texttt{SPICE:}
+\newline
+\texttt{B1 \ 3 \ 7 \ 4 GAAS12 0.5}
+\newline
+% The Materka-Kacprzac model
+%\vspace{6mm}
+\newpage
+\noindent\textbf{\large{$\amalg$ The Materka-Kacprzac Model}}
+\normalsize
+%\vspace{6mm}
+\newline
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+% parameters
+\textit{Model Parameters:}
+\newline
+\newline
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+\texttt{AFAB} & Slope factor of breakdown current ($AFAB$) & $1/V$ & 0.0 \\
+\hline
+\texttt{AFAG} & Slope factor of gate conduction current ($AFAG$) & $1/V$ & 38.696 \\
+\hline
+\texttt{AREA} & Area Multiplier ($AREA$) & - & 1.0 \\
+\hline
+\texttt{C10} & Gate source Schottky barrier capacitance for ($C_{10}$) & F & 0.0 \\
+\hline
+\texttt{CFO} & Gate drain feedback capacitance for ($C_{F0}$) & F & 0.0 \\
+\hline
+\texttt{CLS} & Constant parasitic component of gate-source capacitance ($C_{LS}$) & F & 0.0 \\
+\hline
+\texttt{E} & Constant part of power law parameter ($E$) & - & 2.0 \\
+\hline
+\texttt{GAMA} & Voltage slope parameter of pinch-off voltage ($\gamma$) & $1/V$ & 0.0 \\
+\hline
+\texttt{IDSS} & Drain saturation current for ($I_{DSS}$) & A & 0.1 \\
+\hline
+\texttt{IG0} & Saturation current of gate-source Schottky barrier ($I_{G0}$) & A & 0.0 \\
+\hline
+\texttt{K1} & Slope parameter of gate-source capacitance ($K_1$) & $1/V$ & 1.25 \\
+\hline
+\texttt{KE} & Dependence of power law on $V_{GS}$ , ($K_E$) & $1/V$ & 0.0 \\
+\hline
+\texttt{KF} & Slope parameter of gate-drain feedback capacitance ($K_F$) & $1/V$ & 1.25 \\
+\hline
+\texttt{KG} & Drain dependence on $V_{GS}$ in the linear region, ($K_G$) & $1/V$ & 0.0 \\
+\hline
+\texttt{KR} & Slope factor of intrinsic channel resistance ($K_R$) & $1/V$ & 0.0 \\
+\hline
+\texttt{RI} & Intrinsic channel resistance for ($R_{I}$) & $\Omega$ & 0.0 \\
+\hline
+\texttt{SL} & Slope of the drain characteristic in the saturated region, ($S_L$) & S & 0.15 \\
+\hline
+\texttt{SS} & Slope of the drain characteristic in the saturated region ($S_S$) & S & 0.0 \\
+\hline
+\texttt{T} & Channel transit-time delay ($\tau$) & s & 0.0 \\
+\hline
+\texttt{VBC} & Breakdown voltage ($V_{BC}$) & V & $10^{10}$ \\
+\hline
+\texttt{VP0} & Pinch-off voltage for ($V_{P0}$) & V & -2.0 \\
+\hline
+\end{tabular}\\[0.05in]
+% Device equations start
+
+\noindent The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzman's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent\underline{Standard Calculations}
+\begin{equation}
+V_{TH} = (k T)/q
+\end{equation}
+$T$ is the analysis temperature
+\newline
+\begin{center}
+\begin{tabular}{r l}
+$V_{DS}$ & Intrinsic drain source voltage \\
+$V_{GS}$ & Intrinsic gate source voltage \\
+$V_{GD}$ & Intrinsic gate drain voltage
+\end{tabular}
+\end{center}
+%\vspace{6mm}
+%\newline
+\line(1,0){425}
+\newline
+\noindent\textit{Device Equations:}
+\newline
+%\vspace{2mm}
+% Current characteristics
+
+\noindent\underline{Current Characteristics}
+\begin{eqnarray}
+I_{DS}&=&Area I_{DSS} \left[ 1 + S_S {{V_{DS}} \over {I_{DSS}}} \right]
+         \left[ 1 - {{V_{GS}(t-\tau)} \over {V_{P0} + \gamma V_{DS}}}
+         \right]^{\textstyle (E + K_E V_{GS}(t-\tau))} \nonumber\\
+      & &\hspace*{1in} \times \mbox{tanh}\left[  {{S_L V_{DS}} \over
+                {I_{DSS} ( 1 - K_G V_{GS}(t-\tau))}} \right]
+       \\
+I_{GS}&=&Area I_{G0} \left[ e^{\textstyle A_{FAG}V_{GS}} -1 \right]
+         - I_{B0} \left[ e^{\textstyle -A_{FAB}(V_{GS}+ V_{BC}})  \right]
+       \\
+I_{GD}&=&Area I_{G0} \left[ e^{\textstyle A_{FAG}V_{GD}} -1 \right]
+         - I_{B0} \left[ e^{\textstyle -A_{FAB}(V_{GD}+ V_{BC}})  \right]
+       \\
+R_I&=& \left\{ \begin{array}{ll}
+       R_{10} ( 1 - K_R V_{GS} )/Area  & K_R V_{GS} < 1.0\\
+       0                         & K_R V_{GS} \ge 1.0\\
+      \end{array} \right.
+\end{eqnarray}
+
+% Capacitance equations
+\noindent\underline{Capacitance}\\
+
+$C_{LVL}$ = 1 (default) for the standard Materka-Kacprzak capacitance model described below is used.
+The Materka-Kacprzak capacitances are
+\begin{eqnarray}
+C'_{DS}&=& C_{DS} \\
+C'_{GS}&=&\left\{ \begin{array}{ll}
+          \left[ C_{10}( 1 - K_1 V_{GS} )^{M_{GS}} + C_{1S} \right]
+           & K_1V_{GS} < F_{CC}\\
+          \left[ C_{10}( 1 - F_{CC} )^{M_{GS}} + C_{1S} \right]
+           & K_1V_{GS} \ge F_{CC}\\
+         \end{array} \right. \\ %}
+C'_{GD}&=&\left\{ \begin{array}{ll}
+         Area \left[ C_{F0}( 1 - K_1 V_1 )^{M_{GD}} \right]
+           & K_1V_1 < F_{CC}\\
+         Area \left[ C_{F0}( 1 - F_{CC} )^{M_{GD}} \right]
+           & K_1V_1 \ge F_{CC}\\
+         \end{array} \right.
+\end{eqnarray}
+
+
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Logo \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+www4.ncsu.edu/\~\ cechrist & & & \\
+\end{tabular}
+\end{document}

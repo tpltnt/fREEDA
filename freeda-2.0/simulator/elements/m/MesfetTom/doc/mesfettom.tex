@@ -1,0 +1,113 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Triquint (TOM) Intrinsic Model}
+\hspace{\fill}\textbf{MesfetTOM}}\\
+\hrulefill \linethickness{0.5mm}\line(1,0){425}
+%\newline
+%\hline
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\epsfbox{figures/b.ps}} \caption{TOM Mesfet element.}
+\end{figure}
+\newline
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Description:}
+\newline
+This element is a GaAs MESFET Model developed for Triquints
+foundary, hence Triquint's Own Model (TOM).
+\newline
+% form for \FDA
+\linethickness{0.5mm}\line(1,0){425}
+%\hrule \normalsize
+\newline
+\textit{Form:}
+%\newline
+$\tt MesfetTOM$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+instance name & is the model name, \\
+&  \\
+$n_1$ & is the drain node, \\
+&  \\
+$n_2$ & is the gate node, \\
+&  \\
+$n_3$ & is the source node. \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+%Parameter list
+\newpage
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+beta & DOUBLE & 0.1 & no \\
+\hline
+vt0 & DOUBLE & -2 & no \\
+\hline
+gama & DOUBLE & 0 & no \\
+\hline
+q & DOUBLE & 2 & no \\
+\hline
+delt & DOUBLE & 0 & no \\
+\hline
+alfa & DOUBLE & 2 & no \\
+\hline
+T & DOUBLE & 0 & no \\
+\hline
+cgs0 & DOUBLE & 0 & no \\
+\hline
+cgd0 & DOUBLE & 0 & no \\
+\hline
+vb1 & DOUBLE & 0.8 & no \\
+\hline
+is & DOUBLE & 0 & no \\
+\hline
+n & DOUBLE & 1 & no \\
+\hline
+ib0 & DOUBLE & 0 & no \\
+\hline
+nr & DOUBLE & 10 & no \\
+\hline
+vbd & DOUBLE & Inf & no \\
+\par
+\hline
+\end{tabular}
+\end{table}
+%\newline
+%example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{MesfetTOM:m1\ 1\ 2\ 3\ }
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Bugs:}\\
+None.
+\newline
+%\noindent\linethickness{0.5mm}\line(1,0){425}
+%\newline
+%\textit{Notes:}\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2003.05.15 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Shuping Zhang & NC State University & May 2003 & \epsfxsize=1in\epsfbox{figures/logo.eps}  \\
+szhang2@unity.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

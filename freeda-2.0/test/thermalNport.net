@@ -1,0 +1,75 @@
+Test netlist for the thermal element with n ports
+
+.options deltat=0.0001 nsteps=10000 temp=300. 
+
+.svtr  tstop = 1 n_freqs = 8 tstep = deltat deriv=0
+
+* Input power source
+isource:pin1 11 0 idc=.2
+isource:pin2 21 0 idc=.2
+isource:pin3 31 0 idc=.2
+isource:pin4 41 0 idc=.2
+isource:pin5 51 0 idc=.2
+isource:pin6 61 0 idc=.2
+isource:pin7 71 0 idc=.2
+isource:pin8 81 0 idc=.2
+isource:pin9 91 0 idc=.2
+
+thermaltest:test1 11 12 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test2 21 22 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test3 31 32 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test4 41 42 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test5 51 52 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test6 61 62 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test7 71 72 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test8 81 82 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+thermaltest:test9 91 92 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ read_input=1 nfingers = 1
+
+thermalheatsinkspot:test1 12 22 32 42 52 62 72 82 92 10 
++ Ntimesteps=nsteps dt=deltat Tambient=temp 
++ time_d=1 nfingers = 1 narray=3 read_input=1
+
+vsource:tamb 10 0 vdc=temp
+
+.out plot element "thermaltest:test1" 0 it in "input.power"
+.out plot element "thermalheatsinkspot:test1" 0 ut in "output0g.temperature"
+.out plot element "thermalheatsinkspot:test1" 1 ut in "output1g.temperature"
+.out plot element "thermalheatsinkspot:test1" 2 ut in "output2g.temperature"
+.out plot element "thermalheatsinkspot:test1" 3 ut in "output3g.temperature"
+.out plot element "thermalheatsinkspot:test1" 4 ut in "output4g.temperature"
+.out plot element "thermalheatsinkspot:test1" 5 ut in "output5g.temperature"
+.out plot element "thermalheatsinkspot:test1" 6 ut in "output6g.temperature"
+.out plot element "thermalheatsinkspot:test1" 7 ut in "output7g.temperature"
+.out plot element "thermalheatsinkspot:test1" 8 ut in "output8g.temperature"
+
+.out plot element "thermaltest:test1" 1 ut	in "output10m1.temperature"
+.out plot element "thermaltest:test2" 1 ut	in "output20m1.temperature"
+.out plot element "thermaltest:test3" 1 ut	in "output30m1.temperature"
+.out plot element "thermaltest:test4" 1 ut	in "output40m1.temperature"
+.out plot element "thermaltest:test5" 1 ut	in "output50m1.temperature"
+.out plot element "thermaltest:test6" 1 ut	in "output60m1.temperature"
+.out plot element "thermaltest:test7" 1 ut	in "output70m1.temperature"
+.out plot element "thermaltest:test8" 1 ut	in "output80m1.temperature"
+.out plot element "thermaltest:test9" 1 ut	in "output90m1.temperature"
+
+.out plot element "thermaltest:test1" 0 ut	in "output10m0.temperature"
+.out plot element "thermaltest:test2" 0 ut	in "output20m0.temperature"
+.out plot element "thermaltest:test3" 0 ut	in "output30m0.temperature"
+.out plot element "thermaltest:test4" 0 ut	in "output40m0.temperature"
+.out plot element "thermaltest:test5" 0 ut	in "output50m0.temperature"
+.out plot element "thermaltest:test6" 0 ut	in "output60m0.temperature"
+.out plot element "thermaltest:test7" 0 ut	in "output70m0.temperature"
+.out plot element "thermaltest:test8" 0 ut	in "output80m0.temperature"
+.out plot element "thermaltest:test9" 0 ut	in "output90m0.temperature"
+
+.end
+

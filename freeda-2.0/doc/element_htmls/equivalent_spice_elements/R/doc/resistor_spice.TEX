@@ -1,0 +1,86 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[R \- Resistor]{\noindent{\LARGE \textbf{Resistor}} \hspace{107mm}\huge \textbf{R}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.8in\pfig{r_spice.ps}} \caption{R ---
+Resistor Element.}
+\end{figure}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+%\vspace{2mm}
+\linethickness{0.5mm}
+\line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form:}
+\newline
+\texttt{R}\textit{name} $n_1$ $n_2$
+\texttt{[}\textit{ModelName}\texttt{]} \textit{ResistorValue}
+[\texttt{IC}=$V_R$]
+\newline
+%\vspace{2mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+%\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+$n_2$ & is the negative element node, \\
+\textit{ModelName} & is the optional model name,(\textit{ModelType} is \texttt{RES}.)\\
+%\end{tabular}
+\textit{ResistorValue}&(Units: ohms; Required)(Corresponds to
+\texttt{r} parameter in the \FDA netlist)\\
+%\begin{tabular}{r l}
+\texttt{IC}  & is the optional initial condition specification. Using \texttt{IC}=$V_R$ is used with \\
+             & the \textit{UIC} option on the .\textit{TRAN} line when a transient analysis is desired  \\
+             & with initial voltage $V_R$ across the capacitor rather than the quiescent  \\
+             & operating point. Specification of  the transient initial condition using the  \\
+             & .\texttt{IC} is preferred and is more convenient.
+\end{tabular}
+%\newline
+\textit{Model Parameters:}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameters
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+R & Resistor Value & ohms & - \\
+\hline
+\end{tabular}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in SPICE
+\textit{Example:}
+\newline
+\texttt{R \ 1 \ 1 R1 \ 10.2MEG}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{R} element. See
+\texttt{R} for full documentation. \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

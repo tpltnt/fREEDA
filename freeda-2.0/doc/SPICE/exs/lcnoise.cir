@@ -1,0 +1,17 @@
+RLC filter
+*
+Vin 1 0 AC 1V
+*
+R1 1 2 15Ohm
+L1 2 3 50mH
+C1 3 0 1.5uF
+*
+* AC statement just defines frequency range
+.AC dec 20 100 10k
+*
+* Noise analysis at Node 3 with respect of Vin
+.noise V(3) Vin 20
+*
+.print NOISE INOISE
+
+.end

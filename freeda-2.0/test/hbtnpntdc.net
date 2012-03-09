@@ -1,0 +1,16 @@
+**** Test netlist for hbtnpnxt model, DC simulation****
+
+.dc sweep="vsource:vc" start=0 stop=3 step=0.05
+
+hbtnpnxt:h1 1 2 0 0 100 "tref"
+
+vsource:vc 1 0 vdc = 3
+isource:vb 2 0 idc = 1e-3
+
+resistor:rth 100 101 r = 2200
+capacitor:cth 100 101 c = 3e-10
+vsource:t1 101 "tref" vdc=300
+.ref "tref"
+
+.out plot element "hbtnpnxt:h1" 0 it in "hbtdc.1"
+.end

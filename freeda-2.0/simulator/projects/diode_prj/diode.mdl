@@ -1,0 +1,3 @@
+.model diode x
++ js=5.1e-14 alfa=38.696 jb=1.0e-5 vb=-1.0e50 e=10 
++ ct0=1.32767e-15 gama=0.810205 fi=1.27517 afac=38.696 area=271 r0=10.

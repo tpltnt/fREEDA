@@ -1,0 +1,255 @@
+
+\chapter{Output Control} \label{ch_output}
+
+fREEDA$^{\mathrm{TM}}$ has an interpretive output language which uses a reverse
+polish notation syntax.  The operators operate on a stack and as an
+operation is performed zero or more arguements are consumed by an
+opertor.  This is an extremely powerful way of controlling output.
+
+\section{Output Commands}
+
+{\tt .out write
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+      in <{\it filename}>} \medskip
+\\
+or \medskip
+\\
+{\tt .out plot
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+[[<{\it gnuplotPostambleScript}>] <{\it gnuplotPreambleScript}>]
+in <{\it filename}>} \medskip
+\\
+or \medskip
+\\
+{\tt .out system <{\it string}>}
+
+\subsection{Writing}
+
+{\tt .out write
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+      in <{\it filename}>} \medskip
+\\
+The {\tt write} command writes what is left on the stack into the file
+{\it filename}.
+
+\subsubsection{Example}
+
+{\tt .out write term 4 vt in "4v.out"} \medskip
+\\
+This writes the time domain voltage at terminal 4 using the file
+4v.out as an output file.
+
+\subsection{Plotting}
+
+{\tt .out plot
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+[[<{\it gnuplotPostambleScript}>] <{\it gnuplotPreambleScript}>]
+in <{\it filename}>} \medskip
+\\
+The {\tt plot} command writes what is left on the stack into the file
+{\it filename} and initiates a plot. The file can be plotted
+interactively using the fREEDA$^{\mathrm{TM}}$ Output Viewer. Also, a file named
+{\tt<{\it filename}>.cmd} is created. This file is a gnuplot
+\cite{gnuplot} script file that plots the desired data. The Scripts
+are optional strings and are used to send additional commands to the
+gnuplot program.
+
+{\tt<{\it gnuplotPreambleScript}>} is a string of semicolon delineated
+gnuplot commands prior to the plot command which is automatically
+issued.
+
+{\tt<{\it gnuplotPostambleScript}>} is a string of semicolon delineated
+gnuplot commands after the plot command.
+
+If the option {\tt gnuplot} is present in the {\tt .options} card, the
+gnuplot program will be called automatically by fREEDA$^{\mathrm{TM}}$. Note that
+this is generally not needed when using the Output Viewer.
+
+
+\subsubsection{Example}
+
+{\tt .out plot term 4 vt in "4v.out"} \medskip
+\\
+There are no script commands here. This plots the time domain voltage
+at terminal 4 using the file 4v.out as an output file. This functions
+as both a write and a plot.
+
+\subsection{Running a System Command}
+
+{\tt .out system <{\it string}>} \medskip
+\\
+Use this to run the string as a command to the operating system.
+
+\subsubsection{Example}
+
+{\tt .out system "echo Hello"} \medskip
+\\
+Prints ``Hello'' on the screen.
+
+\section{Nomenclature}
+
+The following nomenclature is used in describing the output operators.
+
+\begin{tabular}{ll}
+{\bf type} & {\bf description} \\
+\multicolumn{2}{l}{\sl scalar numeric types} \\
+\\
+{\it i} & integer \\
+{\it f} & floating-point \\
+{\it r} & real (integer or floating-point) \\
+{\it c} & complex \\
+{\it s} & scalar (integer, floating-point or complex) \\
+\\
+\multicolumn{2}{l}{\sl scalar and mixed numeric types} \\
+\\
+{\it fv} & floating-point vector \\
+{\it cv} & complex vector \\
+{\it v} & floating-point or complex vector \\
+{\it fsv} & floating-point scalar or vector \\
+{\it csv} & complex scalar or vector \\
+{\it sv} & scalar or vector (any) \\
+{\it prom} & an appropriately-promoted numeric type \\
+{\it -x} & (suffix to vector types) x data required \\
+\\
+\multicolumn{2}{l}{\sl other types} \\
+\\
+{\it any} & any type \\
+{\it string} & character string \\
+{\it var} & variable name \\
+{\it file} & data file \\
+{\it func} & function pointer
+\end{tabular}
+
+\section{Qualifiers}
+
+\begin{tabular}{ll}
+{\bf type} & {\bf description} \\
+\\
+\multicolumn{2}{l}{\sl qualifiers  (network types)} \\
+\\
+{\it term} & terminal (or node)\\
+{\it element} & circuit element
+\end{tabular}
+
+\clearpage
+
+\section{Operators}
+
+
+\subsection{General Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\bf operator} & {\bf function} & {\bf argument(s)} & {\bf result} \\
+\\
+\\
+{\tt dup} & duplicate object & {\it any} & {\it same} \\
+{\tt get} & get element of vector & {\it arg:v \newline index:i} & {\it s} \\
+{\tt put} & modify element of vector & {\it arg:v \newline index:i \newline
+  val:s} & {\it v} \\
+{\tt stripx} & remove x data & {\it vx} & {\it v} \\
+{\tt pack} & concatenates last {\it vx}'s on stack & variable number of {\it vx} & {\it m} \\
+{\tt system} & execute shell command & {\it string} & {\it none}
+\end{tabular}
+
+\subsection{Network Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt vf} & complex freq. domain voltage vector at a terminal &
+    {\it term} & {\it cv} \\
+{\tt if} & complex freq. domain current vector at a terminal &
+    {\it term} & {\it cv} \\
+{\tt xf} & complex freq. domain state variable vector at a terminal &
+    {\it term} & {\it cv} \\
+{\tt vt} & time domain voltage vector at a terminal &
+    {\it term} & {\it fv} \\
+{\tt it} & time domain current vector at a terminal &
+    {\it term} & {\it fv} \\
+{\tt ut} & time domain voltage vector at an element port &
+    {\it elem} & {\it fv} \\
+\end{tabular}
+
+\subsection{RPN Arithmetic Operators}
+Arithmetic Operators for reverse polish notation
+e.g. 3 4 add = 7
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt add} & addition & {\it sv \newline sv} & {\it prom} \\
+{\tt sub} & subtraction & {\it sv \newline sv} & {\it prom} \\
+{\tt mult} & multiplication & {\it sv \newline sv} & {\it prom} \\
+{\tt div} & division & {\it sv \newline sv} & {\it prom} \\
+{\tt real} & real part & {\it csv} & {\it fsv} \\
+{\tt imag} & imaginary part & {\it csv} & {\it fsv} \\
+{\tt mag} & magnitude & {\it csv} & {\it fsv} \\
+{\tt abs} & absolute value or magnitude & {\it sv} & {\it fsv} \\
+{\tt contphase} & continuous phase & {\it csv} & {\it fsv} \\
+{\tt prinphase} & principal value phase & {\it csv} & {\it fsv} \\
+{\tt conj} & complex conjugate & {\it csv} & {\it csv} \\
+{\tt neg} & additive inverse (negative) & {\it sv} & {\it sv} \\
+{\tt recip} & reciprocal & {\it sv} & {\it sv}
+\end{tabular}
+
+% \subsection{Conventional Arithmetic Operators}
+% Conventional Arithmetic Operators
+% e.g. 3 + 4 = 7
+% Not fully implemented. Do not use and reserved for future expansion.
+%
+% \begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+% {\verb:+:} & addition & {\it sv \newline sv} & {\it prom} \\
+% {\verb:-:} & subtraction & {\it sv \newline sv} & {\it prom} \\
+% {\verb:*:} & multiplication & {\it sv \newline sv} & {\it prom} \\
+% {\verb:/:} & division & {\it sv \newline sv} & {\it prom} \\
+% {\verb:^:} & poer & {\it sv \newline sv} & {\it prom} \\
+% {\verb:**:} & poer & {\it sv \newline sv} & {\it prom} \\
+% \end{tabular}
+
+\subsection{Mathematical Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt db} & dB ($20 \log_{10}$) & {\it sv} & {\it fsv} \\
+{\tt db10} & dB applied to power ($10 \log_{10}$) & {\it sv}
+    & {\it fsv} \\
+{\tt rad2deg} & convert radians to degrees & {\it fsv} & {\it fsv} \\
+{\tt deg2rad} & convert degrees to radians & {\it fsv} & {\it fsv} \\
+{\tt minlmt} & limit the minimum value & {\it arg:fsv \newline min:f}
+    & {\it fsv} \\
+{\tt maxlmt} & limit the maximum value & {\it arg:fsv \newline max:f}
+    & {\it fsv} \\
+{\tt diff} & differences & {\it fsv} & {\it fsv} \\
+{\tt deriv} & derivative & {\it fsv} & {\it fsv} \\
+{\tt sum} & sums & {\it fsv} & {\it fsv} \\
+{\tt integ} & integral & {\it fsv} & {\it fsv}
+\end{tabular}
+
+\clearpage
+
+\subsection{Signal Processing Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt smpltime} & current analysis timebase as x {\em and} y of result &
+  {\it none} & {\it fv} \\
+{\tt sweepfrq} & current analysis sweep frequencies as x {\em and}
+  y of result & {\it none} & {\it fv} \\
+{\tt smplcvt} & interpolate {\em signal1} over timebase of {\em signal2} &
+  {\it signal1:v \newline signal2:vx} & {\it vx} \\
+{\tt sweepcvt} & interpolate {\em frq1} over sweep frequencies of {\em frq2} &
+  {\it frq1:v \newline frq2:vx} & {\it vx} \\
+{\tt maketime} & create timebase starting at $t=0$ in x {\em and} y of result &
+  {\it tmax:r \newline pts:i} & {\it vx} \\
+{\tt makesweep} & create sweep frequencies starting at $f=0$ in x
+  {\em and} y of result & {\it fmax:r \newline pts:i} & {\it vx} \\
+{\tt fft} & FFT (argument should have $2^{k}$ points) &
+  {\it timedata:fv} & {\it cv} \\
+{\tt invfft} & inverse FFT (argument should have $2^{k}-1$ points) &
+  {\it frqdata:cv} & {\it fv} \\
+{\tt cconv} & real circular (FFT) convolution with zero padding &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt upcconv} & unpadded real circular (FFT) convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt sconv} & slow (time-domain) real convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt fconv} & fast (approximate) real convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt lpbwfrq} & lowpass Butterworth filter frequency response &
+  {\it frqvec:vx \newline corner:f \newline order:i} & {\it cvx}
+\end{tabular}
+

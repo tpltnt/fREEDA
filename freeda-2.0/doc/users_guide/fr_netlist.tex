@@ -1,0 +1,589 @@
+
+\chapter{Netlist Format} \label{ch_netlist}
+
+The netlist input of fREEDA is almost compatible to Spice.  There are
+a number of additional features and these are documented below.  The
+focus of the additions is to facilitate the addition of new models,
+allow variables, and support hierarchical descriptions of coupling in
+a network.
+
+%--------------------------------------------------------------------------
+\section{Structure of fREEDA$^{\mathrm{TM}}$'s Netlist}
+
+The fREEDA netlist mainly consists in a title, an analysis
+specification, a list of connected elements\footnote{element: a model
+of a physical component of a network.}, and a list of output commands.
+
+\subsection{Lexical}
+
+fREEDAs grammatical rules are very similar to those of spice:
+\begin{description}
+\item[whitespace] blank\\
+          a newline followed immediately by a $+$ sign.
+          a tab\\
+          a vertical tab\\
+          a newpage
+\item[identifier] A character sequence beginning with an Alphabetic
+               character \[A-Za-z\]
+\item[variables] A variable must begin with an alphabetic character or a \$
+        followed by alphanumeric characters or `\_' or `.' \\[0.2in]
+        Example: \\
+        \begin{verbatim}
+        HEIGHT
+        \$height
+        height.1_1
+        \end{verbatim}
+        Note that {\tt HEIGHT} and {\tt height} are identical as
+        case is not preserved.
+\item[strings] Either as an identifier (a continuous sequence of
+alphanumeric characters or enclosed within double quotes. \\
+           The following special escaped characters are allowed in
+           strings defined within double quotes.
+           \begin{itemize}
+           \item[{\tt \\"}] To include a double quote in a string.
+           \item[{\tt \\n}] To indicate a newline
+           \end{itemize}
+           Examples:
+           \begin{verbatim}
+           gate
+           "VOLTAGE WAVEFORM"
+           \end{verbatim}
+           Note: Strings may continue across lines using the Spice
+           continuation syntax:
+           \begin{verbatim}
+           "VOLTAGE
+           + WAVEFORM"
+           \end{verbatim}
+           or simply by continuing across a line as in
+           \begin{verbatim}
+           "VOLTAGE
+            WAVEFORM"
+           \end{verbatim}
+
+\item[numbers] ``E'' or ``e'' to indicate exponent.
+\item[dotted command] A ``.'' folowed by alphabetic characters
+\item[lf] A line feed or cariage return.
+\end{description}
+
+\subsubsection{Capitalization}
+
+The case of identifiers and keywords is ignored in fREEDA$^{\mathrm{TM}}$  netlists.
+The significance of case is retained only within quoted strings, and
+in that case it is always retained.  Internally characters are mapped
+to lower case.
+
+\subsection{Continuation of Line}
+
+A line beginning with a plus sign is considered to be the continuation
+of the previous one.
+
+\subsection{Title Line}
+
+{\tt *** Unit Cell Folded Slot Antenna ***} \medskip \\
+As in Spice, the first line of the netlist file is the title and does
+not contain commands.
+
+\subsection{Comments}
+
+{\tt * Local reference nodes} \medskip \\
+As in Spice, comment lines begin with an asterisk.
+
+\subsection{.options}
+
+Used to set up quantities similar to spice syntax.  The general syntax
+is \medskip\\
+{\tt .options <{\it identifier}> = <{\it value}>} \medskip \\
+All identifiers set in a .options card are treated as a
+variable.  {\it value} may be an number or a previously defined
+variable.
+
+\subsubsection{Preset Options}
+Some variables are preset:
+
+\begin{tabular}{lll}
+{\bf variable} & {\bf default} & {\bf value} \\
+defl    & OPTIONS\_DEFAULT\_DEFL & $100\times 10^{-6}$\\
+defw    & OPTIONS\_DEFAULT\_DEFW & $100\times 10^{-6}$\\
+defad   & OPTIONS\_DEFAULT\_DEFAD & 0 \\
+defas   & OPTIONS\_DEFAULT\_DEFAS & 0\\
+tnom    & OPTIONS\_DEFAULT\_TNOM & 27\\
+numdgt  & OPTIONS\_DEFAULT\_NUMDGT & 4\\
+cptime  & OPTIONS\_DEFAULT\_CPTIME & $1\times 10^6$\\
+limpts  & OPTIONS\_DEFAULT\_LIMPTS & 201\\
+itl1    & OPTIONS\_DEFAULT\_ITL1 & 40\\
+itl2    & OPTIONS\_DEFAULT\_ITL2 & 20\\
+itl4    & OPTIONS\_DEFAULT\_ITL4 & 10\\
+itl5    & OPTIONS\_DEFAULT\_ITL5 & 5000\\
+reltol  & OPTIONS\_DEFAULT\_RELTOL & 0.001\\
+trtol   & OPTIONS\_DEFAULT\_TRTOL & 7.0\\
+abstol  & OPTIONS\_DEFAULT\_ABSTOL & $1\times 10^{-12}$\\
+chgtol  & OPTIONS\_DEFAULT\_CHGTOL &$0.01\times 10^{-12}$\\
+vntol   & OPTIONS\_DEFAULT\_VNTOL &$1\times 10^{-6}$\\
+pivrel  & OPTIONS\_DEFAULT\_PIVREL &$1\times 10^{-13}$\\
+gmin    & OPTIONS\_DEFAULT\_GMIN &$1\times 10^{-12}$
+\end{tabular}\\[0.2in]
+(For the developer: the defaults are defined in spice.h )
+
+\subsubsection{Control Options}
+
+Under Construction.
+
+\subsection{.model}
+
+{\tt .model c\_line tlinp4 ( z0mag=75.00 k=7 fscale=1.e10 \\
++ alpha = 59.9 )} \medskip \\
+Each {\tt .model} is a statement that associates a name ({\tt <{\it
+model name}>}) with a list of parameter values ({\tt <{\it
+param-list}>}).  The parameter names given must be the names of
+parameters of the element specified after the model keyword.  Thus,
+{\tt alpha} and {\tt z0mag} must be parameters of {\tt tlinp4} in the
+above example.
+
+Further, the values assigned to parameters must be of an appropriate
+type.  The parser goes to some lengths to coerce types where the
+result is sensible (i.e., if you give an integer value ``1'' to a
+parameter of float type, the parameter will be assigned the
+floating-point value ``1.0'').  However, you can't assign string
+values to float parameters, or vice-versa.
+
+The {\tt .model} statements define the default characteristics of the
+different physical elements (``models'') in a network.
+
+The syntax is as for spice \medskip \\
+{\tt .model  <{\it model name}> <{\it type name}> ([<{\it parameter name}> =
+<{\it value}>]*) }
+
+Here, {\tt <{\it model name }>} is an identifier by which the model is
+referred to.  {\tt <{\it type name}>} is the physical element name
+that the model refers to.  the {\it parameter name} must be a valid
+parameter for the element (indicated by {\tt <{\it type name}>})
+referred to.
+
+Any number of models may be specified for a single element.
+
+\subsection{Analysis Specification}
+
+{\tt .ac start = 3.6GHz stop = 4.8GHz n\_freqs = 7} \medskip \\
+This line consists in a dot followed by the analysis name and a list
+of parameters. See the analysis catalog for a list of analysis and the
+description of the paramenters.
+
+Note that 4.8GHz is equivalent to 4.8e9 or 4.8g. This is the same as
+in Spice.
+
+\subsection{Element Specification}
+
+{\tt nport:cpw\_2 10 20 100 200 filename = "unitcell.yp"} \medskip \\
+Elements are specified with the element type name ({\tt nport} in this
+example) followed by a colon and the element instance name. Then a
+list of nodes (or terminals) to which the element is connected
+followed by a paramenter list. See the element catalog for a list of
+available elements and the description of the paramenters.
+
+The terminals can be named using integer numbers or strings. When
+using strings, they must be enclosed in quotes.
+
+Regular passive elements (R, L and C) also support the standard Spice
+syntax with the following additions common to all elements in fREEDA$^{\mathrm{TM}}$:
+\begin{enumerate}
+\item A {\tt .model} specification is allowed for all elements.
+\item Anything that can appear in a {\tt .model} specification can be
+      included in the specification of the element.
+\item If a parameter is not specified either through an  element
+specification or a {\tt.model} specification then the default
+parameters for that model will apply to this element.
+\end{enumerate}
+
+\subsection{End of Netlist}
+
+Every netlist must finish with a {\tt .end} control card.
+
+
+\subsection{Subcircuits}
+
+The subcircuit definition and instantiation is pretty much as in
+Spice. The definition may appear after or before the instatiation in
+the netlist. Node names inside the subcircuit are local to the
+subcircuit.  The following is an example for a three-terminal
+subcircuit.
+\begin{verbatim}
+
+...
+
+.subckt era6 1 5 "gnd1"
+
+... (subcircuit definition)
+
+.ends
+
+...
+
+xamp1 10 50 0 era6
+
+...
+\end{verbatim}
+The name of the subcircuit instance must begin with {\tt x}.
+
+
+%-------------------------------------------------------------------
+\section{Output Control} \label{sec_output}
+
+fREEDA$^{\mathrm{TM}}$ has an interpretive output language which uses a reverse
+polish notation syntax.  The operators operate on a stack and as an
+operation is performed zero or more arguements are consumed by an
+opertor.  This is an extremely powerful way of controlling output.
+
+\subsubsection{Output Commands}
+
+{\tt .out write
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+      in <{\it filename}>} \medskip
+\\
+or \medskip
+\\
+{\tt .out plot
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+[[<{\it gnuplotPostambleScript}>] <{\it gnuplotPreambleScript}>]
+in <{\it filename}>} \medskip
+\\
+or \medskip
+\\
+{\tt .out system <{\it string}>}
+
+\subsection{Writing}
+
+{\tt .out write
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+      in <{\it filename}>} \medskip
+\\
+The {\tt write} command writes what is left on the stack into the file
+{\it filename}.
+
+\subsubsection{Example}
+
+{\tt .out write term 4 vt in "4v.out"} \medskip
+\\
+This writes the time domain voltage at terminal 4 using the file
+4v.out as an output file.
+
+\subsection{Plotting}
+
+{\tt .out plot
+( (<{\it qualifier}> <{\it value}>* )* <{\it operator}> )*
+[[<{\it gnuplotPostambleScript}>] <{\it gnuplotPreambleScript}>]
+in <{\it filename}>} \medskip
+\\
+The {\tt plot} command writes what is left on the stack into the file
+{\it filename} and initiates a plot. The file can be plotted
+interactively using the fREEDA$^{\mathrm{TM}}$ Output Viewer. Also, a file named
+{\tt<{\it filename}>.cmd} is created. This file is a gnuplot
+\cite{gnuplot} script file that plots the desired data. The Scripts
+are optional strings and are used to send additional commands to the
+gnuplot program.
+
+{\tt<{\it gnuplotPreambleScript}>} is a string of semicolon delineated
+gnuplot commands prior to the plot command which is automatically
+issued.
+
+{\tt<{\it gnuplotPostambleScript}>} is a string of semicolon delineated
+gnuplot commands after the plot command.
+
+If the option {\tt gnuplot} is present in the {\tt .options} card, the
+gnuplot program will be called automatically by fREEDA$^{\mathrm{TM}}$. Note that
+this is generally not needed when using the Output Viewer.
+
+
+\subsubsection{Example}
+
+{\tt .out plot term 4 vt in "4v.out"} \medskip
+\\
+There are no script commands here. This plots the time domain voltage
+at terminal 4 using the file 4v.out as an output file. This functions
+as both a write and a plot.
+
+\subsection{Running a System Command}
+
+{\tt .out system <{\it string}>} \medskip
+\\
+Use this to run the string as a command to the operating system.
+
+\subsubsection{Example}
+
+{\tt .out system "echo Hello"} \medskip
+\\
+Prints ``Hello'' on the screen.
+
+\subsection{Nomenclature}
+
+The following nomenclature is used in describing the output operators.
+
+\begin{tabular}{ll}
+{\bf type} & {\bf description} \\
+\multicolumn{2}{l}{\sl scalar numeric types} \\
+\\
+{\it i} & integer \\
+{\it f} & floating-point \\
+{\it r} & real (integer or floating-point) \\
+{\it c} & complex \\
+{\it s} & scalar (integer, floating-point or complex) \\
+\\
+\multicolumn{2}{l}{\sl scalar and mixed numeric types} \\
+\\
+{\it fv} & floating-point vector \\
+{\it cv} & complex vector \\
+{\it v} & floating-point or complex vector \\
+{\it fsv} & floating-point scalar or vector \\
+{\it csv} & complex scalar or vector \\
+{\it sv} & scalar or vector (any) \\
+{\it prom} & an appropriately-promoted numeric type \\
+{\it -x} & (suffix to vector types) x data required \\
+\\
+\multicolumn{2}{l}{\sl other types} \\
+\\
+{\it any} & any type \\
+{\it string} & character string \\
+{\it var} & variable name \\
+{\it file} & data file \\
+{\it func} & function pointer
+\end{tabular}
+
+\subsection{Qualifiers}
+
+\begin{tabular}{ll}
+{\bf type} & {\bf description} \\
+\\
+\multicolumn{2}{l}{\sl qualifiers  (network types)} \\
+\\
+{\it term} & terminal (or node)\\
+{\it element} & circuit element
+\end{tabular}
+
+
+\subsection{Operators}
+
+
+\subsubsection{General Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\bf operator} & {\bf function} & {\bf argument(s)} & {\bf result} \\
+\\
+\\
+{\tt dup} & duplicate object & {\it any} & {\it same} \\
+{\tt get} & get element of vector & {\it arg:v \newline index:i} & {\it s} \\
+{\tt put} & modify element of vector & {\it arg:v \newline index:i \newline
+  val:s} & {\it v} \\
+{\tt stripx} & remove x data & {\it vx} & {\it v} \\
+{\tt pack} & concatenates last {\it vx}'s on stack & variable number of {\it vx} & {\it m} \\
+{\tt system} & execute shell command & {\it string} & {\it none}
+\end{tabular}
+
+\subsection{Network Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt vf} & complex freq. domain voltage vector at a terminal &
+    {\it term} & {\it cv} \\
+{\tt if} & complex freq. domain current vector at a terminal &
+    {\it term} & {\it cv} \\
+{\tt xf} & complex freq. domain state variable vector at a terminal &
+    {\it term} & {\it cv} \\
+{\tt vt} & time domain voltage vector at a terminal &
+    {\it term} & {\it fv} \\
+{\tt it} & time domain current vector at a terminal &
+    {\it term} & {\it fv} \\
+{\tt ut} & time domain voltage vector at an element port &
+    {\it elem} & {\it fv} \\
+\end{tabular}
+
+\subsubsection{RPN Arithmetic Operators}
+Arithmetic Operators for reverse polish notation
+e.g. 3 4 add = 7
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt add} & addition & {\it sv \newline sv} & {\it prom} \\
+{\tt sub} & subtraction & {\it sv \newline sv} & {\it prom} \\
+{\tt mult} & multiplication & {\it sv \newline sv} & {\it prom} \\
+{\tt div} & division & {\it sv \newline sv} & {\it prom} \\
+{\tt real} & real part & {\it csv} & {\it fsv} \\
+{\tt imag} & imaginary part & {\it csv} & {\it fsv} \\
+{\tt mag} & magnitude & {\it csv} & {\it fsv} \\
+{\tt abs} & absolute value or magnitude & {\it sv} & {\it fsv} \\
+{\tt contphase} & continuous phase & {\it csv} & {\it fsv} \\
+{\tt prinphase} & principal value phase & {\it csv} & {\it fsv} \\
+{\tt conj} & complex conjugate & {\it csv} & {\it csv} \\
+{\tt neg} & additive inverse (negative) & {\it sv} & {\it sv} \\
+{\tt recip} & reciprocal & {\it sv} & {\it sv}
+\end{tabular}
+
+% \subsection{Conventional Arithmetic Operators}
+% Conventional Arithmetic Operators
+% e.g. 3 + 4 = 7
+% Not fully implemented. Do not use and reserved for future expansion.
+%
+% \begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+% {\verb:+:} & addition & {\it sv \newline sv} & {\it prom} \\
+% {\verb:-:} & subtraction & {\it sv \newline sv} & {\it prom} \\
+% {\verb:*:} & multiplication & {\it sv \newline sv} & {\it prom} \\
+% {\verb:/:} & division & {\it sv \newline sv} & {\it prom} \\
+% {\verb:^:} & poer & {\it sv \newline sv} & {\it prom} \\
+% {\verb:**:} & poer & {\it sv \newline sv} & {\it prom} \\
+% \end{tabular}
+
+\subsubsection{Mathematical Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt db} & dB ($20 \log_{10}$) & {\it sv} & {\it fsv} \\
+{\tt db10} & dB applied to power ($10 \log_{10}$) & {\it sv}
+    & {\it fsv} \\
+{\tt rad2deg} & convert radians to degrees & {\it fsv} & {\it fsv} \\
+{\tt deg2rad} & convert degrees to radians & {\it fsv} & {\it fsv} \\
+{\tt minlmt} & limit the minimum value & {\it arg:fsv \newline min:f}
+    & {\it fsv} \\
+{\tt maxlmt} & limit the maximum value & {\it arg:fsv \newline max:f}
+    & {\it fsv} \\
+{\tt diff} & differences & {\it fsv} & {\it fsv} \\
+{\tt deriv} & derivative & {\it fsv} & {\it fsv} \\
+{\tt sum} & sums & {\it fsv} & {\it fsv} \\
+{\tt integ} & integral & {\it fsv} & {\it fsv}
+\end{tabular}
+
+\subsubsection{Signal Processing Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt smpltime} & current analysis timebase as x {\em and} y of result &
+  {\it none} & {\it fv} \\
+{\tt sweepfrq} & current analysis sweep frequencies as x {\em and}
+  y of result & {\it none} & {\it fv} \\
+{\tt smplcvt} & interpolate {\em signal1} over timebase of {\em signal2} &
+  {\it signal1:v \newline signal2:vx} & {\it vx} \\
+{\tt sweepcvt} & interpolate {\em frq1} over sweep frequencies of {\em frq2} &
+  {\it frq1:v \newline frq2:vx} & {\it vx} \\
+{\tt maketime} & create timebase starting at $t=0$ in x {\em and} y of result &
+  {\it tmax:r \newline pts:i} & {\it vx} \\
+{\tt makesweep} & create sweep frequencies starting at $f=0$ in x
+  {\em and} y of result & {\it fmax:r \newline pts:i} & {\it vx} \\
+{\tt fft} & FFT (argument should have $2^{k}$ points) &
+  {\it timedata:fv} & {\it cv} \\
+{\tt invfft} & inverse FFT (argument should have $2^{k}-1$ points) &
+  {\it frqdata:cv} & {\it fv} \\
+{\tt cconv} & real circular (FFT) convolution with zero padding &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt upcconv} & unpadded real circular (FFT) convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt sconv} & slow (time-domain) real convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt fconv} & fast (approximate) real convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt lpbwfrq} & lowpass Butterworth filter frequency response &
+  {\it frqvec:vx \newline corner:f \newline order:i} & {\it cvx}
+\end{tabular}
+
+
+
+%--------------------------------------------------------------------------
+\section{Example: Simulation of a Folded Slot Antenna}
+
+The netlist format is illustrated using an example. This example uses
+local reference nodes. For a discussion of the local reference node
+concept see chapter \ref{ch_local}. fREEDA$^{\mathrm{TM}}$ provides the local
+references as a convenience tool, but it is still possible to treat
+circuits in a conventional way using the node ``0'' or ``{\tt gnd}''
+as a global reference.
+
+As a component of a spatial power combining circuit the CPW
+folded-slot antenna~\cite{rodwell}, see Fig.~\ref{fig:cpwunit}, with
+polarizers transmits an amplified version of an incident propagating
+field. In Fig.~\ref{fig:cpwunit} the two orthogonal folded-slots are
+connected to each other by a CPW with an inserted MMIC amplifier.The
+system is modeled using the circuit of Fig.~\ref{fig:cpwcircuit} where
+electromagnetic modeling of this structure is discussed in
+\cite{steer:abdullah:1998,mostafa,usman}. Note that three different
+local reference nodes are required.
+%
+\begin{figure*}
+\centerline{\epsfxsize=10cm \pfig{carlos_cpwUnit.eps}}
+\caption{Unit cell of the CPW antenna array.} \label{fig:cpwunit}
+\end{figure*}
+%
+\begin{figure}
+\centerline{\epsfxsize=9cm \pfig{freeda_cpwcircuit.eps}}
+\caption{Circuit model of the unit cell. The diamond symbol indicates
+a local reference node.} \label{fig:cpwcircuit}
+\end{figure}
+%
+EM modeling yields a port-based $y$ parameters of the antennas at each
+frequency of interest. The transfer of data between the EM and circuit
+simulators (typically a file) includes a header with port grouping
+information (a port grouping includes terminals associated with a
+specific local reference node). This is required by the circuit
+simulator in order to expand the port-based matrix into nodal form and
+also to check the connectivity of the spatially-distributed circuit.
+
+Below is shown the data file for this example. Each port belong to a
+different group, so the element has four terminals. After reading the
+header the circuit simulator knows the number of elements of the
+matrix and the port number and local reference corresponding to each
+row and column of the matrix.
+
+\begin{verbatim}
+# port:group
+1:1
+1:2
+# GHZ Y RI R 50
+4
+0.00355603      -0.0233196
+-0.00121905     -0.00496212
+-0.00121905     -0.00496212
+0.00355603      -0.0233196
+...
+\end{verbatim}
+
+The rest of the file consist in a list of frequencies and the
+associated matrix elements in complex form.
+
+The parser provides several facilities such as the {\tt .model}
+statement support for any element type and a complete reverse polish
+notation calculator for the output data. The corresponding netlist is
+shown below.
+
+{
+\begin{verbatim}
+*** Unit Cell Folded Slot Antenna ***
+
+.ac start = 3.6GHz stop = 4.8GHz n_freqs = 7
+
+* Local reference nodes
+.ref 100
+.ref 200
+
+* CPW structure
+nport:cpw_2 10 20 100 200 filename = "unitcell.yp"
+
+* Transistor small signal model
+nport:amplifier 1 2 0 filename = "feedback_ne3210s1.yp"
+
+* Field excitation
+gridex:iin 10 100 20 200 ifilename = "unitcell.i"
++ efilename = "dummy.e"
+
+* current meters
+vsource:amp1 10 11
+vsource:amp2 20 22
+
+* CPW Transmission lines
+.model fsa1 cpw (s=.369m w=1m t=10u er=10.8 tand=.001)
+cpw:t1 11 100 1 0 model="fsa1" length=8.5m
+cpw:t2 22 200 2 0 model="fsa1" length=17.5m
+
+.out write element "vsource:amp1" 0 if in "i1.out"
+.out write element "vsource:amp2" 0 if in "i2.out"
+
+* Plot magnitude of current gain
+.out plot element "vsource:amp2" 0 if element
++ "vsource:amp1" 0 if div mag db in "igain.out"
+
+* Plot magnitude of voltage gain
+.out plot term 20 vf term 10 vf div mag db in "gain.out"
+
+.end
+\end{verbatim}}
+

@@ -1,0 +1,94 @@
+**** mosfet dc characteristic ****
+
+.model nf_soi nmos tsi=4.2e-8 nch = 5.8e17
++TOX = 4.2E-9 TOXM = 4.2e-9 
++TBOX = 4.0E-7 XJ = 1E-7 
++NSUB = 2E13 VTH0 = 0.61 K1 = 0.56 
++K2 = 0 K3 = 0 K3B = 0 
++K1W1 = 0 K1W2 = 0 KB1 = 0 
++W0 = 0 NLX = 0 DVT0W = -1.3 
++AGIDL = 4E-9 BGIDL = 2E9 NGIDL = 0.5 
++DVT1W = 5E5 DVT2W = 0 DVT0 = 2.4 
++DVT1 = 0.5 DVT2 = 0 U0 = 0.037 
++UA = 0 UB = 1E-18 UC = 0 
++VSAT = 7.5E4 A0 = -0.3 AGS = 0 
++B0 = 0 B1 = 0 FBJTII = 0 
++ESATII = 4E6 SII0 = 2 SII1 = 0 
++SII2 = 0 SIID = 0 KETA = 0
++KETAS = 0 RTH0 = 0.1 A1 = 0 
++A2 = 0.99 RDSW = 320 PRWG = 0 
++PRWB = 0 WR = 0.82 
++LINT = 4E-8 DWG = 0 DWB = 0 
++VOFF = -0.16 NFACTOR = 1 CIT = 0 
++CDSC = 0.01 CDSCD = 0 CDSCB = -0.01 
++BETA0 = 0 BETA1 = 0 BETA2 = 0.15 
++ETA0 = 0.05 ETAB = 0 DSUB = 0.2 
++PCLM = 0.8 PDIBLC1 = 0.1 PDIBLC2 = 0 
++PDIBLCB = 0 DROUT = 0.4 PVAG = 0 
++DELTA = 0.01 NGATE = 1.5E20 ALPHA0 = 8E-9 
++VDSATII0 = 0.5 MOBMOD = 1 TII = -0.2264 
++PRT = 10 UTE = -1.8 KT1 = -0.16 
++KT1L = 0 LII = 1E-8 KT2 = -0.0646 
++UA1 = 0 UB1 = 0 
++AT = 3.4E4 TCJSWG = 5E-4 WL = 0 
++WLN = 1  WWN = 0.7 
++WWL = 0 LL = 0 LLN = 2 
++LW = 0 LWN = 1 LWL = 2e-28 
++CAPMOD = 2 XPART = 0 CJSWG = 8E-10 
++PBSWG = 0.9 MJSWG = 0.5 CSDESW = 0 
++CSDMIN = 1.6e-5 CGDO = 6E-10 CGSO = 2.5E-10 
++CGEO = 0 CGSL = 0 CGDL = 0 
++CKAPPA = 0.6 CF = 0 CLC = 5E-8 
++CLE = 0.6 DLC = 0 DWC = 0 
++SHMOD = 1 RBODY = 10 RBSH = 100
++CTH0 = 1E-5 NDIODE = 1 NTUN = 10
++VTUN0 = 5 ISBJT = 2E-6 NBJT = 2.5 
++LBJT0 = 9E-8 VABJT = 10 AELY = 0 
++AHLI = 1E-15 ISDIF = 4E-8 ISREC = 0.003 
++ISTUN = 1E-5 XBJT = 1.15 XDIF = 1.11 
++XREC = 0.8 XTUN = 0 NTRECF = -0.3 
++NTRECR = 10 TT = 3E-10 LN = 7E-7 
++NRECF0 = 1.8 NRECR0 = 10 VREC0 = 0.05 
++VSDTH = -0.3 VSDFB = -0.8 ASD = 0.3 
++DLBG = 0 DELVT = 0 FBODY = 1 
++ACDE = 0.11 MOIN = 15 LDIF0 = 1E-3 
++NDIF = -1 SOIMOD = 1 VBSA = 0.16 
++DVBD0 = 2.4 DVBD1 = 0.5 NOFFFD = 1 
++VOFFFD = 0 MOINFD = 1E6 DK2B = 0.4 
++K2B = 0.25 WTH0 = 4E-6 RHALO = 1E15 
++K1B = 0.8 temp=300
+
+mosnbsim3soi5t1:m1 d g s  b   model = "nf_soi" w=200e-6 l=0.2e-6 
+
+capacitor:c1 g 3 c=10n
+resistor:r1 3 33 r=50
+
+capacitor:c2 d 4 c=30p
+resistor:r2 4 0 r=50
+
+*resistor:rl1 d 1 r=2
+l1 d 1 10n
+l2 g 2 10n
+resistor:rl2 g 2 r=500
+
+vsource:vd 1 0 vdc=2.0
+vsource:vs s 0 vdc=0.0
+vsource:vb b 0 vdc=0.0
+vsource:vg 2 0 vdc=1.80
+*vac=0.1 f=10e9 phase=-90
+vsource:vin 33 0   vac=0.01 f=10e9 phase=-90 
+
+.dc sweep="vsource:vd" start=0 stop=2.0 step=0.1
+
+.out plot element "mosnbsim3soi5t1:m1" 0 it in "soi_d_i.dc"
+.out plot element "mosnbsim3soi5t1:m1" 0 ut in "soi_d_v.dc"
+.out plot element "mosnbsim3soi5t1:m1" 1 ut in "soi_g_v.dc"
+.out plot element "mosnbsim3soi5t1:m1" 1 it in "soi_g_i.dc"
+.out plot term 4 vt in "soi.out"
+
+.end
+
+
+
+
+

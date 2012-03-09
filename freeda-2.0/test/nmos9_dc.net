@@ -1,0 +1,15 @@
+*****Test netlist for Nmos9 level 903 model******
+
+mosn9:m1 1 3 0 4
+
+vsource:vds 1 0 vdc=0.1v
+
+vsource:vsb 0 4 vdc=0
+
+vsource:vgs 3 0  
+
+.dc sweep="vsource:vgs" start=0.6 stop=6.2 step=0.6
+
+.out plot element "mosn9:m1" 0 it in "nmos9_id.dc" 
+
+.end

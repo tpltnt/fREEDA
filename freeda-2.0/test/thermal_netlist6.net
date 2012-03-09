@@ -1,0 +1,1630 @@
+****Thermal netlist 
+
+.options vdf = 1000
+ThermalBlockRC:b100 1001 2 1003 4 1005 6 1007 dfactor=vdf       lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1406 ds= 0.0000 de= 2.3902 dw= 0.0000 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib100 1007 0 idc= 0.2062e-3   dcfactor=1
+
+ThermalBlockRC:b101 1011 2 1013 1003 1015 6 1017 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6585 ds= 0.0000 de= 2.1811 dw= 2.3902 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib101 1017 0 idc= 0.2143e-3   dcfactor=1
+
+ThermalBlockRC:b102 1021 2 1023 1013 1025 6 1027 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7356 ds= 0.0000 de= 2.0903 dw= 2.1811 dt= 0.0095 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib102 1027 0 idc= 0.2577e-3  dcfactor=1
+
+ThermalBlockRC:b103 1031 2 1033 1023 1035 6 1037 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7452 ds= 0.0000 de= 2.6083 dw= 2.0903 dt= 0.0095 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib103 1037 0 idc= 0.1883e-3  dcfactor=1
+
+ThermalBlockRC:b104 1041 2 1043 1033 1045 6 1047 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8513 ds= 0.0000 de= 1.9903 dw= 2.6083 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib104 1047 0 idc= 0.2145e-3  dcfactor=1
+
+ThermalBlockRC:b105 1051 2 1053 1043 1055 6 1057 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8127 ds= 0.0000 de= 2.4356 dw= 1.9903 dt= 0.1043 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib105 1057 0 idc= 1.0417e-3  dcfactor=1
+
+ThermalBlockRC:b106 1061 2 1063 1053 1065 6 1067 dfactor=vdf       lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.4367 ds= 0.0000 de= 1.9903 dw= 2.4356 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib106 1067 0 idc= 1.1965e-3  dcfactor=1
+
+ThermalBlockRC:b107 1071 2 1073 1063 1075 6 1077 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.5813 ds= 0.0000 de= 2.3447 dw= 1.9903 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib107 1077 0 idc= 0.3385e-3  dcfactor=1
+
+ThermalBlockRC:b108 1081 2 1083 1073 1085 6 1087 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6295 ds= 0.0000 de= 2.2266 dw= 2.3447 dt= 0.1138 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib108 1087 0 idc= 0.2174e-3  dcfactor=1
+
+ThermalBlockRC:b109 1091 2 3 1083 1095 6 1097 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.4395 ds= 0.0000 de= 0.0000 dw= 2.2266 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib109 1097 0 idc= 0.2314e-3  dcfactor=1
+
+ThermalBlockRC:b110 1101 1001 1103 4 1105 6 1107 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1599 ds= 2.1406 de= 1.4759 dw= 0.0000 dt= 0.0379 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib110 1107 0 idc= 0.2663e-3  dcfactor=1
+
+ThermalBlockRC:b111 1111 1011 1113 1103 1115 6 1117 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.4560 ds= 1.6585 de= 1.5123 dw= 1.4759 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib111 1117 0 idc= 0.4352e-3  dcfactor=1
+
+ThermalBlockRC:b112 1121 1021 1123 1113 1125 6 1127 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.4367 ds= 1.7356 de= 1.4305 dw= 1.5123 dt= 0.0474 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib112 1127 0 idc= 0.5513e-3  dcfactor=1
+
+ThermalBlockRC:b113 1131 1031 1133 1123 1135 6 1137 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.9931 ds= 1.7452 de= 1.7485 dw= 1.4305 dt= 0.0521 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib113 1137 0 idc= 0.2810e-3  dcfactor=1
+
+ThermalBlockRC:b114 1141 1041 1143 1133 1145 6 1147 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.4849 ds= 1.8513 de= 1.2305 dw= 1.7485 dt= 0.0853 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib114 1147 0 idc= 0.6385e-3  dcfactor=1
+
+ThermalBlockRC:b115 1151 1051 1153 1143 1155 6 1157 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.3885 ds= 1.8127 de= 1.9757 dw= 1.2305 dt= 0.0995 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib115 1157 0 idc= 1.2744e-3  dcfactor=1
+
+ThermalBlockRC:b116 1161 1061 1163 1153 1165 6 1167 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6006 ds= 1.4367 de= 1.4759 dw= 1.9757 dt= 0.1517 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib116 1167 0 idc= 1.7565e-3  dcfactor=1
+
+ThermalBlockRC:b117 1171 1071 1173 1163 1175 6 1177 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7549 ds= 1.5813 de= 1.6395 dw= 1.4759 dt= 0.2702 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib117 1177 0 idc= 1.2404e-3  dcfactor=1
+
+ThermalBlockRC:b118 1181 1081 1183 1173 1185 6 1187 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.2053 ds= 1.6295 de= 1.4396 dw= 1.6395 dt= 0.1327 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib118 1187 0 idc= 0.3530e-3  dcfactor=1
+
+ThermalBlockRC:b119 1191 1091 3 1183 1195 6 1197 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1695 ds= 2.4395 de= 0.0000 dw= 1.4396 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib119 1197 0 idc= 0.3438e-3  dcfactor=1
+
+ThermalBlockRC:b120 1201 1101 1203 4 1205 6 1207 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.6323 ds= 2.1599 de= 1.8013 dw= 0.0000 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib120 1207 0 idc= 0.6334e-3  dcfactor=1
+
+ThermalBlockRC:b121 1211 1111 1213 1203 1215 6 1217 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.5042 ds= 1.4560 de= 1.7286 dw= 1.8013 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib121 1217 0 idc= 0.9131e-3  dcfactor=1
+
+ThermalBlockRC:b122 1221 1121 1223 1213 1225 6 1227 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9188 ds= 1.4367 de= 1.9830 dw= 1.7286 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib122 1227 0 idc= 0.5074e-3  dcfactor=1
+
+ThermalBlockRC:b123 1231 1131 1233 1223 1235 6 1237 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8127 ds= 0.9931 de= 1.8921 dw= 1.9830 dt= 0.0332 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib123 1237 0 idc= 0.8529e-3  dcfactor=1
+
+ThermalBlockRC:b124 1241 1141 1243 1233 1245 6 1247 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6585 ds= 1.4849 de= 1.4014 dw= 1.8921 dt= 0.1659 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib124 1247 0 idc= 0.8324e-3  dcfactor=1
+
+ThermalBlockRC:b125 1251 1151 1253 1243 1255 6 1257 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6970 ds= 1.3885 de= 1.9467 dw= 1.4014 dt= 0.1138 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib125 1257 0 idc= 1.0139e-3  dcfactor=1
+
+ThermalBlockRC:b126 1261 1161 1263 1253 1265 6 1267 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7260 ds= 1.6006 de= 1.1924 dw= 1.9467 dt= 0.0806 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib126 1267 0 idc= 1.2389e-3  dcfactor=1
+
+ThermalBlockRC:b127 1271 1171 1273 1263 1275 6 1277 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1502 ds= 1.7549 de= 2.1375 dw= 1.1924 dt= 0.0853 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib127 1277 0 idc= 0.8455e-3  dcfactor=1
+
+ThermalBlockRC:b128 1281 1181 1283 1273 1285 6 1287 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0634 ds= 1.2053 de= 1.4196 dw= 2.1375 dt= 0.1517 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib128 1287 0 idc= 0.5865e-3  dcfactor=1
+
+ThermalBlockRC:b129 1291 1191 3 1283 1295 6 1297 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.2177 ds= 2.1695 de= 0.0000 dw= 1.4196 dt= 0.0569 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib129 1297 0 idc= 0.8918e-3  dcfactor=1
+
+ThermalBlockRC:b130 1301 1201 1303 4 1305 6 1307 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.3527 ds= 2.6323 de= 1.7304 dw= 0.0000 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib130 1307 0 idc= 0.6940e-3  dcfactor=1
+
+ThermalBlockRC:b131 1311 1211 1313 1303 1315 6 1317 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8031 ds= 1.5042 de= 1.7667 dw= 1.7304 dt= 0.0664 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib131 1317 0 idc= 0.7565e-3  dcfactor=1
+
+ThermalBlockRC:b132 1321 1221 1323 1313 1325 6 1327 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1695 ds= 1.9188 de= 1.5940 dw= 1.7667 dt= 0.0569 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib132 1327 0 idc= 0.5307e-3  dcfactor=1
+
+ThermalBlockRC:b133 1331 1231 1333 1323 1335 6 1337 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6199 ds= 1.8127 de= 1.7849 dw= 1.5940 dt= 0.0521 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib133 1337 0 idc= 0.6781e-3  dcfactor=1
+
+ThermalBlockRC:b134 1341 1241 1343 1333 1345 6 1347 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8127 ds= 1.6585 de= 1.1215 dw= 1.7849 dt= 0.0853 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib134 1347 0 idc= 0.5689e-3  dcfactor=1
+
+ThermalBlockRC:b135 1351 1251 1353 1343 1355 6 1357 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8706 ds= 1.6970 de= 2.0666 dw= 1.1215 dt= 0.1138 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib135 1357 0 idc= 0.8361e-3  dcfactor=1
+
+ThermalBlockRC:b136 1361 1261 1363 1353 1365 6 1367 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.5524 ds= 1.7260 de= 1.6122 dw= 2.0666 dt= 0.2180 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib136 1367 0 idc= 0.8731e-3  dcfactor=1
+
+ThermalBlockRC:b137 1371 1271 1373 1363 1375 6 1377 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9092 ds= 2.1502 de= 1.9848 dw= 1.6122 dt= 0.0521 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib137 1377 0 idc= 0.9202e-3  dcfactor=1
+
+ThermalBlockRC:b138 1381 1281 1383 1373 1385 6 1387 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8320 ds= 2.0634 de= 1.5213 dw= 1.9848 dt= 0.0569 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib138 1387 0 idc= 0.6198e-3  dcfactor=1
+
+ThermalBlockRC:b139 1391 1291 3 1383 1395 6 1397 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.3527 ds= 2.2177 de= 0.0000 dw= 1.5213 dt= 0.0521 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib139 1397 0 idc= 0.6497e-3  dcfactor=1
+
+ThermalBlockRC:b140 1401 1301 1403 4 1405 6 1407 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7452 ds= 2.3527 de= 1.7849 dw= 0.0000 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib140 1407 0 idc= 0.7837e-3  dcfactor=1
+
+ThermalBlockRC:b141 1411 1311 1413 1403 1415 6 1417 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7067 ds= 1.8031 de= 1.7849 dw= 1.7849 dt= 0.1374 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib141 1417 0 idc= 0.8654e-3  dcfactor=1
+
+ThermalBlockRC:b142 1421 1321 1423 1413 1425 6 1427 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1695 ds= 2.1695 de= 2.0030 dw= 1.7849 dt= 0.0521 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib142 1427 0 idc= 0.6638e-3  dcfactor=1
+
+ThermalBlockRC:b143 1431 1331 1433 1423 1435 6 1437 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6392 ds= 1.6199 de= 1.6668 dw= 2.0030 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib143 1437 0 idc= 0.7687e-3  dcfactor=1
+
+ThermalBlockRC:b144 1441 1341 1443 1433 1445 6 1447 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.2659 ds= 1.8127 de= 1.3941 dw= 1.6668 dt= 0.1848 db= 0.00
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib144 1447 0 idc= 0.8712e-3  dcfactor=1
+
+ThermalBlockRC:b145 1451 1351 1453 1443 1455 6 1457 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1695 ds= 1.8706 de= 1.7667 dw= 1.3941 dt= 0.2133 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib145 1457 0 idc= 0.7027e-3  dcfactor=1
+
+ThermalBlockRC:b146 1461 1361 1463 1453 1465 6 1467 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.5138 ds= 1.5524 de= 1.5940 dw= 1.7667 dt= 0.2702 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib146 1467 0 idc= 0.6726e-3  dcfactor=1
+
+ThermalBlockRC:b147 1471 1371 1473 1463 1475 6 1477 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.6681 ds= 1.9092 de= 1.6304 dw= 1.5940 dt= 0.0995 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib147 1477 0 idc= 0.6056e-3  dcfactor=1
+
+ThermalBlockRC:b148 1481 1381 1483 1473 1485 6 1487 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9284 ds= 1.8320 de= 1.4305 dw= 1.6304 dt= 0.0711 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib148 1487 0 idc= 0.1874e-3  dcfactor=1
+
+ThermalBlockRC:b149 1491 1391 3 1483 1495 6 1497 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.7191 ds= 2.3527 de= 0.0000 dw= 1.4305 dt= 0.1517 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib149 1497 0 idc= 0.3512e-3  dcfactor=1
+
+ThermalBlockRC:b150 1501 1401 1503 4 1505 6 1507 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.5455 ds= 1.7452 de= 1.5032 dw= 0.0000 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib150 1507 0 idc= 0.7049e-3  dcfactor=1
+
+ThermalBlockRC:b151 1511 1411 1513 1503 1515 6 1517 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1309 ds= 1.7067 de= 1.8758 dw= 1.5032 dt= 0.1848 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib151 1517 0 idc= 0.6487e-3  dcfactor=1
+
+ThermalBlockRC:b152 1521 1421 1523 1513 1525 6 1527 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0249 ds= 2.1695 de= 1.7122 dw= 1.8758 dt= 0.1185 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib152 1527 0 idc= 0.7707e-3  dcfactor=1
+
+ThermalBlockRC:b153 1531 1431 1533 1523 1535 6 1537 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9477 ds= 1.6392 de= 1.9394 dw= 1.7122 dt= 0.0332 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib153 1537 0 idc= 0.8873e-3  dcfactor=1
+
+ThermalBlockRC:b154 1541 1441 1543 1533 1545 6 1547 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.2466 ds= 2.2659 de= 1.3396 dw= 1.9394 dt= 0.1991 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib154 1547 0 idc= 0.5716e-3  dcfactor=1
+
+ThermalBlockRC:b155 1551 1451 1553 1543 1555 6 1557 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.3334 ds= 2.1695 de= 1.8667 dw= 1.3396 dt= 0.2228 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib155 1557 0 idc= 0.6298e-3  dcfactor=1
+
+ThermalBlockRC:b156 1561 1461 1563 1553 1565 6 1567 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7742 ds= 1.5138 de= 1.3668 dw= 1.8667 dt= 0.1943 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib156 1567 0 idc= 1.1627e-3  dcfactor=1
+
+ThermalBlockRC:b157 1571 1471 1573 1563 1575 6 1577 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9188 ds= 1.6681 de= 1.4759 dw= 1.3668 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib157 1577 0 idc= 0.7054e-3  dcfactor=1
+
+ThermalBlockRC:b158 1581 1481 1583 1573 1585 6 1587 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0152 ds= 1.9284 de= 1.5304 dw= 1.4759 dt= 0.0853 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib158 1587 0 idc= 0.2670e-3  dcfactor=1
+
+ThermalBlockRC:b159 1591 1491 3 1583 1595 6 1597 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.7962 ds= 2.7191 de= 0.0000 dw= 1.5304 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib159 1597 0 idc= 0.2224e-3  dcfactor=1
+
+ThermalBlockRC:b160 1601 1501 1603 4 1605 6 1607 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.3816 ds= 2.5455 de= 1.5850 dw= 0.0000 dt= 0.0284 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib160 1607 0 idc= 0.8160e-3  dcfactor=1
+
+ThermalBlockRC:b161 1611 1511 1613 1603 1615 6 1617 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1020 ds= 2.1309 de= 1.9576 dw= 1.5850 dt= 0.1138 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib161 1617 0 idc= 0.8576e-3  dcfactor=1
+
+ThermalBlockRC:b162 1621 1521 1623 1613 1625 6 1627 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1213 ds= 2.0249 de= 1.7395 dw= 1.9576 dt= 0.0853 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib162 1627 0 idc= 0.8939e-3  dcfactor=1
+
+ThermalBlockRC:b163 1631 1531 1633 1623 1635 6 1637 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8031 ds= 1.9477 de= 1.9303 dw= 1.7395 dt= 0.0379 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib163 1637 0 idc= 1.3748e-3  dcfactor=1
+
+ThermalBlockRC:b164 1641 1541 1643 1633 1645 6 1647 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0538 ds= 2.2466 de= 1.6940 dw= 1.9303 dt= 0.1185 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib164 1647 0 idc= 0.7110e-3  dcfactor=1
+
+ThermalBlockRC:b165 1651 1551 1653 1643 1655 6 1657 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9092 ds= 2.3334 de= 1.9121 dw= 1.6940 dt= 0.2417 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib165 1657 0 idc= 0.5971e-3  dcfactor=1
+
+ThermalBlockRC:b166 1661 1561 1663 1653 1665 6 1667 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9670 ds= 1.7742 de= 1.3123 dw= 1.9121 dt= 0.0806 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib166 1667 0 idc= 0.9792e-3  dcfactor=1
+
+ThermalBlockRC:b167 1671 1571 1673 1663 1675 6 1677 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9959 ds= 1.9188 de= 1.2305 dw= 1.3123 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib167 1677 0 idc= 1.2196e-3  dcfactor=1
+
+ThermalBlockRC:b168 1681 1581 1683 1673 1685 6 1687 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7549 ds= 2.0152 de= 1.4396 dw= 1.2305 dt= 0.0521 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib168 1687 0 idc= 0.6434e-3  dcfactor=1
+
+ThermalBlockRC:b169 1691 1591 3 1683 1695 6 1697 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1406 ds= 2.7962 de= 0.0000 dw= 1.4396 dt= 0.0332 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib169 1697 0 idc= 0.3955e-3  dcfactor=1
+
+ThermalBlockRC:b170 1701 1601 1703 4 1705 6 1707 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.6130 ds= 2.3816 de= 1.3578 dw= 0.0000 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib170 1707 0 idc= 0.7344e-3  dcfactor=1
+
+ThermalBlockRC:b171 1711 1611 1713 1703 1715 6 1717 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9188 ds= 2.1020 de= 1.9212 dw= 1.3578 dt= 0.0284 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib171 1717 0 idc= 0.9756e-3  dcfactor=1
+
+ThermalBlockRC:b172 1721 1621 1723 1713 1725 6 1727 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0249 ds= 2.1213 de= 1.7485 dw= 1.9212 dt= 0.0332 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib172 1727 0 idc= 1.0033e-3  dcfactor=1
+
+ThermalBlockRC:b173 1731 1631 1733 1723 1735 6 1737 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0442 ds= 1.8031 de= 1.7667 dw= 1.7485 dt= 0.0284 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib173 1737 0 idc= 1.1193e-3  dcfactor=1
+
+ThermalBlockRC:b174 1741 1641 1743 1733 1745 6 1747 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.2370 ds= 2.0538 de= 1.7304 dw= 1.7667 dt= 0.1138 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib174 1747 0 idc= 1.1893e-3  dcfactor=1
+
+ThermalBlockRC:b175 1751 1651 1753 1743 1755 6 1757 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0056 ds= 1.9092 de= 1.5850 dw= 1.7304 dt= 0.1564 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib175 1757 0 idc= 1.2210e-3  dcfactor=1
+
+ThermalBlockRC:b176 1761 1661 1763 1753 1765 6 1767 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7260 ds= 1.9670 de= 1.3305 dw= 1.5850 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib176 1767 0 idc= 0.9869e-3  dcfactor=1
+
+ThermalBlockRC:b177 1771 1671 1773 1763 1775 6 1777 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0538 ds= 1.9959 de= 1.5759 dw= 1.3305 dt= 0.0284 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib177 1777 0 idc= 0.8777e-3  dcfactor=1
+
+ThermalBlockRC:b178 1781 1681 1783 1773 1785 6 1787 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8802 ds= 1.7549 de= 1.1487 dw= 1.5759 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib178 1787 0 idc= 1.0280e-3  dcfactor=1
+
+ThermalBlockRC:b179 1791 1691 3 1783 1795 6 1797 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.7288 ds= 2.1406 de= 0.0000 dw= 1.1487 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib179 1797 0 idc= 0.9841e-3  dcfactor=1
+
+ThermalBlockRC:b180 1801 1701 1803 4 1805 6 1807 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.5841 ds= 2.6130 de= 1.2469 dw= 0.0000 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib180 1807 0 idc= 0.6427e-3  dcfactor=1
+
+ThermalBlockRC:b181 1811 1711 1813 1803 1815 6 1817 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.7067 ds= 1.9188 de= 1.6740 dw= 1.2469 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib181 1817 0 idc= 0.9570e-3  dcfactor=1
+
+ThermalBlockRC:b182 1821 1721 1823 1813 1825 6 1827 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0442 ds= 2.0249 de= 1.2469 dw= 1.6740 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib182 1827 0 idc= 0.9458e-3  dcfactor=1
+
+ThermalBlockRC:b183 1831 1731 1833 1823 1835 6 1837 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.5813 ds= 2.0442 de= 1.6377 dw= 1.2469 dt= 0.0284 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib183 1837 0 idc= 1.1265e-3  dcfactor=1
+
+ThermalBlockRC:b184 1841 1741 1843 1833 1845 6 1847 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.0924 ds= 2.2370 de= 1.6740 dw= 1.6377 dt= 0.0427 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib184 1847 0 idc= 1.0444e-3  dcfactor=1
+
+ThermalBlockRC:b185 1851 1751 1853 1843 1855 6 1857 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9477 ds= 2.0056 de= 1.6104 dw= 1.6740 dt= 0.0379 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib185 1857 0 idc= 0.9061e-3  dcfactor=1
+
+ThermalBlockRC:b186 1861 1761 1863 1853 1865 6 1867 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.9574 ds= 1.7260 de= 1.1560 dw= 1.6104 dt= 0.0237 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib186 1867 0 idc= 0.6226e-3  dcfactor=1
+
+ThermalBlockRC:b187 1871 1771 1873 1863 1875 6 1877 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.1791 ds= 2.0538 de= 2.0285 dw= 1.1560 dt= 0.0284 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib187 1877 0 idc= 1.2216e-3  dcfactor=1
+
+ThermalBlockRC:b188 1881 1781 1883 1873 1885 6 1887 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 1.8127 ds= 1.8802 de= 1.3923 dw= 2.0285 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib188 1887 0 idc= 1.0037e-3  dcfactor=1
+
+ThermalBlockRC:b189 1891 1791 3 1883 1895 6 1897 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 2.6130 ds= 2.7288 de= 0.0000 dw= 1.3923 dt= 0.0190 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib189 1897 0 idc= 0.6130e-3  dcfactor=1
+
+ThermalBlockRC:b190 1 1801 1903 4 1905 6 1907 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 2.5841 de= 1.2941 dw= 0.0000 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib190 1907 0 idc= 0.2720e-3  dcfactor=1
+
+ThermalBlockRC:b191 1 1811 1913 1903 1915 6 1917 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 1.7067 de= 1.5123 dw= 1.2941 dt= 0.0047 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib191 1917 0 idc= 0.3363e-3  dcfactor=1
+
+ThermalBlockRC:b192 1 1821 1923 1913 1925 6 1927 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 2.0442 de= 1.6395 dw= 1.5123 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib192 1927 0 idc= 0.4773e-3  dcfactor=1
+
+ThermalBlockRC:b193 1 1831 1933 1923 1935 6 1937 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 1.5813 de= 1.4123 dw= 1.6395 dt= 0.0047 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib193 1937 0 idc= 0.4779e-3  dcfactor=1
+
+ThermalBlockRC:b194 1 1841 1943 1933 1945 6 1947 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 2.0924 de= 1.5213 dw= 1.4123 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib194 1947 0 idc= 0.4513e-3  dcfactor=1
+
+ThermalBlockRC:b195 1 1851 1953 1943 1955 6 1957 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 1.9477 de= 2.1848 dw= 1.5213 dt= 0.0142 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib195 1957 0 idc= 0.1748e-3  dcfactor=1
+
+ThermalBlockRC:b196 1 1861 1963 1953 1965 6 1967 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 1.9574 de= 1.7849 dw= 2.1848 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib196 1967 0 idc= 0.2116e-3  dcfactor=1
+
+ThermalBlockRC:b197 1 1871 1973 1963 1975 6 1977 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 2.1791 de= 1.6849 dw= 1.7849 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib197 1977 0 idc= 0.3539e-3  dcfactor=1
+
+ThermalBlockRC:b198 1 1881 1983 1973 1985 6 1987 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 1.8127 de= 1.2669 dw= 1.6849 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib198 1987 0 idc= 0.3644e-3  dcfactor=1
+
+ThermalBlockRC:b199 1 1891 3 1983 1995 6 1997 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.4u hbelow = 6.24u 
++dn= 0.0000 ds= 2.6130 de= 0.0000 dw= 1.2669 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib199 1997 0 idc= 0.2031e-3  dcfactor=1
+
+ThermalBlockRC:b200 2001 2 2003 4 2005 1005 2007 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8811 ds= 0.0000 de= 2.1069 dw= 0.0000 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib200 2007 0 idc= 0.7441e-3  dcfactor=1
+
+ThermalBlockRC:b201 2011 2 2013 2003 2015 1015 2017 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4593 ds= 0.0000 de= 1.8922 dw= 2.1069 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib201 2017 0 idc= 0.7650e-3  dcfactor=1
+
+ThermalBlockRC:b202 2021 2 2023 2013 2025 1025 2027 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4171 ds= 0.0000 de= 2.3693 dw= 1.8922 dt= 0.0095 db= 0.0332
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib202 2027 0 idc= 0.5712e-3  dcfactor=1
+
+ThermalBlockRC:b203 2031 2 2033 2023 2035 1035 2037 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.2906 ds= 0.0000 de= 1.9479 dw= 2.3693 dt= 0.0095 db= 0.0474
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib203 2037 0 idc= 0.4179e-3  dcfactor=1
+
+ThermalBlockRC:b204 2041 2 2043 2033 2045 1045 2047 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.2990 ds= 0.0000 de= 1.9081 dw= 1.9479 dt= 0.0237 db= 0.0995
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib204 2047 0 idc= 0.7104e-3  dcfactor=1
+
+ThermalBlockRC:b205 2051 2 2053 2043 2055 1055 2057 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.3665 ds= 0.0000 de= 2.2421 dw= 1.9081 dt= 0.1043 db= 0.3128
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib205 2057 0 idc= 0.7558e-3  dcfactor=1
+
+ThermalBlockRC:b206 2061 2 2063 2053 2065 1065 2067 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.1810 ds= 0.0000 de= 2.4170 dw= 2.2421 dt= 0.0190 db= 0.0521
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib206 2067 0 idc= 0.5940e-3  dcfactor=1
+
+ThermalBlockRC:b207 2071 2 2073 2063 2075 1075 2077 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4256 ds= 0.0000 de= 1.7253 dw= 2.4170 dt= 0.0237 db= 0.0664
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib207 2077 0 idc= 0.5432e-3  dcfactor=1
+
+ThermalBlockRC:b208 2081 2 2083 2073 2085 1085 2087 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4171 ds= 0.0000 de= 1.8286 dw= 1.7253 dt= 0.1138 db= 0.2275
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib208 2087 0 idc= 0.2432e-3  dcfactor=1
+
+ThermalBlockRC:b209 2091 2 3 2083 2095 1095 2097 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7799 ds= 0.0000 de= 0.0000 dw= 1.8286 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib209 2097 0 idc= 0.2361e-3  dcfactor=1
+
+ThermalBlockRC:b210 2101 2001 2103 4 2105 1105 2107 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8642 ds= 1.8811 de= 1.2673 dw= 0.0000 dt= 0.0379 db= 0.0758
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib210 2107 0 idc= 0.5772e-3  dcfactor=1
+
+ThermalBlockRC:b211 2111 2011 2113 2103 2115 1115 2117 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.1556 ds= 1.4593 de= 1.5853 dw= 1.2673 dt= 0.0427 db= 0.1611
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib211 2117 0 idc= 0.6462e-3  dcfactor=1
+
+ThermalBlockRC:b212 2121 2021 2123 2113 2125 1125 2127 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4509 ds= 1.4171 de= 1.6410 dw= 1.5853 dt= 0.0474 db= 0.2275
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib212 2127 0 idc= 0.8379e-3  dcfactor=1
+
+ThermalBlockRC:b213 2131 2031 2133 2123 2135 1135 2137 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.0713 ds= 1.2906 de= 1.4740 dw= 1.6410 dt= 0.0521 db= 0.4503
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib213 2137 0 idc= 0.6563e-3  dcfactor=1
+
+ThermalBlockRC:b214 2141 2041 2143 2133 2145 1145 2147 dfactor=vdf       lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.2063 ds= 1.2990 de= 1.3786 dw= 1.4740 dt= 0.0853 db= 0.4645
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib214 2147 0 idc= 0.9588e-3  dcfactor=1
+
+ThermalBlockRC:b215 2151 2051 2153 2143 2155 1155 2157 dfactor=vdf       lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.3412 ds= 1.3665 de= 1.5456 dw= 1.3786 dt= 0.0995 db= 0.4882
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib215 2157 0 idc= 1.0471e-3  dcfactor=1
+
+ThermalBlockRC:b216 2161 2061 2163 2153 2165 1165 2167 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4256 ds= 1.1810 de= 1.3230 dw= 1.5456 dt= 0.1517 db= 0.4977
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib216 2167 0 idc= 0.7942e-3  dcfactor=1
+
+ThermalBlockRC:b217 2171 2071 2173 2163 2175 1175 2177 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.3665 ds= 1.4256 de= 1.4263 dw= 1.3230 dt= 0.2702 db= 0.7109
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib217 2177 0 idc= 0.8131e-3  dcfactor=1
+
+ThermalBlockRC:b218 2181 2081 2183 2173 2185 1185 2187 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.2906 ds= 1.4171 de= 1.4104 dw= 1.4263 dt= 0.1327 db= 0.4218
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib218 2187 0 idc= 0.4843e-3  dcfactor=1
+
+ThermalBlockRC:b219 2191 2091 3 2183 2195 1195 2197 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6786 ds= 1.7799 de= 0.0000 dw= 1.4104 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib219 2197 0 idc= 0.2137e-3  dcfactor=1
+
+ThermalBlockRC:b220 2201 2101 2203 4 2205 1205 2207 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8136 ds= 1.8642 de= 1.4327 dw= 0.0000 dt= 0.0237 db= 0.0474
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib220 2207 0 idc= 0.3674e-3  dcfactor=1
+
+ThermalBlockRC:b221 2211 2111 2213 2203 2215 1215 2217 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6702 ds= 1.1556 de= 1.2816 dw= 1.4327 dt= 0.0190 db= 0.0995
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib221 2217 0 idc= 0.5184e-3  dcfactor=1
+
+ThermalBlockRC:b222 2221 2121 2223 2213 2225 1225 2227 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5268 ds= 1.4509 de= 1.7030 dw= 1.2816 dt= 0.0237 db= 0.1422
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib222 2227 0 idc= 0.7115e-3  dcfactor=1
+
+ThermalBlockRC:b223 2231 2131 2233 2223 2235 1235 2237 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6365 ds= 1.0713 de= 1.5917 dw= 1.7030 dt= 0.0332 db= 0.1280
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib223 2237 0 idc= 0.6698e-3  dcfactor=1
+
+ThermalBlockRC:b224 2241 2141 2243 2233 2245 1245 2247 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6280 ds= 1.2063 de= 1.4406 dw= 1.5917 dt= 0.1659 db= 0.2133
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib224 2247 0 idc= 0.8221e-3  dcfactor=1
+
+ThermalBlockRC:b225 2251 2151 2253 2243 2255 1255 2257 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5943 ds= 1.3412 de= 1.8938 dw= 1.4406 dt= 0.1138 db= 0.3318
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib225 2257 0 idc= 1.0163e-3  dcfactor=1
+
+ThermalBlockRC:b226 2261 2161 2263 2253 2265 1265 2267 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5015 ds= 1.4256 de= 1.4327 dw= 1.8938 dt= 0.0806 db= 0.3792
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib226 2267 0 idc= 0.7090e-3  dcfactor=1
+
+ThermalBlockRC:b227 2271 2171 2273 2263 2275 1275 2277 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7714 ds= 1.3665 de= 1.3850 dw= 1.4327 dt= 0.0853 db= 0.2702
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib227 2277 0 idc= 0.5873e-3  dcfactor=1
+
+ThermalBlockRC:b228 2281 2181 2283 2273 2285 1285 2287 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7377 ds= 1.2906 de= 1.1703 dw= 1.3850 dt= 0.1517 db= 0.2986
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib228 2287 0 idc= 0.2769e-3  dcfactor=1
+
+ThermalBlockRC:b229 2291 2191 3 2283 2295 1295 2297 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.9907 ds= 1.6786 de= 0.0000 dw= 1.1703 dt= 0.0569 db= 0.1138
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib229 2297 0 idc= 0.2252e-3  dcfactor=1
+
+ThermalBlockRC:b230 2301 2201 2303 4 2305 1305 2307 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.3872 ds= 1.8136 de= 1.2912 dw= 0.0000 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib230 2307 0 idc= 0.4868e-3  dcfactor=1
+
+ThermalBlockRC:b231 2311 2211 2313 2303 2315 1315 2317 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8220 ds= 1.6702 de= 1.6092 dw= 1.2912 dt= 0.0664 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib231 2317 0 idc= 0.4777e-3  dcfactor=1
+
+ThermalBlockRC:b232 2321 2221 2323 2313 2325 1325 2327 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7124 ds= 1.5268 de= 1.8080 dw= 1.6092 dt= 0.0569 db= 0.2275
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib232 2327 0 idc= 0.6623e-3  dcfactor=1
+
+ThermalBlockRC:b233 2331 2231 2333 2323 2335 1335 2337 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.3834 ds= 1.6365 de= 1.8477 dw= 1.8080 dt= 0.0521 db= 0.2085
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib233 2337 0 idc= 0.4997e-3  dcfactor=1
+
+ThermalBlockRC:b234 2341 2241 2343 2333 2345 1345 2347 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4003 ds= 1.6280 de= 1.4502 dw= 1.8477 dt= 0.0853 db= 0.1754
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib234 2347 0 idc= 1.1476e-3  dcfactor=1
+
+ThermalBlockRC:b235 2351 2251 2353 2343 2355 1355 2357 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8136 ds= 1.5943 de= 1.7046 dw= 1.4502 dt= 0.1138 db= 0.3507
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib235 2357 0 idc= 1.0800e-3  dcfactor=1
+
+ThermalBlockRC:b236 2361 2261 2363 2353 2365 1365 2367 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.1810 ds= 1.5015 de= 1.2594 dw= 1.7046 dt= 0.2180 db= 0.4645
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib236 2367 0 idc= 0.7025e-3  dcfactor=1
+
+ThermalBlockRC:b237 2371 2271 2373 2363 2375 1375 2377 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5690 ds= 1.7714 de= 1.9193 dw= 1.2594 dt= 0.0521 db= 0.1043
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib237 2377 0 idc= 0.3400e-3  dcfactor=1
+
+ThermalBlockRC:b238 2381 2281 2383 2373 2385 1385 2387 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.1219 ds= 1.7377 de= 1.3627 dw= 1.9193 dt= 0.0569 db= 0.1138
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib238 2387 0 idc= 0.2543e-3  dcfactor=1
+
+ThermalBlockRC:b239 2391 2291 3 2383 2395 1395 2397 dfactor=vdf       lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7799 ds= 1.9907 de= 0.0000 dw= 1.3627 dt= 0.0521 db= 0.1043
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib239 2397 0 idc= 0.1937e-3  dcfactor=1
+
+ThermalBlockRC:b240 2401 2301 2403 4 2405 1405 2407 lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.4294 ds= 2.3872 de= 1.2753 dw= 0.0000 dt= 0.0237 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib240 2407 0 idc= 0.5441e-3  dcfactor=1
+
+ThermalBlockRC:b241 2411 2311 2413 2403 2415 1415 2417 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.1341 ds= 1.8220 de= 1.5376 dw= 1.2753 dt= 0.1374 db= 0.1659
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib241 2417 0 idc= 0.7506e-3  dcfactor=1
+
+ThermalBlockRC:b242 2421 2321 2423 2413 2425 1425 2427 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8220 ds= 1.7124 de= 1.6012 dw= 1.5376 dt= 0.0521 db= 0.1232
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib242 2427 0 idc= 0.4084e-3  dcfactor=1
+
+ThermalBlockRC:b243 2431 2331 2433 2423 2435 1435 2437 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4762 ds= 1.3834 de= 1.7682 dw= 1.6012 dt= 0.0237 db= 0.0901
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib243 2437 0 idc= 0.2644e-3  dcfactor=1
+
+ThermalBlockRC:b244 2441 2341 2443 2433 2445 1445 2447 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4340 ds= 1.4003 de= 1.1322 dw= 1.7682 dt= 0.1848 db= 0.2939
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib244 2447 0 idc= 0.3606e-3  dcfactor=1
+
+ThermalBlockRC:b245 2451 2351 2453 2443 2455 1455 2457 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6618 ds= 1.8136 de= 1.9511 dw= 1.1322 dt= 0.2133 db= 0.4740
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib245 2457 0 idc= 0.3178e-3  dcfactor=1
+
+ThermalBlockRC:b246 2461 2361 2463 2453 2465 1465 2467 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8473 ds= 1.1810 de= 1.0447 dw= 1.9511 dt= 0.2702 db= 0.5782
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib246 2467 0 idc= 0.2646e-3  dcfactor=1
+
+ThermalBlockRC:b247 2471 2371 2473 2463 2475 1475 2477 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8558 ds= 1.5690 de= 1.8477 dw= 1.0447 dt= 0.0995 db= 0.2038
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib247 2477 0 idc= 0.2364e-3  dcfactor=1
+
+ThermalBlockRC:b248 2481 2381 2483 2473 2485 1485 2487 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5099 ds= 1.1219 de= 0.9652 dw= 1.8477 dt= 0.0711 db= 0.1469
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib248 2487 0 idc= 0.2488e-3  dcfactor=1
+
+ThermalBlockRC:b249 2491 2391 3 2483 2495 1495 2497 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5774 ds= 1.7799 de= 0.0000 dw= 0.9652 dt= 0.1517 db= 0.3033
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib249 2497 0 idc= 0.2240e-3  dcfactor=1
+
+ThermalBlockRC:b250 2501 2401 2503 4 2505 1505 2507 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.2607 ds= 2.4294 de= 1.4502 dw= 0.0000 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib250 2507 0 idc= 0.5049e-3  dcfactor=1
+
+ThermalBlockRC:b251 2511 2411 2513 2503 2515 1515 2517 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5521 ds= 2.1341 de= 1.4502 dw= 1.4502 dt= 0.1848 db= 0.3270
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib251 2517 0 idc= 0.4271e-3  dcfactor=1
+
+ThermalBlockRC:b252 2521 2421 2523 2513 2525 1525 2527 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8895 ds= 1.8220 de= 1.5297 dw= 1.4502 dt= 0.1185 db= 0.2607
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib252 2527 0 idc= 0.3460e-3  dcfactor=1
+
+ThermalBlockRC:b253 2531 2431 2533 2523 2535 1535 2537 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7546 ds= 1.4762 de= 1.7762 dw= 1.5297 dt= 0.0332 db= 0.0901
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib253 2537 0 idc= 0.2888e-3  dcfactor=1
+
+ThermalBlockRC:b254 2541 2441 2543 2533 2545 1545 2547 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5268 ds= 1.4340 de= 1.3389 dw= 1.7762 dt= 0.1991 db= 0.2749
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib254 2547 0 idc= 0.4077e-3  dcfactor=1
+
+ThermalBlockRC:b255 2551 2451 2553 2543 2555 1555 2557 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.9486 ds= 1.6618 de= 1.6330 dw= 1.3389 dt= 0.2228 db= 0.4787
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib255 2557 0 idc= 0.3590e-3  dcfactor=1
+
+ThermalBlockRC:b256 2561 2461 2563 2553 2565 1565 2567 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6112 ds= 1.8473 de= 1.3627 dw= 1.6330 dt= 0.1943 db= 0.3887
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib256 2567 0 idc= 0.2630e-3  dcfactor=1
+
+ThermalBlockRC:b257 2571 2471 2573 2563 2575 1575 2577 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8052 ds= 1.8558 de= 1.7285 dw= 1.3627 dt= 0.0427 db= 0.0901
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib257 2577 0 idc= 0.3058e-3  dcfactor=1
+
+ThermalBlockRC:b258 2581 2481 2583 2573 2585 1585 2587 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.3244 ds= 1.5099 de= 1.0050 dw= 1.7285 dt= 0.0853 db= 0.1706
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib258 2587 0 idc= 0.2594e-3  dcfactor=1
+
+ThermalBlockRC:b259 2591 2491 3 2583 2595 1595 2597 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7461 ds= 1.5774 de= 0.0000 dw= 1.0050 dt= 0.0427 db= 0.0901
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib259 2597 0 idc= 0.2656e-3  dcfactor=1
+
+ThermalBlockRC:b260 2601 2501 2603 4 2605 1605 2607 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.0498 ds= 2.2607 de= 1.2912 dw= 0.0000 dt= 0.0284 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib260 2607 0 idc= 0.2966e-3  dcfactor=1
+
+ThermalBlockRC:b261 2611 2511 2613 2603 2615 1615 2617 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4424 ds= 1.5521 de= 1.5297 dw= 1.2912 dt= 0.1138 db= 0.1754
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib261 2617 0 idc= 0.2799e-3  dcfactor=1
+
+ThermalBlockRC:b262 2621 2521 2623 2613 2625 1625 2627 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8052 ds= 1.8895 de= 1.5456 dw= 1.5297 dt= 0.0853 db= 0.1611
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib262 2627 0 idc= 0.4895e-3  dcfactor=1
+
+ThermalBlockRC:b263 2631 2531 2633 2623 2635 1635 2637 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7292 ds= 1.7546 de= 1.5774 dw= 1.5456 dt= 0.0379 db= 0.0711
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib263 2637 0 idc= 0.3561e-3  dcfactor=1
+
+ThermalBlockRC:b264 2641 2541 2643 2633 2645 1645 2647 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.9486 ds= 1.5268 de= 1.5694 dw= 1.5774 dt= 0.1185 db= 0.1422
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib264 2647 0 idc= 0.7212e-3  dcfactor=1
+
+ThermalBlockRC:b265 2651 2551 2653 2643 2655 1655 2657 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7124 ds= 1.9486 de= 1.5853 dw= 1.5694 dt= 0.2417 db= 0.4645
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib265 2657 0 idc= 0.6190e-3  dcfactor=1
+
+ThermalBlockRC:b266 2661 2561 2663 2653 2665 1665 2667 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4256 ds= 1.6112 de= 1.4184 dw= 1.5853 dt= 0.0806 db= 0.1896
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib266 2667 0 idc= 0.3664e-3  dcfactor=1
+
+ThermalBlockRC:b267 2671 2571 2673 2663 2675 1675 2677 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8220 ds= 1.8052 de= 1.8398 dw= 1.4184 dt= 0.0427 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib267 2677 0 idc= 0.2403e-3  dcfactor=1
+
+ThermalBlockRC:b268 2681 2581 2683 2673 2685 1685 2687 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8136 ds= 1.3244 de= 1.0686 dw= 1.8398 dt= 0.0521 db= 0.1043
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib268 2687 0 idc= 0.2541e-3  dcfactor=1
+
+ThermalBlockRC:b269 2691 2591 3 2683 2695 1695 2697 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.9654 ds= 1.7461 de= 0.0000 dw= 1.0686 dt= 0.0332 db= 0.0664
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib269 2697 0 idc= 0.2320e-3  dcfactor=1
+
+ThermalBlockRC:b270 2701 2601 2703 4 2705 1705 2707 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.9486 ds= 2.0498 de= 1.5138 dw= 0.0000 dt= 0.0427 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib270 2707 0 idc= 0.2268e-3  dcfactor=1
+
+ThermalBlockRC:b271 2711 2611 2713 2703 2715 1715 2717 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.1050 ds= 1.4424 de= 1.5615 dw= 1.5138 dt= 0.0284 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib271 2717 0 idc= 0.2629e-3  dcfactor=1
+
+ThermalBlockRC:b272 2721 2621 2723 2713 2725 1725 2727 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8136 ds= 1.8052 de= 1.5853 dw= 1.5615 dt= 0.0332 db= 0.0664
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib272 2727 0 idc= 0.3107e-3  dcfactor=1
+
+ThermalBlockRC:b273 2731 2631 2733 2723 2735 1735 2737 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6702 ds= 1.7292 de= 1.7285 dw= 1.5853 dt= 0.0284 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib273 2737 0 idc= 0.4162e-3  dcfactor=1
+
+ThermalBlockRC:b274 2741 2641 2743 2733 2745 1745 2747 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7377 ds= 1.9486 de= 1.5615 dw= 1.7285 dt= 0.1138 db= 0.1374
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib274 2747 0 idc= 0.7308e-3  dcfactor=1
+
+ThermalBlockRC:b275 2751 2651 2753 2743 2755 1755 2757 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8305 ds= 1.7124 de= 1.5376 dw= 1.5615 dt= 0.1564 db= 0.2844
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib275 2757 0 idc= 0.9469e-3  dcfactor=1
+
+ThermalBlockRC:b276 2761 2661 2763 2753 2765 1765 2767 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6955 ds= 1.4256 de= 1.2355 dw= 1.5376 dt= 0.0190 db= 0.0521
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib276 2767 0 idc= 0.3035e-3  dcfactor=1
+
+ThermalBlockRC:b277 2771 2671 2773 2763 2775 1775 2777 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7799 ds= 1.8220 de= 1.8159 dw= 1.2355 dt= 0.0284 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib277 2777 0 idc= 0.1966e-3  dcfactor=1
+
+ThermalBlockRC:b278 2781 2681 2783 2773 2785 1785 2787 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7208 ds= 1.8136 de= 1.2673 dw= 1.8159 dt= 0.0190 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib278 2787 0 idc= 0.2801e-3  dcfactor=1
+
+ThermalBlockRC:b279 2791 2691 3 2783 2795 1795 2797 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.3619 ds= 1.9654 de= 0.0000 dw= 1.2673 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib279 2797 0 idc= 0.1796e-3  dcfactor=1
+
+ThermalBlockRC:b280 2801 2701 2803 4 2805 1805 2807 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.1088 ds= 1.9486 de= 1.6076 dw= 0.0000 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib280 2807 0 idc= 0.1877e-3  dcfactor=1
+
+ThermalBlockRC:b281 2811 2711 2813 2803 2815 1815 2817 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7799 ds= 1.1050 de= 1.6871 dw= 1.6076 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib281 2817 0 idc= 0.2025e-3  dcfactor=1
+
+ThermalBlockRC:b282 2821 2721 2823 2813 2825 1825 2827 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8305 ds= 1.8136 de= 1.4247 dw= 1.6871 dt= 0.0427 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib282 2827 0 idc= 0.3662e-3  dcfactor=1
+
+ThermalBlockRC:b283 2831 2731 2833 2823 2835 1835 2837 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.5774 ds= 1.6702 de= 1.4327 dw= 1.4247 dt= 0.0284 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib283 2837 0 idc= 0.3743e-3  dcfactor=1
+
+ThermalBlockRC:b284 2841 2741 2843 2833 2845 1845 2847 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.8642 ds= 1.7377 de= 1.6315 dw= 1.4327 dt= 0.0427 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib284 2847 0 idc= 0.4890e-3  dcfactor=1
+
+ThermalBlockRC:b285 2851 2751 2853 2843 2855 1855 2857 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6196 ds= 1.8305 de= 1.2339 dw= 1.6315 dt= 0.0379 db= 0.0806
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib285 2857 0 idc= 0.9347e-3  dcfactor=1
+
+ThermalBlockRC:b286 2861 2761 2863 2853 2865 1865 2867 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.7208 ds= 1.6955 de= 1.0590 dw= 1.2339 dt= 0.0237 db= 0.0664
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib286 2867 0 idc= 0.2337e-3  dcfactor=1
+
+ThermalBlockRC:b287 2871 2771 2873 2863 2875 1875 2877 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.6955 ds= 1.7799 de= 1.6394 dw= 1.0590 dt= 0.0284 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib287 2877 0 idc= 0.2068e-3  dcfactor=1
+
+ThermalBlockRC:b288 2881 2781 2883 2873 2885 1885 2887 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 1.4846 ds= 1.7208 de= 1.0829 dw= 1.6394 dt= 0.0190 db= 0.0474
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib288 2887 0 idc= 0.3070e-3  dcfactor=1
+
+ThermalBlockRC:b289 2891 2791 3 2883 2895 1895 2897 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 2.2860 ds= 2.3619 de= 0.0000 dw= 1.0829 dt= 0.0190 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib289 2897 0 idc= 0.1718e-3  dcfactor=1
+
+ThermalBlockRC:b290 1 2801 2903 4 2905 1905 2907 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 2.1088 de= 1.2832 dw= 0.0000 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib290 2907 0 idc= 0.0653e-3  dcfactor=1
+
+ThermalBlockRC:b291 1 2811 2913 2903 2915 1915 2917 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.7799 de= 1.4820 dw= 1.2832 dt= 0.0047 db= 0.0095
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib291 2917 0 idc= 0.0581e-3  dcfactor=1
+
+ThermalBlockRC:b292 1 2821 2923 2913 2925 1925 2927 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.8305 de= 1.2594 dw= 1.4820 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib292 2927 0 idc= 0.1471e-3  dcfactor=1
+
+ThermalBlockRC:b293 1 2831 2933 2923 2935 1935 2937 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.5774 de= 1.4820 dw= 1.2594 dt= 0.0047 db= 0.0095
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib293 2937 0 idc= 0.1138e-3  dcfactor=1
+
+ThermalBlockRC:b294 1 2841 2943 2933 2945 1945 2947 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.8642 de= 1.3468 dw= 1.4820 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib294 2947 0 idc= 0.0838e-3  dcfactor=1
+
+ThermalBlockRC:b295 1 2851 2953 2943 2955 1955 2957 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.6196 de= 1.4502 dw= 1.3468 dt= 0.0142 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib295 2957 0 idc= 0.1341e-3  dcfactor=1
+
+ThermalBlockRC:b296 1 2861 2963 2953 2965 1965 2967 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.7208 de= 1.4422 dw= 1.4502 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib296 2967 0 idc= 0.0766e-3  dcfactor=1
+
+ThermalBlockRC:b297 1 2871 2973 2963 2975 1975 2977 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.6955 de= 1.4422 dw= 1.4422 dt= 0.0000 db= 0.0095
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib297 2977 0 idc= 0.0678e-3  dcfactor=1
+
+ThermalBlockRC:b298 1 2881 2983 2973 2985 1985 2987 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 1.4846 de= 1.1004 dw= 1.4422 dt= 0.0000 db= 0.0047
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib298 2987 0 idc= 0.0800e-3  dcfactor=1
+
+ThermalBlockRC:b299 1 2891 3 2983 2995 1995 2997 dfactor=vdf      lx=246.7u ly=261.915u habove= 1.35u hbelow = 6.24u 
++dn= 0.0000 ds= 2.2860 de= 0.0000 dw= 1.1004 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib299 2997 0 idc= 0.0680e-3  dcfactor=1
+
+ThermalBlockRC:b300 3001 2 3003 4 3005 2005 3007 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2313 ds= 0.0000 de= 2.4941 dw= 0.0000 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib300 3007 0 idc= 0.7740e-3  dcfactor=1
+
+ThermalBlockRC:b301 3011 2 3013 3003 3015 2015 3017 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1977 ds= 0.0000 de= 2.8217 dw= 2.4941 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib301 3017 0 idc= 0.4986e-3  dcfactor=1
+
+ThermalBlockRC:b302 3021 2 3023 3013 3025 2025 3027 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.9510 ds= 0.0000 de= 2.5787 dw= 2.8217 dt= 0.0237 db= 0.0237
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib302 3027 0 idc= 0.2552e-3  dcfactor=1
+
+ThermalBlockRC:b303 3031 2 3033 3023 3035 2035 3037 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.6146 ds= 0.0000 de= 2.9803 dw= 2.5787 dt= 0.0379 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib303 3037 0 idc= 0.2390e-3  dcfactor=1
+
+ThermalBlockRC:b304 3041 2 3043 3033 3045 2045 3047 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.5698 ds= 0.0000 de= 2.5998 dw= 2.9803 dt= 0.0758 db= 0.0758
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib304 3047 0 idc= 0.2398e-3  dcfactor=1
+
+ThermalBlockRC:b305 3051 2 3053 3043 3055 2055 3057 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.4801 ds= 0.0000 de= 2.4201 dw= 2.5998 dt= 0.2085 db= 0.2085
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib305 3057 0 idc= 0.2107e-3  dcfactor=1
+
+ThermalBlockRC:b306 3061 2 3063 3053 3065 2065 3067 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.4576 ds= 0.0000 de= 2.0925 dw= 2.4201 dt= 0.0332 db= 0.0332
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib306 3067 0 idc= 0.2438e-3  dcfactor=1
+
+ThermalBlockRC:b307 3071 2 3073 3063 3075 2075 3077 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.7828 ds= 0.0000 de= 2.5047 dw= 2.0925 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib307 3077 0 idc= 0.2890e-3  dcfactor=1
+
+ThermalBlockRC:b308 3081 2 3083 3073 3085 2085 3087 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.6258 ds= 0.0000 de= 2.4518 dw= 2.5047 dt= 0.1138 db= 0.1138
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib308 3087 0 idc= 0.3830e-3  dcfactor=1
+
+ThermalBlockRC:b309 3091 2 3 3083 3095 2095 3097 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.9826 ds= 0.0000 de= 0.0000 dw= 2.4518 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib309 3097 0 idc= 0.3376e-3  dcfactor=1
+
+ThermalBlockRC:b310 3101 3001 3103 4 3105 2105 3107 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3322 ds= 2.2313 de= 2.0333 dw= 0.0000 dt= 0.0379 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib310 3107 0 idc= 0.7140e-3  dcfactor=1
+
+ThermalBlockRC:b311 3111 3011 3113 3103 3115 2115 3117 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0295 ds= 2.1977 de= 2.2341 dw= 2.0333 dt= 0.1185 db= 0.1185
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib311 3117 0 idc= 0.6737e-3  dcfactor=1
+
+ThermalBlockRC:b312 3121 3021 3123 3113 3125 2125 3127 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.8277 ds= 1.9510 de= 1.9382 dw= 2.2341 dt= 0.1801 db= 0.1801
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib312 3127 0 idc= 0.2801e-3  dcfactor=1
+
+ThermalBlockRC:b313 3131 3031 3133 3123 3135 2135 3137 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.3007 ds= 1.6146 de= 1.8325 dw= 1.9382 dt= 0.3981 db= 0.3981
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib313 3137 0 idc= 0.1215e-3  dcfactor=1
+
+ThermalBlockRC:b314 3141 3041 3143 3133 3145 2145 3147 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.4016 ds= 1.5698 de= 1.7586 dw= 1.8325 dt= 0.3792 db= 0.3792
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib314 3147 0 idc= 0.2252e-3  dcfactor=1
+
+ThermalBlockRC:b315 3151 3051 3153 3143 3155 2155 3157 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.4913 ds= 1.4801 de= 1.9277 dw= 1.7586 dt= 0.3887 db= 0.3887
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib315 3157 0 idc= 0.1797e-3  dcfactor=1
+
+ThermalBlockRC:b316 3161 3061 3163 3153 3165 2165 3167 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.2446 ds= 1.4576 de= 1.4415 dw= 1.9277 dt= 0.3460 db= 0.3460
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib316 3167 0 idc= 0.2899e-3  dcfactor=1
+
+ThermalBlockRC:b317 3171 3071 3173 3163 3175 2175 3177 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.5249 ds= 1.7828 de= 1.8008 dw= 1.4415 dt= 0.4408 db= 0.4408
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib317 3177 0 idc= 0.1972e-3  dcfactor=1
+
+ThermalBlockRC:b318 3181 3081 3183 3173 3185 2185 3187 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.5810 ds= 1.6258 de= 1.8325 dw= 1.8008 dt= 0.2891 db= 0.2891
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib318 3187 0 idc= 0.3014e-3  dcfactor=1
+
+ThermalBlockRC:b319 3191 3091 3 3183 3195 2195 3197 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.5789 ds= 2.9826 de= 0.0000 dw= 1.8325 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib319 3197 0 idc= 0.4639e-3  dcfactor=1
+
+ThermalBlockRC:b320 3201 3101 3203 4 3205 2205 3207 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.9489 ds= 2.3322 de= 2.1369 dw= 0.0000 dt= 0.0237 db= 0.0237
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib320 3207 0 idc= 0.4029e-3  dcfactor=1
+
+ThermalBlockRC:b321 3211 3111 3213 3203 3215 2215 3217 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1528 ds= 2.0295 de= 2.4857 dw= 2.1369 dt= 0.0806 db= 0.0806
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib321 3217 0 idc= 0.5255e-3  dcfactor=1
+
+ThermalBlockRC:b322 3221 3121 3223 3213 3225 2225 3227 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.4107 ds= 1.8277 de= 2.4222 dw= 2.4857 dt= 0.1185 db= 0.1185
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib322 3227 0 idc= 0.4607e-3  dcfactor=1
+
+ThermalBlockRC:b323 3231 3131 3233 3223 3235 2235 3237 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.8837 ds= 1.3007 de= 2.4222 dw= 2.4222 dt= 0.0948 db= 0.0948
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib323 3237 0 idc= 0.4514e-3  dcfactor=1
+
+ThermalBlockRC:b324 3241 3141 3243 3233 3245 2245 3247 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2089 ds= 1.4016 de= 1.7247 dw= 2.4222 dt= 0.0474 db= 0.0474
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib324 3247 0 idc= 0.5002e-3  dcfactor=1
+
+ThermalBlockRC:b325 3251 3151 3253 3243 3255 2255 3257 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1753 ds= 1.4913 de= 1.7459 dw= 1.7247 dt= 0.2180 db= 0.2180
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib325 3257 0 idc= 0.2036e-3  dcfactor=1
+
+ThermalBlockRC:b326 3261 3161 3263 3253 3265 2265 3267 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.7604 ds= 1.2446 de= 1.3971 dw= 1.7459 dt= 0.2986 db= 0.2986
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib326 3267 0 idc= 0.2258e-3  dcfactor=1
+
+ThermalBlockRC:b327 3271 3171 3273 3263 3275 2275 3277 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3098 ds= 1.5249 de= 2.2637 dw= 1.3971 dt= 0.1848 db= 0.1848
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib327 3277 0 idc= 0.2997e-3  dcfactor=1
+
+ThermalBlockRC:b328 3281 3181 3283 3273 3285 2285 3287 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3659 ds= 1.5810 de= 1.8410 dw= 2.2637 dt= 0.1469 db= 0.1469
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib328 3287 0 idc= 0.3221e-3  dcfactor=1
+
+ThermalBlockRC:b329 3291 3191 3 3283 3295 2295 3297 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.8480 ds= 2.5789 de= 0.0000 dw= 1.8410 dt= 0.0569 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib329 3297 0 idc= 0.4242e-3  dcfactor=1
+
+ThermalBlockRC:b330 3301 3201 3303 4 3305 2305 3307 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.6462 ds= 2.9489 de= 1.7480 dw= 0.0000 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib330 3307 0 idc= 0.5950e-3  dcfactor=1
+
+ThermalBlockRC:b331 3311 3211 3313 3303 3315 2315 3317 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1977 ds= 2.1528 de= 2.4032 dw= 1.7480 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib331 3317 0 idc= 0.6133e-3  dcfactor=1
+
+ThermalBlockRC:b332 3321 3221 3323 3313 3325 2325 3327 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0183 ds= 2.4107 de= 2.2236 dw= 2.4032 dt= 0.1706 db= 0.1706
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib332 3327 0 idc= 0.3950e-3  dcfactor=1
+
+ThermalBlockRC:b333 3331 3231 3333 3323 3335 2335 3337 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0295 ds= 1.8837 de= 2.3610 dw= 2.2236 dt= 0.1564 db= 0.1564
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib333 3337 0 idc= 0.2917e-3  dcfactor=1
+
+ThermalBlockRC:b334 3341 3241 3343 3333 3345 2345 3347 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2089 ds= 2.2089 de= 1.8114 dw= 2.3610 dt= 0.0901 db= 0.0901
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib334 3347 0 idc= 0.3045e-3  dcfactor=1
+
+ThermalBlockRC:b335 3351 3251 3353 3343 3355 2355 3357 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3771 ds= 2.1753 de= 1.9805 dw= 1.8114 dt= 0.2370 db= 0.2370
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib335 3357 0 idc= 0.1528e-3  dcfactor=1
+
+ThermalBlockRC:b336 3361 3261 3363 3353 3365 2365 3367 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2874 ds= 1.7604 de= 1.6423 dw= 1.9805 dt= 0.2465 db= 0.2465
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib336 3367 0 idc= 0.2565e-3  dcfactor=1
+
+ThermalBlockRC:b337 3371 3271 3373 3363 3375 2375 3377 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2537 ds= 2.3098 de= 2.4349 dw= 1.6423 dt= 0.0521 db= 0.0521
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib337 3377 0 idc= 0.3924e-3  dcfactor=1
+
+ThermalBlockRC:b338 3381 3281 3383 3373 3385 2385 3387 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0183 ds= 2.3659 de= 1.8114 dw= 2.4349 dt= 0.0569 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib338 3387 0 idc= 0.4762e-3  dcfactor=1
+
+ThermalBlockRC:b339 3391 3291 3 3383 3395 2395 3397 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 3.1956 ds= 2.8480 de= 0.0000 dw= 1.8114 dt= 0.0521 db= 0.0521
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib339 3397 0 idc= 0.3529e-3  dcfactor=1
+
+ThermalBlockRC:b340 3401 3301 3403 4 3405 2405 3407 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 3.0611 ds= 2.6462 de= 1.5366 dw= 0.0000 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib340 3407 0 idc= 0.2774e-3  dcfactor=1
+
+ThermalBlockRC:b341 3411 3311 3413 3403 3415 2415 3417 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0631 ds= 2.1977 de= 2.4032 dw= 1.5366 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib341 3417 0 idc= 0.4572e-3  dcfactor=1
+
+ThermalBlockRC:b342 3421 3321 3423 3413 3425 2425 3427 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.5229 ds= 2.0183 de= 2.4455 dw= 2.4032 dt= 0.0711 db= 0.0711
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib342 3427 0 idc= 0.2755e-3  dcfactor=1
+
+ThermalBlockRC:b343 3431 3331 3433 3423 3435 2435 3437 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.4780 ds= 2.0295 de= 2.4244 dw= 2.4455 dt= 0.0664 db= 0.0664
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib343 3437 0 idc= 0.1445e-3  dcfactor=1
+
+ThermalBlockRC:b344 3441 3341 3443 3433 3445 2445 3447 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.6013 ds= 2.2089 de= 1.9699 dw= 2.4244 dt= 0.1090 db= 0.1090
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib344 3447 0 idc= 0.2122e-3  dcfactor=1
+
+ThermalBlockRC:b345 3451 3351 3453 3443 3455 2455 3457 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.4107 ds= 2.3771 de= 2.0862 dw= 1.9699 dt= 0.2607 db= 0.2607
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib345 3457 0 idc= 0.1741e-3  dcfactor=1
+
+ThermalBlockRC:b346 3461 3361 3463 3453 3465 2465 3467 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1416 ds= 2.2874 de= 1.9488 dw= 2.0862 dt= 0.3081 db= 0.3081
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib346 3467 0 idc= 0.1192e-3  dcfactor=1
+
+ThermalBlockRC:b347 3471 3371 3473 3463 3475 2475 3477 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2201 ds= 2.2537 de= 2.1813 dw= 1.9488 dt= 0.1043 db= 0.1043
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib347 3477 0 idc= 0.3514e-3  dcfactor=1
+
+ThermalBlockRC:b348 3481 3381 3483 3473 3485 2485 3487 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.8165 ds= 2.0183 de= 1.5049 dw= 2.1813 dt= 0.0758 db= 0.0758
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib348 3487 0 idc= 0.5182e-3  dcfactor=1
+
+ThermalBlockRC:b349 3491 3391 3 3483 3495 2495 3497 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.9714 ds= 3.1956 de= 0.0000 dw= 1.5049 dt= 0.1517 db= 0.1517
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib349 3497 0 idc= 0.1703e-3  dcfactor=1
+
+ThermalBlockRC:b350 3501 3401 3503 4 3505 2505 3507 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 3.3302 ds= 3.0611 de= 1.7269 dw= 0.0000 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib350 3507 0 idc= 0.2028e-3  dcfactor=1
+
+ThermalBlockRC:b351 3511 3411 3513 3503 3515 2515 3517 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2874 ds= 2.0631 de= 1.8854 dw= 1.7269 dt= 0.1422 db= 0.1422
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib351 3517 0 idc= 0.3724e-3  dcfactor=1
+
+ThermalBlockRC:b352 3521 3421 3523 3513 3525 2525 3527 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.4107 ds= 2.5229 de= 2.2870 dw= 1.8854 dt= 0.1422 db= 0.1422
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib352 3527 0 idc= 0.2312e-3  dcfactor=1
+
+ThermalBlockRC:b353 3531 3431 3533 3523 3535 2535 3537 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0743 ds= 2.4780 de= 2.3398 dw= 2.2870 dt= 0.0569 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib353 3537 0 idc= 0.2564e-3  dcfactor=1
+
+ThermalBlockRC:b354 3541 3441 3543 3533 3545 2545 3547 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1528 ds= 2.6013 de= 2.1390 dw= 2.3398 dt= 0.0758 db= 0.0758
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib354 3547 0 idc= 0.2969e-3  dcfactor=1
+
+ThermalBlockRC:b355 3551 3451 3553 3543 3555 2555 3557 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.4780 ds= 2.4107 de= 1.9805 dw= 2.1390 dt= 0.2559 db= 0.2559
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib355 3557 0 idc= 0.2207e-3  dcfactor=1
+
+ThermalBlockRC:b356 3561 3461 3563 3553 3565 2565 3567 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3883 ds= 2.1416 de= 1.6317 dw= 1.9805 dt= 0.1943 db= 0.1943
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib356 3567 0 idc= 0.2666e-3  dcfactor=1
+
+ThermalBlockRC:b357 3571 3471 3573 3563 3575 2575 3577 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.8144 ds= 2.2201 de= 2.5935 dw= 1.6317 dt= 0.0474 db= 0.0474
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib357 3577 0 idc= 0.4108e-3  dcfactor=1
+
+ThermalBlockRC:b358 3581 3481 3583 3573 3585 2585 3587 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.6910 ds= 1.8165 de= 1.6529 dw= 2.5935 dt= 0.0853 db= 0.0853
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib358 3587 0 idc= 0.4212e-3  dcfactor=1
+
+ThermalBlockRC:b359 3591 3491 3 3583 3595 2595 3597 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 3.1283 ds= 2.9714 de= 0.0000 dw= 1.6529 dt= 0.0474 db= 0.0474
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib359 3597 0 idc= 0.1658e-3  dcfactor=1
+
+ThermalBlockRC:b360 3601 3501 3603 4 3605 2605 3607 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3883 ds= 3.3302 de= 1.9699 dw= 0.0000 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib360 3607 0 idc= 0.2049e-3  dcfactor=1
+
+ThermalBlockRC:b361 3611 3511 3613 3603 3615 2615 3617 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.6707 ds= 2.2874 de= 1.9488 dw= 1.9699 dt= 0.0616 db= 0.0616
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib361 3617 0 idc= 0.4308e-3  dcfactor=1
+
+ThermalBlockRC:b362 3621 3521 3623 3613 3625 2625 3627 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.9622 ds= 2.4107 de= 2.0228 dw= 1.9488 dt= 0.0758 db= 0.0758
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib362 3627 0 idc= 0.2767e-3  dcfactor=1
+
+ThermalBlockRC:b363 3631 3531 3633 3623 3635 2635 3637 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0856 ds= 2.0743 de= 2.1602 dw= 2.0228 dt= 0.0332 db= 0.0332
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib363 3637 0 idc= 0.3545e-3  dcfactor=1
+
+ThermalBlockRC:b364 3641 3541 3643 3633 3645 2645 3647 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.4444 ds= 2.1528 de= 2.1179 dw= 2.1602 dt= 0.0237 db= 0.0237
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib364 3647 0 idc= 0.4643e-3  dcfactor=1
+
+ThermalBlockRC:b365 3651 3551 3653 3643 3655 2655 3657 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0071 ds= 2.4780 de= 2.0439 dw= 2.1179 dt= 0.2228 db= 0.2228
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib365 3657 0 idc= 0.3307e-3  dcfactor=1
+
+ThermalBlockRC:b366 3661 3561 3663 3653 3665 2665 3667 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1640 ds= 2.3883 de= 1.8431 dw= 2.0439 dt= 0.1090 db= 0.1090
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib366 3667 0 idc= 0.4653e-3  dcfactor=1
+
+ThermalBlockRC:b367 3671 3571 3673 3663 3675 2675 3677 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.9510 ds= 2.8144 de= 2.2236 dw= 1.8431 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib367 3677 0 idc= 0.4360e-3  dcfactor=1
+
+ThermalBlockRC:b368 3681 3581 3683 3673 3685 2685 3687 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.5922 ds= 2.6910 de= 1.6846 dw= 2.2236 dt= 0.0521 db= 0.0521
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib368 3687 0 idc= 0.5824e-3  dcfactor=1
+
+ThermalBlockRC:b369 3691 3591 3 3683 3695 2695 3697 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.3434 ds= 3.1283 de= 0.0000 dw= 1.6846 dt= 0.0332 db= 0.0332
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib369 3697 0 idc= 0.2050e-3  dcfactor=1
+
+ThermalBlockRC:b370 3701 3601 3703 4 3705 2705 3707 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.7471 ds= 2.3883 de= 2.1284 dw= 0.0000 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib370 3707 0 idc= 0.2989e-3  dcfactor=1
+
+ThermalBlockRC:b371 3711 3611 3713 3703 3715 2715 3717 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.4240 ds= 1.6707 de= 1.3675 dw= 2.1284 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib371 3717 0 idc= 0.3036e-3  dcfactor=1
+
+ThermalBlockRC:b372 3721 3621 3723 3713 3725 2725 3727 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1528 ds= 1.9622 de= 1.9171 dw= 1.3675 dt= 0.0332 db= 0.0332
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib372 3727 0 idc= 0.2549e-3  dcfactor=1
+
+ThermalBlockRC:b373 3731 3631 3733 3723 3735 2735 3737 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2762 ds= 2.0856 de= 2.6252 dw= 1.9171 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib373 3737 0 idc= 0.2784e-3  dcfactor=1
+
+ThermalBlockRC:b374 3741 3641 3743 3733 3745 2745 3747 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0071 ds= 2.4444 de= 2.0545 dw= 2.6252 dt= 0.0237 db= 0.0237
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib374 3747 0 idc= 0.3276e-3  dcfactor=1
+
+ThermalBlockRC:b375 3751 3651 3753 3743 3755 2755 3757 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1304 ds= 2.0071 de= 2.6146 dw= 2.0545 dt= 0.1280 db= 0.1280
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib375 3757 0 idc= 0.4419e-3  dcfactor=1
+
+ThermalBlockRC:b376 3761 3661 3763 3753 3765 2765 3767 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1304 ds= 2.1640 de= 1.6952 dw= 2.6146 dt= 0.0332 db= 0.0332
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib376 3767 0 idc= 0.4631e-3  dcfactor=1
+
+ThermalBlockRC:b377 3771 3671 3773 3763 3775 2775 3777 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.9846 ds= 1.9510 de= 1.8008 dw= 1.6952 dt= 0.0569 db= 0.0569
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib377 3777 0 idc= 0.3461e-3  dcfactor=1
+
+ThermalBlockRC:b378 3781 3681 3783 3773 3785 2785 3787 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.9174 ds= 1.5922 de= 1.4732 dw= 1.8008 dt= 0.0379 db= 0.0379
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib378 3787 0 idc= 0.3186e-3  dcfactor=1
+
+ThermalBlockRC:b379 3791 3691 3 3783 3795 2795 3797 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2537 ds= 2.3434 de= 0.0000 dw= 1.4732 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib379 3797 0 idc= 0.2878e-3  dcfactor=1
+
+ThermalBlockRC:b380 3801 3701 3803 4 3805 2805 3807 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 3.1171 ds= 2.7471 de= 1.7142 dw= 0.0000 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib380 3807 0 idc= 0.2348e-3  dcfactor=1
+
+ThermalBlockRC:b381 3811 3711 3813 3803 3815 2815 3817 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 1.4801 ds= 1.4240 de= 1.5239 dw= 1.7142 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib381 3817 0 idc= 0.3534e-3  dcfactor=1
+
+ThermalBlockRC:b382 3821 3721 3823 3813 3825 2825 3827 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1865 ds= 2.1528 de= 1.9995 dw= 1.5239 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib382 3827 0 idc= 0.2426e-3  dcfactor=1
+
+ThermalBlockRC:b383 3831 3731 3833 3823 3835 2835 3837 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1080 ds= 2.2762 de= 2.4857 dw= 1.9995 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib383 3837 0 idc= 0.2958e-3  dcfactor=1
+
+ThermalBlockRC:b384 3841 3741 3843 3833 3845 2845 3847 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1080 ds= 2.0071 de= 2.2109 dw= 2.4857 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib384 3847 0 idc= 0.2969e-3  dcfactor=1
+
+ThermalBlockRC:b385 3851 3751 3853 3843 3855 2855 3857 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.0071 ds= 2.1304 de= 2.4011 dw= 2.2109 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib385 3857 0 idc= 0.4924e-3  dcfactor=1
+
+ThermalBlockRC:b386 3861 3761 3863 3853 3865 2865 3867 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1080 ds= 2.1304 de= 1.6719 dw= 2.4011 dt= 0.0427 db= 0.0427
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib386 3867 0 idc= 0.2792e-3  dcfactor=1
+
+ThermalBlockRC:b387 3871 3771 3873 3863 3875 2875 3877 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.2201 ds= 1.9846 de= 1.7353 dw= 1.6719 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib387 3877 0 idc= 0.2699e-3  dcfactor=1
+
+ThermalBlockRC:b388 3881 3781 3883 3873 3885 2885 3887 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 2.1528 ds= 1.9174 de= 1.8304 dw= 1.7353 dt= 0.0284 db= 0.0284
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib388 3887 0 idc= 0.2993e-3  dcfactor=1
+
+ThermalBlockRC:b389 3891 3791 3 3883 3895 2895 3897 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 3.0274 ds= 2.2537 de= 0.0000 dw= 1.8304 dt= 0.0190 db= 0.0190
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib389 3897 0 idc= 0.2612e-3  dcfactor=1
+
+ThermalBlockRC:b390 1 3801 3903 4 3905 2905 3907 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 3.1171 de= 1.4309 dw= 0.0000 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib390 3907 0 idc= 0.0888e-3  dcfactor=1
+
+ThermalBlockRC:b391 1 3811 3913 3903 3915 2915 3917 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 1.4801 de= 1.3675 dw= 1.4309 dt= 0.0047 db= 0.0047
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib391 3917 0 idc= 0.0937e-3  dcfactor=1
+
+ThermalBlockRC:b392 1 3821 3923 3913 3925 2925 3927 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.1865 de= 1.6317 dw= 1.3675 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib392 3927 0 idc= 0.0852e-3  dcfactor=1
+
+ThermalBlockRC:b393 1 3831 3933 3923 3935 2935 3937 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.1080 de= 1.5789 dw= 1.6317 dt= 0.0047 db= 0.0047
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib393 3937 0 idc= 0.1069e-3  dcfactor=1
+
+ThermalBlockRC:b394 1 3841 3943 3933 3945 2945 3947 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.1080 de= 1.8325 dw= 1.5789 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib394 3947 0 idc= 0.0731e-3  dcfactor=1
+
+ThermalBlockRC:b395 1 3851 3953 3943 3955 2955 3957 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.0071 de= 1.5472 dw= 1.8325 dt= 0.0237 db= 0.0237
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib395 3957 0 idc= 0.1124e-3  dcfactor=1
+
+ThermalBlockRC:b396 1 3861 3963 3953 3965 2965 3967 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.1080 de= 8.4335 dw= 1.5472 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib396 3967 0 idc= 0.0773e-3  dcfactor=1
+
+ThermalBlockRC:b397 1 3871 3973 3963 3975 2975 3977 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.2201 de= 1.3147 dw= 8.4335 dt= 0.0095 db= 0.0095
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib397 3977 0 idc= 0.0740e-3  dcfactor=1
+
+ThermalBlockRC:b398 1 3881 3983 3973 3985 2985 3987 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 2.1528 de= 1.6106 dw= 1.3147 dt= 0.0047 db= 0.0047
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib398 3987 0 idc= 0.0863e-3  dcfactor=1
+
+ThermalBlockRC:b399 1 3891 3 3983 3995 2995 3997 dfactor=vdf      lx=246.7u ly=261.915u habove= 0.6u hbelow = 5.11u 
++dn= 0.0000 ds= 3.0274 de= 0.0000 dw= 1.6106 dt= 0.0000 db= 0.0000
++kmx = 146 kmy = 146 kmz = 170 kild = 1.1 kbulk = 1.1 rho = 2300 cbulk = 710
+isource:ib399 3997 0 idc= 0.0798e-3  dcfactor=1
+
+***adding epoxy Rth and Handle Si Rth
+resistor:rsi 6 7 r=0.73
+resistor:rsix1 6 1 r=5.5
+resistor:rsix2 6 2 r=5.5
+resistor:rsix3 6 3 r=5.5
+resistor:rsix4 6 4 r=5.5
+resistor:re 7 8 r=15.475
+resistor:re1 8 1 r=2354.9
+resistor:re2 8 2 r=2354.9
+resistor:re3 8 3 r=2354.9
+resistor:re4 8 4 r=2354.9
+resistor:rev 8 9 r=15.475
+
+
+vsource:v6 9 0 vdc=300
+
+isource:v1 1 0 idc=0
+isource:v2 2 0 idc=0
+isource:v3 3 0 idc=0
+isource:v4 4 0 idc=0
+
+isource:v3005	3005	0	idc=0
+isource:v3015	3015	0	idc=0
+isource:v3025	3025	0	idc=0
+isource:v3035	3035	0	idc=0
+isource:v3045	3045	0	idc=0
+isource:v3055	3055	0	idc=0
+isource:v3065	3065	0	idc=0
+isource:v3075	3075	0	idc=0
+isource:v3085	3085	0	idc=0
+isource:v3095	3095	0	idc=0
+isource:v3105	3105	0	idc=0
+isource:v3115	3115	0	idc=0
+isource:v3125	3125	0	idc=0
+isource:v3135	3135	0	idc=0
+isource:v3145	3145	0	idc=0
+isource:v3155	3155	0	idc=0
+isource:v3165	3165	0	idc=0
+isource:v3175	3175	0	idc=0
+isource:v3185	3185	0	idc=0
+isource:v3195	3195	0	idc=0
+isource:v3205	3205	0	idc=0
+isource:v3215	3215	0	idc=0
+isource:v3225	3225	0	idc=0
+isource:v3235	3235	0	idc=0
+isource:v3245	3245	0	idc=0
+isource:v3255	3255	0	idc=0
+isource:v3265	3265	0	idc=0
+isource:v3275	3275	0	idc=0
+isource:v3285	3285	0	idc=0
+isource:v3295	3295	0	idc=0
+isource:v3305	3305	0	idc=0
+isource:v3315	3315	0	idc=0
+isource:v3325	3325	0	idc=0
+isource:v3335	3335	0	idc=0
+isource:v3345	3345	0	idc=0
+isource:v3355	3355	0	idc=0
+isource:v3365	3365	0	idc=0
+isource:v3375	3375	0	idc=0
+isource:v3385	3385	0	idc=0
+isource:v3395	3395	0	idc=0
+isource:v3405	3405	0	idc=0
+isource:v3415	3415	0	idc=0
+isource:v3425	3425	0	idc=0
+isource:v3435	3435	0	idc=0
+isource:v3445	3445	0	idc=0
+isource:v3455	3455	0	idc=0
+isource:v3465	3465	0	idc=0
+isource:v3475	3475	0	idc=0
+isource:v3485	3485	0	idc=0
+isource:v3495	3495	0	idc=0
+isource:v3505	3505	0	idc=0
+isource:v3515	3515	0	idc=0
+isource:v3525	3525	0	idc=0
+isource:v3535	3535	0	idc=0
+isource:v3545	3545	0	idc=0
+isource:v3555	3555	0	idc=0
+isource:v3565	3565	0	idc=0
+isource:v3575	3575	0	idc=0
+isource:v3585	3585	0	idc=0
+isource:v3595	3595	0	idc=0
+isource:v3605	3605	0	idc=0
+isource:v3615	3615	0	idc=0
+isource:v3625	3625	0	idc=0
+isource:v3635	3635	0	idc=0
+isource:v3645	3645	0	idc=0
+isource:v3655	3655	0	idc=0
+isource:v3665	3665	0	idc=0
+isource:v3675	3675	0	idc=0
+isource:v3685	3685	0	idc=0
+isource:v3695	3695	0	idc=0
+isource:v3705	3705	0	idc=0
+isource:v3715	3715	0	idc=0
+isource:v3725	3725	0	idc=0
+isource:v3735	3735	0	idc=0
+isource:v3745	3745	0	idc=0
+isource:v3755	3755	0	idc=0
+isource:v3765	3765	0	idc=0
+isource:v3775	3775	0	idc=0
+isource:v3785	3785	0	idc=0
+isource:v3795	3795	0	idc=0
+isource:v3805	3805	0	idc=0
+isource:v3815	3815	0	idc=0
+isource:v3825	3825	0	idc=0
+isource:v3835	3835	0	idc=0
+isource:v3845	3845	0	idc=0
+isource:v3855	3855	0	idc=0
+isource:v3865	3865	0	idc=0
+isource:v3875	3875	0	idc=0
+isource:v3885	3885	0	idc=0
+isource:v3895	3895	0	idc=0
+isource:v3905	3905	0	idc=0
+isource:v3915	3915	0	idc=0
+isource:v3925	3925	0	idc=0
+isource:v3935	3935	0	idc=0
+isource:v3945	3945	0	idc=0
+isource:v3955	3955	0	idc=0
+isource:v3965	3965	0	idc=0
+isource:v3975	3975	0	idc=0
+isource:v3985	3985	0	idc=0
+isource:v3995	3995	0	idc=0
+
+.dc
+.out plot term 7 vt in "tepoxy.out"
+.out plot term 1447 vt in "temperature1447.out"
+
+.end

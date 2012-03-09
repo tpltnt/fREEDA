@@ -1,0 +1,79 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Inductor}
+\hspace{\fill}\textbf{inductor}}\\
+\hrulefill \linethickness{0.5mm}\line(1,0){425}
+%\newline
+%\hline
+\normalsize
+\newline
+% the inductor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\epsfbox{figures/l_spice.ps}} \caption{L ---
+Inductor Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt inductor$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+&  \\
+$n_2$ & is the negative element node. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+inductor: Inductance value (H)& DOUBLE & N/A & yes\\
+\hline
+int\_res: Internal resistance value (ohms) & DOUBLE & 1e-08 & no\\
+\hline
+time\_d:Flag, if true, calculate in the time domain. & BOOLEAN & false & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{inductor:l3\ 5\ 8\ 1mH}
+\newline
+\texttt{inductor:l1\ 1\ 2\ l=1e-9 time\_d=0}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+%\begin{itemize}
+This is the \texttt{L} element in the SPICE compatible netlist.\\\\
+This was the original fREEDA inductor element, the preferred element to use is the \texttt{l}  element which, as of March 2008, was exactly the same element as the inductor element. The 'inductor element will be phased out and maintained for now for compatibility with older netlists.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+%\end{itemize}
+% Credits
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

@@ -1,0 +1,16 @@
+This is TeX, Version 3.141592 (MiKTeX 2.2) (preloaded format=latex 2000.11.28)  20 MAR 2003 15:07
+**freeda1.sty
+(freeda1.sty
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for english, french, german, ngerman, du
+mylang, nohyphenation, loaded.
+
+! LaTeX Error: \usepackage before \documentclass.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.109 \usepackage{
+                  epsf}
+? 

@@ -1,0 +1,63 @@
+*One-shot Trigger.
+*This cicruit generates a pulse of a predetermined width 
+*triggered by an input event. BSIM3 test.
+
+*A two-gate delay element
+
+*vdd 1 
+*in 2
+*4 3
+*A 4
+*Anot 5
+*Bnot 6
+*AorBnot 7
+*1 8
+*Lnot 9
+*2 10
+*out 11
+*3 12
+vsource:vcc 1 0 vdc=5 
+vpulse:vin 2 0  v1=0.0 v2=5 td=0.0n tr=0.2ns tf=0.2ns pw=8ns per=50ns
+
+Mospbsim3:md1 3 2 1 1  w=3.6u l=1.2u u0=0.025
+Mosnbsim3:Md2 3 2 0 0  w=1.8u l=1.2u u0=0.067
+capacitor:c4 3 0 c=30f
+Mospbsim3:Md3 4 3 1 1  w=3.6u l=1.2u u0=0.025
+Mosnbsim3:Md4 4 3 0 0  w=1.8u l=1.2u u0=0.067
+capacitor:ca 4 0 c=30f
+
+*EXOR gate
+*A inverter
+
+Mospbsim3:M1 5 4 1 1  w=3.6u l=1.2u u0=0.025
+Mosnbsim3:M2 5 4 0 0  w=1.8u l=1.2u u0=0.067
+
+Mospbsim3:M3 6 2 1 1  w=3.6u l=1.2u u0=0.025
+Mosnbsim3:M4 6 2 0 0  w=1.8u l=1.2u u0=0.067
+
+Mospbsim3:M5 7 0 1 1  w=1.8u l=3.6u u0=0.025
+Mosnbsim3:M6 7 2 8 8  w=1.8u l=1.2u u0=0.067
+Mosnbsim3:M7 8 5 0 0  w=1.8u l=1.2u u0=0.067
+
+Mospbsim3:M8 9 0 1 1  w=1.8u l=3.6u u0=0.025  
+Mosnbsim3:M9 9 6 10 10 w=1.8u l=1.2u u0=0.067
+Mosnbsim3:M10 10 4 0 0 w=1.8u l=1.2u u0=0.067
+
+Mospbsim3:M11 11 0 1 1  w=3.6u l=3.6u u0=0.025  
+Mosnbsim3:M12 11 7 12 12 w=1.8u l=1.2u u0=0.067
+Mosnbsim3:M13 12 9 0 0 w=1.8u l=1.2u u0=0.067
+*end of EXOR gate
+
+
+.tran tstep= 0.1n tstop=100n  cm=1
+*.dc
+.out plot term 11  vt in "trigger.out"
+.out plot term 7 vt in "trigger7.out"
+.out plot term 6 vt in "trigger6.out"
+.out plot term 2 vt in "trigger.in"
+.out plot term 1 vt in "trigger.vdd"
+.end
+
+
+
+

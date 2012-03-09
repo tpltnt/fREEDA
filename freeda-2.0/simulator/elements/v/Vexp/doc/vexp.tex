@@ -1,0 +1,105 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Exponential voltage source}
+\hspace{\fill}\textbf{vexp}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+%\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.5in\epsfbox{v_source.eps}}
+\caption{Independent Voltage Source Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt vexp$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+&  \\
+$n_2$ & is the negative element node. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+v1: Initial value (A) & DOUBLE & 0 & no\\
+\hline
+v2: Final voltage (A) & DOUBLE & 0 & no\\
+\hline
+tdr: Rise Time delay (s) & DOUBLE & 0 & no\\
+\hline
+tdf: Fall Time delay (s) & DOUBLE & 0 & no\\
+\hline
+tcr: Rise Time Constant (s) & DOUBLE & 0 & no\\
+\hline
+tcf: Fall Time Constant (s) & DOUBLE & 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+%\newline
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{vexp:vsignal\ 8\ 0\ v1=0.1 v2=0.8 tdr=1 tdf=2 tcr=0.35
+tcf=1}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The exponential transient is a single-shot event specifying two
+exponentials. The voltage is $v_1$ for the first $t_{dr}$ seconds
+at which it begins increasing exponentially towards $v_2$ with a
+time constant of $t_{cr}$ seconds. At time $t_{df}$ the voltage
+exponentially decays towards $v_1$ with a time constant of
+$t_{cf}$. That is, The waveform shape of an exponential voltage
+source is given by
+\begin{eqnarray}
+v_1     & 0 < t \leq t_{d1}\\
+v_1 + (v_2 - v_1)[1 - e^{-(t-t_{dr})/t_{cr}}]     & t_{d1} < t \leq t_{d2}\\
+v_1 + (v_2 - v_1)[1 -
+e^{-(t_{df}-t_{dr})/t_{cr}}]e^{-(t-t_{df})/t_{cf}} & t_{d2} < t
+\leq t_{stop}
+\end{eqnarray}
+\begin{figure}[h]
+\centerline{\epsfxsize=3in\epsfbox{vexpcurve.eps}} \caption{Voltage source
+transient exponential waveform for \texttt{vexp:vsignal\ 8\ 0\
+v1=0.1 v2=0.8 tdr=1 tdf=2 tcr=0.35 tcf=1}}
+\end{figure}
+\newpage
+\noindent\linethickness{0.5mm} \line(1,0){425}
+
+\noindent\textit{Notes:}\\
+This is the \texttt{V} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.05.15 \\
+% Credits
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & May 2002 & \epsfxsize=1in\epsfbox{logo.eps} \\
+svuppath@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

@@ -1,0 +1,356 @@
+\documentclass{article}
+\usepackage{epsf}
+\usepackage{graphics}
+\newcommand{\fig}[1]{/#1}
+\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+\newcommand{\TPG}{T_{PG}}
+\newcommand{\PHI}{2\phi_{B}}
+\newcommand{\GAMMA}{\gamma}
+\newcommand{\FDA}{FreeDa}
+\newcommand{\LAMBDA}{\lambda}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+\begin{document}
+{\noindent{\LARGE \textbf{N Channel MOSFET level 1} \hspace{25mm}
+\textbf{mosn1}}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\epsfbox{figures/m.ps}} \caption{N Channel MOSFET
+Level 1 model}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt mosn1$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{r l}
+instance name & is the model name, \\
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+$n_4$ & is the bulk node. \\
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[tbph]
+\begin{tabular}{|l|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+vt0: Zero bias threshold voltage (V)& DOUBLE & 0 & no\\
+\hline
+kp: Transconductance parameter ($\textrm{A}/\textrm{V}^2$) & DOUBLE & $2\times10^{-5}$ & no\\
+\hline
+gamma: Bulk threshold parameter ($\textrm{V}^{0.5}$) & DOUBLE & 0 & no\\
+\hline
+phi: Surface inversion potential (V) & DOUBLE & 0.6 & no\\
+\hline
+lambda: Channel-length modulation ($\textrm{1/V}$) & DOUBLE & 0 & no\\
+\hline
+pb: Bulk junction potential (V) & DOUBLE & 0.8 & no\\
+\hline
+tox: Oxide thickness (m)& DOUBLE & $1\times10^{-7}$ & no\\
+\hline
+ld: Lateral diffusion length (m) & DOUBLE & 0 & no\\
+\hline
+u0: Surface mobility ($\textrm{cm}^2/\textrm{V-s}$)& DOUBLE & 600 & no\\
+\hline
+fc: Forward bias junction fit parameter & DOUBLE &  0.5 & no\\
+\hline
+nsub: Substrate doping ($\textrm{cm}^{-3}$) & DOUBLE & $1\times10^{15}$ & no\\
+\hline
+tpg: Gate material type & DOUBLE & 1 & no\\
+\hline
+nss: Surface state density ($\textrm{cm}^{-2}$) & DOUBLE & 0 & no\\
+\hline
+tnom: Nominal temperature (C)& DOUBLE & 27 & no\\
+\hline
+t: Device temperature (C)& DOUBLE & 27 & no\\
+\hline
+l: Device length (m)& DOUBLE & $2\times10^{-6}$ & no\\
+\hline
+w: Device width (m)& DOUBLE & $50\times10^{-6}$ & no\\
+\hline
+alpha: Impact ionization current coefficient & DOUBLE & 0 & no\\
+\hline
+
+\end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in \FDA
+%\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{mosn1:m1\ 2\ 3\ 0\ 0\ l=1.2u w=20u}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+\FDA{} has the NMOS level 1 model based on the MOS level 1,
+Schichman-Hodges model in SPICE. The model uses the charge
+conservative Yang-Chatterjee model for modeling charge and capacitance. \\
+%%%%%%%%%%%%% Equations follow below
+
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzmann's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+$\epsilon_0$& free space permittivity &  $8.854214871\,10^{-12}$~F/m\\
+$\epsilon_{Si}$& permittivity of silicon &  $11.7 \epsilon_0$\\
+$\epsilon_{OX}$& permittivity of silicon dioxide &  $3.9 \epsilon_0$\\
+$n_i$&intrinsic concentration of silicon @ 300~K& $1.45\,10^{16}~\mbox{m}^{-3}$\\
+\hline
+\end{tabular}
+\end{center}
+
+%vbi is $F_{\ms{FB}}$\\
+%wkfng is $\phi_{\ms{GATE}}$ ???\\
+%wkfngs is $\phi_{\ms{MS}}$\\
+%egfet is $E_G$ ??? \\
+\vfill
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+Absolute temperatures (in kelvins, K) are used. The thermal
+voltage
+\begin{equation}
+V_{TH}(T_{NOM}) = {{kT_{NOM}} \over q} .
+\end{equation}
+\noindent The silicon bandgap energy
+\begin{equation}
+E_G(T_{NOM})=1.16 - 0.000702{{4T_{NOM}^2} \over {T_{NOM}+1108}} .
+\end{equation}
+The difference of the gate and bulk contact potentials
+\begin{equation}
+\phi_{\tt{MS}} = \phi_{GATE} - \phi_{BULK} .
+\end{equation}
+The gate contact potential
+\begin{equation}
+\phi_{GATE} = \left\{ \begin{array}{ll}
+        3.2 & \mbox{$\TPG = 0$}\\
+        3.25& \mbox{NMOS \& $\TPG = 1$}\\
+        3.25 + E_G     & \mbox{NMOS \& $\TPG = -1$}\\
+        \end{array} \right. .
+    %}
+\end{equation}
+
+\noindent The contact potential of the bulk material
+\begin{equation}
+\phi_{BULK} = 3.25 + E_G \mbox{ \ for  NMOS}\\
+\end{equation}
+
+\noindent The capacitance per unit area of the oxide is
+\begin{equation}
+C_{OX} = {{\epsilon_{OX}} \over {\tt TOX}} .
+\end{equation}
+The effective length $L_{EFF}$ of the channel is reduced by the
+amount {\tt LD} of the lateral diffusion at the source and drain
+regions:
+\begin{equation}
+L_{EFF} = {\tt L} - 2{\tt LD}
+\end{equation}
+Similarly the effective length $W_{EFF}$ of the channel is reduced
+by the amount {\tt WD} of the lateral diffusion at the edges of
+the channel.
+\begin{equation}
+W_{EFF} = {\tt W}  - 2{\tt WD}
+\end{equation}
+
+\vfill \noindent\underline{\sl \large Process Oriented Model}
+\index{MOSFET, Process Oriented Model}
+\\[0.1in]
+If omitted, device parameters are computed from process parameters
+using defaults if necessary provided that both {\tt TOX} and {\tt
+NSUB} are specified.  If either {\tt TOX} or {\tt NSUB} is not
+specified then the critical device parameters must be specified.\\
+
+\noindent If {\tt KP} is not specified in the model statement then
+\begin{equation}
+{\tt KP} = \mu_{0} / C_{OX}
+\end{equation}
+
+\noindent If {\tt PHI} is not specified, then it is evaluated as
+\begin{equation}
+{\tt PHI} = \PHI = 2V_{TH}(T_{NOM})\ln{{\tt NSUB} \over {n_{i}}}
+\end{equation}
+
+\noindent If {\tt GAMMA} is not specified in the model statement
+then
+\begin{equation}
+{\tt GAMMA} = \GAMMA = {{\sqrt{2\epsilon_{Si} q NSUB}} \over
+{C_{OX}}} \label{gammaomitted}
+\end{equation}
+
+\noindent If {\tt VTO} is not specified in the model statement
+then it is evaluated as
+\begin{equation}
+{\tt VTO} = V_{FB} + {\GAMMA} \sqrt{\PHI} + \PHI
+\end{equation}
+
+where $V_{FB}$ is
+\begin{equation}
+V_{FB} = \phi_{MS} - { q \ \tt {NSS} \over {C_{OX}}}
+\end{equation}
+
+\vfill \noindent\underline{\sl \large Temperature Dependence}
+\index{MOSFET, Temperature Dependence} \index{Temperature
+Dependence, see MOSFET}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and
+$T_{\tt{NOM}}$ are absolute temperatures in Kelvins (K).
+\begin{eqnarray}
+V_{TH} & = & {{kT} \over q}\\
+KP(T) & = & {\tt KP}  (T_{NOM}/T)^{3/2} \\
+\mu (T) & = & \mu_{0}  (T_{NOM}/T)^{3/2} \\
+\PHI (T) & = & \PHI {T \over {T_{NOM}}} - 3V_{TH} \ln{{T \over
+{T_{NOM}}}
+ } + E_G (T_{NOM} -E_G(T)
+\end{eqnarray}
+
+\vfill \noindent\underline{\sl \large DC Current
+Calculations}\\[0.1in]
+
+\noindent The Schichman-Hodges model computes the current of the
+MOS device in only three regions, cutoff, linear and saturation.
+The regions are defined as:\\[0.1in]
+\hspace*{\fill}\parbox{5in}{
+\begin{tabular}{ll}
+cutoff region:&$V_{GS} < V_T$\\
+linear region:&$V_{GS} > V_T$ and $V_{DS} < V_{GS}-V_{T}$\\
+saturation region:&$V_{GS} > V_T$ and $V_{DS} > V_{GS}-V_{T}$\\
+\end{tabular}}\\[0.1in]
+where the threshold voltage is
+\begin{equation}
+V_{T} = \left\{ \begin{array}{ll}
+          V_{FB} + \PHI + \GAMMA \sqrt{\PHI - V_{BS}}
+               & V_{BS} \ge \PHI \\
+          V_{FB} + \PHI & V_{BS} < \PHI
+          \end{array} \right. %}
+\end{equation}
+
+\noindent Then
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      { {\textstyle W_{EFF}} \over {\textstyle L_{EFF}}}
+      {{\textstyle KP} \over {\textstyle 2}}
+      ( 1+\LAMBDA V_{DS})
+      V_{DS} \left[2(V_{GS}-V_{T})-V_{DS}\right]
+         &\mbox{linear region} \\ \\
+      { {\textstyle W_{EFF}} \over {\textstyle L_{EFF}}}
+      {{\textstyle KP} \over {\textstyle 2}}
+      (1+\LAMBDA V_{DS})
+      \left[V_{GS}-V_{T}\right]^2
+         &\mbox{saturation region} \end{array} \right. %}
+      \label{mlevel1ids}
+\end{equation}
+
+
+\vfill \noindent\underline{\sl \large Yang-Chatterjee
+ChargeModel}\\[0.1in]
+
+\noindent Once the DC channel current has been calculated, the
+charge at each terminal of the MOS device is computed.  The charge
+values are used to compute the AC current flow through each
+terminal according to the Yang-Chatterjee model.  This model
+ensures continuity of the charges and capacitances throughout
+different regions of operation. The intermediate quantities are:
+
+\begin{equation}
+V_{FB} = V_{to} - \GAMMA \, \sqrt{\PHI} - \PHI
+\end{equation}
+and
+\begin{equation}
+C_o = C_{OX} \, W_{eff} \, L_{eff}
+\end{equation}
+
+\noindent The charge is computed for for each of the four regions
+of operation, accumulation, cut-off, saturation and linear.\\
+
+\textit{Accumulation region} $V_{GS} \leq V_{FB} + V_{BS}$
+\begin{eqnarray}
+Q_d & = & 0\\
+Q_s & = & 0\\
+Q_b & = & -C_o \, (V_{GS} - V_{FB} - V_{BS})
+\end{eqnarray}
+
+\textit{Cut-off region} $V_{FB} + V_{BS} < V_{GS} \leq V_{th}$
+\begin{eqnarray}
+Q_d & = & 0\\
+Q_s & = & 0\\
+Q_b & = & -C_o \, {\texttt{GAMMA}^2 \over 2} \, \{-1 + \sqrt{1 +
+{4 \, (V_{GS} - V_{FB} - V_{BS}) \over \texttt{GAMMA}^2}}\}
+\end{eqnarray}
+
+\textit{Saturation region} $V_{th} < V_{GS} \leq V_{DS} + V_{th}$
+\begin{eqnarray}
+Q_d & = & 0\\
+Q_s & = & -{2 \over 3} \, C_o \, (V_{GS} - V_{th}) \\
+Q_b & = & C_o \, (V_{FB}\, \texttt{PHI} - V_{th})
+\end{eqnarray}
+
+\textit{Linear region} $V_{GS} > V_{DS} + V_{th}$
+\begin{eqnarray}
+Q_d & = & -C_o \, [{V_{DS}^2 \over 8\,(V_{GS} - V_{th} - {V_{DS} \over 2})} + {V_{GS} - V_{th} \over 2} - {3 \over 4}\,V_{DS}] \\
+Q_s & = & -C_o \, [{V_{DS}^2 \over 24\,(V_{GS} - V_{th} - {V_{DS} \over 2})} + {V_{GS} - V_{th} \over 2} + {1 \over 4}\,V_{DS}] \\
+Q_b & = & C_o \, (V_{FB}\, \texttt{PHI} - V_{th})
+\end{eqnarray}
+
+\noindent The final currents at the transistor nodes are given by
+\begin{eqnarray}
+I_d & = & I_{D} + {dQ_d \over dt} \\
+I_g & = & {dQ_g \over dt} \\
+I_s & = & -I_{D} + {dQ_s \over dt}
+\end{eqnarray}
+
+%\newpage
+%\begin{figure}[h] \leavevmode \hspace*{\fill}
+%\epsfxsize=2.5in\pfig{nmos_dc.ps} \hspace{\fill} \hspace{\fill}
+%\epsfxsize=2.5in\pfig{nmos_tran.ps}
+%\hspace*{\fill}\\
+%\hspace*{\fill} (a) \hspace{\fill} \hspace{\fill} (b)
+%\hspace*{\fill} \caption {\label{NMOS Analysis results} Analysis
+%results.}
+%\end{figure}
+
+%\begin{figure}[h]
+%  \begin{center}
+%    \begin{tabular}{c c}
+%      \resizebox{60mm}{!}{\includegraphics{nmos_dc.ps}} & \resizebox{60mm}{!}{\includegraphics{nmos_tran.ps}} \\
+%    \end{tabular}
+%    \caption{Analysis results}
+%    \label{NMOS Analysis results}
+%  \end{center}
+%\end{figure}
+%\noindent\linethickness{0.5mm} \line(1,0){425}
+
+\noindent\textit{Notes:}\\
+This is the \texttt{M} element in the SPICE compatible netlist.
+The unmodified Yang-Chatterjee charge model has a charge partition
+scheme in the saturation region that sets the drain charge to
+zero.  This results in
+a loss of the high-frequency current roll-off at the drain node in saturation. \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Aaron Walker & NC State University & August 2002 & www.ncsu.edu \\
+nmkripla@unity.ncsu.edu & & & www.ncsu.edu
+\end{tabular}
+\end{document}

@@ -1,0 +1,39 @@
+
+\chapter{Analysis Types and Element Catalog}
+
+\section{Introduction}
+
+Because the list of available elements is constantly changing as
+fREEDA$^{\mathrm{TM}}$ is being developed, the catalog of elements is automatically
+created by fREEDA$^{\mathrm{TM}}$. The element catalog contains for each available
+element the syntax, a description of the paramenters accepted, as well
+as the author information. The format used for this file is html.
+
+fREEDA$^{\mathrm{TM}}$ also generates a html catalog with a list of analysis types
+and the specific options of each.
+
+Both catalogs are included at the end of this document.
+
+
+\section{Creating the Catalogs}
+
+fREEDA is self-documenting with respect to analysis and elements.  This is limited documentation largely derived from teh actual element data structures.  Teh authors of analyses and elements often provide more elaborate pdf forms of diocumentation. For the elements these are linked to in the html files automatically developed as described below.  A browser will be launched with the documentation.
+
+The command line to generate the element catalogs is \medskip \\
+{\tt freeda -c} \medskip \\
+The catalogs are writen to the file and {\tt
+tr\_elements.html} in the fREEDA documentation directory as
+defined by the FREEDA_WEB_DOCUMENTATION environment variable.
+
+The command line to generate the analysis catalogs is \medskip \\
+{\tt freeda -a} \medskip \\
+The catalogs are writen to the files {\tt tr\_analysis.html} and {\tt
+tr\_elements.html} in the fREEDA documentation directory as defined by the FREEDA_WEB_DOCUMENTATION environment variable.
+
+The command line to generate the catalog of an indiviidual element of name {\em elementName} (lower case must be used) is \medskip \\
+
+{\tt freeda -c} {\em elementName} \medskip \\
+The catalogs are writen to the file  {\em elementName}{\tt
+.html} in the fREEDA documentation directory as
+defined by the FREEDA_WEB_DOCUMENTATION environment variable.
+

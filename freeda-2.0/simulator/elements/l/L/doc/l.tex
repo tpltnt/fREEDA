@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{L}
+\hspace{\fill}\textbf{inductor}}\\
+\myThickLine
+\normalsize
+\newline
+% the inductor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\epsfbox{figures/l.eps}} \caption{L ---
+Inductor Element.}
+\end{figure}
+\newline
+% form for \FDA
+\myThickLine
+\newline
+\textit{Form:}
+\newline
+$\tt l$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+$n_2$ & is the negative element node. \\
+\end{tabular}
+\medskip
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|p{3in}|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+l: Inductance value (H)& DOUBLE & N/A & yes\\
+\hline
+int\_res: Internal resistance value (ohms) & DOUBLE & 1e-08 & no\\
+\hline
+time\_d: Flag, if true, calculate in the time domain as if a nonlinear element. & BOOLEAN & false & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+~
+\myThickLine
+\textit{Example:}
+\newline
+\texttt{l:l3\ 5\ 8\ 1mH}
+\newline
+\texttt{l:l1\ 1\ 2\ l=1e-9 time\_d=0}
+\newline
+\myThickLine
+\newline
+\textit{Notes:}\\
+%\begin{itemize}
+This is the \texttt{L} element in the SPICE compatible netlist.\\\\
+This is  a linear element and is normally calculated as a linear element in time- and frequency-domain analyses.\\\\
+The parameter \texttt{time\_d} indicates that the element should be treated as if it were a nonlinear element in transient analysis. Normally a linear element (as when \texttt{time\_d = false}) is calculated in the time-domain by filling a MNAM for the entire linear partition.  This is done just once.  With \texttt{time\_d = true} the element is calculated as it would be in Spice.\\\\
+The internal resistance \texttt{int\_res} is required to improve the conditioning of the MNAM in transient analysis.\\
+\myThickLine
+\newline
+\textit{Version:}\\
+2008.04.05 \\
+\myThickLine
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+Name & Affiliation & Date & Links \\
+Michael Steer & NC State University & April 2008 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+mbsteer@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

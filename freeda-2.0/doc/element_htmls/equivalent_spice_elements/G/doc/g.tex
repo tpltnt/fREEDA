@@ -1,0 +1,241 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+%\newcommand{\ms}[1]{\mbox{\scriptsize #1}}
+%\newcommand{\B}{{ \rm [}}     % begin optional parameter in \form{}
+%\newcommand{\E}{{\ \rm\hspace{-0.04in}] }}   % end optional parameter in \form{}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[G \- Voltage-Controlled Current Source]{\noindent{\LARGE \textbf{Voltage-Controlled Current Source} \hspace{35mm}\huge\textbf{G}}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=3in\pfig{g_spice.ps}} \caption{G ---
+voltage-controlled current source element.}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+{\tt G}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ {\it Transconductance}\\
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )} $N_{C+}$ $N_{C-}$
+        {\it PolynomialCoefficients}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{r l}
+$N_{+}$ & is the positive voltage source node.\\
+$N_{-}$ & is the negative voltage source node.\\
+$N_{C+}$ & is the positive controlling node.\\
+$N_{C-}$ & is the negative controlling node.\\
+{\it Transconductance} & is the transconductance.\\
+{\tt POLY} & is the identifier for the polynomial form of the
+element.\\
+{\it D} & is the degree of the polynomial. The number of
+pairs of controlling nodes \\
+& must be equal to {\it Degree}.\\
+$N_{Ci+}$ & the positive node of the $i$ th controlling node
+pair.\\
+$N_{Ci-}$ & the negative node of the $i$ th controlling node
+pair.\\
+{\it PolynomialCoefficients} & is the set of polynomial
+coefficients which must be specified\\
+& in the standard polynomial coefficient format discussed in the description.\\
+\notforsspice{ {\tt VALUE} & is the identifier for the
+\underline{value form} of the element.\\
+{\it Expression} & This is an expression of the form discussed in the description.\\
+{\tt TABLE} & is the identifier for the \underline{table form} of
+the element.\\
+{\it TableInput} & This is the independent input of the table. See
+the {\tt TABLE} parameter above.\\
+{\it TableInput} & This is the dependent output of the table. See
+the {\tt TABLE} parameter above.\\
+{\tt LAPLACE} & is the identifier for the \underline{laplace form}
+of the element.\\
+{\it TransformExpression}\\
+{\tt FREQ} & is the identifier for the \underline{frequency form} of the element.\\
+{\it Frequency}\\
+{\it Magnitude}\\
+{\it Phase}\\
+{\tt CHEBYSHEV} & is the identifier for the \underline{chebyshev
+form} of the element.\\
+{\it Type}\\
+{\it CutoffFrequency}\\
+{\it Phase}}
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in \FDA
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{G1 2 3 14 1 2.0}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+Polynomial expressions can be used with the controlled source
+elements ({\tt E}, {\tt F}, {\tt G} and {\tt H}) to realize
+nonlinear controlled sources. The specification of the polynomial
+must be at the end of the input line and has two forms. The
+polynomial format for a voltage-controlled current source (the
+{\tt G} element) is\\[0.1in]
+\hspace*{\fill}\offsetparbox{ {\tt POLY({\it N}) ($N_{C1+}$,{\it
+$N_{C1-}$}) $\ldots$ ($N_{CN+}$, $N_{CN-}$) $C_0$ $C_1$ $C_2$
+$C_3$ $\ldots$ }}
+\newline
+where
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{r l}
+{\tt POLY} & is the keyword indicating that a polynomial
+description follows.\\
+{\it N} & is the degree of the polynomial.\\
+$N_{C1+}$, $N_{C1-}$ & The voltage at the node $N_{C1+}$ with
+respect to\\
+& the voltage at the node $N_{C1-}$ is the controlling voltage
+$V_1$.\\
+$N_{CN+}$, $N_{CN-}$ & The voltage at the node $N_{CN+}$ with
+respect to\\
+& the voltage at the node $N_{CN-}$ is the controlling voltage
+$V_N$.\\
+$C_0$ $C_1$ $\ldots$ & are the polynomial coefficients. Not all
+of\\
+& the coefficients need be specified as the trailing
+coefficients\\
+& that are not specified are treated as if they are zero.
+\end{tabular}
+
+Note that in spice parentheses, ``('' and ``)'', and commas,
+``,'', are treated as if they are spaces. The use of parentheses
+and commas serves only to make the netlist more easily read. {\bf
+The exception to this is their use in expressions.}
+
+For voltage-controlled elements the output is calculated as
+\begin{eqnarray}
+{\rm OUTPUT} & = & C_0 \nonumber\\
+         &   & + C_1V_1 + \ldots + C_NV_N\nonumber\\
+         &   & + C_{N+1}V_1V_1 + C_{N+2}V_1V_2 + \ldots + C_{N+N}V_1V_N
+               \nonumber\\
+         &   & + C_{2N+1}V_2V_2 + C_{2N+2}V_2V_3 +\ldots + C_{2N+N-1}V_2V_N
+               \nonumber\\
+         &   & \vdots \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N}V_NV_N
+               \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N+1}V_1V_1V_1 +
+               C_{N!/(2(N-2)!)+2N+2}V_1V_1V_2\nonumber\\
+         &   &\ \ \ \ \ \ \ \ \ + \ldots +
+               C_{N!/(2(N-2)!)+2N+N-1}V_1V_1V_N
+                     \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+3N}V_1V_2V_2 + \ldots +
+               C_{N!/(2(N-2)!)+3N+N-2}V_1V_2V_N
+                     \nonumber\\
+         &   & \vdots\nonumber
+\end{eqnarray}
+A one dimensional polynomial (with only one pair of controlling
+nodes) is evaluated as
+\[
+{\rm OUTPUT} = C_0 + C_1V_1 + C_2V_1^2 + C_3V_1^3 + \ldots
+C_NV_1^N
+\]
+An example of a voltage-controlled current source is\\[0.1in]
+\hspace*{\fill}\offsetparbox{{\tt G1 2 3 POLY(4) (10,0) (12,2)
+(11,0) (13,0)
+   0.5 1 1 1 1 0.2 0.3 0.2}}\\[0.1in]
+\newline
+
+Several form of the voltage-controlled voltage source element are
+supported
+      in addition to the \underline{Linear Transconductance}
+      form which is the default.
+      The other forms are selected based on the the identifier
+      {\tt POLY},
+      {\tt VALUE},
+      {\tt TABLE},
+      {\tt LAPLACE},
+      {\tt FREQ} or
+      {\tt CHEBYSHEV}.
+
+\noindent\underline{Linear Transconductance Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ Transconductance }\\[0.1in]
+The value of the voltage generator is linearly proportional to the
+controlling voltage:
+\begin{equation}
+v_o = Transconductance\,v_c
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt POLY}nomial Instance}
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt POLY(} D {\tt )}
+     {\tt (}$N_{C1+}$ $N_{C1-}{\tt)}$
+     ... {\tt (}$N_{CD+}$ $N_{CD-}{\tt )}$ PolynomialCoefficients }\\[0.1in]
+The value of the voltage generator is a polynomial function of the
+controlling voltages:
+\begin{equation}
+v_o = f(v_{c1}, ...,  v_{ci}, ...  v_{cD})
+\end{equation}
+where the number of controlling voltages is $D$ --- the degree of
+the polynomial specified on the element line. $v_{ci}$ is the
+$i$th controlling voltage and is the voltage of the $n_{ci+}$ node
+with respect to the $n_{ci+}$ node. \notforsspice{
+\\[0.2in]\noindent\underline{{\tt VALUE} Instance} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt VALUE= \{} Expression {\tt \}} }\\[0.1in]
+The value of the voltage generator is the resultant of an
+expression evaluation.
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt TABLE} Instance} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt TABLE \{}
+          Expression {\tt \}=(} TableInput {\tt ,} TableOutput {\tt )} ...}\\[0.1in]
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt LAPLACE} Instance} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt LAPLACE \{}
+            Expression {\tt \}=\{} TransformExpression {\tt \}} }\\[0.1in]
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt FREQ}} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt FREQ \{}
+       Expression {\tt \}=(} Frequency{\tt ,} Magnitude{\tt ,} Phase {\tt )} ...}
+       \\[0.1in]
+\begin{equation}
+v_o = f(v_c)
+\end{equation}
+\\[0.2in]\noindent\underline{{\tt CHEBYSHEV}} --- \pspice92 only
+\\[0.1in]\hspace*{\fill}\offsetparbox{\it
+     {\tt G}name $N_{+}$ $N_{-}$ {\tt CHEBYSHEV \{}
+          Expression {\tt \}=} Type{\tt ,} CutoffFrequency ... {\tt ,}
+      Phase ...  }\\[0.1in]
+      }
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{G} element.
+See \texttt{G} for full documentation.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+svuppath@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

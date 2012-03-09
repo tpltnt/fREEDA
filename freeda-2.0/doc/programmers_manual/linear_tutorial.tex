@@ -1,0 +1,657 @@
+% This document was generated automagically by lgrind.  DO NOT EDIT.
+%
+% Adding elements to \FDA tutorial
+%
+%\documentclass[12pt,titlepage]{article}
+%\usepackage{epsf}
+%\usepackage[nolineno]{lgrind}
+%\usepackage{lgrind}
+% figures in the current directory
+%\newcommand{\fig}[1]{#1}
+% figures in the erl space
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\newfig}[1]{\epsffile{\fig{#1}}}
+%\input{J:/eos.ncsu.edu/users/m/mbs/mbs_group/work/book/freeda_manual/freeda_elements/common/freeda.sty}
+%\input{../freeda_manual/freeda_elements/common/freeda.sty}
+
+\topmargin 0mm \oddsidemargin -2mm \evensidemargin -2mm \textwidth
+173mm \textheight 210mm
+
+\chapter{Adding Linear Elements to \FDA} \label{linear:section}
+%\author{Carlos E. Christoffersen}
+%\begin{document}
+%\maketitle
+%----------------------------------------------------------------------
+\section{The \FDA Circuit Simulator}
+
+\FDA is a netlist-based circuit simulator. The input format of the
+netlist file is similar to the \texttt{SPICE} format with
+extensions for new device models, variables, sweeps, and
+repetitive simulation. The program provides a variety of output
+data and plots. The addition of new circuit element models and
+analysis types in \FDA is much simpler than in other circuit
+simulators such as Spice. For example, new element models are
+coded and incorporated into the program without modification to
+the high-level simulator. The circuit analysis types currently
+available in \FDA are DC, AC, harmonic balance (HB) \cite{svhb},
+convolution transient \cite{svtr}, wavelet transient
+\cite{wavelet}, and time-marching transient \cite{carlos_phd}.
+Some insight into the program architecture is given in
+\cite{oopaper}.
+
+This tutorial describes the addition of linear device models to
+\FDA \footnote{Further details may be found at
+http://www.freeda.org}. We assume the reader is familiar with C++
+syntax and basic concepts of object-oriented programming. Some
+issues such as the creation of an element with multiple reference
+nodes are not yet described.
+
+In the majority of cases the code for a new element can be written
+by following the code for an existing similar element. For
+example, to write a new MOS transistor mode the code for an
+existing MOS model can be followed.
+%----------------------------------------------------------------------
+\section{Example: Adding a Linear Resistor}
+
+We illustrate the addition of linear device models using a
+step-by-step example with a simple model: a linear resistor.
+
+\subsection{Netlist syntax}
+A brief description of the netlist will help in understanding the
+rest of this section.
+
+The standard \FDA netlist syntax is common to all elements. This
+differs from the \texttt{SPICE} syntax but this is also supported
+but is less general in that the grammar of the standard \FDA
+netlist syntax is common to all elements while the grammar of the
+\texttt{SPICE} syntax is not consistent and each \texttt{SPICE}
+element must be handled separately in the parser.
+
+The standard \FDA netlist syntax is\\
+
+$\langle \tt{netlist\ Name} \rangle$:$\langle \tt{element\
+ID}\rangle$ $\langle \tt{terminal1}\rangle \cdots \langle
+\tt{terminaln}\rangle$ $[\langle \tt{parameter} \rangle = \langle
+\tt{value} \rangle \cdots]$
+\newline
+\newline
+The \FDA netlist syntax for a resistor (the {\bf r} element) is,
+for example, {\bf r:r1\ n1\ n2\ r=100.} \\
+\newline
+{\bf r:1} is the {\bf elementID}, {\bf n1} and {\bf n2} are the
+names of two terminals and {\bf r} is a parameter syntax name.
+
+\texttt{SPICE} syntax is also supported for the original
+\texttt{SPICE} elements. In \texttt{SPICE} syntax the equivalent
+input is {\bf r1\ n1\ n2\ 100}.
+
+\subsection{Class Name, Required Files, etc.}
+
+A good class name for the element is \textbf{Resistor}. By
+convention (in \FDA), class names should begin with capital
+letters and contain no underscores. We need a netlist name for our
+element. Assume we call it ``r''.
+
+The files containing the model description are located in the
+\texttt{elements/} directory. There is a header file
+(\texttt{Resistor.h}) containing the declaration of the class that
+defines the element and a file containing the definition of the
+class with the actual model (\texttt{Resistor.cc}). Those are the
+only files needed to define this element.
+
+\subsection{The Header File}
+
+The header file starts with comment lines describing the element
+type and sometimes a simple ASCII drawing of the element
+schematic. The figure can be used to describe terminal numbering.
+
+\LGinlinefalse \lgrinde
+\L{\LB{//_\V{This}_\V{may}_\V{look}_\V{like}_\V{C}_\V{code},_\V{but}_\V{it}_\V{is}_\V{really}_\-*\-_\V{C}++_\-*\-}}
+\L{\LB{//}}
+\L{\LB{//_\V{This}_\V{is}_\V{an}_\V{resistor}_\V{model}}}
+\L{\LB{//}} \L{\LB{//}\Tab{18}{\V{res}}}
+\L{\LB{//}\Tab{11}{\V{o}\-\-\-\-/\2/\2/\2\-\-\-\-\V{o}}}
+\L{\LB{//}}
+\L{\LB{//_\V{by}_\V{Carlos}_\V{E}._\V{Christoffersen}}}
+\endlgrinde
+
+Header files may be included more than once in C++ programs. To
+avoid multiple declarations of the classes defined in the body of
+the header file, the definitions in the header file are enclosed
+by following preprocessor directives:
+
+\LGinlinefalse \lgrinde \L{\LB{\K{\#ifndef}_\V{Resistor\_h}}}
+\L{\LB{\K{\#define}_\V{Resistor\_h}}}
+\L{\LB{\V{class}_\V{Resistor}_:_\V{public}}}
+\L{\LB{\V{Element}_\{}} \Line{__\vdots} \L{\LB{\}}}
+\L{\LB{\K{\#endif}}}
+\endlgrinde
+
+The \textbf{Resistor} class is derived from the base class
+\textbf{Element}. This is so for all elements in \FDA. For simple
+elements, the only public functions that must be declared are the
+following:
+
+\LGinlinefalse \lgrinde
+\L{\LB{\V{class}_\V{Resistor}_:_\V{public}_\V{Element}}}
+\L{\LB{\{}} \L{\LB{\V{public}:}} \L{\LB{}}
+\L{\LB{}\Tab{2}{\V{Resistor}(\V{const}_\V{string}\&_\V{iname});}}
+\L{\LB{}}
+\index{Resistor}\Proc{Resistor}\L{\LB{}\Tab{2}{\~{}\V{Resistor}()_\{\}}}
+\L{\LB{}}
+\index{getNetlistName}\Proc{getNetlistName}\L{\LB{}\Tab{2}{\K{static}_\V{const}_\K{char}*_\V{getNetlistName}()}}
+\L{\LB{}\Tab{2}{\{}}
+\L{\LB{}\Tab{4}{\K{return}_\V{einfo}.\V{name};}}
+\L{\LB{}\Tab{2}{\}}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{fill}_\V{MNAM}}}
+\L{\LB{}\Tab{2}{\V{virtual}_\K{void}_\V{fillMNAM}(\V{FreqMNAM}*_\V{mnam});}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{\V{virtual}_\K{void}_\V{fillMNAM}(\V{TimeMNAM}*_\V{mnam});}}
+\endlgrinde
+
+The constructor always takes the same argument, \texttt{iname}. This
+is the name of the particular instance of the resistor being created
+(\emph{e.g.} ``r1'').
+
+The destructor in this case is trivial. The next function,
+\texttt{getNetlistName()} must be defined in every \FDA element.
+It returns the netlist name of the element (``r'' in our example)
+and it is used during the netlist parsing. It is declared static
+because this function is called before the actual element instance
+is created.
+
+The last two functions are the declarations of the functions to
+fill the entries corresponding to this element in the
+\emph{modified nodal admittance matrix} (MNAM) of the circuit
+being simulated.
+
+The private members of this class are:
+
+\LGinlinefalse \lgrinde \L{\LB{\V{private}:}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Parameter}_\V{variables}}}
+\L{\LB{}\Tab{2}{\K{double}_\V{r};}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Element}_\V{information}}}
+\L{\LB{}\Tab{2}{\K{static}_\V{ItemInfo}_\V{einfo};}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Number}_\V{of}_\V{parameters}_\V{of}_\V{this}_\V{element}}}
+\L{\LB{}\Tab{2}{\K{static}_\V{const}_\K{unsigned}_\V{n\_par};}}
+\L{\LB{}} \L{\LB{}\Tab{2}{//_\V{Parameter}_\V{information}}}
+\L{\LB{}\Tab{2}{\K{static}_\V{ParmInfo}_\V{pinfo}[\,];}} \L{\LB{}}
+\L{\LB{\};}}
+\endlgrinde
+
+The netlist parameters of this element are declared as normal
+member variables. Here we have only one parameter called ``r''.
+There is no conflict with the netlist name of this element. The
+last three variables can be left unchanged for any other element
+in \FDA. We will describe their use later.
+
+
+\subsection{The Class Source File}
+
+The include preprocessor directives go first. The
+\texttt{ElementManager.h} file must be always included first. For
+linear elements, we also need to include the declarations for the
+MNAM classes. There are currently two implementations of the MNAM
+in \FDA. One in the frequency domain (\texttt{FreqMNAM}) and one
+in the time domain (\texttt{TimeMNAM}). The last included file is
+the declaration of the class for our element, \texttt{Resistor.h}.
+\LGinlinefalse \lgrinde
+\L{\LB{\K{\#include}_\S{}\3.\,./network/ElementManager.h\3\SE{}}}
+\L{\LB{\K{\#include}_\S{}\3.\,./analysis/FreqMNAM.h\3\SE{}}}
+\L{\LB{\K{\#include}_\S{}\3.\,./analysis/TimeMNAM.h\3\SE{}}}
+\L{\LB{\K{\#include}_\S{}\3Resistor.h\3\SE{}}}
+\endlgrinde
+
+Now we must define the static member variables:
+
+\LGinlinefalse \lgrinde \L{\LB{//_\V{Static}_\V{members}}}
+\L{\LB{\V{const}_\K{unsigned}_\V{Resistor}::\V{n\_par}_=_\N{1};}}
+\L{\LB{}} \L{\LB{//_\V{Element}_\V{information}}}
+\L{\LB{\V{ItemInfo}_\V{Resistor}::\V{einfo}_=_\{}}
+\L{\LB{}\Tab{2}{\S{}\3r\3\SE{},}}
+\L{\LB{}\Tab{2}{\S{}\3Resistor\3\SE{},}}
+\L{\LB{}\Tab{2}{\S{}\3Carlos_E._Christoffersen\3\SE{},}}
+\L{\LB{}\Tab{2}{\V\S{}\3\3\SE{}}}
+\L{\LB{\};}} \L{\LB{}} \L{\LB{//_\V{Parameter}_\V{information}}}
+\L{\LB{\V{ParmInfo}_\V{Resistor}::\V{pinfo}[\,]_=_\{}}
+\L{\LB{}\Tab{2}{\{\S{}\3r\3\SE{},_\S{}\3Resistance_value_(Ohms)\3\SE{},_\V{TR\_DOUBLE},_\V{true}\}}}
+\L{\LB{\};}}
+\endlgrinde
+
+"{\bf r}" under Element information is the NetlistName. "{\bf r}"
+under Parameter information is where the parameter name is
+defined.
+
+The \texttt{n\_par} variable must be equal to the number of
+parameters defined for the element. In our example, only one
+parameter is defined. Note the use of the scope (::) operator. It
+is used to indicate that the \texttt{n\_par} variable is a member
+of the \textbf{Resistor} class.  The \texttt{einfo} structure
+contains strings describing the element. The first string is the
+netlist name of the element (``r''). This name must always be
+given in lowercase letters. The second string is a more verbose
+description of the element. The third string should list the
+authors of the element code and the last string is used to store a
+web/ftp/e-mail address where more information about the element
+can be found. The idea here is give full exposure to the creator
+of an element and that an element is 'owned' by the person or
+group that creates the element.
+
+The \texttt{pinfo} vector contains the description of each
+parameter defined in the element. The first field (always in
+lowercase) is the netlist name of the parameter followed by a more
+verbose description. The units of the parameter (if any) should be
+included in this description. The third field is a flag denoting
+the type of the parameter. The possible flags are defined in the
+\texttt{NetListItem.h} file.  The corresponding types for each
+flag are given in Table \ref{ltable1}.
+%
+\begin{table}[htpb]
+\centerline {
+\begin{tabular}{|l|l|}
+\hline
+Flag & Corresponding type \\
+\hline
+TR\_INT  & \texttt{int} \\
+TR\_LONG & \texttt{long int} \\
+TR\_FLOAT & \texttt{float} \\
+TR\_DOUBLE & \texttt{double} \\
+TR\_CHAR & \texttt{char} \\
+TR\_STRING & \texttt{string} \\
+TR\_COMPLEX & \texttt{double\_complex} \\
+TR\_BOOLEAN & \texttt{bool} \\
+TR\_INT\_VECTOR & \texttt{IntVector} \\
+TR\_DOUBLE\_VECTOR & \texttt{DoubleVector} \\
+TR\_INT\_MATRIX & \texttt{IntMatrix} \\
+TR\_DOUBLE\_MATRIX & \texttt{DoubleMatrix} \\
+\hline
+\end{tabular}}
+\caption{Possible parameter types. \label{ltable1}}
+\end{table}
+%
+The last field in the parameter description is a flag that is
+\emph{true} if the parameter is required in the netlist (\emph{i.e.}
+an error occurs if the parameter is not specified) and \emph{false}
+otherwise.
+
+The constructor definition follows:
+
+\LGinlinefalse \lgrinde
+\index{Resistor}\Proc{Resistor}\L{\LB{\V{Resistor}::\V{Resistor}(\V{const}_\V{string}\&_\V{iname})_:_\V{Element}(\&\V{einfo},_\V{pinfo},_\V{n\_par},}}
+\L{\LB{\V{iname})}} \L{\LB{\{}}
+\L{\LB{}\Tab{2}{//_\V{Value}_\V{of}_\V{r}_\V{is}_\V{required}}}
+\L{\LB{}\Tab{2}{\V{paramvalue}[\N{0}]_=_\&\V{res};}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Set}_\V{the}_\V{number}_\V{of}_\V{terminals}}}
+\L{\LB{}\Tab{2}{\V{setNumTerms}(\N{2});}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Set}_\V{flags}}}
+\L{\LB{}\Tab{2}{\V{setFlags}(\V{LINEAR}_\|_\V{ONE\_REF}_\|_\V{TR\_FREQ\_DOMAIN});}}
+\L{\LB{\}}}
+\endlgrinde
+
+The constructor for the \textbf{Element} class takes the static
+member variables we defined before and the instance name
+(\texttt{iname}) as arguments. In the body of the \textbf{Resistor}
+constructor we must point each element of the \texttt{paramvalue}
+vector to the address of the member variables corresponding to the
+netlist parameters. The order of the elements in the
+\texttt{paramvalue} vector must be the same order that we used in the
+description in \texttt{pinfo}.
+
+The member function \texttt{setnumTerms()}, which is derived from
+the \textbf{Element} class, is used to set how many terminals our
+element has.
+
+The last function used in this constructor sets some flags that are
+useful to classify the different elements in a circuit. Table
+\ref{ltable2} summarizes the meaning of each possible flag.
+%
+\begin{table}[htpb]
+\centerline {
+\begin{tabular}{|l|l|}
+\hline
+Flag & Meaning \\
+\hline
+LINEAR    &  Linear in HB and tran2 analyses. \\
+NONLINEAR &  Nonlinear in HB and tran2 analyses. \\
+\hline
+ONE\_REF   &  One internal reference node (\emph{e.g.} a normal element). \\
+MULTI\_REF &  Two or more internal reference nodes. \\
+\hline
+TR\_TIME\_DOMAIN & The element is treated in time domain in convolution \\
+               & transient analysis. This includes nonlinear elements. \\
+TR\_FREQ\_DOMAIN & The element is treated in frequency domain in convolution
+\\
+               & transient analysis. This includes linear elements. \\
+\hline
+SOURCE    & The element is a source in tran2 analysis. \\
+\hline
+\end{tabular}}
+\caption{Currently defined flags. \label{ltable2}}
+\end{table}
+%
+
+\subsection{Filling the Modified Nodal Admittance Matrix}
+
+The last two methods in the source file are the routines used to
+fill the MNAM of the circuit. The first function takes a pointer
+to an object of the \textbf{FreqMNAM} class.
+
+\LGinlinefalse \lgrinde
+\index{fillMNAM}\Proc{fillMNAM}\L{\LB{\K{void}_\V{Resistor}::\V{fillMNAM}(\V{FreqMNAM}*_\V{mnam})}}
+\L{\LB{\{}}
+\L{\LB{}\Tab{2}{//_\V{Ask}_\V{my}_\V{terminals}_\V{the}_\V{row}_\V{numbers}}}
+\L{\LB{}\Tab{2}{\V{mnam}\-\!\>\V{setAdmittance}(\V{getTerminal}(\N{0})\-\!\>\V{getRC}(),_\V{getTerminal}(\N{1})\-\!\>\V{getRC}(),}}
+\L{\LB{}\Tab{14}{\V{one}/\V{res});}} \L{\LB{\}}}
+\endlgrinde
+
+Here {\bf setAdmittance} sets the four element stamp of an
+admittance {\bf g}. Thus the stamp is
+\begin{equation}
+   \left[  \begin{array}{c c}
+               g & -g\\
+               -g & g\\
+          \end{array}    \right]
+\end{equation}
+
+The first terminal of the element is obtained using {\bf
+getTerminal(0)} and the second terminal by {\bf getTerminal(1)}.
+{\bf getRC()} gets the row/column index and $g = 1/r$ (i.e.
+one/res) is the conductance of the element.
+
+This is a class to represent a set of modified nodal admittance
+matrices in the frequency domain with their respective source
+vectors. The following is the list of functions available to fill
+the matrices and the source vectors:
+
+\LGinlinefalse \lgrinde
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}\Tab{2}{//_\V{Methods}_\V{to}_\V{fill}_\V{the}_\V{matrices}_\V{used}_\V{by}_\V{the}_\V{elements}}}
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}}
+\index{setElement}\Proc{setElement}\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setElement}(\V{const}_\K{unsigned}\&_\V{row},_\V{const}_\K{unsigned}\&_\V{col},}}
+\L{\LB{}\Tab{13}{\V{const}_\V{double\_complex}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[1]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setAdmittance}(\V{const}_\K{unsigned}\&_\V{term1},_\V{const}_\K{unsigned}\&_\V{term2},}}
+\L{\LB{}\Tab{16}{\V{const}_\V{double\_complex}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[1]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setQuad}(\V{const}_\K{unsigned}\&_\V{row1},_\V{const}_\K{unsigned}\&_\V{row2},}}
+\L{\LB{}\Tab{14}{\V{const}_\K{unsigned}\&_\V{col1},_\V{const}_\K{unsigned}\&_\V{col2},}}
+\L{\LB{}\Tab{14}{\V{const}_\V{double\_complex}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[1]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setOnes}(\V{const}_\K{unsigned}\&_\V{pos},_\V{const}_\K{unsigned}\&_\V{neg},}}
+\L{\LB{}\Tab{14}{\V{const}_\K{unsigned}\&_\V{eqn});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[1]
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}\Tab{2}{//_\V{Methods}_\V{to}_\V{fill}_\V{the}_\V{source}_\V{vectors}}}
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Set}_\V{one}_\V{element}_\V{of}_\V{the}_\V{current}_\V{source}_\V{vector}}}
+\L{\LB{}\Tab{2}{\K{void}_\V{setSource}(\V{const}_\K{unsigned}\&_\V{row},_\V{const}_\V{double\_complex}\&_\V{val});}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Add}_\V{value}_\V{to}_\V{a}_\V{pair}_\V{of}_\V{elements}_\V{of}_\V{the}_\V{current}_\V{source}_\V{vector}}}
+\L{\LB{}\Tab{2}{\K{void}_\V{addToSource}(\V{const}_\K{unsigned}\&_\V{pos},_\V{const}_\K{unsigned}\&_\V{neg},}}
+\L{\LB{}\Tab{11}{\V{const}_\V{double\_complex}\&_\V{val});}}
+\endlgrinde
+
+
+The \textbf{FreqMNAM} class also provides a set of methods to
+retrieve information about the matrices. One of the most used in
+the element routines is:
+
+\LGinlinefalse \lgrinde
+\L{\LB{}\Tab{2}{//_\V{Get}_\V{the}_\V{current}_\V{frequency}}}
+\L{\LB{}\Tab{2}{\V{inline}_\V{const}_\K{double}\&_\V{getFreq}();}}
+\endlgrinde
+
+This method returns the frequency at which the the MNAM is
+expected to be calculated.
+
+The last method is used to fill the elements in the time-domain
+MNAM.
+
+\LGinlinefalse \lgrinde
+\L{\LB{\K{void}_\V{Resistor}::\V{fillMNAM}(\V{TimeMNAM}*_\V{mnam})}}
+\L{\LB{\{}}
+\L{\LB{}\Tab{2}{//_\V{Ask}_\V{my}_\V{terminals}_\V{the}_\V{row}_\V{numbers}}}
+\L{\LB{}\Tab{2}{\V{mnam}\-\!\>\V{setMAdmittance}(\V{getTerminal}(\N{0})\-\!\>\V{getRC}(),_\V{getTerminal}(\N{1})\-\!\>\V{getRC}(),}}
+\L{\LB{}\Tab{15}{\V{one}/\V{res});}} \L{\LB{\}}}
+\endlgrinde
+
+For a simple element such as our resistor example, this function
+looks very similar to the frequency-domain case. Nevertheless, the
+interfaces of the \textbf{FreqMNAM} and \textbf{TimeMNAM} classes
+are not exactly the same. The following are the methods available
+to fill the MNAM in the time domain:
+
+\LGinlinefalse \lgrinde
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}\Tab{2}{//_\V{Methods}_\V{to}_\V{fill}_\V{the}_\V{matrices}_\V{used}_\V{by}_\V{the}_\V{elements}}}
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Methods}_\K{for}_\V{filling}_\V{M}}}
+\index{setMElement}\Proc{setMElement}\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMElement}(\V{const}_\K{unsigned}\&_\V{row},_\V{const}_\K{unsigned}\&_\V{col},}}
+\L{\LB{}\Tab{14}{\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[8]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMAdmittance}(\V{const}_\K{unsigned}\&_\V{term1},_\V{const}_\K{unsigned}\&_\V{term2},}}
+\L{\LB{}\Tab{17}{\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[10]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMQuad}(\V{const}_\K{unsigned}\&_\V{row1},_\V{const}_\K{unsigned}\&_\V{row2},}}
+\L{\LB{}\Tab{15}{\V{const}_\K{unsigned}\&_\V{col1},_\V{const}_\K{unsigned}\&_\V{col2},}}
+\L{\LB{}\Tab{15}{\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[13]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMOnes}(\V{const}_\K{unsigned}\&_\V{pos},_\V{const}_\K{unsigned}\&_\V{neg},}}
+\L{\LB{}\Tab{15}{\V{const}_\K{unsigned}\&_\V{eqn});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[15]
+\L{\LB{}\Tab{2}{//_\V{Methods}_\K{for}_\V{filling}_\V{Mp}}}
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMpElement}(\V{const}_\K{unsigned}\&_\V{row},_\V{const}_\K{unsigned}\&_\V{col},}}
+\L{\LB{}\Tab{15}{\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[18]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMpAdmittance}(\V{const}_\K{unsigned}\&_\V{term1},_\V{const}_\K{unsigned}\&_\V{term2},}}
+\L{\LB{}\Tab{16}{\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[20]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMpQuad}(\V{const}_\K{unsigned}\&_\V{row1},_\V{const}_\K{unsigned}\&_\V{row2},}}
+\L{\LB{}\Tab{12}{\V{const}_\K{unsigned}\&_\V{col1},_\V{const}_\K{unsigned}\&_\V{col2},}}
+\L{\LB{}\Tab{12}{\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[23]
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setMpOnes}(\V{const}_\K{unsigned}\&_\V{pos},_\V{const}_\K{unsigned}\&_\V{neg},}}
+\L{\LB{}\Tab{12}{\V{const}_\K{unsigned}\&_\V{eqn});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[25]
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}\Tab{2}{//_\V{Methods}_\V{to}_\V{fill}_\V{the}_\V{source}_\V{vector}}}
+\L{\LB{}\Tab{2}{//\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-}}
+\L{\LB{}\Tab{2}{//_\V{Reminder}:_\V{reference}_\V{source}_\V{element}_\V{is}_\V{not}_\V{stored}}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Set}_\V{one}_\V{element}_\V{of}_\V{the}_\V{source}_\V{vector}}}
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{setSource}(\V{const}_\K{unsigned}\&_\V{row},_\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[32]
+\L{\LB{}\Tab{2}{//_\V{Add}_\V{value}_\V{to}_\V{a}_\V{pair}_\V{of}_\V{elements}_\V{of}_\V{the}_\V{source}_\V{vector}}}
+\L{\LB{}\Tab{2}{\V{inline}_\K{void}_\V{TimeMNAM}::\V{addToSource}(\V{const}_\K{unsigned}\&_\V{pos},_\V{const}_\K{unsigned}\&}}
+\L{\LB{\V{neg},_\V{const}_\K{double}\&_\V{val});}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[35]
+\L{\LB{}\Tab{2}{//_\V{Get}_\V{the}_\V{current}_\V{time}}}
+\L{\LB{}\Tab{2}{\V{inline}_\V{const}_\K{double}\&_\V{getTime}();}}
+\endlgrinde\LGend
+
+Note that we must build two matrices denoted in the source code as
+\texttt{M} and \texttt{Mp}. These correspond to the $\mathbf{G}$
+and $\mathbf{C}$ matrices in Chapter 3 of Reference
+\cite{carlos_phd}. Another difference with the frequency domain
+case is that the source vector is handled separately, as it will
+demonstrated in a future example.
+
+\subsection{Modifications to the rest of the \FDA Source Files}
+
+%The only modification required to add or remove elements from \FDA
+%\ is (apart from writing the element source code itself) including
+%the element source code name in the \texttt{makefile.list} file in
+%the \texttt{elements/} directory. An example is included here:
+%\begin{verbatim}
+%
+%# Hey emacs, this is -*- makefile -*-
+%#
+%# Copy to makefile.list
+%
+%# List here all the ".cc" files to be compiled and linked into
+%fREEDA
+%# SRCS = Xsubckt.cc Resistor.cc Capacitor.cc Inductor.cc
+%Vsource.cc \
+%    Diode.cc Tlinp4.cc Ymatrix.cc GridEx.cc Isource.cc Vccs.cc NPort.cc \
+%    CPW.cc Open.cc MesfetM.cc Vct.cc Vpulse.cc MesfetC.cc \
+%    TMesfetC.cc ThermalMMIC.cc ThermalGrid.cc Thermal2.cc \
+%    BillISource.cc ThermalNport.cc NPortT.cc ThermalTest.cc \
+%    ThermalTransf.cc Jfetn1.cc MOS3.cc
+%
+%# List element names (class names) here to be included in the
+%# automatically generated header files. Remember for this to work the
+%# base names of the header files must be equal to the class names.
+%#
+%ELEMNAMES = Xsubckt Resistor Capacitor Inductor Vsource \
+%    Diode Tlinp4 Ymatrix GridEx Isource \
+%    Vccs NPort CPW Open MesfetM Vct Vpulse MesfetC \
+%    TMesfetC ThermalMMIC ThermalGrid Thermal2 BillISource ThermalNport \
+%    NPortT ThermalTest ThermalTransf Jfetn1 MOS3
+%
+%\end{verbatim}
+%Normal makefile syntax is used to define the \texttt{SRCS} and
+%\texttt{ELEMNAMES} variables. The comments in the file provide a clue
+%of what to include in each list. We should emphasize that the class
+%name of the element must be equal to the base filename of the header
+%file. Otherwise, the make process will fail.
+%
+%Once a new element is added or removed, it is advised to run the
+%command ``make dep'' from the \texttt{simulator/} directory. During
+%element development, it is not necessary to build the complete program
+%each time we are trying to find errors in the compilation. The make
+%program can be invoked from a source subdirectory.
+%
+%In the above makefile the entries required to include the resistor
+%element are {\tt Resistor.cc} in the line beginning {\tt \# SRCS
+%=} and {\tt Resistor} in the line beginning {\tt ELEMNAMES =}. Of
+%course {\tt Resistor.h} must exist as well.
+%
+% Begin "updated" info...
+Refer to the file \texttt{readme.txt} in the \texttt{freeda-0.1}
+subdirectory for instructions on compiling a new element into \FDA.
+
+%----------------------------------------------------------------------
+\section{Template Files for New Linear Elements}
+
+The files in this section are provided to simplify the creation of
+new elements. All that is required is to replace \texttt{Element1}
+by the name of the actual class (or name of the element), copy the
+files with appropriate names in the \texttt{elements/} directory
+and write the code to fill the MNAM.
+
+\subsection{Header File}
+
+
+\LGinlinefalse \lgrinde
+\L{\LB{//_\V{This}_\V{may}_\V{look}_\V{like}_\V{C}_\V{code},_\V{but}_\V{it}_\V{is}_\V{really}_\-*\-_\V{C}++_\-*\-}}
+\L{\LB{//}}
+\L{\LB{//_\V{This}_\V{is}_\V{a}_\V{generic}_\V{element}_\V{template}}}
+\L{\LB{//}} \L{\LB{//}\Tab{16}{+\-\-\-\-\-+}}
+\L{\LB{//}\Tab{11}{\V{o}\-\-\-\-+}\Tab{22}{+\-\-\-\-\V{o}}}
+\L{\LB{//}\Tab{16}{+\-\-\-\-\-+}} \L{\LB{//}} \L{\LB{}}
+\L{\LB{\K{\#ifndef}_\V{Element1\_h}}}
+\L{\LB{\K{\#define}_\V{Element1\_h}_\N{1}}} \L{\LB{}}
+\L{\LB{\V{class}_\V{Element1}_:_\V{public}_\V{Element}}}
+\L{\LB{\{}} \L{\LB{\V{public}:}} \L{\LB{}}
+\L{\LB{}\Tab{2}{\V{Element1}(\V{const}_\V{string}\&_\V{iname});}}
+\L{\LB{}} \L{\LB{}\Tab{2}{\~{}\V{Element1}()_\{\}}} \L{\LB{}}
+\L{\LB{}\Tab{2}{\K{static}_\V{const}_\K{char}*_\V{getNetlistName}()}}
+\L{\LB{}\Tab{2}{\{}}
+\L{\LB{}\Tab{4}{\K{return}_\V{einfo}.\V{name};}}
+\L{\LB{}\Tab{2}{\}}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{fill}_\V{MNAM}}}
+\L{\LB{}\Tab{2}{\V{virtual}_\K{void}_\V{fillMNAM}(\V{FreqMNAM}*_\V{mnam});}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{\V{virtual}_\K{void}_\V{fillMNAM}(\V{TimeMNAM}*_\V{mnam});}}
+%\endlgrinde\LGend
+\L{\LB{}}
+
+%\LGinlinefalse\LGbegin\lgrinde[30]
+\L{\LB{\V{private}:}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Parameter}_\V{variables}_(\V{replace}_\V{by}_\V{your}_\V{parameter}_\V{variables}_\V{here})}}
+\L{\LB{}\Tab{2}{\K{double}_\V{par1},_\V{par2};}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Element}_\V{information}}}
+\L{\LB{}\Tab{2}{\K{static}_\V{ItemInfo}_\V{einfo};}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Number}_\V{of}_\V{parameters}_\V{of}_\V{this}_\V{element}}}
+\L{\LB{}\Tab{2}{\K{static}_\V{const}_\K{unsigned}_\V{n\_par};}}
+\L{\LB{}} \L{\LB{}\Tab{2}{//_\V{Parameter}_\V{information}}}
+\L{\LB{}\Tab{2}{\K{static}_\V{ParmInfo}_\V{pinfo}[\,];}} \L{\LB{}}
+\L{\LB{\};}} \L{\LB{}} \L{\LB{\K{\#endif}}}
+\endlgrinde
+
+
+\subsection{Class Source File}
+
+\LGinlinefalse \lgrinde
+\L{\LB{\K{\#include}_\S{}\3.\,./network/ElementManager.h\3\SE{}}}
+\L{\LB{\K{\#include}_\S{}\3.\,./analysis/FreqMNAM.h\3\SE{}}}
+\L{\LB{\K{\#include}_\S{}\3.\,./analysis/TimeMNAM.h\3\SE{}}}
+\L{\LB{\K{\#include}_\S{}\3Element1.h\3\SE{}}} \L{\LB{}}
+\L{\LB{//_\V{Static}_\V{members}_(\V{set}_\V{to}_\V{the}_\V{number}_\V{of}_\V{parameters}_\V{of}_\V{your}_\V{element})}}
+\L{\LB{\V{const}_\K{unsigned}_\V{Element1}::\V{n\_par}_=_;}}
+\L{\LB{}} \L{\LB{//_\V{Element}_\V{information}}}
+\L{\LB{\V{ItemInfo}_\V{Element1}::\V{einfo}_=_\{}}
+\L{\LB{}\Tab{2}{\S{}\3res\3\SE{},}}
+\L{\LB{}\Tab{2}{\S{}\3Element1\3\SE{},}}
+\L{\LB{}\Tab{2}{\S{}\3Your_Name\3\SE{},}}
+\L{\LB{}\Tab{2}{\S{}\3Reserved for documentation use\3\SE{}}}
+\L{\LB{\};}} \L{\LB{}} \L{\LB{//_\V{Parameter}_\V{information}}}
+\L{\LB{\V{ParmInfo}_\V{Element1}::\V{pinfo}[\,]_=_\{}}
+\L{\LB{}\Tab{2}{\{\S{}\3par1\3\SE{},_\S{}\3Parameter_1_(Ohms)\3\SE{},_\V{TR\_DOUBLE},_\V{true}\},}}
+\L{\LB{}\Tab{2}{\{\S{}\3par2\3\SE{},_\S{}\3Parameter_2_(F)\3\SE{},_\V{TR\_DOUBLE},_\V{false}\}}}
+\L{\LB{\};}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[22]
+\index{Element1}\Proc{Element1}\L{\LB{\V{Element1}::\V{Element1}(\V{const}_\V{string}\&_\V{iname})_:_\V{Element}(\&\V{einfo},_\V{pinfo},_\V{n\_par},}}
+\L{\LB{\V{iname})}} \L{\LB{\{}}
+\L{\LB{}\Tab{2}{//_\V{Value}_\V{of}_\V{r}_\V{is}_\V{required}}}
+\L{\LB{}\Tab{2}{\V{paramvalue}[\N{0}]_=_\&\V{par1};}}
+\L{\LB{}\Tab{2}{\V{paramvalue}[\N{1}]_=_\&(\V{par2}_=_\N{1e}\-\N{12});_//_\V{Example}_\V{of}_\V{how}_\V{to}_\V{set}_\V{a}_\K{default}_\V{value}.}}
+\L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Set}_\V{the}_\V{number}_\V{of}_\V{terminals}_(\V{Set}_\V{to}_\V{the}_\V{number}_\V{of}_\V{terminals}_\V{of}}}
+\L{\LB{}\Tab{2}{//_\V{your}_\V{element})}}
+\L{\LB{}\Tab{2}{\V{setNumTerms}(\N{2});}} \L{\LB{}}
+\L{\LB{}\Tab{2}{//_\V{Set}_\V{flags}_(\K{do}_\V{not}_\V{change}_\V{these}_\K{for}_\V{normal}_\V{linear}_\V{elements})}}
+\L{\LB{}\Tab{2}{\V{setFlags}(\V{LINEAR}_\|_\V{ONE\_REF}_\|_\V{TR\_FREQ\_DOMAIN});}}
+\L{\LB{\}}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[36]
+\index{fillMNAM}\Proc{fillMNAM}\L{\LB{\K{void}_\V{Element1}::\V{fillMNAM}(\V{FreqMNAM}*_\V{mnam})}}
+\L{\LB{\{}}
+\L{\LB{}\Tab{2}{//_\V{Put}_\V{your}_\V{model}_\V{here}}}
+\L{\LB{\}}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[40]
+\index{fillMNAM}\Proc{fillMNAM}\L{\LB{\K{void}_\V{Element1}::\V{fillMNAM}(\V{TimeMNAM}*_\V{mnam})}}
+\L{\LB{\{}}
+\L{\LB{}\Tab{2}{//_\V{Put}_\V{your}_\V{model}_\V{here}}}
+\L{\LB{\}}}
+\endlgrinde\LGend
+\LGinlinefalse\LGbegin\lgrinde[44]
+\endlgrinde\LGend
+%\end{document}
+
+\section{Contributors}
+The following contributed to this chapter
+\begin{itemize}
+\item[] Nikhil Kriplani
+\item[] Carlos Christoffersen
+\item[] Michael Steer.
+\end{itemize}

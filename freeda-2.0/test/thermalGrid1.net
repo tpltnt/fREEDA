@@ -1,0 +1,24 @@
+***  Purely thermal turn-on transient for the 1-port thermalGrid element ***
+
+.options deltat=10 nsteps=41 temp=300.
+
+.svtr  tstop = 400 n_freqs = 8 tstep = deltat deriv=1
+
+* Input power source
+isource:pin 1 0 idc=2
+
+thermalheatsink1:test1 1 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ l = 0.05 w = 0.05 d = 0.0016 xl = 0.04 xr = 0.01 yu = 0.04 yd = 0.01
++ xi = 1.3 eta = 3 epsilon = 0.7 ks = 0.294 rho = 1900 c = 1150 ndevices = 1
+
+
+* We need some resistor in parallel, otherwise the MNAM would
+* be singular. (only needed if opt=1)
+* resistor:rdummy 1 10 r=1e5
+vsource:t1 10 0 vdc=temp
+
+
+.out plot element "thermalheatsink1:test1" 0 it in "input.power"
+.out plot element "thermalheatsink1:test1" 0 ut in "output.temperature"
+
+.end

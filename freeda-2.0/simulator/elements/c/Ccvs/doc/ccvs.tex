@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{cvpr.sty}
+\cvprfinalcopy
+\begin{document}
+
+\noindent{\LARGE \textbf{Current-Controlled Voltage Source}
+\hspace{\fill}\textbf{ccvs}}\\
+\hrulefill \linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[htp]
+\centerline{\epsfxsize=2in\epsfbox{figures/ccvs.ps}}
+\caption{Current-controlled Voltage source element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt e$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\ n_4$
+$\langle \tt{parameter\ list}\rangle$
+\newline
+%\begin{tabular}{l  r}
+$n_1\ n_2\ n_3\ n_4$ are the element nodes.
+\newline
+$N_+$ $N_-$ $N_{c+}$ $N_{c-}$ is the node declaration order.
+%\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+r: gain & DOUBLE & 1 & no\\
+\hline
+ro: Output resistance value(Ohms) & DOUBLE & 0 & no\\
+\hline
+\end{tabular}
+\end{table}
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}\\
+\newline
+\texttt{ccvs:f1 2 3 1 0 r=1 ro=50}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The current-controlled Voltage source generates an output current
+that is instantaneously and linearly-dependent on the input
+voltage to the element.  The linear scaling is dependent on a
+gain factor $r$, and an output impedance $r_o$ is connected in
+shunt with the output terminals.\\
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{F} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2008.09.24 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Andrew Mugisha & NC State University & September 2008 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+ajmugish@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

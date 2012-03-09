@@ -1,0 +1,12 @@
+This is makeindex.exe, version 2.14 [02-Oct-2002] (kpathsea + Thai support).
+Scanning input file spice.idx....
+!! Input index error (file = spice.idx, line = 181):
+   -- Illegal null field.
+
+!! Input index error (file = spice.idx, line = 513):
+   -- Illegal null field.
+done (530 entries accepted, 2 rejected).
+Sorting entries.......done (5148 comparisons).
+Generating output file spice.ind....done (509 lines written, 0 warnings).
+Output written in spice.ind.
+Transcript written in spice.ilg.

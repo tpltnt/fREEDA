@@ -1,0 +1,116 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{../../../style/freeda1.sty}
+\begin{document}
+\noindent{\LARGE\textbf{Microwave Diode}
+\hspace{\fill}\textbf{diode}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\pfig{diode_transim.ps}} \caption{diode
+--- Microwave Diode Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+$\tt diode$:$\langle \tt{instance\ name}\rangle$
+$n_1\ n_2\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive (anode) diode voltage, \\
+&  \\
+$n_2$ & is the negative (cathode) diode voltage. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}\\
+\begin{table}[H]
+%\scriptsize
+%\caption{\label{table1:resistor}Parameters}
+%\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+js: Saturation current (A) & DOUBLE & 1e-16 & yes\\
+\hline
+alfa: Slope factor of conduction current (1/V) & DOUBLE & 38.696 & no\\
+\hline
+jb: Breakdown saturation current (A) & DOUBLE & 1e-05 & no\\
+\hline
+vb: Breakdown voltage (V) & DOUBLE & -1e+20 & no\\
+\hline
+e: Power-law parameter of breakdown current & DOUBLE & 10 & no\\
+\hline
+ct0: Zero-bias depletion capacitance (F) & DOUBLE & 0 & no\\
+\hline
+fi: Built-in barrier potential (V) & DOUBLE & 0.8 & no\\
+\hline
+gama: Capacitance power-law parameter & DOUBLE & 0.5 & no\\
+\hline
+cd0: Zero-bias diffusion capacitance (F) & DOUBLE & 0 & no\\
+\hline
+afac: Slope factor of diffusion capacitance (1/V) & DOUBLE & 38.696 & no\\
+\hline
+r0: Bias-dependent part of series & DOUBLE & 0 & no\\
+resistance in forward-bias(Ohms) & & & \\
+\hline
+t: Intrinsic time constant of depletion layer (s) & DOUBLE & 0 & no\\
+\hline
+area: Area multiplier & DOUBLE & 1 & no\\
+\hline
+imax: Maximum forward and reverse current (A) & DOUBLE & 0 & no\\
+\hline
+eg: Barrier height at 0 K (eV) & DOUBLE & 0.8 & no\\
+\hline
+m: Grading coefficient & DOUBLE & 0.5 & no\\
+\hline
+aro: r0 linear temperature coefficient($\frac{1}{K}$) & DOUBLE & 0 & no\\
+\hline
+bro: r0 quadratic temperature coefficient($\frac{1}{{K}^2}$)& DOUBLE & 0 & no\\
+\hline
+afag: Temperature-related coefficient & DOUBLE & 1 & no\\
+\hline
+xti: Js temperature exponent & DOUBLE & 2 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{diode:d1\ 2\ 0\ js=2.24e-12\ alfa=21.13\ e=10\
+ct0=1.32767e-15\ r0=171.9\ fi=1.27517\ \\gama=0.810205\ jb=1.e-5\
+vb=-16}
+\newline
+\texttt{diode:d2\ 102\ 0\ model="newdiode"\ area=34.56}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+%This is the \texttt{D} element in the SPICE compatible netlist.\\
+There is no \texttt{SPICE} compatible element for the microwave
+diode.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2001.09.01 \\
+% Credits
+\newpage
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & May 2001 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

@@ -1,0 +1,55 @@
+\notforsspice{\elementx{U}{\spicethree Only}{Lossy RC Transmission Line}
+\label{U2element}
+
+\form{\tt U}name N1 N2 N3 ModelName L=LEN \B N=LUMPS\E 
+
+\example{U1 1 2 0 URCMOD L=50U}
+URC2 1 12 2 UMODL l=1MIL N=6
+
+
+N1 and N2 are the two element nodes the  RC  line  connects,
+while  N3  is the node to which the capacitances are
+connected.  ModelName is the model name, LEN is  the  length  of
+the  RC  line in meters.  LUMPS, if specified, is the number
+of lumped segments to use in modeling the RC line  (see  the
+model  description for the action taken if this parameter is
+omitted).
+
+URC Models
+
+The URC model is derived from a model  proposed  by  L.
+Gertzberrg  in 1974.  The model is accomplished by a subcircuit
+ type expansion of the URC line into a network of lumped
+RC  segments  with  internally generated nodes.  The RC segments
+ are in a geometric progression, increasing toward  the
+middle  of  the  URC  line, with K as a proportionality constant.
+The number of lumped segments used, if not specified
+on the URC line, is determined by the following formula:
+
+
+N=
+
+The URC line will be made up strictly of  resistor  and
+capacitor  segments  unless  the ISPERL parameter is given a
+non-zero value, in which case the  capacitors  are  replaced
+with reverse biased diodes with a zero-bias junction capacitance
+equivalent to the capacitance  replaced,  and  with  a
+saturation  current of ISPERL amps per meter of transmission
+line and an optional series resistance equivalent to  RSPERL
+ohms per meter.
+
+\keywordtwo{Area}{
+{\tt K}
+      & Propagation Constant               & -     & 2.0     &   \X
+{\tt FMAX}
+   & Maximum Frequency of interest      & Hz    & 1.0G    & \X
+{\tt RPERL}
+  & Resistance per unit length         & $\Omega$/m & 1000    & \X
+{\tt CPERL}
+  & Capacitance per unit length        & F/m   & 1.0E-15 & \X
+{\tt ISPERL}
+ & Saturation current per\newline unit length & A/m & 0       &      \X
+{\tt RSPERL}
+ & Diode Resistance per unit length   & $\Omega$/m & 0       &\X
+   }
+}

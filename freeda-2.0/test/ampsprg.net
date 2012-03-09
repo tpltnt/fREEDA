@@ -1,0 +1,43 @@
+**** Spectral regrowth in a MESFET amplifier ****
+
+*.options jupdm=4 output=0 nonlin=4
+
+.svhb n_freqs=5 fundamental=.5GHz regrowth=1 n_fund=11 f_step=.5MEG
+
+resistor:rs 123 0 r=1.144
+inductor:l3 4 5 l=1500n time_d=0 
+resistor:r3 5 6 r=10
+capacitor:cload 4 9 c=2n time_d=0
+resistor:rload 9 0 r=50.
+inductor:l1 1 2 l=1n time_d=0
+capacitor:c1 2 3 c=2n time_d=0
+inductor:l2 3 7 l=1500n time_d=0 
+resistor:r2 7 8 r=100
+
+mesfetm:m1 3 4 123 idss = 0.06 vp0 = -1.906 gama = -0.015 e = 1.8 
++ sl = 0.0676 kg = 1.1 t = 7.0e-12 ss = 1.666e-3 ig0 = 7.13e-6 
++ afag = 38.46 r10 = 3.5 kr = 1.111 vbc = 12 ib0 = 7.13e-6 afab = 38.46 
++ c10 = 0.42e-12 k1 = 1.282 cf0 = 0.02e-12 kf = 1.282 
+
+vsource:vbias 8 0  vdc = -.4
+vsource:vdrain 6 0 vdc = 3.
+resistor:rin 11 1 r = 50
+
+vsource:v1 111 0    f=.5000GHz vac=.2 
+vsource:v2 112 111  f=.5005GHz vac=.2
+vsource:v3 113 112  f=.5010GHz vac=.2
+vsource:v4 117 113  f=.5015GHz vac=.2
+* vsource:v5 115 114  f=.5020GHz vac=.1
+* vsource:v6 116 115  f=.5025GHz vac=.1
+* vsource:v7 117 116  f=.5030GHz vac=.1
+vsource:v8 118 117  f=.5035GHz vac=.2
+vsource:v9 119 118  f=.5040GHz vac=.2
+vsource:v10 120 119 f=.5045GHz vac=.2
+vsource:v11 11 120  f=.5050GHz vac=.2
+
+.out plot term 4 vf mag db "set data style st" in "vs.db"
+.out plot term 9 vf mag db "set data style st" in "vout.db"
+.out plot term 11 vf mag db "set data style st" in "vsource.db"
+.out plot term 1 vf mag db "set data style st" in "vin.db"
+
+.end

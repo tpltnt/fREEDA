@@ -1,0 +1,20 @@
+**** Test netlist for  Foster N Port Model *****
+*
+* Test with a single complex pole
+*
+
+.ac start=0.010 stop=5 n_freqs=200
+
+vsource:vin 1 0 vac = 1v 
+r:rin 1 port1 r=1
+
+FosterNPort:f1 port1 0 filename = "one_pole.txt" ports = 1
+
+.options gnuplot
+
+.options preamble="set term x11 font 'helvetica,13';
+         set title 'Voltage at Input of Foster 1 Port';
+         set xlabel 'FREQUENCY (Hz)'; set ylabel 'VOLTAGE' "
+.out plot term "port1" vf mag preamble in "v2_ac.out"
+
+.end

@@ -1,0 +1,32 @@
+\element{X}{Subcircuit Call}
+\begin{figure}[h]
+\centering
+\ \pfig{x_spice.ps}
+\caption{X --- subcircuit call element.}
+\end{figure}
+
+\form{ {\tt X}name $N_1$ \B $N_2$ $N_3$ ... $N_N$\E  SubcircuitName}
+
+\pspiceform{ {\tt X}name $N_1$ \B $N_2$ $N_3$ ... $N_N$\E  SubcircuitName
+\B PARAMS: \B keyword = {\tt \{} Expression {\tt \}} $\ldots$ \E
+\B Keyword = Value $\ldots$ \E \E}
+
+\begin{widelist}
+\item[$N_1$] is the first node of the subcircuit.
+\item[$N_N$] is the $N$th node of the subcircuit.
+\item[{\it SubcircuitName}] is the name of the subcircuit.
+\item[{\tt PARAMS:}] indicates that parameters are to be passed to
+the subcircuit.
+\item[{\tt keyword:}] is keyword corresponding to the keywords defined in the
+{\tt .SUBCKT} statement. (See page \pageref{.SUBCKTstatement}).
+\item[{\tt value:}] is numeric value.
+\item[{\tt Expression:}] is an algebraic expression which evaluates to a numeric
+value.  {\tt .SUBCKT} statement. (See section \ref{section:algebraic:expression}
+on page \pageref{section:algebraic:expression}).
+\end{widelist}
+\example{X1 2 4 17 3 1 MULTI}
+
+Subcircuits are incorporated by using the ``{\tt X}'' element.
+The number of nodes of the ``{\tt X}'' element must correspond to
+the number of nodes in the definition of the subcircuit (i.e. is
+on the {\tt .SUBCKT} statement (see page \pageref{.SUBCKTstatement}).

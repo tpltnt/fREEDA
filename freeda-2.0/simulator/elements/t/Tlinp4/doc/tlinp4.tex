@@ -1,0 +1,572 @@
+%\documentclass[11pt]{amsart}
+\documentclass{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+%\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+\title{Brief Article}
+\author{The Author}
+%\date{}                                           % Activate to display a given date or no date
+%%%%%%%%%%%%%%%%%%
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{4 terminal physical transmission line \hspace{30mm} Tlinp4}
+\myThickLine 
+\normalsize
+\newline
+\begin{figure}[h]
+\begin{center}
+\scalebox{1}{\includegraphics{Tlinp4TwoPort.eps}}
+\caption{tlinp4 ---Transmission line element. }
+\end{center}
+\end{figure}
+\newline
+\myThickLine
+\newline
+\textit{Form:}
+$\tt tlinp4$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\bigskip
+\begin{tabular}{l}
+$n_1$, $n_2$, $n_3$ and $n_4$ are the element terminals. \\
+Terminals $n_2$ and $n_4$ are the element reference terminals. \\
+With \texttt{nsect} set Terminals $n_2$ and $n_4$ must be the same. \\
+\end{tabular}
+\begin{itemize}
+\item  When Terminals $n_2$ and $n_4$ are the same the device functions like a three terminal element.  Transient (.TRAN), AC (.AC), DC (.DC),  and convolution (.SVTR) simulations are allowed
+\item When terminals $n_2$ and $n_4$ are not the same, the device functions as a true 4 terminal element.  Only AC (.AC), DC (.DC) and transient convolution analysis (.SVTR) permitted.
+\end{itemize}
+\hspace*{\fill}
+% Parameter list
+\newline
+\myThickLine
+\textit{Parameters:}
+\begin{table}[h]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+k: Effective dielectric constant & DOUBLE & 1 & no \\
+\hline
+alpha: Attenuation ($dB/m$) & DOUBLE & 0.1 & no \\
+\hline
+z0mag: Magnitude of characteristic impedance (ohms) & DOUBLE & n/a & yes \\
+\hline
+fscale: Scaling frequency for attenuation (Hz) & DOUBLE & 0 & no \\
+\hline
+tand: Loss tangent & DOUBLE & 0 & no \\
+\hline
+length: Line length (m) & DOUBLE & n/a & yes \\
+\hline
+nsect: Enable discrete approximation with n sections & INTEGER & 0 & no \\
+\hline
+fopt: Optimum frequency for discrete approximation & DOUBLE & 0 & no \\
+%\par
+\hline
+fmax: Maximum frequency required for modeling & DOUBLE & 0 & no \\
+\hline
+\end{tabular}
+\end{table}  
+% example in FREEDA
+\noindent
+\myThickLine
+\newline
+\textit{Example:}
+\newline
+\texttt{.model\ c\_line\ tlinp4\ z0mag=75.00 k=7 fscale=10.e9
+alpha = 59.9 nsect = 20 fopt=10e9 fmax = 9e9}
+\newline
+\texttt{tlinp4:\ t2\ 2\ 0\ 3\ 0\ model = "c\_line"\
+length=931.69u}
+\newline
+\myThickLine
+\textit{Notes:}\\
+This is the \texttt{T} element in the SPICE compatible netlist.\\
+
+\textit{Details:}\\
+This is a linear element and is modeled differently depending on the setting of the Parameter \texttt{nsect}.\\[0.2in]
+\texttt{nsect} = 0.\\[0.1in]
+ When  \texttt{nsect} is zero (the default) the transmission line is calculated in the frequency domain using the frequency dependent characteristic impedance and propagation parameters.  The model is shown in Figure \ref{tlinp4:multi:model}.
+ %
+\begin{figure}[h]
+\centerline{Frequency Domain Model with \texttt{nsect} = 0.}
+\centerline{\includegraphics[scale=1.0]{tlinp4_multi.eps}}
+\caption{\label{tlinp4:multi:model}Multi section model of a transmission line.}
+\end{figure}
+%
+This model has two local reference terminals. An example netlist is:
+\begin{verbatim}
+l:1 n1 0 n3 ref1 z0=50 length=5mm
+.ref "ref1"
+\end{verbatim}
+%%%%%%%%%%%%%%%%%
+Here terminals `0' and `ref1' are the local reference terminals of the element. Terminal `0' is the global ground.  However `ref1' is a second local reference terminal of the element and either it or another terminal in the same local reference group must be specified as a reference terminal.  Here `ref1' is identified as a local reference terminal. (or a suitable terminal).  Another suitable example of a circuit would be
+\begin{verbatim}
+vsource 2 0 vac = 1 f = 5GHz
+r:1 2 n1 r=50
+r:2 0 n2 r=2
+tlinp4:1 n1 n2 n3 n4 z0=50 length=5mm
+r:3 n2 r=5
+r:4 n4 5 r=100
+r:5 n4 5 r=10
+.ref 5
+\end{verbatim}
+tlinp4 above corresponds to Figure \ref{tlinp4:multi:model}. \\[0.2in]
+\texttt{nsect} $>$ 0.\\[0.1in]
+When  \texttt{nsect}, the number of sections, is a positive integer the transmission line is approximated using \texttt{nsect} sections. The model is shown in Figure \ref{tlinp4:section:model}.
+\begin{figure}[h]
+\centerline{Model with \texttt{nsect} $>$ 0.}
+\centerline{\includegraphics[scale=1.0]{tlinp4_sections.eps}} \caption{Multi section model of a transmission line.\label{tlinp4:section:model}}
+\end{figure}
+With respect to the terminal numbers in Figure \ref{tlinp4:multi:model}, terminals `n2' and `n4' must be the same terminal.
+The sectional model is used in both the time domain and frequency domain.  Each series \emph{R} and inductance \emph{L} is modeled as a single \texttt{L} element. Each shunt \emph{G} and capacitance \emph{C} is modeled as a single \texttt{C} element. This is indicated in   Figure \ref{tlinp4:sectionb:model}
+%\newline
+\begin{figure}[h]
+\centerline{Model with \texttt{nsect} $>$ 0.}
+\centerline{\includegraphics[scale=1.0]{tlinp4_sectionsb.eps}} \caption{Multi section model of a transmission line showing pairs of primitives each modeled by a single element.\label{tlinp4:sectionb:model}}
+\end{figure}
+The RLGC parameters of the model are calculated as follows.  (Note that R and L are noted as R$_{DC}$ and L$_{DC}$ in the skin effect section).
+\begin{eqnarray}
+\label{deltax} 
+\Delta x = l/nsect
+\end{eqnarray}
+%
+\begin{eqnarray}
+\label{alpha} 
+\alpha _f  = \left( {\alpha *0.11512925} \right)*\sqrt {{{f_{opt} } \over {f_{scale} }}} 
+\end{eqnarray}
+If \emph{f$_{opt}$} or \emph{f$_{scale}$} is not given or is 0 then $\alpha _f  = \left( {\alpha *0.11512925} \right)$
+%
+\begin{eqnarray}
+\label{C} 
+C = {{\sqrt k } \over {\left| {Z_0 } \right|*c_0 }}*\Delta x
+\end{eqnarray}
+%
+\begin{eqnarray}
+\label{L} 
+L = \left| {Z_0 } \right|^2 *C
+\end{eqnarray}
+%
+\begin{eqnarray}
+\label{R} 
+R = 2*\alpha _f *\left| {Z_0 } \right|*\Delta x
+\end{eqnarray}
+%
+\begin{eqnarray}
+\label{G} 
+G = \tan d*2\pi *f_{opt} *C
+\end{eqnarray}
+If \emph{tand} or \emph{f$_{opt}$} is not given or is 0 then \emph{G=1*10$^{-10}$}
+\newline
+\myThickLine
+\textit{Use of the skin effect:}
+\newline
+Setting of the \emph{fmax} parameter denotes the desire to use skin effect.  If \emph{fmax} is left out, the model behaves exactly as described above.  If skin effect modeling is desired, \emph{fmax} should be set to the maximum frequency at which the user expects the model to be valid.  Eg.  If the user is working at frequencies no higher then 10 GHz setting \emph{fmax} to 10e9 would be sufficient.  Setting \emph{fmax} to lower than the desired frequency will result in reduced accuracy.  Note if alpha is set to 0 (ideal conductors) then the skin effect will appear not to have any effect because by definition the model will have zero series resistance.  If fmax is not included, the transmission line subsections will be modeled as shown in Figure \ref{element_noskin}
+\begin{figure}[h]
+\centerline{Model with no skin effect}
+\centerline{\includegraphics[scale=.7]{element_noskin.eps}} \caption{Transmission line subsection with skin effect not included
+\label{element_noskin}}
+\end{figure}
+\vfill\eject
+\begin{figure}[h]
+\centerline{Model with skin effect}
+\centerline{\includegraphics[scale=.8]{element_skin.eps}} \caption{Transmission line subsection with skin effect included
+\label{element_skin}}
+\end{figure}
+\hspace*{\fill}
+%
+If skin effect is included the series resistance is modeled using a R-L stack as shown in Figure \ref{element_skin}.  The series \emph{R} and \emph{L} values are shown below for simplicity
+\begin{eqnarray}
+\label{Rseries} 
+R = C_1 *R_{DC} *\left( {\sqrt {10} } \right)^m 
+\end{eqnarray}
+\begin{eqnarray}
+\label{Lseries} 
+L = C_2 *{{L_{DC} } \over {\left( {\sqrt {10} } \right)^m }}
+\end{eqnarray}
+
+\noindent\emph{R$_{DC}$} and \emph{L$_{DC}$} are the \emph{R} and \emph{L} values as calculated without skin effects as shown in (\ref{R}) and (\ref{L}).
+
+The constants C$_1$ and C$_2$ are constants that are chosen based on the \emph{fmax} term, similarly the number of branches required, indexed by the \emph{m} variable, is chosen based on \emph{fmax} and will not exceed 9.  The table of values for C$_1$ and C$_2$ and m is shown in Table \ref{constants_table}.
+
+ Sqrt(10) is chosen as the factor that will increase the resistance and decrease the inductance.  This value was picked experimentally such that after 1 MHz each additional branch (noted by the \emph{m} variable) makes the model valid for another decade of frequency.  As such the value of m$_{max}$ is found by consideration of fmax.  Eg. If fmax=10 MHz then m$_{max}$=2, if fmax=100 Mhz then m$_{max}$=3.
+ \newline
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|}
+\hline
+   fmax (Hz)   &C$_1$&C$_2$&m$_{max}$\\
+\hline
+   fmax $<$ 10    & 1 & 1& 0 \\
+\hline
+   fmax $<$ 10$^6$    & 1.32 & 1.68& 1 \\
+\hline
+   fmax $<$ 10$^7$    & 1.42 & 1.94& 2 \\
+\hline
+   fmax $<$ 10$^8$    & 1.45 & 2.03& 3 \\
+\hline
+   fmax $<$ 10$^9$    & 1.457 & 2.06& 4 \\
+\hline
+   fmax $<$ 10$^{10}$    & 1.461 & 2.07& 5 \\
+\hline
+   fmax $<$ 10$^{11}$    & 1.465 & 2.08& 6 \\
+\hline
+   fmax $<$ 10$^{12}$    & 1.4676 & 2.087& 7 \\
+\hline
+   fmax $<$ 10$^{13}$    & 1.4681 & 2.092& 8 \\
+\hline
+   fmax $<$ 10$^{14}$    & 1.4685 & 2.095& 9 \\
+\hline
+\end{tabular}
+\caption{\label{constants_table}\emph{fmax} dependent model constants}
+\end{center}
+\end{table}
+\newline
+\textit{Derivation of Model Constants : }
+\newline
+
+The model constant C$_1$ was calculated such that at DC the parallel combination of all the (R) resistances are equal to R$_{DC}$ since the inductors are shorted at DC.  C$_2$ is somewhat more complicated but it is solved for iteratively by equating the low frequency phase of the skin effect R L with the low frequency phase of the R$_{DC}$ and L$_{DC}$ circuit in Figure\ref{element_noskin}. These can both be solved for based on the number of branches required.
+
+Since the skin effect on a conductor can be thought of as the conductor being made of concentric shells.  At low frequencies all the shells carry currents and so the resistance seen is a DC resistance R$_{DC}$ in the model.  As frequency increases the inner shells turn off causing the DC resistance to increase and the internal inductance to decrease.
+%%%%%%%%%%%%%%%%
+\myThickLine
+Example of Transient Analysis (.TRAN2) Fixed times steps, time-stepping nonlinear analysis.\\
+netlist file: tlinp4.net:
+\begin{verbatim}
+* Transient tlinp4 test
+.options f0 = 9e9
+.tran2 tstop = 1e-9 tstep = .002e-9
+vsource:v2 202 0 vdc= -6. vac= 5. f= f0 phase=90
+resistor:rs 1 202 r=75.
+tlinp4:t1  1 0 2 0
++ z0mag=75.00 nsect=1 length=978.57e-6 k=7 tand=.01 fscale=1.e10 alpha=1. fmax=1e10
+resistor:rl 2 0  r=75.
+.options gnuplot
+.out plot term 1 vt in "tlinp4.1.tran"
+.out plot term 2 vt in "tlinp4.2.tran"
+.end
+\end{verbatim}
+The output log file is
+\begin{verbatim}
+**********  fREEDA 1.3 running on Wed Apr 29 11:13:35 2009  **********
+
+
+   *** Parsing input netlist ...
+
+   *** Expanding subcircuits ... done.
+
+   *** Initializing and Expanding Elements ... done.
+
+   *** Checking reference terminals ... done.
+
+   *** Starting analysis ...
+
+-----------------------------------------------------------------------------
+   Matrix size = 13
+   Matrix nnz = 47
+   Using line search method.
+   Nonlinear analysis tolerance (ftol) = 6.12865e-06
+   Maximum number of nonlinear iterations per time-point (maxit) = 250
+   Using Lee and Lee's quasi-Newton updates.
+   --- Starting transient simulation ...
+
+   Number of nonlinear state variables: 0
+-----------------------------------------------------------------------------
+   |  Step  |    Time (s)  |   Residual   |  Recent Max   |     Max      |
+-----------------------------------------------------------------------------
+   |      0 | 0.000000e+00 | 0.000000e+00 | 0.000000e+00  | 0.000000e+00 |
+   |    200 | 4.000000e-10 | 0.000000e+00 | 0.000000e+00  | 0.000000e+00 |
+   |    400 | 8.000000e-10 | 0.000000e+00 | 0.000000e+00  | 0.000000e+00 |
+   --- Maximum Residual: 0
+-----------------------------------------------------------------------------
+
+ Plotting output file: tlinp4.1.tran.
+ Plotting output file: tlinp4.2.tran.
+
+**************  fREEDA 1.3 stopping on Wed Apr 29 11:13:35 2009  ***********
+\end{verbatim}
+
+
+\centerline{\includegraphics[width=3in]{tlinp4.2.tran.eps}}
+~
+\myThickLine
+Example of Transient Analysis using Convolution (.SVTR).\\
+In this example the transmission line is calculated in the frequency domain and convolution analysis is used to convert the model into an impulse response used directly in transient analysis.\\
+netlist file: tlinp4\_conv.net:
+\begin{verbatim}
+* Transient tlinp4 test. Convolution is used
+.options f0 = 9e9
+.svtr tstop = 1e-9 tstep = .0002e-9
+vsource:v2 202 0 vdc= -6. vac= 5. f= f0 phase=90
+resistor:rs 1 202 r=75.
+tlinp4:t1  1 0 2 ref2
++ z0mag=75.00 length=978.57e-6 k=7 tand=.01 fscale=1.e10 alpha=1. fmax=1e10
+resistor:r3 2 ref2  r=75.
+open:1 2 ref2
+.ref "ref2"
+.options gnuplot
+.out plot element "open:1" 0 ut in "tlinp4.2.svtr"
+.end
+\end{verbatim}
+Note that in convolution analysis augmentation elements are used to provide the proper interface between the linear and nonlinear partitions of the circuit analyzed in the time-domain and frequency-domain. As well all linear elements internal to the linear circuit partition care not available. Consequently the voltages at terminals of linear elements are not available and the voltages at the terminals of nonlinear elements are modified by the augmentation circuit. Voltages and currents must be obtained from nonlinear elements (using \texttt{ut} and \texttt{it}). Additional nonlinear elements can be introduced using the \texttt{open} element which is treated as tough it is a nonlinear element.  So to get the voltage at a particular terminal either an existing nonlinear element can be exploited or an \texttt{open} element introduced. The voltage determine the voltage (ut) of that element is used.  In the above \texttt{element "open:1" 0 ut} indicates that the first (the zero'th) \texttt{ut} voltage of the element \texttt{open:1} is pushed on the stack.\\[0.1in]
+The output log file follows:
+\begin{verbatim}
+**********  fREEDA 1.3 running on Wed Apr 29 11:31:42 2009  **********
+
+
+   *** Parsing input netlist ...
+
+   *** Expanding subcircuits ... done.
+
+   *** Initializing and Expanding Elements ... done.
+
+   *** Checking reference terminals ... done.
+
+   *** Starting analysis ...
+
+-----------------------------------------------------------------------------
+   *** State Variable-Based Transient Analysis ***
+-----------------------------------------------------------------------------
+
+   n_samples = 1792
+   Frequency step = 2.43902e+09 Hz
+   Maximum frequency = 2.49756e+12 Hz
+   Number of time steps = 5001
+
+   --- Building Msv(f) ...
+   Number of state variables = 2
+   --- Converting Msv to the time domain ...
+
+   Warning: Last 35 samples impulse contribution: 1.72 %
+
+   Warning: Last 35 samples impulse contribution: 25.01 %
+
+   Warning: Last 35 samples impulse contribution: 25.01 %
+
+   Warning: Last 35 samples impulse contribution: 5.57 %
+   --- Starting transient simulation ...
+
+   Using line search method.
+   Nonlinear analysis tolerance (ftol) = 6.12865e-06
+   Maximum number of nonlinear iterations per time-point (maxit) = 250
+   Using Lee and Lee's quasi-Newton updates.
+-----------------------------------------------------------------------------
+   |   Step   |    Time (s)    |   Residual (V)   |
+-----------------------------------------------------------------------------
+   |     100  |  2.000000e-11  |  1.333760e-14    |
+   |     200  |  4.000000e-11  |  1.959041e-14    |
+   |     300  |  6.000000e-11  |  2.203514e-14    |
+   |     400  |  8.000000e-11  |  2.237927e-14    |
+   |     500  |  1.000000e-10  |  2.250559e-14    |
+   |     600  |  1.200000e-10  |  2.388845e-14    |
+   |     700  |  1.400000e-10  |  2.675828e-14    |
+   |     800  |  1.600000e-10  |  3.062149e-14    |
+   |     900  |  1.800000e-10  |  3.157902e-14    |
+   |    1000  |  2.000000e-10  |  3.168229e-14    |
+   |    1100  |  2.200000e-10  |  3.193301e-14    |
+   |    1200  |  2.400000e-10  |  3.328842e-14    |
+   |    1300  |  2.600000e-10  |  3.689638e-14    |
+   |    1400  |  2.800000e-10  |  3.872710e-14    |
+   |    1500  |  3.000000e-10  |  3.905102e-14    |
+   |    1600  |  3.200000e-10  |  3.912686e-14    |
+   |    1700  |  3.400000e-10  |  3.974990e-14    |
+   |    1800  |  3.600000e-10  |  4.197954e-14    |
+   |    1900  |  3.800000e-10  |  4.506976e-14    |
+   |    2000  |  4.000000e-10  |  4.588288e-14    |
+   |    2100  |  4.200000e-10  |  4.596716e-14    |
+   |    2200  |  4.400000e-10  |  4.612777e-14    |
+   |    2300  |  4.600000e-10  |  4.749799e-14    |
+   |    2400  |  4.800000e-10  |  4.974311e-14    |
+   |    2500  |  5.000000e-10  |  5.141199e-14    |
+   |    2600  |  5.200000e-10  |  5.173273e-14    |
+   |    2700  |  5.400000e-10  |  5.176453e-14    |
+   |    2800  |  5.600000e-10  |  5.215110e-14    |
+   |    2900  |  5.800000e-10  |  5.358540e-14    |
+   |    3000  |  6.000000e-10  |  5.559405e-14    |
+   |    3100  |  6.200000e-10  |  5.638657e-14    |
+   |    3200  |  6.400000e-10  |  5.647929e-14    |
+   |    3300  |  6.600000e-10  |  5.658068e-14    |
+   |    3400  |  6.800000e-10  |  5.732690e-14    |
+   |    3500  |  7.000000e-10  |  5.913543e-14    |
+   |    3600  |  7.200000e-10  |  6.068913e-14    |
+   |    3700  |  7.400000e-10  |  6.108066e-14    |
+   |    3800  |  7.600000e-10  |  6.111576e-14    |
+   |    3900  |  7.800000e-10  |  6.129309e-14    |
+   |    4000  |  8.000000e-10  |  6.279185e-14    |
+   |    4100  |  8.200000e-10  |  6.440435e-14    |
+   |    4200  |  8.400000e-10  |  6.524856e-14    |
+   |    4300  |  8.600000e-10  |  6.533710e-14    |
+   |    4400  |  8.800000e-10  |  6.541732e-14    |
+   |    4500  |  9.000000e-10  |  6.602423e-14    |
+   |    4600  |  9.200000e-10  |  6.745446e-14    |
+   |    4700  |  9.400000e-10  |  6.890652e-14    |
+   |    4800  |  9.600000e-10  |  6.934587e-14    |
+   |    4900  |  9.800000e-10  |  6.937813e-14    |
+   |    5000  |  1.000000e-09  |  6.954280e-14    |
+-----------------------------------------------------------------------------
+
+   --- Residual: 6.95428e-14
+   --- Writing output vectors ...
+ Plotting output file: tlinp4.2.svtr.
+
+**************  fREEDA 1.3 stopping on Wed Apr 29 11:31:50 2009  ***********
+\end{verbatim}
+%%%%%%%%%%%%%%%%%%%%%
+\hspace*{\fill}\includegraphics[width=3in]{tlinp4.2.svtr.eps}\hfill
+\includegraphics[width=3in]{tlinp4.2.svtr.z.eps}\hspace*{\fill}
+~
+\myThickLine
+Example of AC Analysis using single subsection calculations.\\
+netlist file: tlinp4AC.net:
+\begin{verbatim}
+* AC tlinp4 test
+.ac start = 1 stop = 20GHz n_freqs=10000
+vsource:v2 202 0  vac= 5
+resistor:rs 1 202 r=75.
+tlinp4:t1  1 0 2 ref2
++ z0mag=75.00 length=0.03 k=7 tand=.1 fscale=1.e10 alpha=1 fmax=20e9
+resistor:rl 2 ref2  r=75.
+.ref "ref2"
+.options gnuplot
+* Get the magnitude of the voltage at terminal 2. This is with respect to ref2
+.options preamble1="set term x11 font 'helvetica,13';
+set xlabel 'FREQUENCY (GHz)'; set ylabel 'MAGNITUDE (VOLTS)"
+.out plot term 2 vf mag 1e-9 scalex preamble1 in "tlinp4.2.mag"
+* Get the phase of the voltage at terminal 2. This is with respect to ref2
+* prinphase gets the principal phase as opposed to the continuous phase.
+.options preamble2="set term x11 font 'helvetica,13';
+set xlabel 'FREQUENCY (GHz)'; set ylabel 'phase (DEGREES)"
+.out plot term 2 vf prinphase 1e-9 scalex rad2deg preamble2 in "tlinp4.2.phase"
+.end
+\end{verbatim}
+
+The output log file is:
+\begin{verbatim}
+**********  fREEDA 1.3 running on Wed Apr 29 11:46:15 2009  **********
+
+   *** Parsing input netlist ...
+
+   *** Expanding subcircuits ... done.
+
+   *** Initializing and Expanding Elements ... done.
+
+   *** Checking reference terminals ... done.
+
+   *** Starting analysis ...
+
+-----------------------------------------------------------------------------
+   *** AC Analysis ***
+-----------------------------------------------------------------------------
+
+   Frequency step = 2.0002e+06 Hz
+   --- Writing output vectors ...
+ Plotting output file: tlinp4.2.mag.
+ Plotting output file: tlinp4.2.phase.
+**************  fREEDA 1.3 stopping on Wed Apr 29 11:46:15 2009  ***********
+\end{verbatim}
+And the results are: 
+\newline
+\emph{With Skin effect : }
+\newline
+%\hspace*{\fill}
+\includegraphics[width=3in]{tlinp4.2.mag.eps}\hfill
+\includegraphics[width=3in]{tlinp4.2.phase.eps}\hspace*{\fill}
+~\\
+\emph{Without Skin effect : }
+\newline
+%\hspace*{\fill}
+\includegraphics[width=3in]{tlinp4.2.mag_noskin.eps}\hfill
+\includegraphics[width=3in]{tlinp4.2.phase_noskin.eps}\hspace*{\fill}
+~\\
+Notice how the plots appear to be the exact same with or without skin effect, this is to be expected because this is only a one subsection model of the transmission line and as such is a very poor approximation.  The series inductor, \emph{L$_{DC}$}, dominates at the higher frequencies and begins to look like an open circuit, as such the output voltage shown in the plot moves exponentially towards zero.  See the next section for the example of a multiple subsection simulation.
+\myThickLine
+\newline
+Example of AC Analysis using a multi subsection approximation\\
+netlist file: tlinp4AC2.net:
+\begin{verbatim}
+* AC tlinp4 test
+.ac start = 1 stop = 10GHz n_freqs=10000
+vsource:v2 202 ref2  vac= 5
+resistor:rs 1 202 r=75.
+tlinp4:t1  1 ref2 2 ref2
++ z0mag=50.00 length=.03 k=7 tand=.1 nsect=20 alpha=1 fmax=2e10
+resistor:rl 2 ref2  r=75.
+.ref "ref2"
+.options gnuplot
+* Get the magnitude of the voltage at terminal 2. This is with respect to ref2
+.options preamble1="set term x11 font 'helvetica,13';
+set xlabel 'FREQUENCY (GHz)'; set ylabel 'MAGNITUDE (VOLTS)"
+.out plot term 2 vf mag 1e-9 scalex preamble1 in "tlinp4.2.mag"
+* Get the phase of the voltage at terminal 2. This is with respect to ref2
+* prinphase gets the principal phase as opposed to the continuous phase.
+.options preamble2="set term x11 font 'helvetica,13';
+set xlabel 'FREQUENCY (GHz)'; set ylabel 'phase (DEGREES)"
+.out plot term 2 vf prinphase 1e-9 scalex rad2deg preamble2 in "tlinp4.2.phase"
+.end
+\end{verbatim}
+
+The output log file is:
+\begin{verbatim}
+**********  fREEDA 1.3 running on Wed Apr 29 13:37:27 2009  **********
+
+
+   *** Parsing input netlist ...
+
+   *** Expanding subcircuits ... done.
+
+   *** Initializing and Expanding Elements ... done.
+
+   *** Checking reference terminals ... done.
+
+   *** Starting analysis ...
+
+-----------------------------------------------------------------------------
+   *** AC Analysis ***
+-----------------------------------------------------------------------------
+
+   Frequency step = 1.0001e+06 Hz
+   --- Writing output vectors ...
+ Plotting output file: tlinp4.2.mag.
+ Plotting output file: tlinp4.2.phase.
+
+**************  fREEDA 1.3 stopping on Wed Apr 29 13:37:27 2009  ***********
+\end{verbatim}
+And the results are: 
+\newline
+\emph{With Skin effect : }
+\newline
+%\hspace*{\fill}
+\includegraphics[width=3in]{tlinp4.2.mag_nsect_skin.eps}\hfill
+\includegraphics[width=3in]{tlinp4.2.phase_nsect_skin.eps}\hspace*{\fill}
+~\\
+\emph{Without Skin effect : }
+\newline
+%\hspace*{\fill}
+\includegraphics[width=3in]{tlinp4.2.mag_nsect_noskin.eps}\hfill
+\includegraphics[width=3in]{tlinp4.2.phase_nsect_noskin.eps}\hspace*{\fill}
+~\\
+In the above graphs notice how the plots without skin effect lack any significant attenuation at higher frequencies while the skin effect model attenuates more at the higher frequencies.  These plots perhaps best illustrate the use of the skin effect model.
+
+This time we are using a 20 subsection approximation, it is a much better approximation than the single subsection approximation above.  In the graphs below, standing waves can be seen with peaks corresponding to the phase wrapping in the phase graph.  This is because the model is using LC pairs and as such it is a resonance structure.
+\myThickLine
+\textit{Version:}\\
+2009.04.029 (2009 April 29) \\
+% Credits
+\myThickLine
+\medskip
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson, Mete Ozkar & NC State University & Sept 2000 & \includegraphics[width=1in]{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\\\
+Michael Steer & NC State University & April 2008 & \includegraphics[width=1in]{logo.eps}  \\
+mbsteer@ieee.org & & & www.ncsu.edu    \\\\
+Austin Samples & NC State University & April 2009 & \includegraphics[width=1in]{logo.eps}  \\
+atsample@ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

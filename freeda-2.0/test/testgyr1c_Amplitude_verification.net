@@ -1,0 +1,22 @@
+Gyrator Current Test
+
+.tran2 tstart=0.1e-6 tstop=5e-6 tstep=.01e-6
+
+vsource:vin 1 0 vac=2 f=1e6
+resistor:rin 1 2 r=50
+vsource:v1 2 3 vdc=.001
+gyrator:gyr1 3 4 0 0 r1=25 r2=50
+vsource:v2 5 4 vdc=.001
+resistor:rload 5 0 r=50
+
+.out plot element "vsource:v1" 0 it in "i1.out"
+.out plot element "vsource:v2" 0 it in "i2.out"
+
+.out plot term 5 vt in "v5.out"
+.out plot term 4 vt in "v4.out"
+.out plot term 3 vt in "v3.out"
+.out plot term 2 vt in "v2.out"
+.out plot term 1 vt in "v1.out"
+.out plot term 0 vt in "v0.out"
+
+.end

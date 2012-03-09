@@ -1,0 +1,39 @@
+Test netlist for the thermal1 element
+
+.options deltat=4 nsteps=100 temp=300. 
+
+.svtr  tstop = 400 n_freqs = 8 tstep = deltat 
+
+* Input power source
+isource:pin1 1 0 idc=.2
+isource:pin2 2 0 idc=.2
+isource:pin3 3 0 idc=.2
+isource:pin4 4 0 idc=.2
+isource:pin5 5 0 idc=.2
+isource:pin6 6 0 idc=.2
+isource:pin7 7 0 idc=.2
+isource:pin8 8 0 idc=.2
+isource:pin9 9 0 idc=.2
+
+thermalheatsinkspot:test1 1 2 3 4 5 6 7 8 9 10 Ntimesteps=nsteps dt=deltat Tambient=temp 
++ time_d=1 nfingers = 1 narray=3
+
+* We need some resistor in parallel, otherwise the MNAM would
+* be singular. (only needed if opt=1)
+* resistor:rdummy 1 10 r=1e5
+
+vsource:t1 10 0 vdc=temp
+
+.out plot element "thermalheatsinkspot:test1" 0 it in "input.power"
+
+.out plot element "thermalheatsinkspot:test1" 0 ut in "output0.temperature"
+.out plot element "thermalheatsinkspot:test1" 1 ut in "output1.temperature"
+.out plot element "thermalheatsinkspot:test1" 2 ut in "output2.temperature"
+.out plot element "thermalheatsinkspot:test1" 3 ut in "output3.temperature"
+.out plot element "thermalheatsinkspot:test1" 4 ut in "output4.temperature"
+.out plot element "thermalheatsinkspot:test1" 5 ut in "output5.temperature"
+.out plot element "thermalheatsinkspot:test1" 6 ut in "output6.temperature"
+.out plot element "thermalheatsinkspot:test1" 7 ut in "output7.temperature"
+.out plot element "thermalheatsinkspot:test1" 8 ut in "output8.temperature"
+
+.end

@@ -1,0 +1,251 @@
+\chapter{Support Software Libraries \label{app_library_ref}}
+
+A large number of support libraries are available (many of them
+freely) and some of these are used in TRANSIM. The various libraries,
+which should be of general interest to the microwave modeling
+community, are described below.
+
+\section{Solution of Sparse Linear Systems}
+
+\emph{Sparse 1.3}\footnote{http://www.netlib.org/sparse/}
+\cite{Sparse} is a flexible package of subroutines written in C used
+to numerically solve large sparse systems of linear equations.  The
+package is able to handle arbitrary real and complex square matrix
+equations.  Besides being able to solve linear systems, it is also
+able to quickly solve transposed systems, find determinants, and
+estimate errors due to ill-conditioning in the system of equations and
+instability in the computations. Sparse also provides a test program
+that is able to read matrix equation from a file, solve it, and print
+useful information (such as condition number of the matrix) about the
+equation and its solution. Sparse was originally written for use in
+circuit simulators and is well adapted to handling nodal- and
+modified-nodal admittance matrices.
+
+\emph{SuperLU}\footnote{http://www.nersc.gov/~xiaoye/SuperLU/} is used
+in the wavelet and time marching transient analyses. It contains a set
+of subroutines to numerically solve a sparse linear system ${\bf A}
+{\bf x} = {\bf b}$. It uses Gaussian elimination with partial pivoting
+(GEPP). The columns of ${\bf A}$ may be preordered before
+factorization; the preordering for sparsity is completely separate
+from the factorization. SuperLU is implemented in ANSI C. It provides
+support for both real and complex matrices, in both single and double
+precision.
+
+\section{Vectors and matrices}
+
+Most of the vector and matrix handling in Transim uses
+\emph{MV++}\footnote{http://math.nist.gov/mv++/} \cite{mv++}.  This is
+a small set of vector and simple matrix classes for numerical
+computing written in C++. It is not intended as a general vector
+container class but rather designed specifically for optimized
+numerical computations on RISC and pipelined architectures which are
+used in most new computer architectures. The various MV++ classes form
+the building blocks of larger user-level libraries.  The MV++ package
+includes interfaces to the computational kernels of the Basic Linear
+Algebra Subprograms package (BLAS) which includes scalar updates,
+vector sums, and dot products. The idea is to utilize vendor-supplied,
+or optimized BLAS routines that are fine-tuned for particular
+platforms.
+
+The \emph{Matrix Template Library}
+(MTL)\footnote{http://www.lsc.nd.edu/research/mtl/} is a
+high-performance generic component library that provides comprehensive
+linear algebra functionality for a wide variety of matrix formats. It
+is used in the wavelet and time marching transient analyses.
+
+As with the STL, MTL uses a five-fold approach, consisting of generic
+functions, containers, iterators, adaptors, and function objects, all
+developed specifically for high performance numerical linear
+algebra. Within this framework, MTL provides generic algorithms
+corresponding to the mathematical operations that define linear
+algebra. Similarly, the containers, adaptors, and iterators are used
+to represent and to manipulate matrices and vectors.
+
+\section{Solution of nonlinear systems}
+
+Nonlinear systems of equations in Transim are solved using the
+\emph{NNES}\footnote{http://www.netlib.org/opt/} \cite{NNES}
+library. This package is written in Fortran and provides Newton and
+quasi-Newton methods with many options including the use of analytic
+Jacobian or forward, backwards or central differences to approximate
+it, different quasi-Newton Jacobian updates, or two globally
+convergent methods, etc. This library is used through an interface
+class ({\bf NLSInterface}), so it is possible to install a different
+routine to solve nonlinear systems if desired by just replacing the
+interface (four different nonlinear solvers have already been
+used). The Fortran routine \emph{NLEQ1} (Numerical solution of
+nonlinear (NL) equations (EQ)\footnote{Konrad-Zuse-Zentrum f\"ur
+Informationstechnik Berlin (ZIB). Contact: Lutz Weimann, ZIB, Division
+Scientific Computing, Department Scientific Software, e-mail:
+weimann@zib.de}) can also be used as a compile option. 
+
+\section{Fourier transform}
+
+Fourier transformation is implemented in Transim using the
+\emph{FFTW}\footnote{http://www.fftw.org} library~\cite{FFTW}. FFTW is
+a C subroutine library for computing the Discrete Fourier Transform
+(DFT) in one or more dimensions, of both real and complex data, and of
+arbitrary input size. Benchmarks, performed on a variety of platforms
+show that FFTW's performance is typically superior to that of other
+publicly available FFT software. Moreover, FFTW's performance is
+portable: the program performs well on most computer architectures
+without modification.
+
+\section{Automatic differentiation} \label{sec:adolc}
+
+Most nonlinear computations require the evaluation of first and higher
+derivatives of vector functions with $m$ components in $n$ real or
+complex variables \cite{adol-c:96}.  Often these functions are defined
+by sequential evaluation procedures involving many intermediate
+variables. By eliminating the intermediate variables symbolically, it
+is theoretically always possible to express the $m$ dependent
+variables directly in terms of the $n$ independent
+variables. Typically, however, the attempt results in unwieldy
+algebraic formulae, if it can be completed at all. Symbolic
+differentiation of the resulting formulae will usually exacerbate
+this problem of \emph{expression swell} and often entails the repeated
+evaluation of common expressions.
+
+An obvious way to avoid such redundant calculations is to apply an
+optimizing compiler to the source code that can be generated from the
+symbolic representation of the derivatives in question. Exactly this
+approach was investigated by Speelpenning during his Ph.D. research
+\cite{speelpenning} at the University of Illinois from 1977 to
+1980. Eventually he realized that at least in the cases $n = 1$ and $m
+= 1$, the most efficient code for the evaluation of derivatives can be
+obtained directly from the evaluation of the underlying vector
+function. In other words, he advocated the differentiation of
+evaluation algorithms rather than formulae. In his thesis he made the
+particularly striking observation that the gradient of a scalar-valued
+function (\emph{i.e.} $m = 1$) can always be obtained for no more than
+five times the operations count of evaluating the function
+itself. This bound is completely independent of $n$, the number of
+independent variables, and allows the row-wise computation of
+Jacobians for at most $5 m$ times the effort of evaluating the
+underlying vector function.
+
+Given a code for a function $F : \Re^n \rightarrow \Re^m$, automatic
+differentiation (AD) uses the chain rule successively to compute the
+derivative matrix. AD has two basic modes, forward mode and reverse
+mode \cite{coleman}. The difference between these two is the way the
+chain rule is used to propagate the derivatives. 
+
+%
+\begin{figure}[htpb]
+\leavevmode
+\centerline{\epsfxsize=12cm \epsfbox{newadolc.eps}}
+\caption{Implementation of automatic differentiation.} \label{fig:adolc}
+\end{figure}
+%
+A versatile implementation of the AD technique is
+\emph{Adol-C}\footnote{http://www.math.tu-dresden.de/~adol-c/}
+\cite{adol-c:96}, a software package written in C and C++.  The
+numerical values of derivative vectors (required to fill a Jacobian in
+Harmonic Balance analysis~\cite{svhb}, see Figure~\ref{fig:adolc}) are
+obtained free of truncation errors at a small multiple of the run time
+required to evaluate the original function with little additional
+memory required.  It is important to note that AD is not numerical
+differentiation and the same accuracy achieved by evaluating
+analytically developed derivatives is obtained.
+
+The {\tt eval()} method of the nonlinear element class is executed at
+initialization time and so the operations to calculate the currents
+and voltages of each element are recorded by Adol-C in a \emph{tape}
+which is actually an internal buffer. After that, each time that the
+values or the derivatives of the nonlinear elements are required, an
+Adol-C function is called and the values are calculated using the
+tapes.  This implementation is efficient because the taping process is
+done only once (this almost doubles the speed of the calculation
+compared to the case where the functions are taped each time they are
+needed).  When the Jacobian is needed, the corresponding Adol-C
+function is called using the same tape. We have tested the program
+with large circuits with many tones, and the function or Jacobian
+evaluation times are always very small compared with the time required
+to solve the matrix equation (typically some form of Newton's method)
+that uses the Jacobian. The conclusion is that there is little
+detriment to the performance of the program introduced by using
+automatic differentiation.  However the advantage in terms of rapid
+model development is significant.  The majority of the development
+time in implementing models in simulators, particularly harmonic
+balance simulators, is in the manual development of the derivative
+equations. Unfortunately the determination of derivatives using
+numerical differences is not sufficiently accurate for any but the
+simplest circuits. With Adol-C full `analytic' accuracy is obtained
+and the implementation of nonlinear device models is dramatically
+simplified. From experience the average time to develop and implement
+a transistor model is an order of magnitude less than deriving and
+coding the derivatives manually. Note that time differentiation, time
+delay and transformations are left outside the automatic
+differentiation block. The calculation speed achieved is approximately
+ten times faster than the speed achieved by including time
+differentiation, time delay and transformations inside the block.
+
+\begin{table}
+\leavevmode
+   \caption{\label{nodal:table:compare}Comparison of techniques for
+solving the nodal admittance formulation of the network
+equations. $N$ is the number of nodes, $M_N$ is the number
+of floating point multiplication and division operations
+required for an $N$ node circuit.}\vspace*{0.1in}
+\centering
+\begin{tabular}{|lllp{3in}|}
+\hline
+METHOD  &  $M_5$ & $M_{100}$ & NOTES \\
+\hline
+\hline
+\multicolumn{4}{|c|}{MATRIX REDUCTION METHODS}\\
+\hline
+Pivoted Reduction &  58 & 80,848&
+  Very efficient. \\
+  &&& $M_N =  (2N^3 - 3N^2 + N - 6)/3$\\
+  \hline
+Partitioned Analysis &  81  &124,416&
+  Variant of pivoted reduction method advantageous for repeated analysis\\
+  &&& $M_N =  N^3 - 12N + 16$\\
+  \hline
+  \hline
+\multicolumn{4}{|c|}{METHODS INVOLVING THE SOLUTION OF SIMULTANEOUS EQUATIONS}\\
+\hline
+Direct Inversion    & 125 & 125,000 & e.g. using Gauss-Jordan Techniques.\\
+  &&& $M_N =  N^3$\\
+  \hline
+Sum of Products     &  505 & 1.49 $10^{66}$&
+  Inefficient.
+  Evaluates ${\bf Y}^{-1} = {1 \over \Delta} (\mbox{adj} {\bf Y})$\\
+                    &   &&
+  \mbox{adj} {\bf Y} is composed of cofactors of {\bf Y}. \\
+  &&& $M_N \approx N!(N-1) + N^2$\\
+  \hline
+Laplacian expansion & 232   & 5.22 $10^{64}$&
+  As above. Uses cofactors of {\bf Y} to evaluate determinant $\Delta$\\
+  &&& $M_N \approx 1.71828! + N^2$\\
+  \hline
+Triangularization   & 65    & 41,650&
+  As above, This is a quick way to evaluate $\Delta$\\
+  &&& $M_N \approx (N^3 - N)/3 + N^2$\\
+  \hline
+LU factorization    & 65    & 44,150&
+  Finds lower (L) and upper (U) triangular matrices so that {\bf Y} = LU.
+  Factorization can be reused for different node current sources (an additional
+  $N^2$ operations required). \\
+  &&& $M_N = (N^3+3N^2-N)/3$\\
+  \hline
+Gaussian Elimination & 65   & 44,150&
+  Efficient. Yields node voltages and node current sources.\\
+  &&& $M_N = (N^3+3N^2-N)/3$\\
+  \hline
+Gauss-Jordan        &  85   & 64,975&
+  Efficient. Simpler than Gaussian elimination.\\
+  &&& $M_N = (N^3+3N^2-N)/2$\\
+\hline
+\hline
+\multicolumn{4}{|c|}{CASCADED TWO-PORT ANALYSIS}\\
+\hline
+Two-Port Analysis   &  40  & 400 &
+  Very efficient, applicable to a restricted class of problems. Yields two-port
+  parameters of network. \\
+  &&& $M_N = 8N$\\
+\hline
+\hline
+\end{tabular}
+\end{table}

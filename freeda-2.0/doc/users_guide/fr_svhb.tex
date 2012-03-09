@@ -1,0 +1,544 @@
+
+\chapter{Harmonic Balance Analysis} \label{ch_svhb}
+
+%--------------------------------------------------------------------------
+\section{Introduction}
+
+Steady state (harmonic balance) analysis of microwave circuits
+continues to be the dominant approach to the simulation of nonlinear
+RF and microwave circuits. Development efforts are currently being
+directed at extending the approach to accommodate a very large number
+of tones, improve robustness, and development of matrix-free methods
+to handle very large problems without explicit storage of the
+Jacobian. One system that is of particular concern is the simulation
+of quasi-optical power combiners with hundreds of active devices with
+significant thermal effects and distributed over an electrically large
+region. This exacerbates the problem of robustness and of model
+development.
+
+In this chapter we present neccesary developments which makes the
+steady-state simulation of large systems possible. The issue of
+robustness is addressed by
+\begin{enumerate}
+\item Using state variables which enables the use of parametrized
+device models including nonlinear behavioral models.
+\item Using the minimum number of state variables and error
+functions and so eliminating the redundancy in the Jacobian.
+\item A formulation permitting the use of various nonlinear equation
+solvers.
+\end{enumerate}
+Model development is greatly simplified using a novel implementation
+of automatic differentiation technology.
+
+With respect to the memory requirements and running time, fREEDA$^{\mathrm{TM}}$
+performs on average as well as commercial tools for small and medium
+size problems.
+
+%--------------------------------------------------------------------------
+\section{Review of Harmonic Balance Formulations}
+
+\subsection{Conventional formulation}
+
+ The idea of harmonic balance~\cite{steer2:1996} is most easily
+demonstrated using the approach of Nakhla and
+Vlach~\cite{nakhla:vlach:76}. This approach is based on partitioning
+of the linear and nonlinear portions of a circuit as shown in
+Figure~\ref{hb1}.
+
+\begin{figure}[htpb]
+\centerline{\epsfxsize=3in {\pfig{HB_concept.eps}}}
+\caption{Partition representation of the harmonic
+balance method} \label{hb1}
+\end{figure}
+
+A solution at the $k^{th}$ node up to the $n^{th}$ harmonic is assumed
+of the form
+\begin{equation}
+  v_k(t)= \Re \left\{ \sum_{m=0}^n V_m 
+  \exp(j \omega m t + \phi_m) \right\} \label{eq_hb1}
+\end{equation}
+with the unknown variables being the amplitude and phase of each
+frequency component at each interfacial node. Note that phasor
+amplitude and phase at each frequency is fixed with respect to time.
+The solution is, then, a finite sum of commensurate discrete
+spectra. Conservation of current and charge in the frequency domain
+at each of the interfacial nodes of Figure~\ref{hb1} gives
+\begin{equation}
+  F(V)= I(V) + {\bf \Omega} Q(V) + {\bf Y} V + I_S = 0 \label{eq9}
+\end{equation}
+where ${\bf Y}$ is the nodal admittance matrix of the linear part and
+$I_S$ is the source vector. The first two terms on the right side are
+calculated as:
+\begin{equation}
+  I_{NL}(V)= {\mathcal{F}}\{{\bf i}[{\mathcal{F}}^{-1}(V)]\} + {\bf \Omega}
+             {\mathcal{F}}\{{\bf q}[{\mathcal{F}}^{-1}(V)]\}
+\end{equation}
+where $\mathcal{F}$ is the Fourier transform operator and ${\bf \Omega}$
+is a diagonal matrix of $j\omega m$ terms representing
+frequency domain differentiation. Solution is carried out in the
+frequency domain, with nonlinearities transformed to the frequency
+domain using FFT with precisely spaced time samples. 
+
+\subsection{State-Variable Formulation} \label{subsection:rizzoli}
+
+Let the nonlinear subnetwork be described by the following generalized
+parametric equations~\cite{rizzoli:92:1}
+\begin{eqnarray}
+  {\bf v}(t) &=& u[{\bf x}(t), \frac{d{\bf x}}{dt}, \dots , 
+                 \frac{d^n{\bf x}}{dt^n}, {\bf x}_D(t)] \\
+  {\bf i}(t) &=& w[{\bf x}(t), \frac{d{\bf x}}{dt}, \dots ,
+                 \frac{d^n{\bf x}}{dt^n}, {\bf x}_D(t)] 
+  \label{eqriz3}
+\end{eqnarray}
+where $v(t)$, $i(t)$ are vectors of voltages and currents at the
+common ports, ${\bf x}(t)$ is a vector of state variables and ${\bf
+x}_D(t)$ a vector of time-delayed state variables, i.e.,
+$x_{Di}(t)=x_i(t-\tau_i)$. The time delays $\tau_i$ may be functions
+of the state variables. All vectors in (\ref{eqriz3}) have a same size
+$n_d$ equal to the number of common (device) ports. This kind of
+representation is very convenient from the physical viewpoint, because
+it is in fact equivalent to a set of implicit integro-differential
+equations in the port currents and voltages. This allows an effective
+minimization of the number of subnetwork ports, and what is more
+important, results in extreme generality in device modeling
+capabilities.
+
+The quasi-periodic electrical regime of the nonlinear circuit
+resulting from a multi-tone excitation is completely defined by a set of
+time-dependent state variables of the form (\ref{eq_hb1}), or
+equivalently by the vector $X$ of the real and imaginary parts of
+their harmonics.
+
+The linear subnetwork may be represented by the frequency domain
+equation
+\begin{equation}
+  {\bf Y}(\omega) V(\omega) + N(\omega) + I(\omega) = 0 \label{eqriz4}
+\end{equation}
+where $V(\omega)$, $I(\omega)$ are vectors of voltage and current
+phasors, $Y(\omega)$ is the linear subnetwork admittance matrix, and
+$N(\omega)$ is a vector of Norton equivalent current sources. Thus a
+set of complex harmonic-balance errors at a generic IM product
+$\Omega_k$ has the expression
+\begin{equation}
+  F_k(X) = {\bf Y}(\Omega_k) U_k(X) + N(\Omega_k) + W_k(X) \label{eqriz5}
+\end{equation}
+The nonlinear analysis problem is reduced to the solution of a
+nonlinear algebraic system by imposing that all the HB errors
+vanish. In order to avoid the use of negative frequencies, the
+nonlinear solving system is formulated in terms of a vector $F$ of
+real and imaginary parts of the HB errors given by (\ref{eqriz5}), and
+thus written as a systems of $N_t$ real equations in $N_t$ unknowns,
+namely
+\begin{equation}
+  F(X) = 0 \label{eqriz6}
+\end{equation}
+
+%--------------------------------------------------------------------------
+\section{Review of Frequency-Time Conversion \\
+Techniques}
+
+Until 1984, harmonic balance was only used to analyze circuits with a
+periodic response~\cite{kundert:vincentelli:90}. The reason for this
+is that with the linear devices evaluated in the frequency domain and
+the nonlinear devices evaluated in the time domain, a transform is
+needed to convert signals between the two domains. The FFT was used to
+perform this operation, however the FFT is only applicable to periodic
+signals, which excludes a very important class of circuits whose
+steady state response is not periodic: mixers. The signals present in
+mixers consist of sinusoids at the sum and difference frequencies of
+the two or more input frequencies and their harmonics. In general,
+these input frequencies are not harmonically related, and so the
+signals found in mixers are not periodic, but rather quasi-periodic.
+
+There are currently five different methods available for transforming
+signals between time and frequency domains that are suitable for use
+with quasi-periodic harmonic balance. The first three of these methods
+are general in nature. Two methods, those of Ushida and
+Chua~\cite{ushida:84}, and Gilmore and Rosenbaum~\cite{gilmore:84},
+are considered less efficient than the remaining methods and thus are
+no longer used. The third method is the almost periodic Fourier
+transform (APFT)~\cite{kundert:vincentelli:90}. This transform has a
+simple operator notation and so is useful for theoretical
+manipulation.
+
+The last two methods exploit the fact that in harmonic balance one
+desires the frequency domain response of a nonlinear device to a
+frequency domain stimulus and the time domain waveforms generated
+along the way are of no interest. These methods transform spectra into
+waveforms with distorted time axis back into the spectra, and so as
+long as the nonlinearities being evaluated in the time domain are
+algebraic, which was the basic assumption with harmonic balance, then
+the resulting spectra are correct. Of these two remaining methods, the
+first is based in the multidimensional DFT~\cite{bava:82,ushida:87},
+and it is restricted to box truncation. The second is based on the one
+dimensional DFT. It is faster and has fewer restrictions than the
+multidimensional DFT approach, and is the one presented
+here~\cite{kundert:vincentelli:90}.
+
+\subsection{Artificial frequency mapping} \label{subsection:freq}
+
+This method allows the use of the DFT --- and hence the FFT --- with
+harmonic balance even when the desired solution is quasi-periodic.
+Here are the conditions to use this method:
+\begin{enumerate}
+\item The nonlinearities must be algebraic and time invariant.
+\item The signals must be quasi-periodic.
+\item The time domain signals must be of no interest.
+\end{enumerate}
+
+Consider a nonlinear resistor with the constitutive equation
+\[
+  i(v) = v^2
+\]
+Assume that the resistor is being driven with the voltage waveform 
+\[
+  v(t) = \cos(\alpha t) + \cos(\beta t)
+\]
+The resistor responds with a current waveform of
+\[
+  \begin{array}{ccl}
+  i(v(t)) & = & 1 + \frac{1}{2} \cos(2 \alpha t) +
+                    \cos(\alpha t - \beta t) + \\
+          &   & +  \cos(\alpha t + \beta t) +
+                   \frac{1}{2} \cos(2 \beta t) 
+  \end{array}
+\]
+Notice that the coefficients of the cosines (i.e. the spectrum of the
+response signal) are independent of the frequencies $\alpha$ and
+$\beta$. This is true, whenever the nonlinearities are
+algebraic. Thus, for the purpose of evaluating the nonlinear devices,
+the actual fundamental frequencies are of no importance and can be
+chosen freely. In particular, the fundamentals can be chosen to be
+multiples of some arbitrary frequency so that the resulting signals
+will be periodic. Once the fundamentals are chosen in this manner, the
+DFT can be used. It is important to realize that these artificially
+chosen fundamental frequencies are not actually used in the harmonic
+balance equations, such as $Y$ and $\Omega$. Rather, they are used
+when determining in which order to place the terms in the spectra so
+that the DFT can be used when evaluating the nonlinear devices.
+
+For simplicity, the way in which the artificial frequencies are chosen
+is illustrated by examples. The actual artificial frequencies, and the
+scale factors that convert the original fundamental to the artificial
+frequencies, are of no interest except in determining the
+correspondence between the quasi-periodic and periodic harmonic indices.
+
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2.5in {\pfig{artificial_mapping.eps}}}
+\caption{The mapping of quasi-periodic frequencies into periodic
+frequencies for box truncations.} \label{art_map}
+\end{figure}
+%
+Consider the following set of frequencies:
+\[
+  \begin{array}{ccl}
+  \Lambda_K  & = & \{\omega:\omega = k_1 \lambda_1 + k_2 \lambda_2; 
+              0 \leq k_1 \leq H_1, \\
+             &   & |k_2| \leq H_2, k_1 \neq 0 \mbox{~if~} k_2 < 0\}
+  \end{array}
+\]
+Let $\alpha_1 = 1$ and $\alpha_2 = \lambda_1 /[\lambda_2(2H_2+1)]$ be
+the scaling factors of the two fundamentals. Then the scaled set of
+frequencies is equally spaced and no two frequencies overlap. This
+scaling, which is ideal for box truncations, is illustrated in
+Figure~\ref{art_map}. The correspondence between original and
+artificial frequencies is given by
+\[
+  k \lambda_0 = k_1 \alpha_1 \lambda_1 +
+                k_2 \alpha_2 \lambda_2 
+\]
+where 
+\[
+  \lambda_0 = \frac{\lambda_1}{2 H_2 + 1}
+\]
+and
+\[
+  k = (2 H_2 + 1 ) k_1 + k_2
+\]
+This approach can be extended to the case where more than two
+fundamentals are applied or to other truncation schemes.
+
+%--------------------------------------------------------------------------
+\section{Review of Newton-based methods}
+
+With a Newton-Raphson type solution method, eq.~\ref{eq9} can be
+solved iteratively as:
+\begin{equation}
+  V^{j+1}= V^j - {\bf J}^{-1} F(V^j)  \label{eq735}
+\end{equation}
+where ${\bf J}$ is the network Jacobian function. 
+
+The major drawback of Newton's method is that it is not globally
+convergent so, in practice, it fails too often to be a useful general
+method. 
+
+In the case of large circuits, or strongly nonlinear ones, the
+Jacobian becomes large, and a great contribution to the computation
+burden is due to the LU decomposition required by each
+iteration~\cite{damore:94}. In the literature, several algorithms have
+been presented.
+
+In the Newton-Samanskii method~\cite{steer1:1996}, the Jacobian is
+re-used in a `chord' iteration. There is also the block Newton method,
+in which terms relating different frequency components are deleted
+from the Jacobian. Thus the Jacobian is block diagonal and the
+inversion of it requires the inversion of the much smaller
+submatrices~\cite{chang:1990}. The block Newton iteration scheme can
+be combined with the chord method for a further reduction in
+computational complexity. However these methods can only be employed
+for almost linear circuits, since they present poor convergence
+properties.
+
+The globally convergent methods~\cite{NNES} are the {\em line
+search methods} and the {\em trust region methods}. These methods have
+better convergence properties when the initial guess is not close to
+the solution.
+
+The line search method expands on the strict Newton method. The point
+generated by equation~\ref{eq735} is not necessarily accepted as a new
+point; it must meet some acceptance criterion. To do this, some
+measure of merit of the current point is required, i.e., is this point
+preferred versus the previous ones? A common method is to define an
+objective function $f$ such that
+\begin{equation}
+  f = \frac{1}{2}F(X)F^T(X) \label{eqnnes12}
+\end{equation}
+where the factor $1/2$ is for convenience only. When $f$ is at its
+global minimum, 0, a solution has been found. However, local minima of
+$f$ can exist which are not solutions; this is the main downfall of
+global Newton-based methods.
+
+The trust region~\cite{powell:1988} method attempts to combine the
+better global convergence properties of searches in the steepest
+descent direction with the local quadratic convergence of the Newton
+method. It is similar to the well-known Levenberg-Marquardt method for
+nonlinear least squares.
+
+There exist methods to update the inverse of the Jacobian matrix at
+each iteration without having to perform neither the derivative
+calculation nor the matrix decomposition. These are known as {\em
+quasi-Newton} update methods (for example, Broyden's method). These
+methods can be combined with Newton-based methods to reduce the
+overall calculation time.
+
+%---------------
+
+There are reports of using variations of the Newton-Powell hybrid
+method to solve the harmonic balance equations~\cite{damore:94}. This
+method is one of the so called trust region methods combined with
+quasi-Newton updates.  The convergence of this method is very good.
+
+Also, variations of globally convergent methods have been used to
+solve the harmonic balance equations~\cite{rizzoli:92:1}. These
+methods combined with a good election of the state variables are the
+best solution found until now for the harmonic balance problem.
+
+
+%--------------------------------------------------------------------------
+\section{Nonlinear Equation Formulation}
+
+In this section the harmonic equations are formulated with the minimum
+number of unknowns and error functions starting from a modified nodal
+admittance matrix of the linear part of the circuit.  This approach
+has the advantage that the flexibility of the modified nodal
+admittance matrix is kept together with the robustness advantage given
+by the state variable approach.
+
+%The use of the minimum number of error functions is critical to the
+%robustness and we believe that the work presented here is the first
+%implementation of this. Anything other than the minimum number of
+%error functions indicates redundancy in the Jacobian.
+
+The formulation of the system equations begins with the partitioned
+network of Fig.~\ref{fig:network}, with the nonlinear elements
+replaced by variable voltage or current
+sources~\cite{nakhla:vlach:76}.
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=3in \pfig{svHB_circuit_formulation.eps}}
+\caption{Network with nonlinear elements.} \label{fig:network}
+\end{figure}
+%
+For each nonlinear element one terminal is taken as the reference and
+the element is replaced by a set of sources connected to the reference
+terminal. Clearly, the state of the element can be determined
+considering only the current of the sources, or the voltages across
+the sources, or some combination of the voltages and currents.
+Identifying the local element reference eliminates one potential state
+variable and one error function term that would otherwise be
+considered if all of the nonlinear element terminals were treated
+equally. For example, in a conventional voltage-current formulation
+the voltage and current associated with the reference node need not be
+considered in the nonlinear formulation. With the three-terminal
+element in Fig.~\ref{fig:network}, terminal 2 is chosen as the
+reference node and only two voltages, $V_{12} = (V_1 - V_2)$ and
+$V_{32} = (V_3 - V_2)$, and two currents, $I_1$ and $I_3$, are needed.
+
+Using the state variable concept, let ${\bf X}$ be the {\em state
+variable vector}. Each element of ${\bf X}$ is a vector with all the
+frequency components of the same state variable, thus
+%
+\begin{equation}
+  {\bf X} = \left[ \begin{array}{ccccc}
+  x_{1,f0} & x_{1,f1} & x_{1,f2} & \cdots & x_{1,fm} \\
+  x_{2,f0} & x_{2,f1} & x_{2,f2} & \cdots & x_{2,fm} \\
+  \vdots \\
+  x_{n,f0} & x_{n,f1} & x_{n,f2} & \cdots & x_{n,fm} 
+  \end{array} \right]
+\end{equation}
+%
+We denote $X_i$ as the $i$~th row of the matrix, i.e., all the
+frequency components of the $i$~th state variable. 
+% Also, each
+% column of the matrix is denoted by $X_{fj}$, where $f_j$ is the
+% corresponding frequency.
+
+Now the equations can be formulated.  Unlike\cite{rizzoli:92:1}, here
+the equations are formulated in the frequency domain. The current and
+voltage at the $i$~th terminal of each nonlinear device are
+%
+\begin{eqnarray} \label{eq_nldev}
+  V_i & = & V_i(X_k, \dots , X_l) \\ 
+  I_i & = & I_i(X_k, \dots , X_l)
+\end{eqnarray}
+%
+where the element under consideration depends only on the $k$~th to
+$l$~th components of the state variable vector. Since the state
+variable approach is used, both the current and the voltage of the
+nonlinear elements are needed for developing the error function of the
+network.
+
+Since the nonlinear elements are replaced by sources, the modified
+nodal admittance matrix (MNAM) of the entire circuit can be written
+for each frequency:
+%
+\begin{equation}
+  {\bf M}_{fi}  V_{fi} = S_{fi}
+\end{equation}
+%
+The source vector $S_{fi}$ is composed of the fixed sources present in
+the circuit and the state variable-dependent sources due to the
+nonlinear elements. For simplicity, assume that all the
+nonlinear devices are replaced by current sources. Let $I_{NL,fi}(X)$
+be the vector with the currents of all the nonlinear elements at
+frequency $f_i$. These currents are `applied' to the linear
+circuit. Then, the source vector can be written as:
+%
+\begin{equation}
+  S_{fi} = S_{\mbox{fixed}, fi} + {\bf W}  I_{NL,fi}({\bf X})
+\end{equation}
+%
+Where ${\bf W}$ is a matrix that maps the nonlinear currents to the
+proper place in the source vector. This matrix is composed only of
+zeros, ones and minus ones, and it is the same for all frequencies
+since it only contains topology information.
+
+Provided that the MNAM is not singular, we can calculate the
+voltages at the linear circuit given the values of the state
+variables ${\bf X}$:
+%
+\begin{equation}
+  V = {\bf M}_{fi}^{-1}  S_{\mbox{fixed},fi} + {\bf M}_{fi}^{-1} 
+                                      {\bf W}  I_{NL,fi}({\bf X})
+  \label{eq_voltage}
+\end{equation}
+%
+% The condition for the MNAM not to be singular is that there are not
+% current sources in serial connection. Therefore, no nonlinear
+% elements can be connected in series if we consider them as current
+% sources. 
+%
+We denote $U_{NL,fi}({\bf X})$ the vector with the voltages of all
+the current sources due to the nonlinear elements at frequency $f_i$
+(port voltages of the nonlinear elements). The error function is
+formulated by comparing the port voltages of the nonlinear elements
+$U_{NL,fi}({\bf X})$ with the port voltages at the linear circuit
+$U_{L,fi}({\bf X})$. In order to obtain $U_{L,fi}({\bf X})$, we need
+to perform differences between the nodal voltages of the current
+source's terminals. This can be accomplished by multiplying the
+nodal voltage vector $V$ by a matrix ${\bf T}$ such that the result
+are the desired port voltages. It can be shown that ${\bf W}$ is the
+transpose of ${\bf T}$ so that:
+%
+\begin{equation}
+  U_{L,fi}({\bf X}) = {\bf T} {\bf M}_{fi}^{-1}  S_{\mbox{fixed},fi} + 
+             {\bf T} {\bf M}_{fi}^{-1}  {\bf T}^T  I_{NL,fi}({\bf X})
+\end{equation}
+%
+The first term in this sum is a constant vector, and the second is a
+constant matrix multiplied by a function of ${\bf X}$. Then, 
+%
+\begin{eqnarray}
+  S_{sv,fi} & = & {\bf T}{\bf M}_{fi}^{-1} S_{\mbox{fixed},fi} \label{eq:ssv}\\
+  {\bf M}_{sv,fi} & = & {\bf T} {\bf M}_{fi}^{-1}  {\bf T}^T  \label{eq:msv}
+\end{eqnarray}
+%
+$S_{sv,fi}$ is the state variable source vector, and the matrix
+${\bf M}_{sv,fi}$ is the state variable impedance matrix.
+
+The solution of the problem is achieved by finding the zero of each
+error function 
+%
+\begin{equation} 
+  F_{fi}({\bf X}) = U_{L,fi}({\bf X}) - U_{NL,fi}({\bf X}) = 0 \label{eq_errfi}
+\end{equation}
+%
+The complete system of equations is then
+%
+\begin{equation} 
+  \begin{array}{ccl}
+  F({\bf X}) & = & 
+  \left[ \begin{array}{l}
+  S_{sv,f0} + {\bf M}_{sv,f0} I_{NL,f0}({\bf X}) - U_{NL,f0}({\bf X}) \\
+  S_{sv,f1} + {\bf M}_{sv,f1} I_{NL,f1}({\bf X}) - U_{NL,f1}({\bf X}) \\
+  \vdots \\
+  S_{sv,fm} + \dots \\
+% {\bf M}_{sv,fm} I_{NL,fm}({\bf X}) - U_{NL,fm}({\bf X}) \\
+  \end{array} \right] \\
+  & = & {\bf 0} 
+  \end{array}  \label{eq_final}
+\end{equation}
+%
+The resulting system of equations is composed of $m+1$ systems each
+with $n$ equations. If $f_0$ is denoted as being DC, then the
+dimension of the system (and the number of unknowns) is $(2m+1)n$,
+since for each state variable a real component is needed for DC, and a
+real and imaginary component for each alternating frequency. This is
+the minimum number of unknowns that can be achieved, and it only
+depends on the nonlinear elements and the frequencies considered.
+
+After solving~(\ref{eq_final}), the value of the state variable vector
+is known, so finding the voltages (and the current of the ideal
+voltage sources) for the entire network is straightforward using
+(\ref{eq_voltage}).
+
+Note that the entire analysis was performed in the frequency
+domain. All the frequency mixing is performed in the functions of
+(\ref{eq_nldev}), i.e., inside the nonlinear devices.  The particular
+method used to calculate the currents and voltages from the state
+variables in the frequency domain is not relevant here.
+
+
+%--------------------------------------------------------------------------
+\section{Implementation}
+
+Figure~\ref{fig:genflow} (which is somewhat outdated now) shows the
+flow diagram of the program. Note that the nonlinear equation solver
+knows nothing about harmonic balance. This fact allows us to integrate
+any general solver into the program. See chapter \ref{ch_arch} for
+details.
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=2in \pfig{svHB_routine_flow_diagram.eps}}
+\caption{General flow diagram of the SVHB analysis.} \label{fig:genflow}
+\end{figure}
+%
+
+Multi-tone analysis is supported by using artificial frequency mapping
+described in~\ref{subsection:freq}. This approach is more efficient
+than the multidimensional Fourier transform, and it is simpler to
+implement~\cite{kundert:vincentelli:90}. One of the advantages is that
+the analysis remains essentially the same as with single-tone
+excitation.
+
+

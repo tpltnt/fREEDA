@@ -1,0 +1,569 @@
+\chapter{Error\label{chapter:error}}
+
+\section{Introduction}
+
+\spice\ errors can result from errors in syntax, errors in the wiring
+of the original circuit resulting in the circuit not being solvable,
+and convergence errors during analysis that prevent continuation of
+analysis.
+
+\noindent then we have not specified our circuit as drawn.  In this case, we also
+leave one terminal of the resistor unconnected to anything else
+and \spice\ detects the error and reports it in the output file:
+\begin{verbatim}
+0*ERROR*:  LESS THAN 2 CONNECTIONS AT NODE      2
+\end{verbatim}
+In a complex circuit it is always easy
+to get one node number wrong on one element but leave all of the nodes connected
+to two or more elements.  In this case \spice\ might detect no errors.  If the
+output looks `wrong' for any reason, the first thing to do is 
+to draw your circuit by looking at the \spice\ file as written and check
+that against your intended circuit.
+
+Another important thing to remember about error messages is that \justspice\
+is not very good at drawing attention to them.
+
+More expensive commercial versions of \justspice\ are much more user friendly but
+still maintain full
+\justspice\ upwards compatibility by reporting all errors in the traditional
+\justspice\ way as well.
+\justspice\ output files 
+tend to be long and are cryptic looking.  Error and Warning messages
+can be found almost anywhere within them.  If an error has occured it may be
+necessary to examine the entire output file to determine exactly what caused
+the error.
+Mainstream commercial versions of \justspice\ have somewhat better error reporting
+than less expensive commercial versions and the public domain versions.
+
+In the following we list errors common to most versions of \spice as they derive
+from \spicetwo.  Common errors for some of the commercial versions of
+\justspice\ are also included. The errors are arranged in alphabetic order.
+Each commercial version of \spice\ supports additional elements
+that are particular to tha particular version but generally are selfexplanatory.
+For errors messages indicating a particular element the syntax of the element
+described in the element catalog chapter (chapter \ref{chapter:element}).
+
+
+\section{List of Errors}
+
+\error{at least two numeric values required}
+Not enough numeric values are provided. See the element form for the element.
+
+\error{cannot use LIST with DEC or OCT sweeps}
+See statement for correct form.
+
+\error{conflicting length}
+With a transmission line element either the time delay {\tt TD}
+and the reference frequency {\tt F} are both specified or the time delay {\tt TD}
+and the normalized electrical length {\tt NL} are both specified.
+if the parameter pairs are specified then there are two possible electrical
+lengths.  See the input forms of the {\tt T} element on page \pageref{Telement}.
+
+\error{conflicting specifications}
+With an independent current source {\tt I} or independent 
+voltage source{\tt V} element two or more transient types
+are specified. See the allowable element line forms on
+page \pageref{Ielement} for the {\tt I} element and on page
+\pageref{Velement} for the {\tt V} element.
+
+\error{contrary parameters}
+See page \pageref{Yelement} for description of this element.
+
+\error{coupling coefficient out of range.}
+           The coupling coefficient for a K element must be between 0 amd 1.
+
+\error{digital files option not present}
+The digital files (registered) option must be purchased separately.
+\justspice\ version dependent.
+
+\error{ERROR -- $\ldots$ does not match nodes of $\ldots$}
+Commonly this is because the number of nodes of a subcircuit does not match the
+number of nodes of a subcircuit call ({\tt X} element).
+
+\error{ERROR:  CPU Time limit exceeded}
+The CPU time specified by the {\tt .OPTIONS} parameter {\tt CPTIME}, or its
+default, has been exceeded.
+
+\error{ERROR:  less than 2 connections at node nnnn}
+Every node must have at least two connections or elese a node is left
+floating and the voltage at the node can not be determined. This may be
+either because the node is floating and the voltage at the node is
+indeterminate or else because the numerical techniques used require it.
+
+\error{ERROR: model $\ldots$ referenced by $\ldots$ is undefined}
+A model was referenced but the actual model was never specified via a {\tt
+.MODEL} statement.
+
+\error{ERROR: Node is floating}
+This is either because this is only one connection between this node or there is
+no \dc\ path from this node to ground as required in determining the \dc\ voltage
+at the node.
+
+\error{ERROR: subcircuit $\ldots$ is undefined}
+A subcircuit was referenced but the actual subcircuit was never specified via a
+{\tt .SUBCKT} statement.
+
+\error{ERROR: transient analysis iterations}
+The number of transient iterations
+specified by the {\tt .OPTIONS} parameters {\tt ITL4} or {\tt ITL5}, or their
+defaults, has been exceeded.
+
+\error{ERROR: voltage loop}
+Voltage sources and/or elements such as inductors or transmission lines
+that are modeled using controlled voltage sources, are arranged in a loop.
+This results in a modified nodeal admittance matrix that can not be solved.
+
+\error{ERROR: voltage source $\ldots$ which controls switch $\ldots$ is undefined}
+A voltage source was referenced but the actual element was never specified.
+
+\error{expand: parameter syntax error for $\ldots$}
+Error occurred during subcircuit expansion in handling parameters.
+With some version of \spice\ parameters are supported.
+Parameters must be in the form {\it Keyword = Value}
+where {\it Value} may be a numeric value or an
+expression.  Either the Keyword is missing or is not an alphanumeric quantity,
+or Value is missing or is neither a numeric quantity nor an expression that
+evaluates to a numeric quantity.  The error is either on the {\tt X} element
+line or on the {\tt .SUBCKT} statement.
+
+\error{Expression evaluation error: function syntax error}
+Error in expression evaluation or input prevents continuation.
+
+\error{Expression evaluation error: syntax error}
+Error in expression evaluation or input prevents continuation.
+
+\error{Expression evaluation error: undefined parameter}
+Error in expression evaluation or input prevents continuation.
+
+\error{Error in expression.}
+Error in expression evaluation or input prevents continuation.
+
+\error{Expression syntax error.}
+some versions of \spice\ support expressions.  The expression is syntactically
+incorrect or other error that prevents evaluation of the expression.
+
+\error{extra fields}
+Extra quantities on element line or statement that were not used.
+
+\error{function syntax error in expression.}
+Error in expression evaluation or input prevents continuation.
+
+\error{incomplete range}
+A range was indicated but is incomplete.
+
+\error{I(node) is not valid}
+To specify currents a voltage source must be indicated.  Specifying the
+current at a node is meaningless.
+
+\error{incorrect number of parameters}
+Not enough parameters specified for this element.
+
+\error{inductor: mutual coupling requires two (or more) inductors}
+A K element must comprise two or more inductors.
+This element is \justspice\ version dependent.
+
+\error{inductor part of another CORE device}
+An inductor is specified as a component of two different K elements
+An inductor can only be part of one K element.
+This element is \justspice\ version dependent.
+
+\error{inductor part of another K element}
+An inductor is specified as a component of two different K elements
+An inductor can only be part of one K element.
+This element is \justspice\ version dependent.
+
+\error{inductor part of another mutual coupling device}
+An inductor is specified as a component of two different K elements
+An inductor can only be part of one K element.
+This element is \justspice\ version dependent.
+
+\error{inductor part of this K device}
+A K element contains two inductors of the same name.
+An inductor can only be specified once in a K element inductor list.
+This element is \justspice\ version dependent.
+
+\error{invalid .WIDTH card}
+The parameters on the {\tt .WIDTH} card are incorrectly specified
+or a parameter is not supported by this version of \spice.
+
+\error{invalid analysis type}
+Analysis type specified on a .FOUR .TF .NOISE .SENS .MC .PLOT .PRINT .PROBE
+statement is incorrect.  Supported analysis types include AC, DC, TRAN and NOISE
+although this list is \justspice\ version dependent.
+See the full description of the allowable analysis types for the
+statement.
+
+\error{invalid card}
+The statement may be spelled incorrectly or
+this version of \spice\ does not recognize this statement.
+
+\error{invalid device}
+The first letter of an element card indicates the particular device being
+referred to.  Not all versions of \justspice\ support the same set of elements
+and here an non-supported element is being invoked.
+
+\error{invalid device in subcircuit}
+Generally any element may be used with a subcircuit.
+(between {\tt .SUBCKT} and {\tt .ENDS}. Some versions of
+\justspice\ support special elements or forms of elements that can only be used
+at the top level circuit.  See the description of the element.
+
+\error{invalid dimension}
+The degree (dimension or order) of a polynomial must be more
+than 0 and less than the max polynomial order supported by the current
+version of \spice .
+
+\error{invalid function}
+Some commercial versions of \justspice\ support function evaluations. An
+unsupported function is being used.
+
+\error{invalid increment}
+Usually caused by specifying an increment of zero on a .DC statement
+
+\error{invalid node number in .SUBCKT statement}
+The invalid node number was specified in .SUBCKT statement. This is usually
+because the ground node (either 0 or, in some versions of \justspice\,
+``{\tt GND}'') was specified in the list of nodes in the {\tt .SUBCKT}
+statement.
+
+\error{invalid number}
+Due to a number being of the wrong sign or too small or zero where this is not valid.
+Possibly an integer was expected and a floating point number was supplied.
+
+\error{invalid option}
+The value of the parameter is invalid.
+
+\error{invalid outside of .SUBCKT}
+.ENDS is used out of context and does not terminate a subcircuit.
+
+\error{invalid parameter}
+Invalid parameter on element line. Probably
+misspelled or not supported by this version of \justspice.
+
+\error{invalid parameter in model}
+Either the parameter is misspelled ot it is not supported by this version of
+\justspice.
+
+\error{invalid port name for transmission line}
+Port name in output list is either missing or invalid.
+
+\error{invalid print interval}
+See the analysis statement for the requirements on specifying the output
+reporting interval.
+
+\error{invalid run number}
+A negative number of runs was specified in a Monte Carlo analysis.
+
+\error{invalid specification}
+Error in specifying element. See the form for this element.
+
+\error{invalid step size}
+Step size must be positive.
+
+\error{invalid sweep type}
+Sweep type not supported by this version of \spice\ or sweep type
+incorrectly specified.
+
+\error{invalid value}
+Due to a value being of the wrong sign or too small or zero where this is not valid.
+Possibly an integer was expected and a floating point number was supplied.
+
+\error{last PWL pair incomplete}
+The piecewise linear characteristic of an {\tt I} or {\tt V}
+element must be specified in time,value pairs.
+
+\error{list of runs}
+No runs were specified in a Monte Carlo analysis
+
+\error{missing .ENDS in .SUBCKT}
+A subcircuit must end with a {\tt .ENDS} statement. This was missing.
+
+\error{missing analysis type}
+Analysis type must be specified in a .FOUR .TF .NOISE .SENS .MC .PLOT
+.PRINT .PROBE statement but is missing.
+
+\error{missing component value}
+Component value for R L or C element missing
+
+\error{missing control node}
+A control node is missing for an {\tt E} element.
+
+\error{missing controlling source}
+The name of a controlling voltage source is missing for a {\tt G} element.
+
+\error{missing device or node}
+device or node expected but missing.
+
+\error{missing dimension}
+The degree (dimension or order) of a polynomial not specified.
+The degree of a polynomial should be specified in the form
+``{\tt POLY({\it n})}'' or ``{\tt POLY~{\it n}~}''.
+
+\error{missing file name}
+File name expected in a {\tt .INCL} but missing.
+
+\error{missing frequency}
+Frequency missing on a .FOUR card.
+
+\error{missing gain}
+The gain must be specified for an {\tt E} or {\tt F} element.
+
+\error{missing inductor}
+In reading K element line expected to read in the name of
+an  inductor but it was missing.
+
+\error{missing INOISE or ONOISE}
+.NOISE statement and either INOISE or ONOISE parameters required
+or illegal parameter.
+
+\error{missing model}
+Model Name expected on element line but was missing
+
+\error{missing model name}
+Model Name expected on element line but was missing
+
+\error{missing name}
+Subcircuit name expected on {\tt .SUBCKT} (or similar) statement but not found.
+
+\error{missing node}
+A node number expected but not provided. Possibly not enough nodes specified.
+See the form for this element in the element catalog (chapter \ref{chapter:element}.
+
+\error{missing node list}
+No nodes are specified.
+
+\error{missing or invalid model name or type}
+Either the model name is missing or it is not a valid type for this element.
+
+\error{missing or invalid value}
+Due to a value not being supplied where it is expected, being of the wrong sign
+or too small or zero where this is not valid.
+Possibly an integer was expected and a floating point number was supplied.
+
+\error{missing output variables}
+No output variables specified for a
+.FOUR .TF .NOISE .SENS .MC .PLOT .PRINT .PROBE statement.
+
+\error{missing parameter}
+Parameter expected but not found.
+
+\error{missing pnr}
+In a .AS statement the port number is missing.
+
+\error{missing polynomial}
+The {\tt POLY} keyword was specified but no polynomial coefficients were found.
+
+\error{missing run count}
+The number of Monte Carlo runs is incorrectly specified.
+
+\error{missing second port in S(pnr1,pnr2)}
+There must be a second port in a .AS output specification.
+
+\error{missing second node in V(node1,node2)}
+In this syntax two nodes must be specified.
+%If the voltage at a single node is required use the syntax ???
+
+\error{missing seed}
+A random number seed was expected for this element but it was missing
+
+\error{missing source}
+Name of source expected but it was not supplied.
+
+\error{missing subcircuit name}
+Subcircuit name expected on {\tt .SUBCKT} statement but not found.
+
+\error{missing sweep type}
+Sweep type not specified for {\tt .AC analysis}.
+
+\error{missing transconductance}
+The transconductance must be specified for a {\tt G} element.
+
+\error{missing transresistance}
+The transresistance must be specified for an {\tt H} element.
+
+\error{missing value}
+Value (or expression) expected but not found. Either a non-numeric quantity (i.e.
+not a number) is in a location where a numeric value value is expected or a
+quantity is missing.  If an expression was specified it was either incorrectly
+delimited or its evaluation is not supported by this version of \spice.
+
+\error{must be >= 1}
+An positive integer value was expected upon input but the value was not 1 or more.
+
+\error{must be a two terminal device}
+To specify a current a two terminal device must be indicated.
+More elements with more than three terminals the edge current cannot be
+uniquely identified by specifying the nodes.
+
+\error{must be a voltage source name}
+Name of voltage source expected on element line but not supplied
+A voltage source name must begin with V.
+
+\error{must be an inductor}
+In reading K element line expected to read in the name of
+an  inductor but the name did not begin with 'L'
+
+\error{must be I or V}
+In a .AC, .FOUR .TF .SENS .MC .PLOT .PRINT .PROBE statement.
+Only I or V can be specified. Something else is in output list.
+Generally this is because only {\tt I} or {\tt V} elements can be swept.
+
+\error{must be independent source (I or V)}
+An element was specified but it was not an I or V element.
+
+\error{must be monotonically increasing or decreasing}
+Quantities in list must be monotonically increasing or decreasing.
+
+\error{must be S}
+The keyword ``S'' expected.
+
+\error{must be V}
+A list of voltage sources is required but either a numeric value was provided
+an element other than a voltage source specified.
+(The voltage sources in list of must begin with {\tt V}.)
+In the case of a polynomial specification
+the number of controlling voltage sources must be equal to the polynomial
+degree previously specified on the element line.  Either not enough
+voltage sources are specified or a non-voltage source is specified.
+
+\error{name on .ENDS does not match .SUBCKT}
+An optional name may be included on a {\tt .ENDS} statement. If specified it must
+match the name specified on the matching {\tt .SUBCKT} statement.
+
+\error{nesting level exceeded}
+The number of files that can be included  using {\tt .INCL} is limited.
+The limit is \spice\ version specific but is typically around 5.
+
+\error{node's voltage already set}
+Two attempts have been made to set the initial voltage at a node.
+The initial value may be specified using either a {\tt .NODESET}
+statement or using the initial condition {\tt IC} parameter on some elements.
+
+\error{not a valid parameter for model type}
+parameter not recognized for this model.
+
+\error{not unique}
+Some versions of \spice allow abbreviated forms of statements.  The minimum
+allowable abbreviation must be unique.  The abbreviation used in the netlist
+is not unique and is an abbreviation of two or more statements.
+
+\error{only .AC .DC and .TRAN valid}
+The type of analysis in a Monte Carlo run must be either
+\error{.DC}, {\tt .AC} or {\tt .TRAN}.
+
+\error{only .MODEL valid in subcircuit}
+{\tt .MODEL} is the only statement allowed within a
+subcircuit description (between {\tt /SUBCKT} and {\tt .ENDS}.
+
+\error{only one .TEMP and .DC TEMP allowed}
+One .TEMP statement and one .DC TEMP statement allowed but not both.
+This is \justspice\ version dependent.
+
+\error{Parameter syntax error}
+With some version of \spice\ parameters are supported.
+The ``{\tt PARAMS:}'' keyword indicates that parameters are to be specified in the
+form {\it Keyword = Value} where {\it Value} may be a numeric value or an
+expression.  Either the Keyword is missing or is not an alphanumeric quantity,
+or Value is missing or is neither a numeric quantity nor an expression that
+evaluates to a numeric quantity..
+
+\error{PNR already defined}
+The port number can only be defined once.
+
+\error{PNR missing or invalid}
+The port number was either missing or not correctly specified.
+
+\error{run count}
+The number of Monte Carlo runs is incorrectly specified.
+
+\error{run count must be > 1}
+The number of Monte Carlo runs is incorrectly specified.
+
+\error{syntax error.}
+Input is in error. Often due to an  non-numeric value in input where a
+non-numeric value expected or vice-versa.
+
+\error{syntax error in expression.}
+Error in expression evaluation or input prevents continuation.
+
+\error{TD or F must be specified}
+With a transmission line element either the time delay {\tt TD}
+or reference frequency {\tt F} must be specified.  See the
+{\tt T} element on page \pageref{Telement}.
+
+\error{temperature}
+A 0~K (Kelvin) temperature is not valid.
+The usual problem is that a 0 Celsius temperature was specified but
+a temperature specified by a {\tt .temp} statement must be an
+absolute temperature (in Kelvin)Q
+
+\error{time must be increasing}
+In specifying the transient behavior of an {\tt I} or {\tt V}
+element times must be increasing.
+
+\error{time must not be negative}
+In specifying the transient behavior of an {\tt I} or {\tt V}
+element a negative time was specified.
+
+\error{too many coefficients}
+The number of polynomial coefficients specified exceeds that
+supported in this version of \spice.
+
+\error{too many inductors}
+There is a limit on the number of inductors per K element.
+This limit has been exceeded.
+
+\error{too many tolerances}
+The number of tolerances that may be specified is limited.  This
+limit is \spice\ version dependent.
+
+\error{TooMany}
+Too many parameters, values or nodes on element line or {\tt .SUBCKT} statement.
+
+\error{unable to open file}
+File specified in a {\tt .INCL} or {\tt .LIB} does not exist in the current
+directory or default directories.
+
+\error{undefined parameter}
+An unsupported parameter keyword specified. Either this version of
+\spice\ does not support this parameter for this element or statement
+or the parameter is misspelled.
+
+\error{unknown parameter}
+A parameter was used on an element line or in a {\tt .MODEL}
+statement which was not recognized. Either this version of
+\spice\ does not support this parameter or the parameter is misspelled.
+
+\error{value may not be 0}
+A non-zero value expected.
+
+\error{voltage source name}
+Name of voltage source expected on element line but not supplied
+
+\error{WIDTH must be 80 or 132}
+A \spice\ supports two output log formats that are either 80 columns
+or 132 columns wide.  A width other than 80 or 132 was specified.
+
+\error{Z0 must be specified}
+With a transmission line element the {\tt Z0} parameter must
+always be input using the syntax {\tt Z0=}{\it CharacteristicImpedance}.
+
+%\error{number of nodes must be even}
+%The number of nodes of a coupled line {\tt Y} element must be even.
+%See page \pageref{Yelement} for description of this element.
+%
+%\error{type must be EL or PHI}
+%The type of coupled line {\tt Y} element model must be {\tt EL} or {\tt PHI}.
+%See page \pageref{Yelement} for description of this element.
+%
+%\error{value is invalid}
+%invalid numeric value See page \pageref{Yelement} for description of this element.
+%
+%\error{H1 or H2 must be nonzero if lat=3}
+%See page \pageref{Yelement} for description of this element.
+%
+%\error{incorrect number of lines or slots}
+%See page \pageref{Yelement} for description of this element.
+%
+%\error{unknown parameter}
+%See page \pageref{Yelement} for description of this element.

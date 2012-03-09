@@ -1,0 +1,17 @@
+**nfet transient analysis*** 
+ 
+.tran2 tstep=0.1ns tstop=10ns 
+
+jfetn:m1 2 3 0 
+
+resistor:rd 1 2 r=1000
+
+vsource:vdd 1 0 vdc=5v
+
+vsource:vgs 3 0 vdc=2.5V vac=1V f=1e9 phase=270
+*vpulse:vgs 3 0 v1=0v v2=5.0v td=0 tr=0.2n tf=0.2n pw=5ns per=10ns
+
+.out plot term 2 vt in "vds.out"
+*.out plot term 3 vt in "vin.out"
+
+.end

@@ -1,0 +1,13 @@
+ 
+.dc sweep="vsource:vds" start=0 stop=10 step=0.1
+
+jfetn:m1 2 3 0 
+
+resistor:rd 1 2 r=100.0
+
+vsource:vds 1 0 vdc=10.0v 
+vsource:vgs 3 0 vdc=1.5v
+
+.out plot element "jfetn:m1" 0 it in "njfet_id.dc" 
+
+.end

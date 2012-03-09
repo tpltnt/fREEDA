@@ -1,0 +1,19 @@
+**** mosfet dc characteristic ****
+
+.dc sweep="vsource:vd" start=0 stop=-1.6 step=-0.01 
+
+bsim3psoi5t1:m1 d g s e b w=10e-6 l=0.25e-6 
+vsource:vd d 0 vdc=-3.0
+vsource:vs s 0 vdc=0.0
+vsource:ve e 0 vdc=0.0
+vsource:vb b 0 vdc=0.0
+vsource:vg g 0 vdc=-1.5
+
+.out plot element "bsim3psoi5t1:m1" 0 it in "out1.dc"
+
+.end
+
+
+
+
+

@@ -1,0 +1,221 @@
+Soliton using good parameters
+
+* Transim file for NLTL with 24.00 GHz initial Bragg frequency,
+* 225.00 GHz final Bragg frequency and 0.952097 tapering rule,
+* and 120.00 ps total compression.
+
+.options freq=9.GHz nonlin=4 rtol=1e-4 ftol=rtol maxit=100
+
+.tran2 tstop=1.5e-9 tstep=.1ps msv=1 im=1 savenode=0
+
+*
+* For 27dBm input use vac = 14V
+*
+vsource:1 201 0 vac = 14. vdc = -6. f = freq phase=90 tr=.1e-9
+resistor:rs 201 202 r=50.
+
+*
+* Diode parameters
+*
+* From thesis: js=2.24e-12, alfa=21.13
+*
+* From Libra netlist: js=51e-15, alfa=default
+*
+.model carlos diode ( js=2.24e-12 alfa=21.13 e=10 ct0=1.32767e-15 r0=171.9
++ fi=1.27517 gama=0.810205 jb=1.e-5 vb=-16. )
+
+*
+* Transmission line parameters
+*
+.model c_line tlinp4 ( z0mag=75.00 k=7 fscale=10.e9 alpha = 59.9 
++ nsect = 20 fopt=10e9)
+
+*
+* Diodes
+*
+diode:d1 101 0 model = "carlos" area=271.64
+diode:d2 102 0 model = "carlos" area=258.63
+diode:d3 103 0  model = "carlos" area=246.24
+diode:d4 104 0  model = "carlos" area=234.45
+diode:d5 105 0  model = "carlos" area=223.21
+diode:d6 106 0  model = "carlos" area=212.52
+diode:d7 107 0  model = "carlos" area=202.34
+diode:d8 108 0  model = "carlos" area=192.65
+diode:d9 109 0  model = "carlos" area=183.42
+diode:d10 110 0  model = "carlos" area=174.63
+diode:d11 111 0  model = "carlos" area=166.27
+diode:d12 112 0  model = "carlos" area=158.3
+diode:d13 113 0  model = "carlos" area=150.72
+diode:d14 114 0  model = "carlos" area=143.5
+diode:d15 115 0  model = "carlos" area=136.63
+diode:d16 116 0  model = "carlos" area=130.08
+diode:d17 117 0  model = "carlos" area=123.85
+diode:d18 118 0  model = "carlos" area=117.92
+diode:d19 119 0  model = "carlos" area=112.27
+diode:d20 120 0  model = "carlos" area=106.89
+diode:d21 121 0  model = "carlos" area=101.77
+diode:d22 122 0  model = "carlos" area=96.89
+diode:d23 123 0  model = "carlos" area=92.25
+diode:d24 124 0  model = "carlos" area=87.83
+diode:d25 125 0  model = "carlos" area=83.63
+diode:d26 126 0  model = "carlos" area=79.62
+diode:d27 127 0  model = "carlos" area=75.81
+diode:d28 128 0  model = "carlos" area=72.18
+diode:d29 129 0  model = "carlos" area=68.72
+diode:d30 130 0  model = "carlos" area=65.43
+diode:d31 131 0  model = "carlos" area=62.29
+diode:d32 132 0  model = "carlos" area=59.31
+diode:d33 133 0  model = "carlos" area=56.47
+diode:d34 134 0  model = "carlos" area=53.76
+diode:d35 135 0  model = "carlos" area=51.19
+diode:d36 136 0  model = "carlos" area=48.73
+diode:d37 137 0  model = "carlos" area=46.4
+diode:d38 138 0  model = "carlos" area=44.18
+diode:d39 139 0  model = "carlos" area=42.06
+diode:d40 140 0  model = "carlos" area=40.05
+diode:d41 141 0  model = "carlos" area=38.13
+diode:d42 142 0  model = "carlos" area=36.3
+diode:d43 143 0  model = "carlos" area=34.56
+diode:d44 144 0  model = "carlos" area=32.91
+diode:d45 145 0  model = "carlos" area=31.33
+diode:d46 146 0  model = "carlos" area=29.83
+diode:d47 147 0  model = "carlos" area=28.4
+
+*
+* Parasitic inductors
+*
+inductor:i1  1 101 l=21.8pH
+inductor:i2  2 102 l=21.8pH
+inductor:i3  3 103 l=21.8pH
+inductor:i4  4 104 l=21.8pH
+inductor:i5  5 105 l=21.8pH
+inductor:i6  6 106 l=21.8pH
+inductor:i7  7 107 l=21.8pH
+inductor:i8  8 108 l=21.8pH
+inductor:i9  9 109 l=21.8pH
+inductor:i10 10 110 l=21.8pH
+inductor:i11 11 111 l=21.8pH
+inductor:i12 12 112 l=21.8pH
+inductor:i13 13 113 l=21.8pH
+inductor:i14 14 114 l=21.8pH
+inductor:i15 15 115 l=21.8pH
+inductor:i16 16 116 l=21.8pH
+inductor:i17 17 117 l=21.8pH
+inductor:i18 18 118 l=21.8pH
+inductor:i19 19 119 l=21.8pH
+inductor:i20 20 120 l=21.8pH
+inductor:i21 21 121 l=21.8pH
+inductor:i22 22 122 l=21.8pH
+inductor:i23 23 123 l=21.8pH
+inductor:i24 24 124 l=21.8pH
+inductor:i25 25 125 l=21.8pH
+inductor:i26 26 126 l=21.8pH
+inductor:i27 27 127 l=21.8pH
+inductor:i28 28 128 l=21.8pH
+inductor:i29 29 129 l=21.8pH
+inductor:i30 30 130 l=21.8pH
+inductor:i31 31 131 l=21.8pH
+inductor:i32 32 132 l=21.8pH
+inductor:i33 33 133 l=21.8pH
+inductor:i34 34 134 l=21.8pH
+inductor:i35 35 135 l=21.8pH
+inductor:i36 36 136 l=21.8pH
+inductor:i37 37 137 l=21.8pH
+inductor:i38 38 138 l=21.8pH
+inductor:i39 39 139 l=21.8pH
+inductor:i40 40 140 l=21.8pH
+inductor:i41 41 141 l=21.8pH
+inductor:i42 42 142 l=21.8pH
+inductor:i43 43 143 l=21.8pH
+inductor:i44 44 144 l=21.8pH
+inductor:i45 45 145 l=21.8pH
+inductor:i46 46 146 l=21.8pH
+inductor:i47 47 147 l=21.8pH
+
+*
+* Transmission lines
+*
+tlinp4:t0 202 0 1 0 model = "c_line" length=501.29u
+tlinp4:t1  1 0 2 0  model = "c_line" length=978.57u
+tlinp4:t2  2 0 3 0 model = "c_line" length=931.69u
+tlinp4:t3  3 0 4 0 model = "c_line" length=887.06u
+tlinp4:t4  4 0 5 0  model = "c_line" length=844.57u
+tlinp4:t5  5 0 6 0  model = "c_line" length=804.11u
+tlinp4:t6  6 0 7 0  model = "c_line" length=765.59u
+tlinp4:t7  7 0 8 0  model = "c_line" length=728.92u
+tlinp4:t8  8 0 9 0  model = "c_line" length=694.00u
+tlinp4:t9  9 0 10 0 model = "c_line" length=660.75u
+tlinp4:t10  10 0 11 0 model = "c_line" length=629.10u
+tlinp4:t11  11 0 12 0 model = "c_line" length=598.97u
+tlinp4:t12  12 0 13 0 model = "c_line" length=570.27u
+tlinp4:t13  13 0 14 0 model = "c_line" length=542.96u
+tlinp4:t14  14 0 15 0 model = "c_line" length=516.95u
+tlinp4:t15  15 0 16 0 model = "c_line" length=492.18u
+tlinp4:t16  16 0 17 0 model = "c_line" length=468.61u
+tlinp4:t17  17 0 18 0 model = "c_line" length=446.16u
+tlinp4:t18  18 0 19 0 model = "c_line" length=424.79u
+tlinp4:t19  19 0 20 0 model = "c_line" length=404.44u
+tlinp4:t20  20 0 21 0 model = "c_line" length=385.06u
+tlinp4:t21  21 0 22 0 model = "c_line" length=366.62u
+tlinp4:t22  22 0 23 0 model = "c_line" length=349.05u
+tlinp4:t23  23 0 24 0 model = "c_line" length=332.33u
+tlinp4:t24  24 0 25 0 model = "c_line" length=316.41u
+tlinp4:t25  25 0 26 0 model = "c_line" length=301.26u
+tlinp4:t26  26 0 27 0 model = "c_line" length=286.83u
+tlinp4:t27  27 0 28 0 model = "c_line" length=273.09u
+tlinp4:t28  28 0 29 0 model = "c_line" length=260.00u
+tlinp4:t29  29 0 30 0 model = "c_line" length=247.55u
+tlinp4:t30  30 0 31 0 model = "c_line" length=235.69u
+tlinp4:t31  31 0 32 0 model = "c_line" length=224.40u
+tlinp4:t32  32 0 33 0 model = "c_line" length=213.65u
+tlinp4:t33  33 0 34 0 model = "c_line" length=203.42u
+tlinp4:t34  34 0 35 0 model = "c_line" length=193.67u
+tlinp4:t35  35 0 36 0 model = "c_line" length=184.39u
+tlinp4:t36  36 0 37 0 model = "c_line" length=175.56u
+tlinp4:t37  37 0 38 0 model = "c_line" length=167.15u
+tlinp4:t38  38 0 39 0 model = "c_line" length=159.14u
+tlinp4:t39  39 0 40 0 model = "c_line" length=151.52u
+tlinp4:t40  40 0 41 0 model = "c_line" length=144.26u
+tlinp4:t41  41 0 42 0 model = "c_line" length=137.35u
+tlinp4:t42  42 0 43 0 model = "c_line" length=130.77u
+tlinp4:t43  43 0 44 0 model = "c_line" length=124.51u
+tlinp4:t44  44 0 45 0 model = "c_line" length=118.54u
+tlinp4:t45  45 0 46 0 model = "c_line" length=112.86u
+tlinp4:t46  46 0 47 0 model = "c_line" length=107.46u
+tlinp4:t47  47 0 48 0 model = "c_line" length=52.41u
+*
+resistor:rl   48  0  r=50.
+
+.out plot element "diode:d1" 0 ut in "diode1.v"
+.out plot element "diode:d1" 0 it in "diode1.i"
+.out plot element "diode:d1" 0 xt in "diode1.x"
+
+.out plot element "diode:d2" 0 ut in "diode2.v"
+.out plot element "diode:d2" 0 it in "diode2.i"
+.out plot element "diode:d2" 0 xt in "diode2.x"
+
+.out plot element "diode:d3" 0 ut in "diode3.v"
+.out plot element "diode:d3" 0 it in "diode3.i"
+.out plot element "diode:d3" 0 xt in "diode3.x"
+
+.out plot element "diode:d4" 0 ut in "diode4.v"
+.out plot element "diode:d4" 0 it in "diode4.i"
+.out plot element "diode:d4" 0 xt in "diode4.x"
+
+.out plot element "diode:d22" 0 ut in "diode22.v"
+.out plot element "diode:d22" 0 it in "diode22.i"
+.out plot element "diode:d22" 0 xt in "diode22.x"
+
+.out plot element "diode:d32" 0 ut in "diode32.v"
+.out plot element "diode:d32" 0 it in "diode32.i"
+.out plot element "diode:d32" 0 xt in "diode32.x"
+
+.out plot element "diode:d46" 0 ut in "diode46.v"
+.out plot element "diode:d46" 0 it in "diode46.i"
+.out plot element "diode:d46" 0 xt in "diode46.x"
+
+.out plot element "diode:d47" 0 ut in "diode47.v"
+.out plot element "diode:d47" 0 it in "diode47.i"
+.out plot element "diode:d47" 0 xt in "diode47.x"
+
+.end

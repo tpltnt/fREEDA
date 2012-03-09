@@ -1,0 +1,716 @@
+\addcontentsline{toc}{part}{PART II  SPICE SYNTAX}
+
+\chapter{Input File\label{chapter:input}}
+
+\section{Introduction}
+
+The operation of \spice\ is controlled by statements which are embedded
+in an input file which includes as well descriptions of elements and
+their topology.
+The description of the elements and their topology is also known as a
+netlist.\marginid{netlist}\index{netlist}
+The output or results of a \spice\ run are logged in an output file
+and in more modern versions of \spice , in a data file for
+subsequent interactive plotting and analysis.  With \pspice\ the program
+for subsequent analysis is probe and with \spicethree\ the comparable tool
+is \nutmeg .
+
+\section{Circuit Model}
+
+The model used by \spice\  to represent circuits is as shown
+in Figure \ref{spice:circuit}.
+\begin{figure}
+\begin{center}
+\ \epsfxsize=5.5in\pfig{spcircuit.ps}
+\end{center}
+\caption{The \spice\ circuit representation.\label{spice:circuit}}
+\end{figure}
+\marginid{model}\marginid{subcircuits}
+\index{model}\index{subcircuits}
+\spice\ supports a hierarchical description of a circuit with subcircuits.
+A large number of parameters are required for many
+elements, especially for active devices, and for these the model
+concept
+is introduced where most of the parameters of active elements can be defined
+separately from invocation of the element.  This permits a single model
+description to be used by many elements.
+A model is specific to a particular element type but not all elements have
+models.
+Mostly models are used to set the parameters describing a semiconductor
+fabrication process and so are common to many elements.
+
+
+When the input file is read subcircuits definitions and models
+are stored internally separately from the main circuit. Subcircuit calls
+are expanded if the subcricuits referenced are already defined and stored
+internally.  If a referenced subcircuit is not defined then
+the subcircuit call is flagged as not being expanded and only when the input
+file has been completely read (up to the {\tt .END} statement)
+is an attempt made to resolve incomplete
+expansions.  In \pspice\ library files (described in the {\tt .LIB}
+statement discussion on page \pageref{.LIBstatement}) are checked.
+The first time a library file is to be searched, an internal table of
+which subcircuits and models are available and where they can be found in
+the library files is constructed.
+Models are treated in a similar way, a model is used if it has been defined
+otherwise resolved references to models are expanded once the input file
+has been completely scanned (up to the {\tt .END} statement).
+With \pspice\ evaluation of expressions in subcircuits and models is only
+performed when on fully expanded subcircuits. Note that expressions and
+libraries are not supported in \spicetwo or in \spicethree .
+
+\section{Input Lines}
+The input file of \spice\ is essentially unstructured.
+It must begin with a {\tt TITLE}\marginid{title}\index{title} line
+and should end in a
+{\tt .END} statement\marginid{.end}\index{.end} although this is
+automaticlly assumed if the end of the input file is read.
+The string on the {\tt TITLE} line is
+used as the banner in the output log file appearing at
+the top of each page.  The {\tt .END} statement marks the end of
+one circuit with the effect that several circuits can be specified in
+the file (at least for
+\spicethree\ and \pspice ).
+In between the {\tt TITLE} line and the {\tt .END}
+statement can be any mix of statements --- which control the operation of the
+simulator and the analysis to be performed; optional comment lines --- for
+documenting the input file; and element lines --- which specify
+the circuit elements.
+The input file can in fact contain no statements and the simulator will
+then perform an operating point {\tt .OP} analysis.
+\spice\ does not distinguish between upper and lower case characters.
+
+Except for the {\tt TITLE} line which is the first line of the input file,
+the type of input lines is distinguished by the first character on the line:
+statements begin with a period ``{\tt .}''; element lines begin with
+an alphabetic character ``{\tt A}--{\tt Z}'' --- with the letter identifying the
+element type (e.g. {\tt R} for a resistor); and comment lines begin with
+an asterisk ``{\tt *}''. In older terminology, based on the original use of
+punched cards, statements are referred to as ``{\it dot cards}'' or
+``{\it statement cards}''; element lines are referred to as ``{\it element
+cards}'' or ``{\it device
+cards}''; and comment lines as ``{\it comment cards}.''
+
+\pspice\ allows for in line comments indicated by a semicolon ``{\tt ;}''.
+The semicolon and everything following it on the same line are ignored
+except for purpose of echoing the input file in the output log file.
+
+
+\subsection{Analysis Statements}
+An analysis statement identifies the type of analysis to be performed.
+Any combination of analyses may be specified.
+Reporting of the results of an analysis is controlled by the
+{\tt .PRINT}, {\tt .PLOT} {and, in with \pspice
+by the} {\tt .PROBE} control statements.
+If  no analysis statement is included in the input file then an operating
+point analysis ({\tt .OP}) is performed by default.  A brief description of
+the analysis options and the page on which a complete description can be
+found as follows.
+
+\myinsline{.AC}{AC Analysis}
+Obtains the small-signal circuit response as a function of frequency.
+The {\tt .AC} analysis is one of several small signal \ac\ analyses.
+
+\myinsline{.DC}{DC Analysis}
+DC solutions over a range of input conditions ({\tt .DC}).
+
+\myinsline{.DISTO}{Small-Signal Distortion Analysis
+\spicetwo\ and \spicethree\ Only}
+Analyze the circuit for harmonic and intermodulation distortion.
+This analysis is available in \spicetwo\ and \spicethree\ but
+is not available in \pspice\ as it has proved to be unreliable.
+In \spicetwo\ the distortion analysis must be performed in
+conjunction with a {\tt .AC} analysis.
+
+\myinsline{.FOUR}{Fourier Analysis}
+The {\tt .FOUR} control statement can be used to find the spectrum
+of any time-varying signal in a ({\tt .TRAN}) transient analysis.
+The {\tt .FOUR} statement is unlike other analysis statements as it does not
+initiate a simulation but interprets the result of a simulation initiated by
+the {\tt .TRAN} sattement.
+
+\myinsline{.MC}{Monte Carlo Analysis {(\pspice\ only)}}
+The Monte Carlo analysis is a statistical analysis of the circuit causing
+the circuit to be analyzed many times with a random change of model parameters
+(parameters in a {\tt .MODEL} statement).  The analyses specified in
+the {\tt .DC}, {\tt .AC} or {\tt .TRAN} statements can be simulated multiple
+times.
+
+
+\myinsline{.NOISE}{Small-Signal Noise Analysis}
+Conduct a small-signal noise analysis as a function of frequency.
+{In \pspice\ this statement must be used in conjunction with
+a {\tt .AC} statement.}
+
+\myinsline{.OP}{Operating Point Analysis}
+DC solution for a particular input voltage/current condition.
+This is the default analysis if no analysis is specified in the input
+file. This is the default analysis if not analysis type is specified in the
+input file.
+
+\myinsline{.PZ}{Pole-Zero Analysis, \spicethree\ Only}
+In this analysis the poles and zeros of the small signal \ac
+transfer function of a two-port is evaluated.
+
+\myinsline{.SAVEBIAS}{Save Bias Conditions}
+
+\myinsline{.SENS}{Sensitivity Analysis}
+The sensitivity of the DC value of an output to some set of
+parametric variations is calculated.
+
+\myinsline{.STEP}{Parameteric Analysis \pspiceninetytwo\ Only}
+
+\myinsline{.TF}{Transfer Function Specification {\pspice\ Only}}
+Small signal DC transfer functions, including gain and input and output
+resistance are computed
+
+\myinsline{.TRAN}{Transient Analysis}
+In the transient analysis response is observed
+with one or more time-varying inputs.
+
+{\myinsline{.WCASE}{Sensistivity and Worst Case Analysis
+\pspiceninetytwo\ Only}}
+
+\subsection{Control Statements}
+
+\myinsline{.DISTRIBUTION}{Distribution Specification
+         {(\pspice\ only)}}
+This statement specifies the statistical tolerance
+distribution used in a Monte Carlo analysis (see the {\tt .MC}
+statement on page \pageref{.MCstatement}).
+
+\myinsline{.END}{End Statement}
+This statement indicates the end of the input of one circuit.
+
+\myinsline{.ENDS}{End Subcircuit Statement}
+The end subcircuit statement indicates the end of a subcircuit definition.
+
+{ \myinsline{.FUNC}{Function Definition \pspiceninetytwo Only}
+Enables commonly used expressions to be more conveniently defined as functions.}
+
+\myinsline{.IC}{Initial Conditions}
+This statement is used to set initial conditions for transient
+analysis. It has no effect on other types of analyses.
+
+\myinsline{.INC}{Include Statement{, \pspice\ only}}
+Specifies the name of a file which is to be treated as part of the input
+file.
+
+\myinsline{.LIB}{Library Statement{, \pspice\ only}}
+Specifies the name of a library file.
+
+\myinsline{.MODEL}{Model Statement}
+Specifies the parameters of elements that either are
+too numerous to put on the element line or are common to many elements.
+
+\myinsline{.NODESET}{Node Voltage Initialization}
+Specifies the voltage at one or more nodes to be used as an initial guess.
+
+\myinsline{.OPTIONS}{Option Specification}
+The options specification provides the user control over the program
+and sets defaults for certain elements and analyses.
+
+\myinsline{.PARAM}{Parameter Definition{, \pspiceninetytwo\ Only}}
+This statement defines parameters that can be used in subsequent statements
+and element lines.
+
+\myinsline{.PLOT}{Plot Specification}
+The plot specification controls the information that is plotted in
+the output file as a character plot. This is one way to view the result
+of various analyses.
+
+\myinsline{.PRINT}{Print Specification}
+The print specification controls the information that is reported as the result
+of various analyses.
+
+\myinsline{.PROBE}{Data Output Specification{, \pspice\ Only}}
+This statement saves the node voltages and device currents in a
+file for subsequent interactive plotting
+
+\myinsline{.SUBCKT}{Subcircuit Statement}
+Indicates the start of a subcircuit description and describes int interface
+to the subcircuit.
+
+\myinsline{.TEMP}{Temperature Specification}
+Specifies the temperature(s) to perform the analysis at.
+
+{\myinsline{.TEXT}{Text Parameter Definition,
+\pspiceninetytwo\ Only}}
+
+{\myinsline{.WATCH}{Watch Analysis Statement \pspiceninetytwo\ Only}}
+
+\myinsline{.WIDTH}{Width Specification}
+Specifies the column width for the output file.
+
+\subsection{Elements}
+
+The general form for elements is device name, followed by
+a list of nodes, followed by the numeric value of the element,
+followed in some cases by the name of a model, and then by other keywords:\\
+\hspace*{\fill}\offsetparbox{{\it Name Node1 Node2 $\ldots$ NodeN
+NumericValue ModelName\\
+{\tt +} keyword=NumericValue $\ldots$ InitialConditions.}}\\
+For some elements
+initial conditions ({\it InitialConditions}) can also be specified
+which can be used to ensure that the desired initial state of astable circuits
+is obtained and also to aid in convergence. The first letter of the
+{\it Name} identifies the element.  For example, if {\it Name} is
+{\tt RTEST} then the element is a resistor.
+
+The general form above is not the form for every element.
+The way in which
+\spice\ evolved resulted in the syntax for element lines not being
+fully consistent. Commercial extensions, as with \pspice,
+allowing alphabetic names for nodes rather than just an integer designation
+also result in syntaxical problems.
+With this extension it is not possible to
+use the fact that a field was alphabetic to distinguish between a node
+and a parameter name.
+However this change has necessitated no change to the the standard syntax
+as defined by \spicetwo .
+The problem appears in conjunction with other
+extensions which allow for an arbitrary
+number of nodes in some statements. The result is that the syntax can be
+slightly different than would be expected.
+For these reasons the description of the form
+of a particular element or statement must be consulted to ensure that the
+syntax is correct.
+
+\subsubsection{Passive Elements}
+
+The passive devices supported in
+{\spicetwo , \spicethree\ and \pspice}
+and where their descriptions can be found are as follows:
+
+\myineline{C}{Capacitor}
+\myineline{K}{Mutual Inductor}
+\myineline{L}{Inductor}
+\myineline{R}{Resistor}
+\myineline{S}{Voltage Controlled Switch}
+\myineline{W}{Current Controlled Switch}
+
+\subsubsection{Active Elements}
+
+\form{ {\tt Q}name  NCollector NBase NEmitter  \B NSubstrate\E  ModelName
+ \B Area\E  \B {\tt OFF}\E\\{\tt +} \B {\tt IC=}Vbe,Vce\E }
+
+Unlike passive devices active
+%, or semiconductor,
+devices can not be specified by one or a few parameter values.
+Since many of the parameter values are the same for many devices
+it is convenient to specify them in a {\tt .MODEL} statement that
+can be reused many times. All active elements require a {\tt
+.MODEL} statement and most allow an optional substrate node to be
+used on the element line.
+
+The active devices supported in
+{ \spicetwo , \spicethree\ and \pspice}
+and where their descriptions can be found are as follows:
+
+\myineline{B}{GaAs MESFET {(\pspice\ only)}}
+\mycontentsline{0.7in}{\ }{(See Z element for \spicethree
+equivalent)}{Z}{element}
+\myineline{D}{Diode}
+\myineline{J}{Junction Field-Effect Transistor}
+\myineline{M}{MOSFET}
+{\myineline{Z}{MESFET}
+
+\mycontentsline{0.7in}{}{(See B element for \pspice\ equivalent)}{B}{element}}
+
+\subsection{Distributed Elements}
+
+The distributed devices
+and where they are described are as follows:
+
+The convolution element enables a linear circuit described by a set of
+frequency dependent complex $y$ parameters to be included in transient
+analysis.
+
+\myineline{T}{Transmission Line}
+\mycontentsline{0.7in}{U}{Lossy RC Transmission Line}{U2}{element}
+
+\subsection{Source Elements}
+
+The sources supported and where they can be found are as follows:
+
+\myineline{E}{Voltage-Controlled Voltage Source}
+\myineline{F}{Current-Controlled Current Source}
+\myineline{G}{Voltage-Controlled Current Source}
+\myineline{H}{Current-Controlled Voltage Source}
+\myineline{I}{Independent Current Source}
+\myineline{V}{Independent Voltage Source}
+
+The control of the E, F, G and H elements can be control by a polynomial
+function of voltage or current.
+
+\subsection{Interface Elements}
+
+The interface elements supported and where they can be found
+are as follows:
+
+\myineline{N}{Digital Input Interface{, \pspice\ only}}
+Interfaces digital analog simulation by providing a means for a state
+transistion to control an analog response.
+
+\myineline{O}{Digital Output Interface{, \pspice\ only}}
+Determines the equivalent digital state of an analog signal.
+
+\myineline{P}{Port Element}
+Element enabling the scattering parameters of a circuit to be directly
+calculated. (Available in only a few versions of \justspice .
+
+
+{\mycontentsline{0.7in}{U}{Digital Device}{U1}{element}}
+
+\myineline{X}{Subcircuit Call}
+Interfaces a circuit (or subcircuit) to a subcircuit.
+
+\section{Input Grammar}
+
+Each input line contains fields which are delimited (separated) by one of a
+number of characters.  The most obvious delimiter is simply a space
+but \marginid{Delimiter}\index{Delimiter}other characters are also treated
+as ``{\it white space}'' characters.
+\marginid{White Space}\index{White Space}White space is defined as one or any
+combination of the following characters:\\[0.1in]
+\offset ``blank'' \hspace{0.3in}
+``tab'' \hspace{0.3in}
+( \hspace{0.3in}
+) \hspace{0.3in}
+, \hspace{0.3in}
+=\\
+While the above characters appear in the input file they are ignored except
+that they are treated as a field delimiter. The
+``('', ``)'', ``='' and ``,'' characters are often used in the input file
+and are included in specifiying the syntax for elements and statements but
+they serve only to add visual structure to the input.
+
+Continuation lines\marginid{Line}\marginid{Continuation}\index{line
+continuation}\index{continuation line} begin with a plus ``{\tt +}'' in the
+first column. For example\\[0.05in]
+\hspace*{\fill}\offsetparbox{\tt
+    R1 1 2 1000\\[0.05in]
+    {\rm and}
+    R1 1 2\\
+    +1000}\\[0.05in]
+are equivalent.
+
+Comment lines begin with an asterisk ``{\tt *}'' in the first position.
+In line comments are supported in \pspice\ and these begin with a semicolon
+``{\tt ;}'' and must be contained wholly on one line. For example
+\hspace*{\fill}\offsetparbox{
+    * This just shows off a comment\\
+    R1 1 2 1000  ;This shows of an in line comment}\\[0.05in]
+
+In nearly every situation where a numeric value is required in the
+input an algebraic expression can be used instead.
+\marginid{Expression}\index{Expression}
+Everything between a ``\{'' character and the matching ``\}'' character
+is treated as an algebraic expression. The evaluation of algebraic
+expressions are discussed in the ALgebraic Expressions section on
+on page \pageref{section:algebraic:expression}.
+
+\subsection{Prefixes and Units}
+
+Almost-standard metric prefixes are used
+in\index{Prefix}\index{Units}
+\spice, the prefix abbreviation, the full metric name, and the represented
+scale factors being as follows:
+\begin{center}
+  \begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{1}{|c}{\bf \spice}&
+\multicolumn{1}{|c}{\bf Metric}&
+\multicolumn{1}{|c|}{\bf Scale}\\
+\multicolumn{1}{|c}{\bf Prefix}&
+\multicolumn{1}{|c}{\bf Name}&
+\multicolumn{1}{|c|}{\bf Factor}\\
+\hline
+\hline
+  F & femto & $10^{-15}$ \\
+  P & pico  & $10^{-12}$ \\
+  N & nano  & $10^{-9}$ \\
+  U & micro & $10^{-6}$ \\
+  M & milli & $10^{-3}$ \\
+  K & kilo  & $10^{+3}$ \\
+  MEG & mega  & $10^{+6}$ \\
+  G & giga  & $10^{+9}$ \\
+  T & tera  & $10^{+12}$ \\
+\hline
+  \end{tabular}
+\end{center}
+As \spice\ does not differentiate between upper and lower case, `{\tt MEG}'
+(or `{\tt meg}')
+is used for `mega' instead of the standard metric upper case `M'.
+
+The value of an element is specified in terms of the conventionally
+accepted units,
+e.g. resistance in Ohms, capacitance in Farads, and inductance in Henries.
+If you wish you can spell it out more fully, e.g.
+\begin{center}
+\begin{tabular}{ll}
+{\tt  C1  0  2  5fF} & or \\
+{\tt C1  0  2  5fFarad}  &or even \\
+{\tt C1 0 2 5fthingies} &
+\end{tabular}
+\end{center}
+The last alternative is allowed as
+\spice\ actually ignores whatever follows the `{\tt f}' and assumes Farads.
+
+\section{Parameters \label{section:parameters}}
+Parameters can be defined in two ways:
+\begin{itemize}
+\item In a parameter definition ({\tt .PARAM}).
+\item As a subcircuit parameter in a {\tt .SUBCKT} statement.
+\end{itemize}
+Parameters defined in a {\tt .PARAM} statement
+can be used in subsequent statements
+and element lines by replacing a numeric value by an expression in which the
+parameter is used. The general form of the {\tt .PARAM} statement is\\
+
+\hspace*{\fill}\offsetparbox{{\tt .PARAM}
+\B ParameterName = NumericValue $\ldots$ \E\\
+{\tt +}\B ParameterName = {\tt \{} Expression {\tt \}} $\ldots$ \E}\\
+Here the {\it ParameterName} is the name of a parameter with the first character
+being alphabetic (a-zA-Z) and can be assigned a numeric value
+{\it NumericValue} which may be followed immediately by a spice scale
+factor. For example, SMALL=1.E-9, SMALL=+1N, SMALL=1NV and SMALL=1.E-9V are
+equivalent and all establish a parameter SMALL with a value of $10^{-9}$.
+If {\it ParameterName} is the name of a
+previously defined parameter at the same level of subcircut expansion
+then the parameter value is changed.
+If the {\tt .PARAM} statement is
+is in the top level circuit then the parameter value is global and is
+available any where in the netlist.
+If the {\tt .PARAM} statement is in a subcircuit then the parameter value
+is local and can be used at the current subcircuit expansion level or lower
+in the subcircuit expansion hierarchy.
+The same idea applies to values of a parameter
+changed in a subcircuit.  Value changes are local and are available in the
+current subcircuit and lower nested
+subcircuits.  {Libraries are searched for parameters not
+defined in the
+      circuit NETLIST or in included files. A {\tt .PARAM} statement does
+      not have to be within a subcircuit in a library.}
+
+Instead of a numeric value an algebraic expression can be used to establish
+the value of the parameter.
+The expression is evaluated in the standard
+way for an algebraic expression replacing numeric values and is evaluated at
+the time of expansion rather than as the netlist is read.
+  This ensures the correct
+hierarchical interpretation of the netlist.  The treatment of expression is
+discussed in section \ref{section:expression} on page
+\pageref{section:expression}.  Note that as always the expression must be
+enclosed in matching braces ({\tt \{} $\ldots$ {\tt \}}).
+
+Parameters can be used nearly anywhere a numeric value is expected
+by including them in an expression evaluation even if the expression
+contains a single parameter. For example
+\hspace*{\fill}\offsetparbox{{\tt .PARAM rbig=10MEG\\ R1 1 2 \{RBIG\}}}\\
+establishes a resistance {\tt R1} between nodes 1 and 2 with a value of
+$10^6~\Omega$.
+
+Several predefined parameters are supported and the user must avoid
+defining these as unpredictable results may result.
+The predefined parameters are
+
+{\offset\begin{tabular}{|l|l|l|}
+\hline
+{\bf Name} & {\bf Value}   &  {\bf Description}  \\
+\hline
+\hline
+TEMP       & not supported & Analysis temperature.\\
+           & Reserved for future expansion&\\
+       & & \\
+VT         & not supported & Thermal voltage.\\
+           & Reserved for future expansion&\\
+\hline
+\end{tabular}
+}
+
+
+\section{Expressions \label{section:expression}}
+
+{\input{alexpr.tex}}
+
+\subsection{Polynomials \label{section:poly}}
+\index{polynomial}\index{POLY}
+
+Polynomial expressions can be used with the controlled source
+elements ({\tt E}, {\tt F}, {\tt G} and {\tt H}) to realize
+nonlinear controlled sources. The specification of the polynomial
+must be at the end of the input line and has two forms. The
+polynomial format for a voltage-controlled current source (the
+{\tt G} element)
+or a voltage-controlled voltage source (the {\tt E} element) is\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+{\tt POLY({\it N}) ($N_{C1+}$,{\it $N_{C1-}$})
+$\ldots$ ($N_{CN+}$, $N_{CN-}$)
+$C_0$ $C_1$ $C_2$ $C_3$ $\ldots$
+}}
+where
+\begin{widelist}
+\item[{\tt POLY}] is the keyword indicating that a polynomial description
+follows.
+\item[{\it N}] is the degree of the polynomial.
+\item[$N_{C1+}$, $N_{C1-}$]The voltage at the node
+$N_{C1+}$ with respect to the voltage at the node
+$N_{C1-}$ is the controlling voltage $V_1$.
+\item[$N_{CN+}$, $N_{CN-}$]The voltage at the node
+$N_{CN+}$ with respect to the voltage at the node
+$N_{CN-}$ is the controlling voltage $V_N$.
+\item[$C_0$ $C_1$ $\ldots$] are the polynomial coefficients. Not all of the
+coefficients need be specified as the trailing coefficients that are not
+specified are treated as if they are zero.
+\end{widelist}
+Note that in spice parentheses, ``('' and ``)'', and commas, ``,'', are treated
+as if they are spaces.  The use of
+parentheses and commas serves only to make the netlist more easily read.
+{\bf The exception to this is their use in expressions (see section
+\ref{section:expression}).}
+
+For voltage-controlled elements the output is calculated as
+\begin{eqnarray}
+{\rm OUTPUT} & = & C_0 \nonumber\\
+         &   & + C_1V_1 + \ldots + C_NV_N\nonumber\\
+         &   & + C_{N+1}V_1V_1 + C_{N+2}V_1V_2 + \ldots + C_{N+N}V_1V_N
+               \nonumber\\
+         &   & + C_{2N+1}V_2V_2 + C_{2N+2}V_2V_3 +\ldots + C_{2N+N-1}V_2V_N
+               \nonumber\\
+         &   & \vdots \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N}V_NV_N
+               \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N+1}V_1V_1V_1 +
+               C_{N!/(2(N-2)!)+2N+2}V_1V_1V_2\nonumber\\
+         &   &\ \ \ \ \ \ \ \ \ + \ldots +
+               C_{N!/(2(N-2)!)+2N+N-1}V_1V_1V_N
+                     \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+3N}V_1V_2V_2 + \ldots +
+               C_{N!/(2(N-2)!)+3N+N-2}V_1V_2V_N
+                     \nonumber\\
+         &   & \vdots\nonumber
+\end{eqnarray}
+A one dimensional polynomial (with only one pair of controlling nodes) is
+evaluated as
+\[
+{\rm OUTPUT} = C_0 + C_1V_1 + C_2V_1^2 + C_3V_1^3 + \ldots C_NV_1^N
+\]
+An example of a voltage-controlled voltage source is\\[0.1in]
+\hspace*{\fill}\offsetparbox{{\tt E1 2 3 POLY(2) (10,0) (12,2) 0.5 1 1 0.2 0.3
+   0.2}} \\[0.1in]
+and of a voltage-controlled current source is\\[0.1in]
+\hspace*{\fill}\offsetparbox{{\tt G1 2 3 POLY(4) (10,0) (12,2) (11,0) (13,0)
+   0.5 1 1 1 1 0.2 0.3 0.2}}\\[0.1in]
+
+The format for a current-controlled current source (the {\tt F} element)
+or a current-controlled voltage source (the {\tt H} element) is\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+{\tt POLY({\it N}) {\it VoltageSourceName$_1$}
+$\ldots$ {\it VoltageSourceName$_N$}
+$C_0$ $C_1$ $C_2$ $C_3$ $\ldots$
+}}
+where
+\begin{widelist}
+\item[{\tt POLY}] is the keyword indicating that that a polynomial description
+follows.
+\item[{\it N}] is the degree of the polynomial.
+\item[{\it VoltageSourceName$_1$}] is the name of the voltage source the
+current through which is control current $I_1$.
+\item[{\it VoltageSourceName$_N$}] is the name of the voltage source the
+current through which is control current $I_N$.
+\item[$C_0$ $C_1$ $\ldots$] are the polynomial coefficients.
+\end{widelist}
+For these elements the output is calculated as
+\begin{eqnarray}
+{\rm OUTPUT} & = & C_0 \nonumber\\
+         &   & + C_1V_1 + \ldots + C_NV_N\nonumber\\
+         &   & + C_{N+1}V_1V_1 + C_{N+2}V_1V_2 + \ldots + C_{N+N}V_1V_N
+             \nonumber\\
+         &   & + C_{2N+1}V_2V_2 + C_{2N+2}V_2V_3 +\ldots + C_{2N+N-1}V_2V_N
+             \nonumber\\
+         &   & \vdots
+             \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N}V_NV_N
+             \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+2N+1}V_1V_1V_1 +
+               C_{N!/(2(N-2)!)+2N+2}V_1V_1V_2\\
+         &   & \ \ \ \ \ \ \ + \ldots +
+               C_{N!/(2(N-2)!)+2N+N-1}V_1V_1V_N
+                   \nonumber\\
+         &   & + C_{N!/(2(N-2)!)+3N}V_1V_2V_2 + \ldots +
+               C_{N!/(2(N-2)!)+3N+N-2}V_1V_2V_N
+                   \nonumber\\
+         &   & \vdots
+\end{eqnarray}
+An example of a current-controlled voltage source is:\\[0.1in]
+\hspace*{\fill}\offsetparbox{H1 2 3 POLY(2) VIN V2 0.5 1 1 0.2 0.3 0.2}
+  \\[0.1in]
+and of a current-controlled current source is:\\[0.1in]
+\hspace*{\fill}\offsetparbox{F1 2 3 POLY(4) VIN V2 (11,0) (13,0) 0.5 1 1
+1 1 0.2 0.3 0.2}
+
+{\subsection{Laplace Expressions \label{section:laplaceexpressions}}
+\index{laplace expressions}}
+{\subsection{Chebyschev \label{section:chebyschev}}
+\index{chebyschev expressions}}
+\section{\label{section:function}
+Function Definition .FUNC \pspiceninetytwo\ Only}
+\index{function}\index{.FUNC}\index{FUNC}
+
+The {\tt .FUNC} statement can be used to conveniently define
+commonly used expressions.
+
+\hspace*{\fill}\offsetparbox{{\tt .FUNC}
+FunctionName{\tt (}\B Argument1, Argument2, $\ldots$ Argument10\E\E\E{\tt )}
+= FunctionDeclaration
+}
+
+{\it FunctionName} is the name of the function being defined.  It
+must begin with an alphabetic character (A-Z).
+
+{\it Argument1} is a function argument.
+There can be from 0 to 10 arguments.
+
+{\it FunctionDeclaration} can be any regular algebraic expression (see section
+\ref{section:algebraic:expression} on page \pageref{section:algebraic:expression})
+and can use previously defined functions and the Laplace variable $s$.
+The expression delimiters
+{\tt \{} and {\tt \}} need not be used.
+The {\it FunctionDeclaration} is automaticly enclosed within the expression
+delimiters {\tt \{} and {\tt \}}. The function declaration plus the
+two delimiters must be no more than 80 characters (one line) long.
+
+
+The names of predefined functions msut be avoided.  The predefined
+functions are listed in section
+\ref{section:algebraic:expression} on page \pageref{section:algebraic:expression}.
+
+Functions are treated as macros in the C programming language.
+when user defined functions are invoked a textual expansion is
+performed and the resultant expansion is evaluated as a regular
+expression.  The FunctionDeclaration before and after expansion is
+enclosed within expression delimiters {\tt \{} and {\tt \}}.  This
+defines how nested functions are treated.
+
+It is faster to use predefined functions if available. Predefined
+functions also test the validity of the arguments and evaluate the correct
+asymptotic behavior.
+
+\section{Syntax Variations}
+\index{Differences between versions, see Versions}
+\index{Versions, Syntax}
+Commercial versions have enhanced the syntax of Berkeley version of
+\justspice .  In virtually all cases the syntax of \spicetwo\ and
+\spicethree is a subset of the syntax of commercial versions of \justspice .
+Here we list some exceptions.
+\begin{itemize}
+\item Units.  Spice does not allow units immediately following a quantity.
+      For example, the following is acceptable in all versions.\\
+      \indent {\tt VIN 1 0 DC 4}\\
+      \indent {\tt VIN 1 0 DC 4UV}\\
+      For example, the following is not acceptable in all \spicetwo\ and
+      \spicethree\\
+      \indent {\tt VIN 1 0 DC 4V}\\
+      but is acceptable in \hspice , \pspice  and \sspice.
+\end{itemize}

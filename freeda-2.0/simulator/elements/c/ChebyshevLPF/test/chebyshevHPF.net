@@ -1,0 +1,18 @@
+* Transient chebyshevfilter test
+.options verbose
+
+.tran2 tstop=80ns tstep=0.1ns out_steps=200
+
+vsource:1 1 0 vac=1 f=300e6 phase=90
+R:Rin 1 2 r=10
+
+chebyshevLPF:f1 2 0 3 n=10 f0=300e6 z0=10 type=1 ripple=0.1
+R:Ro 3 0 r=10
+
+R:stability 2 3 r=1e3
+
+.options gnuplot
+.options plotVT1Preamble="set xlabel 'Time (s)'; set ylabel 'Magnitude (V)"
+.out plot term 3 vt plotVT1Preamble in "out.tran.value"
+
+.end

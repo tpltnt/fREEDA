@@ -1,0 +1,149 @@
+**Netlist for thermal model of the X-band MMIC***
+**Does not includes surface metallization over the MMIC transistors**
+
+.options deltat=0.02 nsteps=2 temp=308.
+
+.svtr  tstop = 0.04 n_freqs = 8 tstep = deltat deriv=0
+
+* Input power source
+
+isource:pin1 1 0 idc=0.006
+isource:pin2 2 0 idc=0.006
+isource:pin3 3 0 idc=0.006
+isource:pin4 4 0 idc=0.006
+isource:pin5 5 0 idc=0.006
+isource:pin6 6 0 idc=0.006
+isource:pin7 7 0 idc=0.0133
+isource:pin8 8 0 idc=0.0133
+isource:pin9 9 0 idc=0.0133
+isource:pin10 10 0 idc=0.0133
+isource:pin11 11 0 idc=0.0133
+isource:pin12 12 0 idc=0.0133
+isource:pin13 13 0 idc=0.0133
+isource:pin14 14 0 idc=0.0133
+isource:pin15 15 0 idc=0.09
+isource:pin16 16 0 idc=0.0675
+isource:pin17 17 0 idc=0.00
+isource:pin18 18 0 idc=0.00
+isource:pin19 19 0 idc=0.00
+
+isource:pin20 101 0 idc=0.00
+isource:pin21 102 0 idc=0.00
+isource:pin22 103 0 idc=0.00
+isource:pin23 104 0 idc=0.00
+isource:pin24 105 0 idc=0.00
+isource:pin25 106 0 idc=0.00
+isource:pin26 107 0 idc=0.00
+isource:pin27 108 0 idc=0.00
+isource:pin28 109 0 idc=0.00
+isource:pin29 110 0 idc=0.00
+isource:pin30 111 0 idc=0.00
+isource:pin31 112 0 idc=0.00
+isource:pin32 113 0 idc=0.00
+isource:pin33 114 0 idc=0.00
+isource:pin34 115 0 idc=0.00
+isource:pin35 116 0 idc=0.00
+
+isource:pin36 217 0  idc=0.0
+isource:pin37 218 0 idc=0.0
+isource:pin38 219 0 idc=0.0
+isource:pin39 220 0  idc=0.0
+isource:pin40 221 0 idc=0.0
+isource:pin41 222 0 idc=0.0
+isource:pin42 223 0  idc=0.0
+isource:pin43 224 0 idc=0.0
+isource:pin44 225 0 idc=0.0
+isource:pin45 226 0  idc=0.0
+isource:pin50 227 0 idc=0.00
+isource:pin51 228 0 idc=0.00
+isource:pin52 229 0 idc=0.00
+isource:pin53 230 0 idc=0.00
+isource:pin54 231 0 idc=0.00
+isource:pin55 232 0 idc=0.00
+
+isource:pin60 233 0 idc=0.00
+isource:pin61 234 0 idc=0.00
+isource:pin62 235 0 idc=0.00
+isource:pin63 236 0 idc=0.00
+isource:pin64 237 0 idc=0.00
+isource:pin65 238 0 idc=0.00
+isource:pin66 239 0 idc=0.00
+isource:pin67 240 0 idc=0.00
+isource:pin68 241 0 idc=0.00
+isource:pin69 242 0 idc=0.00
+isource:pin70 243 0 idc=0.00
+isource:pin71 244 0 idc=0.00
+isource:pin72 245 0 idc=0.00
+isource:pin73 246 0 idc=0.00
+isource:pin74 247 0 idc=0.00
+isource:pin75 248 0 idc=0.00
+
+thermalblock:test1 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
++101 102 103 104 105 106 107 108 109 110 111 112 113 114 115 116 
++117 118 119 120 121 122 123 124 125 126 127 128 129 130 131 132
++133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148
++201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 
++217 218 219 220 221 222 223 224 225 226 227 228 229 230 231 232
++233 234 235 236 237 238 239 240 241 242 243 244 245 246 247 248
++1002
++Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 msubstrate=4 read_input=0 filename="Die_Rth_elements_19Devices.dat"
++l=1624e-6 w=1470e-6 d=100e-6  rho=5320 c=350  ks=46 xi=0 ndevices=19 mmax=50 nmax=50 ppatch=4
+
+thermalblock:testv1cap  1110 1110  1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 117  118 119 120 121 122 123 124 125 126 127 128 129 130 131 132  1002
++Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 msubstrate=4 read_input=0 filename="ViaCap1_Rth_elements.dat"
++l=150e-6 w=150e-6 d=7e-6  c=128 rho=19320   ks=319 xi=0 ndevices=0 mmax=5 nmax=5
+
+thermalblock:testv2cap  1110 1110  1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 1110 133 134 135 136 137 138 139 140 141 142 143 144 145 146 147 148 1002
++Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 msubstrate=4 read_input=0 filename="ViaCap2_Rth_elements.dat"
++l=150e-6 w=150e-6 d=7e-6  c=128 rho=19320   ks=319 xi=0 ndevices=0 mmax=5 nmax=5
+
+thermalshunt:testv1 110 210 1002 l=405e-6 w=367.5e-6 d=100e-6 xl=90e-6 xr=40e-6 yu=263.5e-6 yd=213.5e-6 
++ks=273 c=128 rho=19320 xi=0 b=0 read_input=0
++Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1
+
+thermalshunt:testv2 111 211 1002 l=405e-6 w=367.5e-6 d=100e-6 xl=90e-6 xr=40e-6 yu=323.0e-6 yd=273.0e-6 
++ks=273 c=128 rho=19320 xi=0 b=0 read_input=0
++Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1
+
+thermalblock:test2 201 202 203 204 205 206 207 208 209 210 211 212 213 214 215 216 301 302  303 304 305 306 307 308 309 310 311 312 313 314 315 316 1002
++Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 msubstrate=4 read_input=1 filename="Epoxy_Rth_elements.dat"
++l=1624e-6 w=1470e-6 d=100e-6  rho=6700 c=500  ks=60 xi=0 ndevices=0 mmax=50 nmax=50
+
+thermalheatsink:test3 301 302  303 304 305 306 307 308 309 310 311 312 313 314 315 316 1002
++xl=2.4188e-2 xr=2.2564e-2 yU=1.3235e-2 yD=1.1765e-2  d=381e-6  ks=17.3 rho=8359 c=502   time_d=1 
++Ntimesteps=nsteps dt=deltat  l=5.0e-2 w=2.5e-2
++Tambient=temp xi=0 narray=4 ndevices=1  read_input=0
+
+*Parameters for the Filtronic MMIC LNA, single xtor
+* We need some resistor in parallel, otherwise the MNAM would
+* be singular. 
+resistor:rdummy2 111 1002 r=1e5
+
+vsource:t2 1002 0 vdc=temp
+
+.out plot element "thermalblock:test1" 0 it in "lnainput1.power"
+.out plot element "thermalblock:test1" 0 ut in "lnaoutput_mmic1_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 6 it in "lnainput2.power"
+.out plot element "thermalblock:test1" 6 ut in "lnaoutput_mmic2_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 14 it in "lnainput3.power"
+.out plot element "thermalblock:test1" 14 ut in "lnaoutput_res1_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 15 it in "lnainput4.power"
+.out plot element "thermalblock:test1" 15 ut in "lnaoutput_res2_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 16 it in "lnainput_t1.power"
+.out plot element "thermalblock:test1" 16 ut in "lnaoutput_t1_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 17 it in "lnainput_t2.power"
+.out plot element "thermalblock:test1" 17 ut in "lnaoutput_t2_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 18 it in "lnainput_p1.power"
+.out plot element "thermalblock:test1" 18 ut in "lnaoutput_p1_n19_wvia.temperaturec"
+
+.out plot element "thermalblock:test1" 19 it in "lnainput5.power"
+.out plot element "thermalblock:test1" 19 ut in "lnaoutput_disc_wvia.temperaturec"
+
+.end
+

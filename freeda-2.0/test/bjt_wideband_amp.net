@@ -1,0 +1,42 @@
+* Wide Band Amp.
+
+* bjt model statement
+.model qnl npn bf=80 rb=100 tf=.3ns tr=6ns rb=100 cje=3pf cjc=2pf vaf=50
+
+r:rs1 30 1 r=1k
+r:rs2 31 0 r=1k
+r:r1 5 3 r=4.8k
+r:r2 6 3 r=4.8k
+r:r3 9 3 r=811
+r:r4 8 3 r=2.17k
+r:r5 8 0 r=820
+r:r6 2 14 r=1.32k
+r:r7 2 12 r=4.5k
+r:r8 2 15 r=1.32k
+r:r9 16 0 r=5.25k
+r:r10 17 0 r=5.25k
+
+bjtnpn:q1 2 30 5 qn1
+bjtnpn:q2 2 31 6 qn1
+bjtnpn:q3 10 5 7 qn1
+bjtnpn:q4 11 6 7 qn1
+bjtnpn:q5 14 12 10 qn1
+bjtnpn:q6 15 12 11 qn1
+bjtnpn:q7 12 12 13 qn1
+bjtnpn:q8 13 13 0 qn1
+bjtnpn:q9 7 8 9 qn1
+bjtnpn:q10 2 15 16 qn1
+bjtnpn:q11 2 14 17 qn1
+
+vsource:vin 1 0 vac=0.1 f=50e6 phase=-90 delay=1000ps
+vsource:vcc 2 0 vdc=15 delay=900ps
+vsource:vee 3 0 vdc=-15
+
+** Analyze
+.tran2 tstop=1ns tstep=10ps
+
+.out plot term 16 vt in "out.vt16"
+.out plot term 17 vt in "out.vt17"
+
+.end
+

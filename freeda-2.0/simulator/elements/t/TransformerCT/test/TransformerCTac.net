@@ -1,0 +1,71 @@
+*++++++++++ Transformer Center-tap test +++++++++++++++++++++++++++++
+*++++++++++ cttransformer.net
+*+++++ transformerct:t1 in ref out1 ref out2
+*+++++ print detailed info to .OUT file
+.options verbose
+.options gmin=0 ftol=1.e-10
+
+.ac start=1 stop = 10 n_freqs=10
+*.tran2 tstop = 50e-3 tstep = 10e-6 gcomp=0 im=2
+
+*++++++++++++++++++ Circuit +++++++++++++++++++++++++++++++++++++++++
+*++++++++++ source for ac analysis
+vsource:v1 1 0 vac=10V 
+
+*++++++++++ source for transient analysis
+*vsource:v1 1 0 vac=10V f=60
+
+r:rin 1 2 r=50
+
+*+++++for turn ratio 1-to-1 Vin=Vout: 10V=10V
+*+++++for turn ratio 10-to-1 -> Vin(1/10)=Vout: 10V=0.1V make n1=10
+*+++++for turn ratio 1-to-10 -> Vin(10/1)=Vout: 10V=100V make n2=10 n3=10
+*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+*+++++for turn ratio 1-to-10 and 1-to-2 -> 
+*+++++Vin(10/1)=1st Vout: n2=10 for Vout1=100V
+*+++++Vin(2/1)=2nd Vout: n3=2 for Vout2=20V
+
+transformerct:t1 2 0 3 0 4  
+r:rload1 4 0  r=1e6
+r:rload2 3 0  r=1e6
+
+*++++++++++++++++++++++++ Simulation +++++++++++++++++++++++++++++++++++
+.options gnuplot
+
+***************** Transient Simulation Results *************************
+*++++++ set up plot preamble with font and label information
+*.options plotVT1Preample="set term x11 font 'helvetica,18';
+*         set title 'Voltage at Input Terminal';
+*         set xlabel 'Time (milliseconds)'; set ylabel 'Voltage (V_ac)'"
+*.out plot term 2 vt 1e3 scalex plotVT1Preample in "vprimary.out" 
+
+*.options plotVT1Preample="set term x11 font 'helvetica,18';
+*         set title 'Voltage at 1st Output Terminal';
+*         set xlabel 'Time (milliseconds)'; set ylabel 'Voltage (V_ac)'"
+*.out plot term 3 vt 1e3 scalex plotVT1Preample in "vsecondary1.out" 
+
+*.options plotVT1Preample="set term x11 font 'helvetica,18';
+*         set title 'Voltage at 2nd Output Terminal';
+*         set xlabel 'Time (milliseconds)'; set ylabel 'Voltage (V_ac)'"
+*.out plot term 4 vt 1e3 scalex plotVT1Preample in "vsecondary2.out" 
+
+
+****************** Frequency Simulation Results (.AC analysis)************
+.options plotVT1Preample="set term x11 font 'helvetica,18';
+         set title 'Voltage at Input Terminal';
+         set xlabel 'Frequency (Hz)'; set ylabel 'Voltage (V_ac)'"
+.out plot term 2 vf mag plotVT1Preample in "vprimary.out" 
+
+.options plotVT1Preample="set term x11 font 'helvetica,18';
+         set title 'Voltage at Output Terminal';
+         set xlabel 'Frequency (Hz)'; set ylabel 'Voltage (V_ac)'"
+.out plot term 3 vf mag plotVT1Preample in "vsecondary1.out" 
+
+.options plotVT1Preample="set term x11 font 'helvetica,18';
+         set title 'Voltage at Output Terminal';
+         set xlabel 'Frequency (Hz)'; set ylabel 'Voltage (V_ac)'"
+.out plot term 4 vf mag plotVT1Preample in "vsecondary2.out" 
+
+*.out plot term 1 vt in "source.out"
+.end
+

@@ -1,0 +1,21 @@
+**** Test netlist for k element ****
+
+.options f0 = 5.1e9 method = 2 jupdm = 1
+
+.tran2 tstop = 10e-3 tstep = .1e-3  nst=0 msv=0 deriv=0 im=1
+
+ind:ind1 2 0 l=100u
+ind:ind2 3 0 l=100u
+
+k:k1 0 coupling=0.9 l1="ind:ind1" l2="ind:ind2"
+
+vsource:vgs 1 0 vdc=2.5V vac=1V f=1e3 
+
+res:r0 1 2 r=100
+res:r1 3 0 r=100
+
+.out plot term 3 vt in "k.tran"
+.out plot term 2 vt in "k.tran2"
+
+.end
+

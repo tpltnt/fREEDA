@@ -1,0 +1,140 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+%\newcommand{\ms}[1]{\mbox{\scriptsize #1}}
+%\newcommand{\B}{{ \rm [}}     % begin optional parameter in \form{}
+%\newcommand{\E}{{\ \rm\hspace{-0.04in}] }}   % end optional parameter in \form{}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[V \- Independent Voltage Source(Pulse)]{\noindent{\LARGE \textbf{Independent Voltage Source} \hspace{55mm}\huge\textbf{V}}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.75in\pfig{v_spice.eps}}
+\caption{Independent Voltage Source Element.}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+\texttt{V}\textit{name}$N_{+}$$N_{-}$[[\textit{DC}] \
+[\textit{DCvalue}] \
+[\texttt{AC}[\textit{ACmagnitude}[\textit{ACphase}]]] \
+[\texttt{DISTOF1}[\textit{F1magnitude}[\textit{F1phase}]]] \
+[\texttt{DISTOF2}[\textit{F2magnitude}[\textit{F2phase}]]]]
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{tabular}{r l}
+$N_{+}$ & is the positive voltage source node.\\
+$N_{-}$ & is the negative voltage source node.\\
+\texttt{DC} & is the optional keyword for the \texttt{dc} value of
+the source.\\
+\textit{DCvalue} & is the \texttt{dc} voltage value of the source.(Units: V; Optional; Default: 0; Symbol: $V_{DC}$)\\
+\texttt{AC} & is the keyword for the \texttt{ac} value of the source.\\
+\textit{ACmagnitude} & is the \texttt{ac} magnitude of the source
+used during \texttt{ac} analysis. That is, it is the peak\\
+& \texttt{ac} voltage so that the \texttt{ac} signal is $\textit{ACmagnitude}\,\mbox{sin}(\omega t + \mbox{ACphase})$. \textit{ACmagnitude} is\\
+& ignored for other types of analyses. (Units: V; Optional; Default: 1; Symbol:$V_{AC}$)\\
+\textit{ACphase} & is the ac phase of the source. It is used only in \texttt{ac} analysis.\\
+& (Units: Degrees; Optional; Default: 0; Symbol:$\phi_{\ms{AC}}$)\\
+\texttt{DISTOF1} & is the distortion keyword for distortion component 1 which has frequency \texttt{F1}.\\
+\textit{F1magnitude} & is the magnitude of the distortion component at \texttt{F1}. See \texttt{.DISTOF1} keyword above.\\
+& (Units: V; Optional; Default: 1; Symbol: $V_{F1}$)\\
+\textit{F1phase} & is the phase of the distortion component at \texttt{F1}. See \texttt{.DISTOF1} keyword above.\\
+& (Units: Degrees; Optional; Default: 0; Symbol: $\phi_{F1}$)\\
+\texttt{DISTOF2} & is the distortion keyword for distortion component 2 which has frequency {\tt F2}.\\
+\textit{F2magnitude} & is the magnitude of the distortion component at \texttt{F2}. See \texttt{.DISTOF2} keyword above.\\
+& (Units: V; Optional; Default: 1; Symbol: $V_{F2}$)\\
+\textit{F2phase} & is the phase of the distortion component at \texttt{F2}. See \texttt{.DISTOF2} keyword above.\\
+& (Units: Degrees; Optional; Default: 0; Symbol: $\phi_{F2}$)\\
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+\newline
+\underline{\bf{Pulse}}:\\
+%%%%%%%%%%%Put the pulse form here%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{\tt PULSE(} $V_1$ $V_2$ \B $T_D$ \E \B $T_R$ \E \B $T_F$\E \B $W$
+\E \B $T$ \E {\tt )}\\
+\textit{Parameters:}
+\begin{table}[tbph]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Name&Description&Units&Default\\
+\hline
+$V_1$ & initial voltage & V & \scriptsize{REQUIRED}\\
+\hline
+$V_2$ & pulsed voltage & V & \scriptsize{REQUIRED}\\
+\hline
+$T_D$ & delay time & s & 0.0\\
+\hline
+$T_R$ & rise time & s & \texttt{TSTEP}\\
+\hline
+$T_F$ & fall time & s & \texttt{TSTEP}\\
+\hline
+W & pulse width & s & \texttt{TSTOP}\\
+\hline
+T & period & s & \texttt{TSTOP}\\
+\par
+\hline
+\end{tabular}
+\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in \FDA
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{VCLOCK 20 5 PULSE(0 5 1N 2N 1.5N 21.9N 5N 20N)}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The pulse transient waveform is defined by
+\begin{equation}
+v = \left\{ \begin{array}{ll}
+V_1                         & t \leq T_D\\
+V_1 + \frac{\mathit{t'}}{\mathit{T_R}}({V_2}-{V_1})& 0 < t' \leq T_R\\
+V_2                         &{T_R} < t'< (T_R+W)\\
+V_2 - {\frac{\mathit{t'}-W}{\mathit{T_F}}}(V_1-V_2)
+                   &(T_R+W) < t' < (T_R+W+T_F)\\
+V_1           &(T_R+W+T_F) < t' < T
+     \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+t' = t - T_D -(n-1)T
+\end{equation}
+and $t$ is the voltage analysis time and $n$ is the cycle index.
+The effect of this is that after an initial time delay $T_D$ the
+transient waveform repeats itself every cycle.
+\begin{figure}[hbp]
+\centerline{\epsfxsize=3in\pfig{vpulse.eps}} \caption[Voltage
+source transient pulse ({\tt PULSE}) waveform]{Voltage source
+transient pulse ({\tt PULSE}) waveform for\newline \hspace*{\fill}
+{\tt PULSE(0.3 1.8 1 2.5 0.3 1 0.7)} \hspace*{\fill}
+\label{fig:vpulse}}
+\end{figure}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{vpulse} element.
+See \texttt{vpulse} for full documentation.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+svuppath@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

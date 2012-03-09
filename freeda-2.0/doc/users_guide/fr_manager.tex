@@ -1,0 +1,91 @@
+\chapter{Graphical User Interface} \label{ch_gui}
+
+\section{Introduction}
+
+fREEDA supports three interactive front ends:
+\begin{itemize}
+\item iFREEDA --- the preferred interface and part of the fREEDA distribution.
+\item Electric Editor --- Very good for VLSI layout, not documented.
+\item fREEDA GUI --- not currently distributed but described in this chapter.
+\end{itemize}
+
+The simulation engine in fREEDA${^\mathrm{TM}}$ can be used in the traditional way as
+a stand-alone program, for example in batch jobs. In this mode, the
+program reads an input netlist, process its contents and writes the
+requested output files.
+
+fREEDA also provides a Graphical User Interface (GUI), which is more
+convenient for interactive use of the program. This GUI is written
+using the Java language, so it can be used in every system where Java
+is supported. In this chapter we describe the different components of
+the GUI. This has now been replaced by iFREEDA but this documentation is provided for completeness and the code is available.
+
+\section{The Netlist Editor}
+
+The netlist editor is a simple text editor combined with a simulation
+manager. The editor window is shown in Figure \ref{fig:editorw}.
+%
+\begin{figure*}
+\centerline{\epsfxsize=10cm \pfig{editw.eps}}
+\caption{Netlist Editor window.} \label{fig:editorw}
+\end{figure*}
+%
+Besides the normal editing commands, the editor provides buttons and
+keyboard shortcuts to analyze the netlist being edited and see the
+output of the simulation.
+
+The editor can edit several files and handle multiple simulations at
+once by spawning multiple windows.
+
+\section{The Analysis Window}
+
+The analysis window is used to show the progress of a simulation
+(Figure \ref{fig:analyzew}).
+%
+\begin{figure*}
+\centerline{\epsfxsize=10cm \pfig{analyzew.eps}}
+\caption{Analysis window.} \label{fig:analyzew}
+\end{figure*}
+%
+The upper subwindow displays important messages such as when the
+program starts or stops, and also warnings and errors that may occur
+during the simulation. The lower subwindow shows the progress of the
+simulation.
+
+The buttons are self-explaining. The ``Analyze'' button changes to
+``Stop'' when the engine is running.
+
+\section{The Output Viewer Window}
+
+This window is perhaps the most useful of all. It is shown in Figure
+\ref{fig:outputw}.
+%
+\begin{figure*}
+\centerline{\epsfxsize=10cm \pfig{outputv.eps}}
+\caption{Output Viewer window.} \label{fig:outputw}
+\end{figure*}
+%
+The output file is displayed at the left. This file contains detailed
+information about the simulation.
+
+At the right there is a list of files available for
+plotting. After selecting one or more of these files and depressing
+the ``Plot'' button, a plot window appears showing the desired data
+(see Figure \ref{fig:plotw}).
+%
+\begin{figure}
+\centerline{\epsfxsize=10cm \pfig{plotw.eps}}
+\caption{Plot window.} \label{fig:plotw}
+\end{figure}
+%
+Any number of plots can be requested. Also, the plot data is kept in
+memory by the plot window, so it is possible to re-run a simulation
+with different parameters and compare the new and old graphs on the
+screen.  An encapsulated postscript file can be generated pressing the
+corresponding button.
+
+There are several features provided in the plot window. One of the
+most remarkable is that it is possible to zoom in or out the graph by
+dragging the left or right mouse button, respectively.
+
+The plotting facility is provided by the ptplot \cite{ptplot} library.

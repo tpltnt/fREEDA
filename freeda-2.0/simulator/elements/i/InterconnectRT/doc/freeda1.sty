@@ -1,0 +1,183 @@
+\usepackage{graphicx}
+\oddsidemargin 0.25in \evensidemargin 0.25in
+\topmargin 0.0in
+\textwidth 6.5in \textheight 8.5in
+\headheight 0.18in \footskip 0.16in
+\leftmargin -0.5in \rightmargin -0.5in
+
+%
+% KEYWORD
+%
+\newcommand{\keywordtable}[1]{
+        \sloppy
+        \hyphenation{ca-pac-i-t-an-ce}
+        \begin{center}
+    \sf
+        \begin{tabular}[t]
+        {|p{0.58in}|p{3.07in}|p{0.55in}|p{0.60in}|}
+        \hline
+        \multicolumn{1}{|c}{\bf Name} &
+        \multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+        \multicolumn{1}{|c}{\bf Units} &
+        \multicolumn{1}{|c|}{\bf Default} \X
+        #1
+        \end{tabular}
+        \end{center}
+    }
+
+\newcommand{\keywordtwotable}[2]{
+        \sloppy
+        \hyphenation{ca-pac-i-t-an-ce}
+        \begin{center}
+    \sf
+        \begin{tabular}[t]
+        {|p{0.58in}|p{2.38in}|p{0.55in}|p{0.60in}|p{0.53in}|}
+        \hline
+        \multicolumn{1}{|c}{\bf Name} &
+        \multicolumn{1}{|c}{\parbox{2.20in}{\bf Description}}  &
+        \multicolumn{1}{|c}{\bf Units} &
+        \multicolumn{1}{|c}{\bf Default} &
+        \multicolumn{1}{|c|}{\bf #1} \X
+        #2
+        \end{tabular}
+        \end{center}
+    }
+
+\newcommand{\kw}[2]{
+     \samepage{
+     \noindent {\sl #1} \vspace{-0.5in} \\
+     \keywordtable{#2} }}
+
+\newcommand{\kwtwo}[3]{
+     \samepage{
+     \noindent {\sl #1} \vspace{-0.4in} \\
+     \keywordtwotable{#2}{#3} }}
+
+\newcommand{\keyword}[1]{\kw{Keywords:}{#1}}
+\newcommand{\keywordtwo}[2]{\kwtwo{Keywords:}{#1}{#2}}
+\newcommand{\modelkeyword}[1]{\kw{Model Keywords}{#1}}
+\newcommand{\modelkeywordtwo}[2]{\kwtwo{Model Keywords}{#1}{#2}}
+
+\newcommand{\myline}{\\[-0.1in]
+\noindent \rule{\textwidth}{0.01in} \newline}
+
+\newcommand{\myThickLine}{\\[-0.1in]
+\noindent \rule{\textwidth}{0.02in} \newline}
+
+
+% FORM
+\newcommand{\form}[1]{\samepage{\noindent
+ {\sl Form} \myline
+% \hspace*{\fill} % For some reason \fill = 0 when \pspiceform{} is used?
+\offset
+\it  \offsetparbox{#1}}
+\\[0.1in]}
+
+% ELEMENT FORM
+\newcommand{\elementform}[1]{\samepage{\noindent
+ {\sl Element Form} \myline
+% \hspace*{\fill} % For some reason \fill = 0 when \pspiceform{} is used?
+\offset
+\it  \offsetparbox{#1}}
+\\[0.1in]}
+
+% MODEL FORM
+\newcommand{\modelform}[1]{\samepage{\noindent
+ {\sl Model Form} \myline
+% \hspace*{\fill} % For some reason \fill = 0 when \pspiceform{} is used?
+\offset
+\it  \offsetparbox{#1}}
+\\[0.1in]}
+
+% LIMITS
+\newcommand{\mylimits}[1]{\samepage{\noindent
+ {\sl Limits} \myline
+ \hspace*{\fill} \it  \offsetparbox{#1}}
+ \vshift}
+
+% EXAMPLE
+\newcommand{\example}[1]{\samepage{\noindent
+{\sl Example} \myline
+\offset \tt  \offsetparbox{#1}}
+ \vshift}
+
+% PSPICE88 EXAMPLE
+\newcommand{\pspiceexample}[1]{\samepage{\noindent
+{\sl \pspice\ Example} \myline
+\offset \tt  \offsetparbox{#1}}
+ \vshift}
+
+% MODEL TYPES
+\newcommand{\modeltype}[1]{\samepage{\noindent
+{\sl Model Type} \myline
+ \hspace*{\fill} \tt \offsetparbox{#1}}
+ \\[0.1in]}
+
+% MODEL TYPES
+\newcommand{\modeltypes}[1]{\samepage{\noindent
+{\sl Model Types:} \myline
+ \hspace*{\fill} \tt \offsetparbox{\tt #1}}
+ \vshift}
+
+% OFFSET ENUMERATE
+\newcommand{\offsetenumerate}[1]{
+     \offset \hspace*{-0.1in} {\begin{enumerate} #1 \end{enumerate}}}
+
+% NOTE
+\newcommand{\note}[1]{
+\vshift\samepage{\noindent {\sl Note}\myline\vspace{-0.24in}}
+ \offsetenumerate{#1} }
+
+% SPECIAL NOTE
+\newcommand{\specialnote}[2]{
+\vshift\samepage{\noindent {\sl #1}\myline\vspace{-0.24in}}\\#2}
+
+\newcommand{\dc}{\mbox{\tt DC}}
+\newcommand{\ac}{\mbox{\tt AC}}
+\newcommand{\SPICE}{\mbox{\tt SPICE}}
+\newcommand{\m}[1]{{\bf #1}}                           % matrix command  \m{}
+
+% ////// Changing nodes to terminals///////
+% print terminals in \tt and enclose in a circle use outside
+\newcommand{\terminal}[1]{\: \mbox{\tt #1} \!\!\!\! \bigcirc }
+%
+% set up environment for example
+%
+\newcounter{excount}
+\newcounter{dummy}
+\newenvironment{eg}{\vspace{0.1in}\noindent\rule{\textwidth}{.5mm}
+   \begin{list}
+   {{\addtocounter{excount}{1}
+   \em Example\/ \arabic{chapter}.\arabic{excount}\/}:}
+   {\usecounter{dummy}
+   \setlength{\rightmargin}{\leftmargin}}
+   }{\end{list} \rule{\textwidth}{.5mm}\vspace{0.1in}}
+%
+% set up environment for block
+% currently this draws a horizontal line at the start of block and another
+% at the end of block.
+%
+\newenvironment{block}{\vspace{0.1in}\noindent\rule{\textwidth}{.5mm}
+   }{\rule{\textwidth}{.5mm}\vspace{0.1in}}
+%
+
+
+%
+% set up wide descriptive list
+%
+\newenvironment{widelist}
+    {\begin{list}{}{\setlength{\rightmargin}{0in} \setlength{\itemsep}{0.1in}
+    \setlength{\labelwidth}{0.95in} \setlength{\labelsep}{0.1in}
+\setlength{\listparindent}{0in} \setlength{\parsep}{0in}
+    \setlength{\leftmargin}{1.0in}}
+    }{\end{list}}
+
+\newcommand{\STAR}{\hspace*{\fill} * \hspace*{\fill}}
+
+\newcommand{\sym}[1]{\hspace*{\fill} ($#1$)}
+
+\newcommand{\optionitem}[2]{
+\item[{\tt #1}{#2}]\label{.OPTION#1}\index{.OPTIONS, #1}\index{#1}}
+
+\newcommand{\error}[1]{\vspace{0.1in}\noindent{\tt #1}\\}
+

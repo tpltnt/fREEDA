@@ -1,0 +1,85 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Grid array substrate: 1-port thermal
+element with a single averaged surface heating element}
+\hspace{\fill} \textbf{thermalheatsink1}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+%\linethickness{0.5mm} \line(1,0){425}
+%\newline
+\textit{Form:}
+\newline
+$\tt thermalheatsink1$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+$ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ and $n_2$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+ntimesteps: Number of time & INTEGER & 0 & no \\
+steps in transient simulation & & & \\
+\hline
+dt: Length of timestep (s) & DOUBLE & 0 & no \\
+\hline tambient: Ambient temperature (K) & DOUBLE & 300 & no \\
+\hline time\_d: Flag, if true, calculate in the time domain. & BOOLEAN & false & no \\
+\hline l: Substrate x-dimension in meters. & DOUBLE & 0.05 & no \\
+\hline w: Substrate y-dimension in meters & DOUBLE & 0.05 & no \\
+\hline d: Substrate z-dimension in meters. & DOUBLE & 0.0016 & no \\
+\hline xl: x-coordinate of left edge of heating element (m) & DOUBLE & 0.04 & no \\
+\hline xr: x-coordinate of right edge of heating element (m) & DOUBLE & 0.01 & no \\
+\hline yu: y-coordinate of upper edge of heating element (m) & DOUBLE & 0.04 & no \\
+\hline yd: y-coordinate of lower edge of heating element (m) & DOUBLE & 0.01 & no \\
+\hline xi: Adjustment for $T^4$ non linearity. & DOUBLE & 1.3 & no \\
+\hline eta: Adjustment for natural convection. & DOUBLE & 3 & no \\
+\hline epsilon: Emissivity. & DOUBLE & 0.7 & no \\
+\hline ks: Thermal conductivity {$W/{m.K}$} & DOUBLE & 0.294 & no \\
+\hline rho: Density {$kg.{m^{-3}}$} & DOUBLE & 1900 & no \\
+\hline c: Specific heat {$J/{kg.K}$} & DOUBLE & 1150 & no \\
+\hline ndevices: Number of heat dissipating devices & INTEGER & 1 & no \\
+\hline b: Exponent in power law temperature & DOUBLE & 0 & no \\
+dependence of thermal conductivity & & & \\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{thermalheatsink1:\ test1\ 1\ 10\ Ntimesteps=nsteps dt=deltat
+Tambient=temp time\_d=1 l = 0.05 \\
+w = 0.05 d = 0.0016 xl = 0.04 xr = 0.01 yu = 0.04 yd = 0.01 xi =
+1.3 eta = 3 \\
+epsilon = 0.7 ks = 0.294 rho = 1900 c = 1150
+ndevices = 1}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson, Bill Batty & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+w.batty@elec-eng.leeds.ac.uk & & & \\
+\end{tabular}
+\end{document}

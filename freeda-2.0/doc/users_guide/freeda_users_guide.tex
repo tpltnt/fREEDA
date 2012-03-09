@@ -1,0 +1,61 @@
+\documentclass[12pt]{book}
+
+\usepackage{epsf}
+\usepackage{longtable}
+
+\input{freeda1.sty}
+
+
+%\includeonly{fr_intro}
+%\includeonly{fr_netlist}
+%\includeonly{fr_expression}
+%\includeonly{fr_dotted_commands}
+
+%\includeonly{fr_svhb}
+%\includeonly{fr_svtr}
+%\includeonly{fr_arch}
+%\includeonly{fr_local}
+%\includeonly{fr_dotted_commands,fr_out,fr_catalog,fr_svhb,fr_svtr,fr_arch,fr_local,fr_manager,bib}
+%\includeonly{fr_dotted_commands,bib}
+\includeonly{bib}
+
+% \newcommand{\fig}[1]{/ncsu/erl/mbs_group/figures/#1}
+\renewcommand{\fig}[1]{#1}
+\renewcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+
+\title{
+{\sf \Huge fREEDA$^{\mathrm{TM}}$ User's Manual\\
+\large Version 1.3}\\[1in]
+June 29, 2007\\[0.5in]
+Compiled on \today .
+}
+
+\author{Michael B. Steer, \\ Carlos E. Christoffersen, \\
+Mark Basel, \\
+Joseph N. Hall
+}
+
+
+\begin{document}
+
+\maketitle
+\newpage
+\vspace*{\fill}
+All trademarks are the property of their respective owners.
+\tableofcontents
+
+\include{fr_intro}
+\include{fr_netlist}
+\include{fr_expression}
+\include{fr_dotted_commands}
+\include{fr_out}
+\include{fr_catalog.tex}
+\include{fr_svhb.tex}
+\include{fr_svtr.tex}
+\include{fr_arch.tex}
+\include{fr_local.tex}
+\include{fr_manager}
+%\include{fr_copyright}
+\include{bib}
+
+\end{document}

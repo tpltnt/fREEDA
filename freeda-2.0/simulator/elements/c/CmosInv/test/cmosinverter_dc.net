@@ -1,0 +1,25 @@
+* CMOS Inverter DC Analysis
+
+**** This netlist is for DC Analysis of Cmos Inverter. The Inverter is based on EKV mosfet model
+.dc sweep="vsource:Vin" start=0 stop=5 step=0.01
+
+*** Vdd connection 
+vsource:Vdd 1 0 vdc=5
+
+**** Input DC source
+vsource:Vin 2 0
+
+***** Instantiation of Inverter
+cmosinv:inv 1 2 3 0 
+
+**** Load Resistance
+r:Rout 3 0 r=1000000
+
+* Load Capacitance
+c:Cout 3 0 c=1e-12
+
+***Plot
+.options gnuplot
+.out plot term 3 vt in "vout.out"
+.out plot term 2 vt in "vin.out"
+.end

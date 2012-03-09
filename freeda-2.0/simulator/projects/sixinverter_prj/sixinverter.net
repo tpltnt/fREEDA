@@ -1,0 +1,42 @@
+# ifREEDA 0.1  /home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/sixinverter.sch
+
+
+
+.model bsim3n Mosnbsim3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+
+.model bsim3p Mospbsim3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+
+
+vpulse:vgs One 0 v1=0v v2=5v td=0 tr=0.1n tf=0.1n pw=1ns per=2ns
+mosnbsim3:m1 Two One 0 0 model="bsim3n"
+mosnbsim3:m2 Three Two 0 0 model="bsim3n"
+mosnbsim3:m3 Four Three 0 0 model="bsim3n"
+mospbsim3:m1 Two One 1 1 model="bsim3p"
+mospbsim3:m2 Three Two 1 1 model="bsim3p"
+mospbsim3:m3 Four Three 1 1 model="bsim3p"
+mospbsim3:m4 Five Four 1 1 model="bsim3p"
+mospbsim3:m5 Six Five 1 1 model="bsim3p"
+mospbsim3:m6 Seven Six 1 1 model="bsim3p"
+mosnbsim3:m6 Seven Six 0 0 model="bsim3n"
+mosnbsim3:m5 Six Five 0 0 model="bsim3n"
+mosnbsim3:m4 Five Four 0 0 model="bsim3n"
+vsource:vdd 1 0 vdc=5v
+
+
+.tran4 tstop=6ns tstep=0.1ns deriv=0 im=0 cm=1 reltol=0.10
+
+
+.out plot term "One" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vgsinv1.tran"
+.out plot term "Three" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vdsinv3.out"
+.out plot term "Two" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vdsinv2.out"
+.out plot term "Four" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vdsinv4.out"
+.out plot term "Five" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vdsinv5.out"
+.out plot term "Six" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vdsinv6.out"
+.out plot term "Seven" vt  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/sixinverter_prj/vdsinv7.out"
+
+
+
+.end

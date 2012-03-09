@@ -1,0 +1,27 @@
+* AC Analysis
+.ac start = 1e6 stop = 1GHz n_freqs=100
+
+vsource:v2 4 0 vac= 5
+resistor:rs2 4 5 r=50
+chebyshevHPF:f2 5 0 6 n=21 f0=300e6 z0=50 ripple=1 ql=1000 qc=1000
+resistor:rl2 6 0 r=50
+
+.options gnuplot
+
+.options preample1="set logscale x; set term x11 font 'helvetica,13';
+set title 'Chebyshev Filter Magnitude Response'; set xlabel 'FREQUENCY (MHz)'; 
+set ylabel 'MAGNITUDE (dB)"
+.out plot term 6 vf term 4 vf div mag 2 mult db 1e-6 scalex preample1 in "chebyshevhpf.ac.mag"
+
+.options preample2="set logscale x; set term x11 font 'helvetica,13';
+set title 'Chebyshev Filter Phase Response'; set xlabel 'FREQUENCY (MHz)'; 
+set ylabel 'phase (DEGREES)"
+.out plot term 6 vf term 4 vf div prinphase 1e-6 scalex rad2deg preample2 in "chebyshevhpf.ac.phase"
+
+.end
+
+
+
+
+
+

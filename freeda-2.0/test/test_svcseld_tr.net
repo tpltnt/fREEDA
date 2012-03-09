@@ -1,0 +1,49 @@
+Simple Thermal VCSEL Diode (Mena et al. Model)
+* Time-marching Transient analysis "tran2" with a current pulse input
+**********************************************************************
+
+.tran2 tstop=5n tstep=.005n im=0 out_steps=1 
+
+vpulse:vs  1 0 v1=1m v2=15m  td=0n  tr=.1n  tf=.1n  pw=4n  per=5n
+
+*circuit to convert current to voltage since
+*fREEDA does not have a current pulse
+vsource:vp 1 11 vac=0
+g:g1 11 2 0 0 g=-1 ri=1e12 ro=1e12
+
+vsource:vcurrf 2 3 vac=0v
+
+vcsel:ld1 3 0 4 "nref" 5 "tref" 6 "oref" 7 "pref" 8 "lref" 
+*+etai=1 beta=1e-6 tn=5e-9 k=2.6e-8 g0=1.6e4 n0= 1.654e7 tp=2.064e-12
+*+a0=-2.734e-4 a1=-2.125e-5 a2=1.837e-7 a3=3.183e-10 a4=0 rho=2.4e-9
+*+n=3.5 lambda0=863e-9 rth=9.8e3 tth=1e-6 t0=25
+
+open:o1 4 "nref"
+*r:rnn 4 "nref" r=1
+
+open:o2 5 "tref"
+*r:rth 5 55 r=2.6e3
+*c:cth 5 55 c=0.384615n
+*vsource:vt0 55 "tref" vdc=20
+
+open:o3 6 "oref"
+*r:roo 6 "oref" r=1
+
+*open:o4 7 "pref"
+r:rpp 7 "pref" r=1
+*open:o5 8 "lref"
+r:rll 8 "lref" r=1
+
+.ref "nref"
+.ref "tref"
+.ref "oref"
+.ref "pref"
+.ref "lref"
+
+.out plot term 3 vt in "SVCSELD_v_T0_20_pulse_freeda"
+.out plot term 4 vt in "SVCSELD_n_T0_20_pulse_freeda"
+.out plot term 5 vt in "SVCSELD_t_T0_20_pulse_freeda"
+.out plot term 6 vt in "SVCSELD_o_T0_20_pulse_freeda"
+.out plot term 7 vt in "SVCSELD_p_T0_20_pulse_freeda"
+.out plot term 8 vt in "SVCSELD_l_T0_20_pulse_freeda"
+.end

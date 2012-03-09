@@ -1,0 +1,146 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Voltage-Controlled Current
+Source}\hspace{\fill}\textbf{vccs}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=2.5in\epsfbox{figures/g_spice.ps}}
+\caption{Voltage-controlled current source element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt vccs$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ \cdots$
+$\langle \tt{parameter\ list}\rangle$
+\begin{tabular}{r l}
+$n_1$, $n_2\ \cdots$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+g: Transconductance (Siemens) & DOUBLE & n/a & yes \\
+\hline
+ri: Input resistance value(Ohms) & DOUBLE & 0 & no\\
+\hline
+ro: Output resistance value(Ohms) & DOUBLE & 0 & no\\
+\hline $\mathrm{poly_{coeff}}$: Coefficients of polynomial &
+DOUBLE VECTOR
+& See source file. & no\\
+\hline
+polydimension: Dimension of polynomial & INTEGER & 1 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{G1\ 5\ 0\ POLY(1)\ 3\ 2\ 1\ 2.5}
+\newline
+\texttt{vccs:g1\ 1\ 2\ 0\ 0\ g=1e-3\ ri=1e3\ ro=2e3}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The voltage controlled current source is either a linear or
+nonlinear function of controlling node voltages, depending on
+whether the polynomial is used or not.\\
+\textit{\underline{Polynomial Functions}:}\\
+The controlled element statement allows the definition of the
+controlled current source as a polynomial function of one or more
+voltages. Three polynomial equations can be used through the
+POLY(N) parameter. POLY(1) one-dimensional equation, POLY(2)
+two-dimensional equation, POLY(3) three-dimensional equation. The
+POLY(1) polynomial equation specifies a polynomial equation as a
+function of one controlling variable, POLY(2) as a function of two
+controlling variables, and POLY(3) as a function of three
+controlling variables. Along with each polynomial equation are
+polynomial coefficient parameters ($P_0, P_1 \cdots P_n$) that can
+be set to explicitly define the equation.\\
+\textit{\underline{One-Dimensional Function}:}\\
+If the function is one-dimensional (a function of one node
+voltage), the function value FV is determined by the following
+expression:
+\begin{equation}
+FV = P_0 + (P_1.FA) + (P_2.{FA}^2) + (P_3.{FA}^3)+ (P_4.{FA}^4) +
+(P_5.{FA}^5) + \cdots
+\end{equation}
+\begin{tabular}{r l}
+FV & controlled current from the controlled source, \\
+&  \\
+$P_0 \cdots P_n$ & coefficients of polynomial equation, \\
+&  \\
+FA & controlling node voltage.  \\
+\end{tabular}
+\newline
+If the polynomial is one-dimensional and exactly one coefficient
+is specified, \FDA assumes it to be $P_1 (P_0 = 0.0)$ to
+facilitate the input of linear controlled sources.\\
+\textit{\underline{One-Dimensional Example}:}\\
+The example given above is a one-dimensional function. The above
+voltage-controlled current source is connected between nodes 5 and
+0. The single dimension polynomial function parameter, POLY(1),
+means that G1 is a function of the difference of one nodal voltage
+pair, in this the voltage difference between nodes 3 and 2, hence
+$FA=V(3,2)$. The dependent source statement then specifies that
+P0=1 and P1=2.5. From the one-dimensional polynomial equation
+above, the defining equation for I(5,0) is
+$I(5,0) = 1 + 2.5*V(3,2)$.\\
+\textit{\underline{Two-Dimensional Function}:}\\
+Where the function is two-dimensional (a function of two node
+voltages), FV is determined by the following expression:
+\begin{eqnarray}
+FV &=& P_0 + (P_1.FA) + (P_2.FB) + (P_3.{FA}^2) + (P_4.FA.FB) + \nonumber\\
+& &(P_5.{FB}^2) + (P_6.{FA}^3) + (P_7.{FA}^2.FB) + (P_8.FA.{FB}^2)
++(P_9.{FB}^3)+ \cdots \nonumber\\
+\end{eqnarray}
+For a two-dimensional polynomial, the controlled current source is
+a function of two nodal voltages. To specify a two-dimensional
+polynomial, set POLY(2) in the controlled source statement.\\
+\textit{\underline{Three-Dimensional Function}:}\\
+For a three-dimensional polynomial function with arguments FA, FB,
+and FC, the function value FV is determined by the following
+expression:
+\begin{eqnarray}
+FV &= &P_0 + (P_1.FA) + (P_2.FB) + (P_3.FC) + (P_4.{FA}^2) +\nonumber\\
+& &(P_5.FA.FB) + (P_6.FA.FC) + (P_7.{FB}^2) + (P_8.FB.FC) +
+(P_9.{FC}^2)
++ \nonumber\\
+& &(P_{10}.{FA}^3) + (P_{11}.{FA}^2.FB) + (P_{12}.{FA}^2.FC) + (P_{13}.FA.{FB}^2) + \nonumber\\
+& &(P_{14}.FA.FB.FC) + (P_{15}.FA.{FC}^2) + (P_{16}.{FB}^3) + (P_{17}.{FB}^2.FC) + \nonumber\\
+& &(P_{18}.FB.{FC}^2) + (P_{19}.{FC}^3) + (P_{20}.{FA}^4) + \cdots \nonumber\\
+\end{eqnarray}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{G} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.05.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & May 2002 & \epsfxsize=1in\pfig{logo.eps} \\
+svuppath@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

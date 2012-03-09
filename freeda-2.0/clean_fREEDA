@@ -1,0 +1,45 @@
+#!/bin/bash
+# Run this script from the top level freeda-<version> directory
+
+echo "************************************"
+echo "   Cleaning... "
+echo "************************************"
+
+# FFTW
+cd libs/fftw-2.1.5
+make clean
+
+cd ../../simulator
+make clean
+rm ifreeda
+
+cd lib
+rm -f *.a
+
+cd ../../ifreeda
+make clean
+rm -f Makefile
+
+cd components
+rm -f moc_*
+make clean
+rm -f Makefile
+
+cd ../diagrams
+rm -f moc_*
+make clean
+rm -f Makefile
+
+cd ../dialogs
+rm -f moc_*
+make clean
+rm -f Makefile
+
+cd ../paintings
+rm -f moc_*
+make clean
+rm -f Makefile
+
+cd ../../
+echo "Executables and Objects Cleaned."
+

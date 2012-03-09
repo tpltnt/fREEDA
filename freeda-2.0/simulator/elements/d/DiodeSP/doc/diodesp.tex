@@ -1,0 +1,91 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{../../../style/freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Spice diode model(conserves charge)}
+\hspace{\fill}\textbf{d}}\\
+\hrulefill \linethickness{0.5mm} \line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\pfig{diode_transim.ps}} \caption{d ---
+\texttt{SPICE} diode Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt d$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ \cdots$
+$\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$, $n_2$ $\cdots$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+is: Saturation current (A) & DOUBLE & 1e-14 & no \\
+\hline
+n: Emission coefficient & DOUBLE & 1 & no \\
+\hline
+ibv: Current magnitude at the & DOUBLE & 1e-10 & no  \\
+reverse breakdown voltage (A) & & & \\
+\hline
+bv: Breakdown voltage (V) & DOUBLE & 0 & no  \\
+\hline
+fc: Coefficient for forward-bias & DOUBLE & 0.5 & no  \\
+depletion capacitance & & & \\
+\hline
+cj0: Zero-bias depletion capacitance (F) & DOUBLE & 0 & no  \\
+\hline
+vj: Built-in junction potential (V) & DOUBLE & 1 & no  \\
+\hline
+m: PN junction grading coefficient & DOUBLE & 0.5 & no  \\
+\hline
+tt: Transit time (s) & DOUBLE & 0 & no  \\
+\hline
+area: Area multiplier & DOUBLE & 1 & no  \\
+\hline
+charge: Use charge-conserving model & BOOLEAN & true & no  \\
+\hline
+rs: Series resistance (ohms) & DOUBLE & 0 & no  \\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{.model\ carlos\ d\ (is=2.24e-12 n=1.8307 cj0=1.32767e-15
+rs=171.9 + vj=1.27517 \\m=0.810205 ibv=1.e-5 bv=16. charge=0)}
+\newline
+\texttt{d:d2 102 0 model = "carlos" area=258.63}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\ %%%%%%%%%%%%%%%%What is the SPICE equivalent?%%%%%%%%%%%%%%%%%%%%%%%
+This is the \texttt{D} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2001.05.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & May 2001 & \epsfxsize=1in\pfig{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

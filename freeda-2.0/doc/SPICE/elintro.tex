@@ -1,0 +1,25 @@
+Two different forms of initial conditions may be specified  for
+some  devices.   The  first  form  is included to
+improve the dc convergence for circuits  that  contain  more
+than one stable state.  If a device is specified OFF, the dc
+operating point is determined with the terminal voltages for
+that device set to zero.  After convergence is obtained, the
+program continues to iterate to obtain the exact  value  for
+the  terminal  voltages.   If a circuit has more than one dc
+stable state, the OFF option can be used to force the  solution
+to  correspond  to  a  desired  state.  If a device is
+specified OFF when in reality the device is conducting,  the
+program will still obtain the correct solution (assuming the
+solutions converge) but more  iterations  will  be  required
+since   the  program  must  independently  converge  to  two
+separate solutions.  The .NODESET line serves a similar purpose
+as  the  OFF option.  The .NODESET option is easier to
+apply and is the preferred means to aid convergence.
+
+The second form of initial conditions are specified for
+use  with  the  transient analysis.  These are true 'initial
+conditions' as opposed to the convergence aids  above.   See
+the  description  of  the  .IC line and the .TRAN line for a
+detailed explanation of initial conditions.
+
+

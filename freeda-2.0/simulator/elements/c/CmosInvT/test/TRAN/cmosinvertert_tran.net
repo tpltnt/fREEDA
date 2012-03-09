@@ -1,0 +1,39 @@
+* Thermal CMOS Inverter DC Analysis
+
+**** This netlist is for DC Analysis of Thermal Cmos Inverter. The Inverter is based on EKV mosfet model
+.options initTmp=300
+.ref "tref"
+.ref 0
+
+.tran2 tstop=4e-6 tstep=1e-10
+vpulse:Vin2 22 0 v1=0 v2=5 per=2e-6 pw=1e-6 tr=0.002e-6 tf=0.002e-6
+
+*** Vdd connection 
+vsource:Vdd 1 0 vdc=5
+
+***** Instantiation of Thermal Cmos Inverter
+cmosinvt:invt 1 2 3 0 2000 "tref" tmp=initTmp wn=20e-6 wp=50e-6
+
+* Source Resistance
+r:Rsource 22 2 r=10
+* Source Capacitance
+c:Csource 2 0 c=1e-12
+
+**** Load Resistance
+r:Rout 3 0 r=1000000
+**** Load Capacitance
+c:Cout 3 0 c=1e-12
+
+****Thermal 
+r:Rthermal 2000 2001 r=20e3
+c:Cthermal 2000 2001 c=1e-12
+vsource:vt1 2001 "tref" vdc=initTmp
+
+***Plot
+.options gnuplot
+.out plot term 3 vt in "Vout_300K_20k.out"
+.out plot term 2000 vt in "JunctionTemp_300K_20k.out"
+.out plot element "vsource:vt1" 0 it in "Iheat_300K_20k.out"
+**.out plot element "cmosinvt:invt" 0 it in "inv_current.out"
+**.out plot term 2 vt in "vin.out"
+.end

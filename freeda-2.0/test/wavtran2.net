@@ -1,0 +1,39 @@
+*** Wavelet test netlist ***
+
+.OPTIONS FREQ = 10e9 rtol=1e-9 nonlin=4 maxit=200
+
+.wavtran L=8 J=-1 tf=.1e-9 max_nw=15 savemnam=0 nsteps=2
+
+*.svhb n_freqs = 15 fundamental = FREQ  steps=4 deriv=0
+
+*.svtr tstop = 1e-9 n_freqs = 32768 tstep = .001e-9 opt=0 adjust=0 imp_tol=2
+*+ rcomp = 25
+
+vsource:v1 11 0 f= freq vac=5. phase = -90 
+resistor:rin 11 1 r=50
+inductor:load1 1 0 l=50n
+*capacitor:rs 1 0 c=2pF int_res=1e4
+*resistor:rtest 1 0 r=100.
+
+diode:d2 1 0 js=5.1e-14 alfa=38.696 jb=1.0e-5 vb=-1.0e50 e=10 
++ gama=0.810205 fi=1.27517 afac=38.696 area=271 r0=10. ct0=1.32767e-15
+
+* additional branch
+diode:d1 5 1 js=5.1e-14 alfa=38.696 jb=1.0e-5 vb=-1.0e50 e=10 
++ ct0=1.32767e-15 gama=0.810205 fi=1.27517 afac=38.696 area=271 r0=10.
+resistor:rb 5 0 r=10
+
+.out plot element "diode:d2" 0 ut in "vnl2.tranw"
+.out plot element "diode:d2" 0 it in "inl2.tranw"
+.out plot element "diode:d2" 0 xt in "xw2.tran"
+
+.out plot element "diode:d1" 0 ut in "vnl1.tranw"
+.out plot element "diode:d1" 0 it in "inl1.tranw"
+.out plot element "diode:d1" 0 xt in "xw1.tran"
+
+*.out plot term 1 vf invfft 3 repeat in "vnl.hb"
+*.out plot element "diode:d2" 0 if invfft 3 repeat in "inl.hb"
+
+.end
+
+

@@ -1,0 +1,42 @@
+* Thermal CMOS Nand DC Analysis
+
+**This netlist is for  DC Analysis of 2 input Thermal Cmos Nand Gate Model **
+
+.options initTmp=300
+.ref "tref"
+.ref 0
+
+*** DC Sweep First input
+.dc sweep="vsource:Vin1" start=0 stop=5 step=0.01
+vsource:Vin1 22 0
+*** Tie Second input to Vdd
+vsource:Vin2 33 0 vdc=5
+*** Vdd connection
+vsource:Vdd 1 0 vdc=5
+
+***Thermal Nand Instantiation
+cmos2nandt:nand 1 2 3 4 0 2000 "tref" tmp=initTmp
+
+**  Source Resistance and Capacitance
+r:in2 22 2 r=10
+r:in3 33 3 r=10
+c:in2 2 0 c=1e-12
+c:in3 3 0 c=1e-12
+
+****Out Resistance and Capacitance
+r:R 4 0 r=1000000
+c:C 4 0 c=1e-12
+
+**** Thermal
+r:Rthermal 2000 2001 r=20e3
+c:Cthermal 2000 2001 c=1e-12
+vsource:vt1 2001 "tref" vdc=initTmp
+
+.options gnuplot
+.out plot term 4 vt in "Vout_300K_20k.out"
+.out plot term 2000 vt in "JunctionTemp_300K_20k.out"
+.out plot element "vsource:vt1" 0 it in "Iheat_300K_20k.out"
+
+*.out plot term 22 vt in "vin1.out"
+*.out plot term 33 vt in "vin2.out"
+.end

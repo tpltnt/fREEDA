@@ -1,0 +1,110 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE\textbf{MESFET Curtice Ettemberg Model}
+\hspace{\fill}\textbf{mesfetc}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the mesfet figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1.5in\epsfbox{figures/b.ps}} \caption{B --- MESFET
+element.}
+\end{figure}
+\newline
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{\FDA Form:}
+%\newline
+%\newline
+$\tt mesfetc $:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_3\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node \\
+&  \\
+$n_2$ & is the gate node \\
+&  \\
+$n_3$ & is the source node \\
+& \\
+parameter list & see table 1 for parameter list
+\end{tabular}\\
+% SPICE form
+%\vspace{2mm}
+\newline
+\texttt{SPICE} \textit{Form:}
+%\newline
+%\linethickness{0.5mm} \line(1,0){425}
+\newline
+\texttt{B}\textit{name} $n_1$ $n_2$ $n_3$ \textit{ModelName} \
+[\textit{Area}]
+\newline
+%\vspace{2mm}
+% explanation of terms in the SPICE form
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node \\
+& \\
+$n_2$ & is the gate node \\
+&  \\
+$n_3$ & is the source node \\
+& \\
+\textit{ModelName} & is the model name \\
+&  \\
+\textit{Area} & is the optional relative area factor. (Units: none; Default: 1; Symbol:Area)\\
+\end{tabular}
+% example
+\newline
+%\vspace{2mm}
+\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}\\
+\newline
+%\newline
+In \textit{\FDA:}\\
+\texttt{mesfetc:b1\ 2\ 0\ 3}
+\newline
+% example in SPICE
+%\vspace{4mm}
+\newline
+In \texttt{SPICE:}
+\newline
+\texttt{B1 \ 3 \ 7 \ 4 GAAS12 0.5}
+\newline
+
+
+% The Curtice Ettemburg model
+\newpage
+\noindent\textbf{\large{$\amalg$ The Curtice-Ettemberg Model}}
+\normalsize
+\newline\\
+\textbf{ELEMENT Model}
+\newline
+\begin{figure}[h]
+\centerline{\epsfxsize=2in\pfig{mesfet_curtice_model.eps}}
+\caption{The Curtice-Ettemberg Model}
+\end{figure}
+% parameters
+%\textit{Model Parameters}
+%\newline
+\newline
+%\begin{tabular}{|r|l|c|c|}
+%\hline
+%\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+%\hline
+%\end{tabular}
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Logo \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+www4.ncsu.edu/\~\ cechrist & & & \\
+\end{tabular}
+\end{document}

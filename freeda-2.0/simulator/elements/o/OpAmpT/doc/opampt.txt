@@ -1,0 +1,36 @@
+General Purpose Operational Amplifier
+
+Usage:
+- Include source code opampt.cc and opampt.h into the elements directory
+- Modify the makefile list to include opampt.h and opampt.cc
+- See sample configurations below
+
+Design Model LM741, Fairchild Semiconductor www.fairchildsemi.com
+
+Default Element Characteristics at 25 degrees celcius
+Input Resistance:        2Mohm
+Power Supply Current:    2.8mA
+Power Supply Resistance: 11 kohm
+Output Resistance:       80 ohms
+
+Default Straight-Line Temperature Response, origin at 25C 
+Power Supply Current:  -0.0025 per degree -27 ohm per degree
+Output Resistance:     -0.0050 per degree -0.4 ohm per degree
+Input Resistance:       0.00625 per degree 12.5kohm per degree
+
+* Sample Configurations
+
+*Basic Non-Thermal Usage
+* name  Vdd V+ V- Vout gnd
+opampt:u1 1  2  3   4    0
+
+
+*Basic Thermal Usage
+* name  Vdd V+ V- Vout Temp gnd
+opampt:u1 1  2  3   4    101  0 pdr=1
+
+* Usage with all options
+* name  Vdd V+ V- Vout Temp gnd
+opampt:u1 1  2  3   4    101  0  gain=0.2 pdr=1 nomt=300
++	rin=2000000 rout=80 psr=11000 cin=0.00000005 cout=0.000005
++	rint=12500 routt=-0.4 psrt=-27

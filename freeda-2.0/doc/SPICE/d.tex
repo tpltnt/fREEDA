@@ -1,0 +1,216 @@
+\element{D}{Diode}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=1.5in\pfig{d_spice.ps}
+\caption{D --- diode element.}
+\end{figure}
+
+\form{{\tt D}name $n_1$ $n_2$ ModelName \B Area\E  \B {\tt OFF}\E
+\B {\tt IC}=$V_D$\E }
+
+\pspiceform{{\tt D}name $n_1$ $n_2$ ModelName \B Area\E  \B {\tt OFF}\E }
+
+\begin{widelist}
+\item[{\it $n_1$}] is the positive (anode) diode node.
+\item[{\it $n_1$}] is the negative (cathode) diode node.
+\item[{\it ModelName}]  is  the  model name.
+\item[{\it Area}] is an optional relative area factor.\\
+               (Units: none; Optional; Default: 1, Symbol: $Area$)
+\item[{\tt OFF}] indicates an (optional) starting  condition  on  the
+device  for  \dc\ operating point analysis.
+If specified the \dc\ operating point is calculated with the terminal voltages
+set to zero.  Once convergence is obtained, the
+program continues to iterate to obtain the exact  value of
+the  terminal  voltages.  The OFF option is used to enforce the solution
+to  correspond  to  a  desired  state if the circuit has more than one stable
+state.
+\item[{\tt IC}]  is the (optional)  initial  condition
+specification.  Using  {\tt IC} = $V_D$ is intended for use with the {\tt UIC}
+option on the other than the quiescent operating point.
+Specification of the transient initial conditions using the {\tt .IC}
+statement (see page \pageref{.ICstatement}) is preferred and is more
+convenient.
+\end{widelist}
+
+\example{DBRIDGE 2 10 DIODE1 \\
+         DCLMP 3 7 DMOD 3.0 IC=0.2}
+
+
+\modeltype{DIODE}
+\model{DIODE}{Diode Model}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=1in\pfig{diode.ps}
+\caption{Schematic of diode element model.}
+\end{figure}
+
+\begin{table}[h]
+\caption{DIODE model parameters. \label{diodetable}}
+\keywordtwotable{Area}{
+{\tt AF}  &  flicker noise exponent\sym{A_F}& -     & 1        & \X
+{\tt BV}  &  magnitude of reverse breakdown voltage (positive)\sym{V_B}&
+             V     & $\infty$ & \X
+{\tt CJO} &  zero-bias {\it p-n} junction capacitance per unit area
+             (CJ-oh) \sym{C_{J0}} & F  & 0      & \STAR \X
+{\tt EG} & bandgap voltage (barrier height) at 0~K\sym{E_G(0)}
+       \newline\hspace*{\fill} Schottky Barrier Diode: 0.69
+       \newline\hspace*{\fill} Silicon: 1.16
+       \newline\hspace*{\fill} Gallium Arsenide: 1.52
+       \newline\hspace*{\fill} Germanium: 0.67
+     & eV   & 1.11  &\X
+{\tt FC} & forward-bias depletion capacitance\sym{F_C}& -   & 0.5  & \X
+{\tt FC}  &  coefficient for forward-bias depletion capacitance formula
+\sym{F_C}& -    &  & \X
+{\tt IBV} &  magnitude of current at breakdown voltage per unit area
+             (positive)\sym{I_{BV}}
+          &    A     & $1\,10^{-10}$&\STAR\X
+{\tt IS} & saturation current per unit area\sym{I_S}& A&$1\,10^{-14}$& \STAR \X
+{\tt KF}  &  flicker noise coefficient\sym{K_F}& -     & 0        & \X
+{\tt M}   &  {\it p-n} junction grading coefficient\sym{M_J}& -& 0.5 &   \X
+{\tt N} &  emission coefficient\sym{n}& -     & 1        &   \X
+{\tt RS}  &  ohmic resistance per unit area\sym{R_S}&$\Omega$& 0 & \STAR \X
+{\tt TT}  &  transit time\sym{\tau_T}& s     & 0        &   \X
+{\tt VJ}  &  junction potential\sym{\phi_J}& V     & 1        &   \X
+{\tt XTI} &  saturation current ($I_S$) temperature exponent
+                            \sym{X_{TI}}& -     & 3.0      &    \X
+}
+\end{table}
+\note{
+\item In some \spice\ implementations {\tt XTI} is called {\tt PT}
+and {\tt VJ} is called {\tt PB}.
+\item It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}C$) specified in the most recent {\tt .OPTIONS} statement
+preceeding the {\tt .MODEL} statement.
+}
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzman's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+\noindent\underline{\sl \large Temperature Dependence}
+\index{DIODE, Temperature Dependence}
+\index{Temperature Dependence, see DIODE}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K).
+The thermal voltage
+\begin{equation}
+V_{\ms{TH}} = {{kT} \over q}\\
+\end{equation}
+and
+\begin{eqnarray}
+\IS (T) & = & \IS e^{\left( \textstyle E_g(T) {T \over {T_{\ms{NOM}}}}
+     - E_G(T) \right) /(nV_{\ms{TH}})}
+     \left({{\textstyle T} \over { \textstyle T_{\ms{NOM}}}} \right)\\
+\phi_J (T) & = & \phi_J {T \over {T_{\ms{NOM}}}} - 3V_{\ms{TH}} \ln{
+                {T \over {T_{\ms{NOM}}}} } + E_G (T_{\ms{NOM}})
+                {T \over {T_{\ms{NOM}}}} -E_G(T)\\
+C_{J0} (T) & = & C_{J0} \{1+M[0.0004(T-T_{\ms{NOM}})+(1-\phi_J(T)/\phi_J)]\} \\
+%E_g(T) & = & 1.16 - 0.000702{{T^2} \over {T+1108}}\\
+\end{eqnarray}\\[0.1in]
+\noindent\underline{\sl \large Parasitic Resistance}\\[0.1in]
+\index{DIODE, Parasitic Resistance}
+\index{Parasitic Resistance, see DIODE}
+\index{DIODE, $R_S$}
+The parasitic diode series resistance $R_S$,
+is calculated by scaling the sheet resistivity $R'_S$ (= {\tt RS})
+by the $Area$ parameter on the element line
+\begin{equation}
+R_S = R'_S/Area
+\end{equation}
+\noindent\underline{\sl \large Current Characteristics}\\[0.1in]
+\index{DIODE, Current Characteristic}
+\begin{equation}
+I_D = \left\{ \begin{array}{ll}
+      Area I_S
+      \left( e^{{{\textstyle V_D}\over{\textstyle nV_{\ms{TH}}}}}
+         -1 \right)
+      +V_D\GMIN
+      &  V_D \ge -10nV_{\ms{TH}} \\
+      -Area\,I_S
+      +V_D\GMIN
+      & -30V_{\ms{TH}}-V_B \le V_D < -10nV_{\ms{TH}} \\
+      -Area
+      \left(I_{BV} e^{\textstyle -{{\textstyle V_B+V_D}\over{\textstyle V_{\ms{TH}}}}}
+         -I_S \right)
+      +V_D\GMIN
+      &  V_D < -30V_{\ms{TH}}-V_B \\
+      \end{array} \right. %}
+\end{equation}
+where $\GMIN$ is {\tt GMIN}, the minimum conductance between
+nodes.  {\tt GMIN} is set by a {\tt .OPTIONS} statement (see page
+\pageref{.OPTIONSstatement:gmin}.)
+\noindent\underline{\sl \large Capacitance}\\[0.1in]
+\begin{equation}
+C = Area(C_J+C_D)
+\end{equation}
+and the depletion capacitance at the junction per unit area is
+\begin{equation}
+C_J = \left\{ \begin{array}{ll}
+      C_{J0} \left(1 -
+      {{\textstyle V_D}\over{\textstyle \phi_J}}\right)^{\textstyle - M}
+      & V_D < F_C\phi_J \\
+      {{\textstyle C_{J0}} \over {\textstyle F_2}}
+      \left( F_3 + {{\textstyle m V_D}\over{\textstyle \phi_J}}\right)
+      & V_D \ge F_C\phi_J \\
+      \end{array} \right. %}
+\label{diode:cj:eqn}
+\end{equation}
+where
+$\phi_J$, $F_C$, $M$ and $C_{J0}$ are the model parameters
+{\tt VJ}, {\tt FC}, {\tt M} and {\tt CJ0},
+and
+\begin{eqnarray}
+F_2 & = & ( 1 - F_C ) ^{(1+m)}\\
+F_3 & = & 1 - F_C(1+m)
+\end{eqnarray}
+The diffusion capacitance per unit area
+due to charges in transit in the depleted region is
+\begin{equation}
+C_D = \tau
+      {{\textstyle\partial I_D }\over{\textstyle\partial V_D}}
+\end{equation}
+where $\tau$ is the transit time model parameter {\tt TT}.\\[0.2in]
+\noindent\underline{\sl \large AC Analysis}\\[0.1in]
+\index{DIODE, AC Analysis}
+The AC analysis uses the model of figure  \ref{m.ps} with the capacitor values
+evaluated at the \dc\ operating point with
+the current source replaced by a linear resistor
+\begin{equation}
+R_D = {{\textstyle\partial I_D} \over {\textstyle\partial V_D}}
+\label{diode:rd:eqn}
+\end{equation}\\[0.1in]
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{DIODE, Noise Model}
+\index{DIODE, Noise Analysis}
+The DIODE noise model accounts for thermal noise generated in the
+parasitic series resistance and shot and flicker noise generated in the
+the junction.  The rms (root-mean-square) value of
+the thermal noise current generators shunting $R_S$ is
+\begin{equation}
+I_{n,S} = \sqrt{4kT/R_S}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{equation}
+The RMS value of
+noise current generators shunting $R_D$ in the \ac\ model is
+\begin{equation}
+I_{n,J} = \left(I_{\ms{SHOT}}^2 + I_{\ms{FLICKER}}^2
+                \right)
+\end{equation}
+where the RMS shot noise current is
+\begin{equation}
+I_{\ms{SHOT}} = \sqrt{2qI_D} ~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+~\mbox{A/}\sqrt{\mbox{Hz}}\\
+\end{equation}
+and the RMS flicker noise current is
+\begin{equation}
+I_{\ms{FLICKER}} = \sqrt{{{\textstyle\KF I_{D}^{\AF}}
+                         \over {\textstyle f K_{\ms{CHANNEL}}}}}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{equation}
+where $f$ is the analysis frequency and $R_D$ is the \ac junction resistance
+in (\ref{diode:rd:eqn})

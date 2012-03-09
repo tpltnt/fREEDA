@@ -1,0 +1,2558 @@
+\element{M}{MOSFET}
+\begin{figure}[h]
+\epsfxsize\textwidth\centerline{\pfig{m_spice.ps}}
+\caption[M --- MOSFET element]{M --- MOSFET element:
+(a) $n$-channel enhancement-mode MOSFET;
+(b) $p$-channel enhancement-mode MOSFET;
+(c) $n$-channel depletion-mode MOSFET;
+and (d) $p$-channel depletion-mode MOSFET.
+\label{m.ps}}
+\end{figure}
+
+{\form{{\tt M}name NDrain NGate NSsource NBulk ModelName
+              \B {\tt L}=Length\E  \B {\tt W}=Width\E  \\
+      {\tt +} \B {\tt AD}=DrainDiffusionArea\E
+              \B {\tt AS}=SourceDiffusionArea\E  \\
+      {\tt +} \B {\tt PD}=DrainPerimeter\E  \B {\tt PS}=SourcePerimeter\E \\
+      {\tt +} \B {\tt NRD}=RelativeDrainResistivity\E
+              \B {\tt NRS}=RelativeSourceResistivity\E \\
+      {\tt +} \B {\tt OFF}\E  \B {\tt IC=}$V_{DS},V_{GS},V_{BS}$\E
+     }}
+\pspiceform{{\tt M}name NDrain NGate NSsource NBulk ModelName
+              \B {\tt L}=Length\E  \B {\tt W}=Width\E  \\
+      {\tt +} \B {\tt AD}=DrainDiffusionArea\E
+              \B {\tt AS}=SourceDiffusionArea\E  \\
+      {\tt +} \B {\tt PD}=DrainPerimeter\E  \B {\tt PS}=SourcePerimeter\E \\
+      {\tt +} \B {\tt NRD}=RelativeDrainResistivity\E
+              \B {\tt NRS}=RelativeSourceResistivity\E \\
+      {\tt +} \B {\tt NRG}=RelativeGateResistivity\E
+              \B {\tt NRB}=RelativeBulkResistivity\E
+     }
+\begin{widelist}
+\item[{\it NDrain}] is the drain node.
+\item[{\it NGate}] is the gate node.
+\item[{\it NSource}] is the source node.
+\item[{\it NBulk}] is the bulk or substrate node.
+\item[{\tt ModelName}]  is  the  model name.
+\end{widelist}
+
+\newpage
+
+\begin{widelist}
+\item[{\it L}] is the channel lateral diffusion  {\it Length}.\\
+               (Units: m; Optional; Symbol: $\Length$;
+{ The default is version
+	       dependent.\\
+               \spicetwo\ and \spicethree\ Default: the
+               length {\tt DEFL} most recently specified in a {\tt .OPTION}
+               statement which in-turn defaults to 100~$\mu$m (100U);
+	       \pspice\ }Default: the length
+	       {\tt L} -- length specified in
+               model {\it ModelName} which in turn defaults to the default
+               length {\tt DEFL} most recently specified in a {\tt .OPTION}
+               statement which in-turn defaults to 100~$\mu$m (100U).)
+                 
+\item[{\it W}] is the channel lateral diffusion {\it Width}.\\
+               (Units: m; Optional; Symbol: $\W$;
+{The default is version dependent.\\
+	       \spicetwo\ and \spicethree\ Default: the
+               width {\tt DEFW} most recently specified in a {\tt .OPTION}
+               statement which in-turn defaults to 100~$\mu$m (100U);\\
+	       \pspice\ }Default: the width
+	       {\tt W} -- width specified in
+               model {\it ModelName} which in turn defaults to the default
+               width {\tt DEFW} most recently specified in a {\tt .OPTION}
+               statement which in-turn defaults to 100~$\mu$m (100U).)
+\end{widelist}
+
+~
+
+\begin{widelist}
+\item[{{\tt AD}}]  is the area of the drain diffusion
+               ({\it DrainDiffusionArea}). The default is {\tt DEFAD}
+	       most recently specified in a {\tt .OPTIONS} statement.\\
+               (Units: $\mbox{m}^2$; Optional; Default: {\tt DEFAD};
+	       Symbol: $A_D$)
+
+\item[{{\tt AS}}]  is the area of the source diffusion
+               ({\it SourceDiffusionArea}).  The default is {\tt DEFAS}
+	       most recently specified in a {\tt .OPTIONS} statement.\\
+               (Units: $\mbox{m}^2$; Optional; Default: {\tt DEFAS};
+	       Symbol: $A_S$)
+
+\item[{\tt PD}]  is the perimeter of the drain junction
+               ({\it DrainPerimeter}).\\
+               (Units: m; Optional; Default: 0; Symbol: $P_D$)
+
+\item[{\tt PS}]  is the perimeter of the source junction
+               ({\it SourcePerimeter}).\\
+               (Units: m; Optional; Default: 0; symbol: $P_S$)
+
+\item[{\tt NRD}]  is  the  relative resistivity in squares of the drain region
+               ({\it RelativeDrainResistivity}).
+               The sheet resistance {\tt RSH} specified in the model {\it
+	       ModelName} is divided  by this factor to obtain the
+	       parasitic drain resistance.\\
+	       (Units: squares; Optional; Default: 0; Symbol: $\NRD$)
+
+\item[{\tt NRS}]  is  the  relative resistivity in squares of the source region
+               ({\it RelativeSourceResistivity}).
+               The sheet resistance {\tt RSH} specified in the model {\it
+	       ModelName} is divided  by this factor to obtain the
+	       parasitic source resistance.\\
+	       (Units: squares; Optional; Default: 0; Symbol: $\NRS$)
+\item[{\tt NRG}]  is  the  relative resistivity in squares of the gate region
+               ({\it RelativeGateResistivity}).
+               The sheet resistance {\tt RSH} specified in the model {\it
+	       ModelName} is divided  by this factor to obtain the
+	       parasitic gate resistance.\\
+	       (Units: squares; Optional; Default: 0; Symbol: $\NRG$)
+\item[{\tt NRB}]  is the relative resistivity in squares of the bulk
+               (substrate) region
+               ({\it RelativeBulkResistivity}).
+               The sheet resistance {\tt RSH} specified in the model {\it
+	       ModelName} is divided  by this factor to obtain the
+	       parasitic bulk resistance.\\
+	       (Units: squares; Optional; Default: 0; Symbol: $\NRB$)
+\end{widelist}
+
+\newpage
+
+\begin{widelist}
+\item[{\tt OFF}] indicates an (optional) initial condition on the device for
+\dc\ analysis.
+If specified the \dc\ operating point is calculated with the terminal voltages
+set to zero.  Once convergence is obtained, the
+program continues to iterate to obtain the exact  value of
+the  terminal  voltages.  The OFF option is used to enforce the solution
+to  correspond  to  a  desired  state if the circuit has more than one stable
+state.
+\item[{\tt IC}] is the optional  initial condition specification.
+Using {\tt IC=}$V_{DS},V_{GS}, V_{BS}$
+is intended for use with the {\tt UIC} option
+on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+starting from other than the quiescent operating point.
+Specification of the transient initial conditions using the {\tt .IC}
+statement (see page \pageref{.ICstatement}) is preferred and is more
+convenient.
+\end{widelist}
+
+\example{M1 24 2 0 20 TYPE1 \\
+         M31 2 17 6 10 MODM L=5U W=2U \\
+         M1 2 9 3 0 MOD1 L=10U W=5U AD=100P AS=100P PD=40U PS=40U}
+
+\note{
+\item
+The parameters of a MOSFET can be completely specified in the model
+{\it ModelName}. This facilitates the use of standard transistors by using
+absolute quantities in the model.  Alternatively scalable process parameters can
+be specified in the model {\it ModelName} and these scaled by
+geometric parameters on the MOSFET element line.
+\item In \spicetwo\ and \spicethree\ the width {\tt W} can not be specified
+in the model statement.  For these simulators absolute device parameters must
+be specified in the model statement if parameters are not input on the element
+line.
+}
+
+
+\modeltype{NMOS\\PMOS}
+
+\example{
+M1 5 5 1 1 PCH L=2.0U W=20U AD=136P AS=136P\\
+$\cdot$\\
+$\cdot$\\
+$\cdot$\\
+.MODEL PCH PMOS LEVEL=2 VTO=-0.76 GAMMA=0.6 CGSO=3.35E-10\\
++ CGDO=3.35E-10 CJ=4.75E-4 MJ=0.4 TOX=225E-10 NSUB=1.6E16\\
++ XJ=0.2E-6 LD=0 UO=139 UEXP=0 KF=5E-30 LAMBDA=0.02\\
+\\
+\\
+%M3 5 3 4 0 NCH L=2.4U W=80U AD=136P AS=136P\\
+%$\cdot$\\
+%$\cdot$\\
+%$\cdot$\\
+%.MODEL NCH NMOS LEVEL=2 VTO=0.71 GAMMA=0.29 CGSO=2.89E-10\\
+%+ CGDO=2.89E-10 CJ=3.27E-4 MJ=0.4 TOX=225E-10 NSUB=3.5E16\\
+%+ XJ=0.2E-6 LD=0 UO=411 UEXP=0 KF=6.5E-28 LAMBDA=0.02 \\
+}
+
+%
+% NMOS/PMOS
+%
+\model{NMOS}{N-CHANNEL MOSFET MODEL}
+\model{PMOS}{P-CHANNEL MOSFET MODEL}
+
+
+Two groups of model parameters define the linear and nonlinear elements of the
+MOSFET models. One group defines
+absolute quantities and another group defines quantities that are multiplied
+by scaling parameters related to area and dimension which are specified on the
+element line.
+This enables the MOSFET element to be used in two ways.  Using the absolute
+quantities the characteristics of a device can be defined independent of the
+parameters on the element line. Thus the model of a standard transistor,
+perhaps resident in a library, can be used without user-knowledge required.
+Using the scalable quantities the parameters of a fabrication process
+can be defined in the model statement and scaling parameters such as the
+lateral diffusion length (specified by {\tt L}) and
+the lateral diffusion width (specified by {\tt W}), and
+the drain and source diffusion areas (specfified by {\tt AD} and {\tt AS}
+specified on the element line). 
+An example is the specification of the drain-bulk saturation current
+$I_{D,\ms{SAT}}$.  This parameter can be specified by the absolute parameter
+$\IS$ specified by the {\tt IS} model keyword.  It can also be determined
+as $\IS$ = $\JS\cdot A_D$
+using the scalable parameter $\JS$ specified by the {\tt JS} model keyword
+and $A_D$ specified by the {\tt AD} element keyword.
+
+\spice\ provides four MOSFET device models.  The first three models, known as
+{\tt LEVEL}s 1, 2 and 3 differ
+in  the formulation of the I-V characteristic.  The fourth model, known as
+the BSIM model, uses a completely different formulation utilizing extensive
+semiconductor parameters.
+The parameter {\tt LEVEL} specifies the model to be used:
+\\[0.2in]
+\noindent\begin{longtable}{p{0.9in}p{0.2in}p{4in}}
+         LEVEL = 1& $\rightarrow$ &  ``Shichman-Hodges'', MOS1\newline
+                    This model was the first SPICE MOSFET model and
+		      was developed
+		      in 1968 \cite{shichman:hodges:68}.
+		      It is an elementary model and has a limited
+		      scaling capability.  It is applicable to fairly large
+		      devices with gate lengths greater than 4~$\mu$m.
+		      Its main attribute is that only a few parameters need
+		      be specified and so it is good for preliminary analyses.\\
+		      \\
+         LEVEL = 2& $\rightarrow$ &  MOS2\newline
+             This is an analytical model which uses a combination of
+	     processing parameters and geometry. The major development over
+	     the {\tt LEVEL} 1 model is improved treatment of the
+	     capacitances due to the channel charge.  
+	     \cite{meyer:71,ward:dutton:78,oh:ward:80}.  The model dates
+	     from 1980 and is applicable for chanel lengths of 2~$\mu$m
+	     and higher \cite{vladimirescu:liu:80}.
+
+             The {\tt LEVEL} 2 model has convergence problems and is slower and
+	     less accurate than the {\tt LEVEL} 3 model.\\
+         LEVEL = 3& $\rightarrow$ &  MOS3\newline
+             This is a semi-empirical model developed in 1980
+             \cite{vladimirescu:liu:80}.  It is also
+	     used for gate lengths of 2~$\mu$m and more.
+	     The parameters of this model are determined by experimental
+	     characterization and so it is more accurate than the {\tt LEVEL}
+             1 and 2 models that use the more indirect process parameters.
+	     \\
+         LEVEL = 4& $\rightarrow$ &  BSIM \newline
+             The BSIM model is an advanced empirical model which uses process
+	     information and a larger number of parameters (more than 60)
+	     to describe the operation of devices with gate lengths as short
+	     as 1~$\mu$m.  It was developed in 1985 \cite{sheu:scharfetter:87}.
+         \end{longtable}
+
+Other MOSFET models or {\tt LEVEL}s are available in various versions of SPICE.
+These {\tt LEVEL}s are optimized for MOSFETs fabricated in a particular
+foundary or provide a proprietary edge for the advanced commercial SPICE
+programs. The reader interested in more advanced MOSFET models is refered
+to \cite{lee:shur:93}.\\[0.2in]
+\noindent\myline
+\noindent{\large\bf LEVEL 1, 2 and 3 MOSFET models.}
+\noindent\myline
+
+The schematic of the LEVEEL 1, 2 and 3 MOSFET models is shown in Figure
+\ref{mlevel123}.
+\begin{figure}
+\epsfxsize=2.75in\centerline{\pfig{level123.ps}}
+\caption[Schematic of {\tt LEVEL} 1, 2 and 3 MOSFET models]{Schematic of {\tt LEVEL}
+1, 2 and 3 MOSFET models. \label{mlevel123}
+$V_{GS}$, $V_{DS}$, $V_{GD}$, $V_{GB}$, $V_{DB}$ and $V_{BS}$ are voltages
+between the internal gate, drain, bulk and source terminals designated
+$G$, $D$, $B$ and $C$ respectively.
+}
+\end{figure}
+
+\noindent The {LEVEL} 1, 2 and 3 models have much in common.
+These models evaluate the junction depletion capacitances
+and parasitic resistances of a transistor in the same way.
+They differ in the procedure used to evaluate the overlap capacitances
+($C_{GD}$, $C_{GS}$ and $C_{GB}$) and
+that used to determine the current-voltage characteristics
+of the active region of a transistor.
+The overlap capacitances model charge storage as nonlinear thin-oxide
+capacitance distributed among the gate, source drain and bulk regions.
+These capacitances are important in describing the operation of MOSFETs.
+The {\tt LEVEL} 1, 2 and 3 models are intimately intertwined as
+combinations of parameters can result in using equations from more than one
+model.
+The {\tt LEVEL} parameter resolves conflicts when there is more than one way
+to calculate the transistor characteristics with the parameters specified by
+the user.
+Antognetti and Massobrio provide a
+comprehensive discussion of the development of the {\tt LEVEL} 1, 2 and 3 models
+\cite{antognetti:massobrio:88}.
+
+The parameters of the {\tt LEVEL} 1, 2 and 3 models are given in
+table \ref{mtable123}.
+Parameter extensions are given in table
+\ref{mtable123pspice}.
+It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}C$) specified in the most recent {\tt .OPTIONS} statement
+preceeding the {\tt .MODEL} statement.
+In \pspice\ this is overwritten by the {\tt T\_MEASURED} parameter.
+Most of the parameters have default values. Those parameters that have INFERRED
+defaults are calculated from other parameters.
+
+\begin{longtable}[h]{|p{0.6in}|p{3.5in}|p{0.6in}|p{0.6in}|}
+\caption[MOSFET model keywords.]{MOSFET model 
+keywords for {\tt LEVEL}s 1, 2, 3.
+ \label{mtable123}}\\
+
+\hline
+\multicolumn{1}{|c}{\bf Name} &
+\multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+\multicolumn{1}{|c}{\bf Units} &
+\multicolumn{1}{|c|}{\bf Default}\\ \hline
+\endhead
+
+\hline \multicolumn{4}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+{\tt AF}      &flicker noise exponent       \sym{\AF}& -     &   1      \X
+{\tt CBD} &zero-bias B-D junction capacitance \sym{\CBD}
+     & F     &   0    \X
+{\tt CBS} &zero-bias B-S junction capacitance \sym{\CBS}
+     & F     &   0    \X
+{\tt CGBO}    &gate-bulk overlap capacitance
+         per meter of channel length \para\sym{\CGBO}&F/m   &   0    \X
+{\tt CGDO}    &gate-drain overlap capacitance
+         per meter of channel width\para\sym{\CGDO}& F/m   &   0    \X
+{\tt CGSO}    &gate-source overlap capacitance
+         per meter of channel width \para\sym{\CGSO}&F/m   &   0    \X
+{\tt CJ}      &zero-bias bulk junction bottom capcitance
+         per square meter of junction area \para \sym{\CJ}&$\mbox{F/m}^2$&0\X
+{\tt CJSW}    &zero-bias bulk junction sidewall capacitance
+         per meter of junction perimeter \para\sym{\CJSW}&F/m&0\X
+{\tt DELTA}   &width effect on threshold voltage
+         ({\tt LEVEL}=2 and {\tt LEVEL}=3)   \sym{\DELTA}  & -     &   0      \X
+{\tt ETA}     &static feedback ({\tt LEVEL}=3 only)  \sym{\ETA} & -& \inferred\X
+{\tt FC}      &coefficient for forward-bias
+         depletion capacitance\newline formula \para \sym{\FC}&- & 0.5\X
+{\tt GAMMA}
+   &bulk threshold parameter\sym{\GAMMA}& $\mbox{V}^{\frac{1}{2}}$&   \inferred\X
+{\tt IS}
+      &bulk junction saturation current \para \sym{\IS}  & A     &   $10^{-14}$\X
+{\tt JS}      &bulk junction saturation current
+         per sq-meter of junction area \para\sym{\JS}&$\mbox{A/m}^2$ &0\X
+{\tt KAPPA}   &saturation field factor ({\tt LEVEL}=3 only) \sym{\KAPPA}&
+          -     &   0.2\X
+{\tt KF}      &flicker noise coefficient\sym{\KF}& -     &   0         \X
+{\tt KP}
+      &transconductance parameter \sym{\KP}   & $\mbox{A/V}^2$&   2.$10^{-5}$  \X
+{\tt LAMBDA}  &channel-length modulation
+                  \newline ({\tt LEVEL}=1, 2 only) \sym{\LAMBDA}
+	&   1/V      &  0\X
+{\tt LD}      &lateral diffusion   \sym{\LD}&m       &   0      \X
+{\tt LEVEL}   &model index                       & -     &   1 \X
+{\tt MJ}      &bulk junction bottom grading coefficient \para
+ \sym{\MJ}& -     &   0.5  \X   
+{\tt MJSW}
+    &bulk junction sidewall grading coefficient
+    \para\sym{\MJSW}&-&0.33  \X
+{\tt NSUB}
+    &substrate doping  \sym{\NSUB}     &$\mbox{cm}^{-3}$&   \inferred    \X
+{\tt NSS}
+     &surface state density \sym{\NSS}
+     &$\mbox{cm}^{-2}$&   \inferred    \X
+{\tt NFS}
+     &fast surface state density\sym{\NFS}   &$\mbox{cm}^{-2}$&   0      \X
+{\tt NEFF}    &total channel charge (fixed and
+         mobile) coefficient ({\tt LEVEL}=2 only) \sym{\NEFF}&- &1 \X
+{\tt PB}
+      &bulk junction potential \sym{\PB}\newline
+       (This is the interface potential in the channel relative to the source
+       at threshold.)
+& V     &   0.8       \X
+{\tt PHI}
+     &surface inversion potential   \sym{\PHI}   & V     &   0.6       \X
+{\tt RD}      &drain ohmic resistance \para\sym{\RD}&$\Omega$&   0       \X
+{\tt RS}      &source ohmic resistance \para\sym{\RS}  & $\Omega$&   0\X
+{\tt RSH}     &drain and source diffusion
+         sheet resistance \para\sym{\RSH}     & $\Omega$/square&   0      \X
+{\tt THETA}   &mobility modulation ({\tt LEVEL}=3 only) \sym{\THETA} &
+                 1/V   &   0         \X
+{\tt TOX}
+     &oxide thickness\sym{\TOX}\newline
+     Default for {\tt LEVEL} 2 and 3 is 0.1~$\mu$m.\newline
+     If {\tt LEVEL} 1 and {\tt TOX} is omitted then the process oriented model
+     is not used.
+     & m   &   -  \X
+{\tt TPG}     &type of gate material: \sym{\TPG} \newline
+\hspace*{\fill} 1 $\rightarrow$ polysilicon, opposite type to substrate \newline
+\hspace*{\fill} $-1$ $\rightarrow$ polysilicon, same type as substrate \newline
+        \hspace*{\fill} 0 $\rightarrow$  aluminum gate           & -       & 1\X
+{\tt UCRIT}   &critical field for mobility
+         degradation ({\tt LEVEL}=2 only) \sym{\UCRIT}& V/cm  &   $10^4$ \X
+{\tt UEXP}    &critical field exponent in
+         mobility\newline degradation ({\tt LEVEL}=2 only) \sym{\UEXP}& -&0\X
+{\tt UO}      & surface mobility (U-oh) \sym{\UO}
+        &$\mbox{cm}^2/\mbox{V-s}$&600\X
+{\tt UTRA}    &transverse field coefficient (mobility)
+         ({\tt LEVEL} = 1 and 3 only)\sym{\UTRA}& -     &   0        \X
+{\tt VMAX}    &maximum drift velocity of carriers\sym{\VMAX}
+        & m/s   &   0    \X
+{\tt VTO}     &zero-bias threshold voltage\newline
+                 N-channel devices: positive for enhancement mode
+		 \newline \hspace*{\fill} and negative
+		 for depletion mode devices.\newline
+                 P-channel devices: negative for enhancement mode
+		 \newline \hspace*{\fill} and positive
+		 for depletion mode devices.\newline
+                 (VT-oh) \sym{\VTZERO}
+		 &V&0\X
+{\tt XJ}      &metallurgical junction depth\sym{\XJ}    & m       &   0\X
+{\tt JSSW}    & bulk $p$-$n$ junction sidewall current per unit length
+                   \para\sym{\JSSW} & A/m   &   0 \X
+{\tt L}    & channel length \sym{\Length} & m     &   {\tt DEFL}  \X
+{\tt N}    & bulk $p$-$n$ emission coefficient \para\sym{\N} & - & 0      \X
+{\tt PBSW} & bulk $p$-$n$ sidewall potential
+                \para\sym{\PBSW}&V&{\tt PB} \X
+{\tt RB}   & bulk ohmic resistance \para\sym{\RB} & $\Omega$&   0      \X
+{\tt RG}   & gate ohmic resistance \para\sym{\RB} & $\Omega$&   0   \X
+{\tt RDS}  & drain-source shunt resistance\sym{\RDS}&$\Omega$  & $\infty$   \X
+{\tt T\_ABS}& \sym{T_{\ms{ABS}}}
+	   & $^{\circ}$C & current\newline temp.\X
+\multicolumn{2}{|l|}{{\tt T\_MEASURED}}
+	   & $^{\circ}$C & TNOM\\
+	   &\sym{T_{\ms{MEASURED}}}&&\X
+\multicolumn{2}{|l|}{{\tt T\_REL\_GLOBAL}}
+	   & $^{\circ}$C & 0\\
+	   &\sym{T_{\ms{REL\_GLOBAL}}}&&\X
+\multicolumn{2}{|l|}{{\tt T\_REL\_LOCAL}}
+	   & $^{\circ}$C & 0\\
+	   &\sym{T_{\ms{REL\_LOCAL}}}&&\X
+{\tt TT}   & bulk $p$-$n$ transit time\sym{\TT} & s     &   0      \X
+{\tt W}    & channel width \sym{\W} & m     &   {\tt DEFW}  \X
+{\tt WD}   & lateral diffusion width\sym{\WD} & m     &   0      \X
+{\tt XQC}  & fraction of channel charge attributable to drain in
+             saturation region \sym{\XQC}\newline
+	     If $\XQC > 0.5$ the Meyer Capacitance Model is used.\newline
+	     If $\XQC \le 0.5$ the Ward-Dutton Capacitance Model is used.\newline
+	     & -&   1\X
+\end{longtable}
+
+The MOSFET {\tt LEVEL} 1,2 and 3 parameters fall into three categories: absolute
+device parameters, scalable and process parameters and geometric parameters.
+In most cases the absolute device parameters can be derived from the scalable
+and process
+parameters and the geometry parameters.   However, if specified, the values
+of the device parameters are used.
+
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzman's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+$\epsilon_0$& free space permittivity &  $8.854214871\,10^{-12}$~F/m\\
+$\epsilon_{\ms{Si}}$& permittivity of silicon &  $11.7 \epsilon_0$\\
+$\epsilon_{\ms{OX}}$& permittivity of silicon dioxide &  $3.9 \epsilon_0$\\
+$n_i$&intrinsic concentration of silicon @ 300~K& $1.45\,10^{16}~\mbox{m}^{-3}$\\
+\hline
+\end{tabular}
+\end{center}
+%vbi is $F_{\ms{FB}}$\\
+%wkfng is $\phi_{\ms{GATE}}$ ???\\
+%wkfngs is $\phi_{\ms{MS}}$\\
+%egfet is $E_G$ ??? \\
+
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+
+\noindent
+Absolute temperatures (in kelvins, K) are used.
+The thermal voltage
+\begin{equation}
+V_{\ms{TH}}(T_{\ms{NOM}}) = {{kT_{\ms{NOM}}} \over q} .
+\end{equation}
+\noindent The silicon bandgap energy
+\begin{equation}
+E_G(T_{\ms{NOM}})=1.16 - 0.000702{{4T_{\ms{NOM}}^2} \over {T_{\ms{NOM}}+1108}} .
+\end{equation}
+The difference of the gate and bulk contact potentials
+\begin{equation}
+\phi_{\ms{MS}} = \phi_{\ms{GATE}} - \phi_{\ms{BULK}} .
+\end{equation}
+The gate contact potential
+\begin{equation}
+\phi_{\ms{GATE}} = \left\{ \begin{array}{ll}
+        3.2 & \mbox{$\TPG = 0$}\\
+        3.25& \mbox{NMOS \& $\TPG = 1$}\\
+        3.25 + E_G     & \mbox{NMOS \& $\TPG = -1$}\\
+        3.25 + E_G     & \mbox{PMOS \& $\TPG = 1$} \\
+        3.25& \mbox{PMOS \& $\TPG = -1$}
+        \end{array} \right. .
+	%}
+\end{equation}
+The potential drop across the oxide
+\begin{equation}
+\phi_{\ms{OX}} = - {{\textstyle Q'_0 } \over { C'_{\ms{OX}}}} .
+\end{equation}
+
+\noindent The contact potential of the bulk material
+\begin{equation}
+\phi_{\ms{BULK}} = \left\{ \begin{array}{ll}
+                          3.25 + E_G & \mbox{if NMOS}\\
+                          3.25       & \mbox{if PMOS}
+                          \end{array} \right. .
+			  %}
+\end{equation}
+The equivalent gate oxide interface charge per unit area
+\begin{equation}
+Q'_0 = q\NSS .
+\end{equation}
+The capacitance per unit area of the oxide is
+\begin{equation}
+C'_{OX} = {{\epsilon_{OX}} \over { \TOX}} .
+\end{equation}
+The effective length $L_{\ms{EFF}}$ of the channel is reduced by the
+amount $\LD$ (= {\tt LD}) of the lateral diffusion at the source and drain
+regions:
+\begin{equation}
+L_{\ms{EFF}} = \Length - 2\LD
+\end{equation}
+Similarly the effective length $W_{\ms{EFF}}$ of the channel is reduced by the
+amount $\WD$ (= {\tt WD}) of the lateral diffusion at the edges of the
+channel.
+\begin{equation}
+W_{\ms{EFF}} = \W - 2\WD
+\end{equation}
+$\KAPPA$ is limited:
+if the specified value of $\KAPPA$ is
+less than or equal to zero the following parameters are set:
+\begin{eqnarray}
+\KAPPA &=& 0.2\\
+\LAMBDA &=& 0\\
+\UCRIT &=& 0\\
+\UEXP &=& 0\\
+\UTRA &=& 0
+\end{eqnarray}
+
+\noindent\underline{\sl \large Process Oriented Model}
+\index{MOSFET, Process Oriented Model}
+\\[0.1in]
+If omitted, device parameters are computed from process parameters using
+defaults if necessary provided that both {\tt TOX} = $\TOX$ and
+{\tt NSUB} = $\NSUB$ are specified.  If either
+{\tt TOX} or {\tt NSUB} is not specified then the critical device parameters
+must be specified.  Which parameters are critical depends on the model {\tt
+LEVEL}.
+
+If {\tt VTO} is not specified in the model statement then
+it is evaluated as
+\begin{equation}
+{\tt VTO} = \VTO = \left\{ \begin{array}{ll}
+       V_{\ms{FB}} + \GAMMA \sqrt{\PHI} + \PHI & \mbox{if NMOS} \\
+       V_{\ms{FB}} - \GAMMA \sqrt{\PHI} + \PHI & \mbox{if PMOS}
+      \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+V_{\ms{FB}} = \phi_{\ms{MS}} - \phi_{\ms{OX}}
+\label{mFB1}
+\end{equation}
+is the flat-band voltage. Otherwise
+if {\tt VTO} is specified in the model statement
+\begin{equation}
+V_{\ms{FB}} = \left\{ \begin{array}{ll}
+      \VTO - \GAMMA\sqrt{\PHI} +\PHI & \mbox{if NMOS}\\
+      \VTO + \GAMMA\sqrt{\PHI} +\PHI & \mbox{if PMOS} \end{array}\right. %}
+\label{mFB2}
+\end{equation}
+
+\noindent If {\tt GAMMA} is not specified in the model statement then
+\begin{equation}
+{\tt GAMMA} = \GAMMA = {{\sqrt{2\epsilon_{\ms{Si}} q N_B}} \over {C'_{OX}}}
+\label{gammaomitted}
+\end{equation}
+If {\tt PHI} is not specified in the model statement then
+\begin{equation}
+{\tt PHI} = \PHI = 2 V_{\ms{TH}} \ln{{N_B}\over{n_i}}
+\end{equation}
+and is limited to 0.1 if calculated. $\NSUB$ = {\tt NSUB} as supplied
+in the model statement and $n_i$ at 300~K are used.
+If {\tt KP} is not specified in the model statement then
+\begin{equation}
+{\tt KP} = \KP = \UO C'_{OX}
+\end{equation}
+If {\tt UCRIT} is not specified in the model statement then
+\begin{equation}
+{\tt UCRIT} = \UCRIT = {{\epsilon_{Si}}\over{\textstyle\TOX}}
+\end{equation}
+\begin{equation}
+X_d = \sqrt{{{\textstyle2\epsilon_{\ms{Si}}} \over {\textstyle q \NSUB}}}
+\end{equation}
+is proportional to the depletion layer widths at the source and rdain regions.
+\vshift
+
+\noindent\underline{\sl \large Temperature Dependence}
+\index{MOSFET, Temperature Dependence}
+\index{Temperature Dependence, see MOSFET}
+\\[0.1in]
+Temperature effects are incorporated as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K).
+\begin{eqnarray}
+V_{\ms{TH}} & = & {{kT} \over q}\\
+\IS (T) & = & \IS e^{\left( \textstyle E_g(T) {T \over {T_{\ms{NOM}}}}
+ - E_G(T) \right) /V_{\ms{TH}}}\\
+\JS (T) & = & \JS e^{\left(\textstyle E_g(T) {T \over {T_{\ms{NOM}}}}
+ - E_G(T) \right) /V_{\ms{TH}}}\\
+\JSSW (T) & = & \JSSW e^{\left(\textstyle E_g(T) {T \over {T_{\ms{NOM}}}}
+ - E_G(T) \right) /V_{\ms{TH}}}\\
+\PB (T) & = & \PB {T \over {T_{\ms{NOM}}}} - 3V_{\ms{TH}} \ln{
+                {T \over {T_{\ms{NOM}}}} } + E_G (T_{\ms{NOM}})
+                {T \over {T_{\ms{NOM}}}} -E_G(T)\\
+\PBSW (T) & = & \PBSW {T \over {T_{\ms{NOM}}}}
+ - 3V_{\ms{TH}} \ln{ {T \over {T_{\ms{NOM}}}} }
+              + E_G (T_{\ms{NOM}}) {T \over {T_{\ms{NOM}}}} -E_G(T)\\
+\PHI (T) & = & \PHI
+                {T \over {T_{\ms{NOM}}}} - 3V_{\ms{TH}}
+                \ln{ {T \over {T_{\ms{NOM}}}} } + E_G (T_{\ms{NOM}} -E_G(T)\\
+\CBD (T) & = & \CBD \{1 + \MJ [0.0004(T-T_{\ms{NOM}})+(1-\PB (T)/\PB )]\} \\
+\CBS (T) & = & \CBS \{1 + \MJ [0.0004(T-T_{\ms{NOM}})+(1-\PB (T)/\PB )]\} \\
+\CJ (T) & = & \CJ \{1 + \MJ [0.0004(T-T_{\ms{NOM}})+(1-\PBSW (T)/\PBSW )]\}
+\end{eqnarray}
+
+\begin{eqnarray}
+\CJSW (T) & = & \CJSW \{1 + \MJSW [0.0004(T-T_{\ms{NOM}})+(1-\PB (T)/\PB )]\} \\
+\KP (T) & = & \KP  (T_{\ms{NOM}}/T)^{3/2} \\
+\UO (T) & = & \UO  (T_{\ms{NOM}}/T)^{3/2} \\
+E_g(T) & = & 1.16 - 0.000702{{T^2} \over {T+1108}}\\
+\end{eqnarray}\\[0.1in]
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see MOSFET}
+\index{MOSFET, Parasitic Resistance}
+\index{Parasitic Resistance, see MOSFET}
+\index{MOSFET, $R_S$}
+\index{MOSFET, $R_G$}
+\index{MOSFET, $R_D$}
+\index{MOSFET, $R_B$}
+\index{PMOS, $R_S$}
+\index{PMOS, $R_G$}
+\index{PMOS, $R_D$}
+\index{PMOS, $R_B$}
+\index{NMOS, $R_S$}
+\index{NMOS, $R_G$}
+\index{NMOS, $R_D$}
+\index{NMOS, $R_B$}
+The resistive parasitics
+$R_S$, $R_G$, $R_D$ and $R_B$ are treated in the same way for the {\tt
+LEVEL} 1, 2 and 3 models.  They
+may be specified as the absolute device parameters
+{\tt RS}, {\tt RG}, {\tt RD}, and {\tt RB}
+or calculated from the sheet resistivity $\RSH$ (= {\tt RSH})
+and area parameters
+$\NRS$ (= {\tt NRS}),
+$\NRG$ (= {\tt NRG}),
+$\NRD$ (= {\tt NRD}) and
+$\NRB$ (= {\tt NRB}).
+As always the absolute device parameters take precedence if they are specified.
+Otherwise
+\begin{eqnarray}
+R_S & = & \NRS\RSH\\
+R_G & = & \NRG\RSH\\
+R_D & = & \NRD\RSH\\
+R_B & = & \NRB\RSH
+\end{eqnarray}
+Note that neither geometry parameters nor process parameters are required
+if the absolute device resistances are specified.
+{The parasitic resistance parameter dependencies are summarized in
+figure \ref{m123para}.
+\begin{figure}
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt RSH} \hfill $\RSH$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt NRS} \hfill $\NRS$\\
+{\tt NRD} \hfill $\NRD$\\
+{\tt NRG} \hfill $\NRG$\\
+{\tt NRB} \hfill $\NRB$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt RD} \hfill $\RD = f(\RSH, \NRD)$ \\
+{\tt RS} \hfill $\RS = f(\RSH, \NRS)$ \\
+{\tt RG} \hfill $\RG = f(\RSH, \NRG)$ \\
+{\tt RB} \hfill $\RB = f(\RSH, \NRB)$ \\
+\hline
+\end{tabular}
+\caption{MOSFET {\tt LEVEL} 1, 2 and 3 parasitic resistance parameter
+relationships. \label{m123para}}
+\end{figure}}
+
+\noindent\underline{\sl Leakage Currents}\\[0.1in]
+\index{Leakage Currents, see MOSFET}
+\index{MOSFET, I/V Characteristics, Leakage Currents}
+\index{MOSFET, Leakage Currents}
+Current flows across the normally reverse biased source-bulk and drain-bulk
+junctions.
+The bulk-source leakage current
+\begin{equation}
+I_{BS} = I_{BSS}\left(e^{(\textstyle V_{BS}/V_{\ms{TH}})} -1\right)
+\label{eqn:m:ibs}
+\end{equation}
+where
+\begin{equation}
+I_{BSS} = \left\{ \begin{array}{ll}
+         I_S       & \mbox{if {\tt IS} specified} \\
+         A_S J_S + \PS\JSSW   & \mbox{if {\tt IS} not specified}
+	 \end{array} \right. %}
+\end{equation}
+
+The bulk-drain leakage current
+\begin{equation}
+I_{BD} = I_{BDS}\left( e^{(\textstyle V_{BD}/V_{\ms{TH}})} -1\right)
+\label{eqn:m:ibd}
+\end{equation}
+where
+\begin{equation}
+I_{BDS} = \left\{ \begin{array}{ll}
+         I_S       & \mbox{if {\tt IS} specified} \\
+         A_D J_S   + \PS\JSSW & \mbox{if {\tt IS} not specified}
+         \end{array} \right. %}
+\end{equation}
+{The parameter dependencies of the parameters describing the leakage
+current
+in the {\tt LEVEL} 1, 2 and 3 MOSFET models are summarized in
+figure \ref{mlevel123leakage}.\\[0.2in]
+\begin{figure}
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt JS} \hfill $\JS$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt AD} \hfill $A_D$\\
+{\tt AS} \hfill $A_S$\\
+{\tt PD} \hfill $P_D$\\
+{\tt PS} \hfill $P_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt IS} \hfill $\IS = f(\JS, \JSSW, A_D, A_S, P_D, P_S)$\\
+\hline
+\end{tabular}
+\caption{MOSFET leakage current parameter dependecies. \label{mlevel123leakage}}
+\end{figure}
+}
+
+\noindent\underline{\sl \large Depletion Capacitances}\\[0.1in]
+\index{Depletion capacitance, see MOSFET}
+\index{MOSFET, Depletion capacitance}
+$C_{BS}$ and $C_{BD}$ are the depletion capacitances at the bulk-source
+and bulk-drain depletion regions respectively.
+These depletion capacitances are
+calculated and used in the same way in all three ({\tt LEVEL} = 1, 2 and 3)
+models.
+Although they may be
+specified as absolute device parameters they are strong functions
+of the voltages across the junction and
+are complex functions of geometry and of semiconductor doping.
+As such they are usually calculated from process parameters.
+They are the sum of component capacitances
+\index{$C_{BS}$}
+\begin{equation}
+C_{BS} = C_{BS,\ms{JA}} + C_{BS,\ms{SW}} + C_{BS,\ms{TT}}
+\end{equation}
+where the sidewall capacitance
+\begin{eqnarray}
+C_{BS,\ms{SW}} &=& \PS\CJSW C_{BSS} \\
+C_{BSS} &=& \left\{ \begin{array}{l}
+       \left( 1 - {{\textstyle V_{BS}}
+       \over {\textstyle\PBSW}} \right)^{\textstyle -\MJSW} \hfill
+       \mbox{for $V_{BS}  \le \FC\PB$} \\ \\
+       (1 - \FC )^{\textstyle -(1+\MJSW )}
+       \left(1 - \FC (1+\MJSW )
+       + {{\textstyle \MJSW V_{BS}} 
+       \over { \textstyle \PBSW}} \right)
+       \\ \hspace*{\fill} \mbox{for $V_{BS}  > \FC\PB$}
+       \end{array} \right. \\ %}
+\end{eqnarray}
+
+\noindent
+the area capacitance
+\begin{eqnarray}
+C_{BS,\ms{JA}} &=&
+  \left\{ \begin{array}{ll}
+  \CBS C_{BSJ} &  \mbox{if {\tt CBS} (= $\CBS$)
+                    is specified in the model} \\ \\
+  A_S\CJ C_{BSJ} & \mbox{otherwise} \end{array} \right. \\ %}
+C_{BSJ} &\hspace{-0.1in}=&\hspace{-0.1in} \left\{ \begin{array}{ll}
+       \left(1 - {\textstyle {V_{BS}} \over
+       {\textstyle \PB}} \right)^{\textstyle -\MJ}
+       & \mbox{for $V_{BS}  \le \FC\PB$} \\ \\
+       (1 -\FC)^{\textstyle -(1+\MJ)}
+       \left(1 - \FC (1+\MJ)
+       + {{\textstyle\MJ V_{BS}} 
+       \over {\textstyle \PB}} \right)
+       & \mbox{for $V_{BS}  > \FC\PB$}
+       \end{array} \right. %}
+\end{eqnarray}
+
+and the transit time capacitance
+\begin{equation}
+C_{BS,\ms{TT}} = \TT G_{BS}
+\end{equation}
+where the bulk-source conductance $G_{BS} = \partial I_{BS} / \partial V_{BS}$
+ and
+$I_{BS}$ is defined in (\ref{eqn:m:ibs}).
+\index{$C_{BD}$}
+\begin{equation}
+C_{BD} = C_{BD,\ms{JA}} + C_{BD,\ms{SW}}
+\end{equation}
+where the sidewall capacitance
+\begin{eqnarray}
+C_{BD,\ms{SW}} &=& \PD\CJSW C_{BDS} \\
+C_{BDS} &=& \left\{ \begin{array}{l}
+       \left( 1 - {{\textstyle V_{BD}}
+       \over {\textstyle\PBSW}} \right)^{\textstyle -\MJSW}
+       \hfill \mbox{for $V_{BD}  \le \FC\PB$} \\ \\
+       (1 - \FC )^{\textstyle -(1+\MJSW )}
+       \left(1 - \FC (1+\MJSW )
+       + {{\textstyle \MJSW V_{BD}} 
+       \over { \textstyle \PBSW}} \right)
+       \\ \hspace*{\fill} \mbox{for $V_{BD}  > \FC\PB$}
+       \end{array} \right. \\ %}
+\end{eqnarray}
+
+the area capacitance
+\begin{eqnarray}
+C_{BD,\ms{JA}} &=&
+  \left\{ \begin{array}{ll}
+  \CBD C_{BDJ} &  \mbox{if {\tt CBD} (= $\CBD$)
+                    is specified in the model} \\ \\
+  A_D\CJ C_{BDJ} & \mbox{otherwise} \end{array} \right. \\ %}
+C_{BDJ} &=& \left\{ \begin{array}{ll}
+       \left(1 - {\textstyle {V_{BD}} \over
+       {\textstyle \PB}} \right)^{\textstyle -\MJ}
+       & \mbox{for $V_{BS}  \le \FC\PB$} \\ \\
+       (1 -\FC)^{\textstyle -(1+\MJ)}
+       \left(1 - \FC (1+\MJ)
+       + {{\textstyle\MJ V_{BD}} \over {\textstyle \PB}} \right)
+       & \mbox{for $V_{BD}  > \FC\PB$}
+       \end{array} \right. %}
+\end{eqnarray}
+and the transit time capacitance
+
+\begin{equation}
+C_{BS,\ms{TT}} = \TT G_{BS}
+\end{equation}
+where the bulk-source conductance $G_{BD} = \partial I_{BD} / \partial V_{BD}$ and
+$I_{BD}$ is defined in (\ref{eqn:m:ibd}).
+
+In the {\tt LEVEL} 1 MOSFET model the depletion capacitances
+are piecewise linear.  They are calculated at the current operating point 
+and then treated as linear. In the 
+{\tt LEVEL} 2 and 3 models they are treated as nonlinear.
+{The depletion capacitance parameter dependencies are summarized in
+figure \ref{level123depletionc}.\\[0.1in]
+\begin{figure}
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt CJ} \hfill $\CJ$\\
+{\tt CJSW} \hfill $\CJSW$\\
+{\tt MJ} \hfill $\MJ$\\
+{\tt MJSW} \hfill $\MJSW$\\
+{\tt PB} \hfill $\PB$\\
+{\tt PBSW} \hfill $\PBSW$\\
+{\tt FC} \hfill $\FC$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt AD} \hfill $A_D$\\
+{\tt AS} \hfill $A_S$\\
+{\tt PD} \hfill $P_D$\\
+{\tt PS} \hfill $P_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt CBD} \hfill $\CBD = f(\CJ, A_D)$\\
+{\tt CBS} \hfill $\CBS = f(\CJ, A_S)$\\
+\{$C_{BS} = f( \PS, \CBS, \CJSW, \TT$\hspace*{\fill}\\ \hspace*{\fill}$ \MJ, \MJSW,
+\PB, \PBSW, \FC)$\}\\
+\{$C_{BD} = f( \PD, \CBD, \CJSW, \TT$\hspace*{\fill}\\ \hspace*{\fill}$ \MJ, \MJSW,
+\PB, \PBSW, \FC)$\}\\
+\hline
+\end{tabular}
+\caption[MOSFET {\tt LEVEL} 1, 2 and 3 depletion capacitance parameter
+relationships]{MOSFET {\tt LEVEL} 1, 2 and 3 junction depletion capacitance parameter
+relationships.  \label{level123depletionc}}
+\end{figure}
+}
+\noindent\underline{\sl {\tt LEVEL 1} I/V Characteristics}\\[0.1in]
+\index{I/V Characteristics, see MOSFET}
+\index{MOSFET, I/V Characteristics}
+\index{NMOS, I/V Characteristics}
+\index{PMOS, I/V Characteristics}
+\index{I-V characteristics, see MOSFET}
+
+For the {\tt LEVEL} 1 model the device parameters (other than capacitances and
+resistances) are evaluated using $\TOX$ ({\tt TOX}), $\UO$ ({\tt UO}),
+$\NSS$ ({\tt NSS} and
+$\NSUB$ ({\tt NSUB}) if they are not specified in the {\tt .MODEL} statement.
+
+The {\tt LEVEL 1} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.\\[0.1in]
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions are as follows:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GS} < V_T$\\
+linear region:&$V_{GS} > V_T$ and $V_{DS} < V_{GS}-V_{T}$\\
+saturation region:&$V_{GS} > V_T$ and $V_{DS} > V_{GS}-V_{T}$\\
+\end{tabular}}\\[0.1in]
+where the threshold voltage
+\begin{equation}
+V_{T} = \left\{ \begin{array}{ll}
+          V_{\ms{FB}} + \PHI + \GAMMA \sqrt{\PHI - V_{BS}}
+               & V_{BS} \ge \PHI \\
+          V_{\ms{FB}} + \PHI & V_{BS} < \PHI
+          \end{array} \right. %}
+\end{equation}
+
+Then
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      { {\textstyle W_{\ms{EFF}}} \over {\textstyle L_{\ms{EFF}}}}
+      {{\textstyle \KP} \over {\textstyle 2}} 
+      ( 1+\LAMBDA V_{DS})
+      V_{DS} \left[2(V_{GS}-V_{T})-V_{DS}\right]
+         &\mbox{linear region} \\ \\
+      { {\textstyle W_{\ms{EFF}}} \over {\textstyle L_{\ms{EFF}}}}
+      {{\textstyle \KP} \over {\textstyle 2}} 
+      (1+\LAMBDA V_{DS})
+      \left[V_{GS}-V_{T}\right]^2
+         &\mbox{saturation region} \end{array} \right. %}
+      \label{mlevel1ids}
+\end{equation}
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MOSFET I/V characteristics are evaluated as in the
+normal mode (\ref{mlevel1ids}) but with the drain and source subscripts
+interchanged.
+{The relationships of the parameters describing the I/V
+characteristics for the {\tt LEVEL} 1 model are summarized in figure
+\ref{mlevel1i/v}.\\[0.1in]
+\begin{figure}
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt NSUB} \hfill $\NSUB$\\
+{\tt TOX} \hfill $\TOX$\\
+{\tt NSS} \hfill $\NSS$\\
+{\tt UO} \hfill $\UO$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill} -- \hspace*{\fill} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Required} \\
+\hline
+{\tt L} \hfill $L$\\
+{\tt W} \hfill $W$ \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Optional} \\
+\hline
+{\tt LD} \hfill $\LD$\\
+{\tt WD} \hfill $\WD$ \\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt VTO} \newline \hspace*{\fill} $\VTZERO = f(\PHI, \NSS, \TOX, \GAMMA)$\\
+{\tt KP} \hfill $\KP = f(\UO, \TOX)$\\
+{\tt LAMBDA} \hfill $\LAMBDA$\\
+{\tt PHI} \hfill $\PHI = f(\NSUB)$\\
+{\tt GAMMA} \hfill $\GAMMA = f(\TOX, \NSUB)$\\
+\{$I_{D} = f(\W, \Length, \WD, \LD$\hspace*{\fill}\newline\hspace*{\fill}
+$\VTO, \KP, \LAMBDA, \PHI, \GAMMA)$\}\\
+\hline
+\end{tabular}
+\caption{LEVEL 1 I/V dependencies. \label{mlevel1i/v}}
+\end{figure}
+}
+\noindent\underline{\sl \large {\tt LEVEL} 1 Overlap Capacitances}\\[0.1in]
+\index{Overlap Capacitance, see MOSFET}
+\index{MOSFET, Overlap Capacitance LEVEL 1}
+\index{MOSFET, $C_{GB}$}
+\index{MOSFET, $C_{GD}$}
+\index{MOSFET, $C_{GS}$}
+In the {\tt LEVEL} 1 model the gate overlap capacitances $C_{GS}$, $C_{GD}$ and
+$C_{GB}$ are constant and are calculated using the per unit width overlap
+capacitances $\CGSO$ ({\tt CGSO}), $\CGDO$ ({\tt CGDO}) and $\CGBO$
+({\tt CGBO}):
+\begin{eqnarray}
+C_{GS}&=&\CGSO\W \\
+C_{GD}&=&\CGDO\W \\
+C_{GB}&=&\CGBO\W
+\end{eqnarray}
+{The overlap capacitance parameter dependencies
+are summarized in Figure \ref{mlevel1overlap}.
+
+\begin{figure}
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\hspace*{\fill} -- \hspace*{\fill}\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Required} \\
+\hline
+{\tt W} \hfill $W$ \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Optional} \\
+\hline
+{\tt WD} \hfill $\WD$ \\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Overlap Capacitances}\\
+\hline
+{\tt CGSO} \hfill $\CGSO$\\
+{\tt CGDO} \hfill $\CGDO$\\
+{\tt CGBO} \hfill $\CGBO$\\
+\hspace*{\fill}\{$C_{GS} = f(\CGSO, \W, \WD)\}$\\
+\hspace*{\fill}\{$C_{GD} = f(\CGDO, \W, \WD)\}$\\
+\hspace*{\fill}\{$C_{GB} = f(\CGBO, \W, \WD)\}$\\
+\hline
+\end{tabular}
+\caption{ MOSFET {\tt LEVEL} 1 overlap capacitance parameter
+relationships. \label{mlevel1overlap}}
+\end{figure}}
+
+\newpage
+\noindent\underline{\sl {\tt LEVEL 2} I/V Characteristics}
+\index{I/V Characteristics, see MOSFET MOSFET}
+\index{MOSFET, I/V Characteristics LEVEL 2}
+\index{NMOS, I/V Characteristics LEVEL 2}
+\index{PMOS, I/V Characteristics LEVEL 2}
+\index{MOSFET, LEVEL 2 I/V Characteristics}
+\index{NMOS, LEVEL 2 I/V Characteristics}
+\index{PMOS, LEVEL 2 I/V Characteristics}
+\\[0.1in]
+The {\tt LEVEL} 2 I/V characteristics are based on empirical fits resulting in a
+more accurate description of the I/V response than obtained with the {\tt LEVEL}
+1 model.
+{
+The {\tt LEVEL 2} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions are as follows:\\[0.1in]
+
+\begin{tabular}{ll}
+cutoff region:&$V_{GS}<V_{T}$\\
+weak inversion region:&$V_T < V_{GS} \le V_{\ms{ON}}$ \\
+linear region (strong inversion):&$V_{GS} > V_{\ms{ON}}$
+				  and $V_{DS} < V_{DS,\ms{SAT}}$ \\
+saturation region (strong inversion):&$V_{GS} > V_{\ms{ON}}$
+				  and $V_{DS} > V_{DS,\ms{SAT}}$
+\end{tabular}
+
+\noindent
+where
+\begin{equation}
+V_T = V'_{\ms{FB}} + \gamma_{\ms{EFF}}X_S
+\end{equation}
+
+\begin{equation}
+V_{\ms{ON}} = \left\{ \begin{array}{ll}
+	 V_T             & \NFS = 0\\
+	 V_T + V_{\ms{TH}}x_n & \NFS \ne 0
+	 \end{array} \right. %}
+\end{equation}
+
+\begin{equation}
+%sarg=
+X_S = \left\{ \begin{array}{ll}
+     {{\textstyle\sqrt{\PHI}}\over{\textstyle[1 + \frac{1}{2}V_{BS}/(\PHI)]}}
+         & V_{BS} > 0\\
+     \\
+     \sqrt{\PHI-V_{BS}} & V_{BS} \le 0\\
+     \end{array} \right. %}
+     \label{xs:eqn}
+\end{equation}
+where
+\begin{equation}
+x_n      = 1 + F_N -\gamma_{\ms{EFF}}X_1 -X_2X_S
+   + W_{\ms{EFF}}L_{\ms{EFF}} {{q \NFS} \over {C'_{OX}}}
+\end{equation}
+\begin{equation}
+\eta = 1 + F_N
+\end{equation}
+the effect of channel width on threshold voltage is modeled by
+\begin{equation}
+V'_{\ms{FB}}= V_{\ms{FB}} + F_N(\PHI -V_{BS})
+\label{eqn:vdashfb}
+\end{equation}
+and the flat band voltage, $V_{\ms{FB}}$, is calculated using
+(\ref{mFB1}) or (\ref{mFB2}).
+\begin{equation}
+V_{GST} = V_{GS} - V_{ON}
+\end{equation}
+The factor describing the effect of channel width on threshold is
+\begin{equation}
+F_N={{\textstyle\epsilon_s\delta\pi} \over {\textstyle 4 C'_{OX}
+\W_{\ms{EFF}} }}
+\end{equation}
+
+The effective bulk threshold parameter is affected by charge in the drain and
+source depletion regions.  This is important for short channels.
+The factor describing short channel effects is
+\begin{equation}
+\gamma_{\ms{EFF}} = \left\{ \begin{array}{ll}
+     \GAMMA               & \GAMMA \le 0 \mbox{ or } \NSUB \le 0\\
+     \GAMMA(1-F_{DD}-F_{SD}) & \GAMMA > 0 \mbox{ and } \NSUB > 0
+     \end{array} \right. %}
+\end{equation}
+
+\clearpage
+\noindent
+where the effect of depletion charge at the drain is described by
+\begin{equation}
+F_{DD} = \left\{ \begin{array}{ll}
+         \frac{1}{2}\left( \sqrt{1+2X_DX_B}-1\right)
+         & V_{DS} \le V_{DS,\ms{SAT}} \\ \\
+         \frac{1}{2}\left( \sqrt{1+2X_DX_{B,\ms{SAT}}}-1\right)
+         {{\textstyle\XJ}\over{L_{\ms{EFF}}}}
+         & V_{DS} > V_{DS,\ms{SAT}} \\
+         \end{array} \right. %}
+\end{equation}
+
+the effect of depletion charge at the source is described by
+\begin{equation}
+F_{SD} = \frac{1}{2}\left( \sqrt{1+2X_DX_S}-1\right)
+         {{\textstyle\XJ}\over{L_{\ms{EFF}}}}
+\end{equation}
+and
+\begin{equation}
+%barg=
+X_B = \left\{ \begin{array}{ll}
+{{\textstyle\sqrt{\PHI}}\over{\textstyle[1+ \frac{1}{2}(V_{BS}-V_{DS})/(\PHI)]}}
+         & V_{DS} <V_{BS}\\
+     \\
+     \sqrt{\PHI+V_{DS}-V_{BS}} & V_{DS} \le V_{BS}\\
+     \end{array} \right. %}
+\end{equation}
+and for saturation
+\begin{equation}
+X_{B,\ms{SAT}} = \left\{ \begin{array}{ll}
+{{\textstyle\sqrt{\PHI}}\over{\textstyle[1+
+         \frac{1}{2}(V_{BS}-V_{DS,\ms{SAT}})/(\PHI)]}}
+         & V_{DS,\ms{SAT}} <V_{BS}\\
+     \\
+     \sqrt{\PHI+V_{DS,\ms{SAT}}-V_{BS}} & V_{DS,\ms{SAT}} \ge  V_{BS}\\
+     \end{array} \right. %}
+\end{equation}
+$X_S$ is evaluated using (\ref{xs:eqn}) and $X_D$ using (\ref{m3:xd:eqn}).
+\begin{equation}
+%dsarg=
+X_1 = \left\{ \begin{array}{ll}
+           {{\textstyle -X_S^2}\over{\textstyle 2(\PHI)^{(3/2)} }}
+         & V_{BS} > 0 \\
+     \\
+           -{{\textstyle 1}\over{\textstyle 2X_S}}
+         & V_{BS} \le 0
+     \end{array} \right. %}
+\end{equation}
+and
+\begin{equation}
+X_2 = \left\{ \begin{array}{ll}
+           -\GAMMA {{\textstyle 1}\over{\textstyle 2}}
+           {{\textstyle X_DX_1}\over{\textstyle L_{\ms{EFF}} X_S}}
+         & \XJ  > 0 \\
+     \\
+           0 & \XJ \le 0
+     \end{array} \right. %}
+\end{equation}
+The effective mobility due to modulation by the gate
+\begin{equation}
+\mu_{\ms{EFF}} = \left\{ \begin{array}{ll}
+               \UO\left( {{\textstyle\UCRIT}\over
+                {\textstyle V_{GS}-V_{\ms{ON}}}} \right)^{\UEXP}
+               & C_{\ms{OX}} \ne 0\mbox{ and } (V_{GS}-V_{ON}) > \UCRIT\\
+                 \\
+                 \UO
+               & C_{\ms{OX}} = 0\mbox{ or } (V_{GS}-V_{ON}) \le \UCRIT
+               \end{array} \right. %}
+\end{equation}
+and the factor describing this effect
+\begin{equation}
+    F_G = {{\mu_{\ms{EFF}}}\over{\UO}}
+\end{equation}
+
+The channel shortening factor
+\begin{equation}
+    F_D = {{L_{\ms{EFF}}}\over{L'_{EFF}}}
+\end{equation}
+where the effective channel length due to channel shortening is
+\begin{equation}
+L'_{\ms{EFF}} = \left\{ \begin{array}{ll}
+    {{\textstyle X_{WB}}\over
+    {\textstyle 1 +(\Delta_L - L_{\ms{EFF}} + X_{WB})/X_{WB}}}
+    & (1-\lambda V_{DS})L_{\ms{EFF}} < X_{WB} \\ \\
+    (1-\lambda V_{DS})L_{\ms{EFF}}
+    & (1-\lambda V_{DS})L_{\ms{EFF}} \ge X_{WB}
+    \end{array} \right. %}
+\label{m2leff}
+\end{equation}
+
+\clearpage
+The expression for $L'_{EFF}$ when 
+$(1-\lambda V_{DS})L_{\ms{EFF}}$ $<$ $X_{WB}$ limits chanel shortening at
+punch-through.
+In (\ref{m2leff})
+\begin{equation}
+\Delta_L = \lambda V_{DS} L_{\ms{EFF}}
+\end{equation}
+and the distance that the depletion region at the drain extends into the
+channel is
+\begin{equation}
+X_{WB} = \left\{ \begin{array}{ll}
+         X_D\sqrt{\PB}         &   \NSUB \ne 0\\
+         0.25\,10^{-6}         &   \NSUB  =  0
+    \end{array} \right. %}
+\end{equation}
+The pinch-off voltage
+\begin{equation}
+V_P = \left\{ \begin{array}{ll}
+      MAX((V_{GSX}-V'_{\ms{FB}}),0)    &  {{\textstyle \gamma_{\ms{EFF}}}
+                                          \over{\textstyle \eta}} \le 0\\
+  \\
+      V_T                              &  {{\textstyle \gamma_{\ms{EFF}}}
+                                          \over{\textstyle \eta}} > 0
+                                          \mbox{ and } X_V \le 0 \\
+  \\
+      V_T                              &  {{\textstyle \gamma_{\ms{EFF}}}
+                                          \over{\textstyle \eta}} > 0
+                                          \mbox{ and } X_3 < 0 \\
+  \\
+     V'_{\ms{FB}}+\eta V_{DS}+\sqrt{X_3}&  {{\textstyle \gamma_{\ms{EFF}}}
+                                          \over{\textstyle \eta}} > 0
+                                          \mbox{ and } X_3 \ge 0
+                                          \mbox{ and } X_V > 0
+      \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+X_3 = (V_{DS} + \PHI - V_{BS})
+      \left({{\textstyle\gamma_{\ms{EFF}}}\over{\textstyle\eta}}\right)^2
+\end{equation}
+The drain-source saturation voltage
+\begin{equation}
+V_{DS,\ms{SAT}} = \left\{ \begin{array}{ll}
+       V_P \mbox{ (Grove Frohman approximation)}  & \VMAX \le 0\\
+       \\
+       V_{DS,\ms{SAT}} \mbox{ from Baum's theory of}      & \VMAX > 0\\
+       \mbox{~~~~~~~~~velocity saturation}&
+       \end{array} \right. %}
+\label{eqn:vdssat:l2}
+\end{equation}
+In Baum's theory of velocity saturation the saturation voltage,
+$V_{DS,\ms{SAT}}$, is the solution of the quartic equation
+\begin{equation}
+aV^4_{DS,\ms{SAT}} + bV^3_{DS,\ms{SAT}} + cV^2_{DS,\ms{SAT}} +
+dV_{DS,\ms{SAT}} = 0
+\end{equation}
+where
+\begin{eqnarray}
+a & = & {{\textstyle 3}\over {\textstyle 4}} {{\gamma_{\ms{EFF}}}\over{\eta}}\\
+b & = & -2(V_1+V_X)\\
+c & = & -2{{\gamma_{\ms{EFF}}}\over{\eta}}V_X\\
+d & = & 2V_1(V_2+V_X) - V_2^2 -
+        {{\textstyle 3}\over {\textstyle 4}} {{\gamma_{\ms{EFF}}}\over{\eta}}
+        X_S^3\\
+V_1 & = & {{(V_{GSX}-V'_{FB})}\over{\eta}} + \PHI - V_{BS}\\
+V_2 & = & \PHI - V_{BS}\\
+V_X & = & {{\VMAX  L_{\ms{EFF}}}\over{\mu_{\ms{EFF}}}}
+\end{eqnarray}
+
+The body effect factor is
+\begin{equation}
+F_B = X^3_B - X^3_S
+\end{equation}
+and the body effect factor in saturation is
+\begin{equation}
+F_{B,\ms{EFF}} = X^3_{B,\ms{SAT}} - X^3_S
+\end{equation}
+\underline{cutoff region}
+\begin{equation}
+I_{D} = 0
+\end{equation}\\[0.2in]
+%
+%
+\noindent\underline{linear region}
+\index{MOSFET, LEVEL 2 linear region}
+\begin{equation}
+ I_{D} =  \KP {{W_{\ms{EFF}}}\over{ L_{\ms{EFF}}}} F_G F_D
+           \left[ \left( V_{GS} - V'_{\ms{FB}}
+           - {{\textstyle \eta}\over{\textstyle 2}} V_{DS}
+	   \right) V_{DS}
+           - {{\textstyle 3}\over{\textstyle 2}}
+           {{\textstyle\gamma_{\ms{EFF}}}\over{\textstyle \eta}} F_B
+           \right]
+      \label{mos2linearids}
+\end{equation}
+%
+%
+\underline{weak inversion region}
+\index{MOSFET, LEVEL 2 weak inversion region}
+\\[0.1in]
+When $V_{GS}$ is slightly above $V_T$, $I_{D}$ increases slowly over a few
+thermal voltages $V_{\ms{TH}}$ in
+exponential manner becoming $I_{D}$ calculated for strong inversion.
+This effect is handled empirically by defining two exponential which,
+as well as ensuring an exponential increase in $I_{D}$, also ensure that
+the transconductance $G_M$ (= $\partial I_{D}/\partial V_{GS}$) is
+continuous at $V_{GS}$ = $V_{\ms{ON}}$.
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+         I_{D,\ms{ON}} \left[ {{10}\over{11}} e^{\textstyle
+                     (V_{GS}-V_{\ms{ON}})/(x_nV_{TH})}
+       + {{1}\over{11}} e^{\textstyle \alpha (V_{GS}-V_{\ms{ON}})} \right]
+          &  \alpha > 0 \\
+         I_{D,\ms{ON}} e^{\textstyle (V_{GS}-V_{\ms{ON}})/(x_nV_{TH})}
+         &  \alpha \le 0 
+         \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+\alpha=11\left({{\textstyle G_{M,\ms{ON}}}\over {\textstyle I_{D,\ms{ON}}}}
+       -{{\textstyle 1}\over {\textstyle x_nV_{\ms{TH}}}}\right)
+\end{equation}
+\begin{equation}
+G_{M,\ms{ON}} = {{\partial I_{D,\ms{ON}}} \over {\partial V_{GS}}}
+\end{equation}
+\begin{equation}
+I_{D,\ms{ON}} =  \left\{ \begin{array}{ll}
+                  \parbox{3in}{$I_{D}$ in (\ref{mos2linearids})
+                               with $V_{GS}$ = $V_{ON}$}
+                  & V_{DS} \le V_{DS,\ms{SAT}} \\ \\
+                  \parbox{3in}{$I_{D}$ in (\ref{mos2satids})
+                               with $V_{GS}$ = $V_{ON}$ and
+                               $V_{DS}$ = $V_{DS,\ms{SAT}}$}
+                  & V_{DS} \le V_{DS,\ms{SAT}}
+                  \end{array} \right. %}
+\end{equation}
+%
+%
+\underline{saturation region}
+\index{MOSFET, LEVEL 2 saturation region}
+\begin{equation}
+I_{D} =   {{L_{\ms{EFF}}}\over{\textstyle L_{\ms{EFF}-\Delta_L}}}
+           I_{D,\ms{SAT}}
+      \label{mos2satids}
+\end{equation}
+\begin{equation}
+I_{D,\ms{SAT}}  =   \KP {{\W_{\ms{EFF}}}\over{ L_{\ms{EFF}}}} F_G F_D
+           \left[ \left( V_{GS} - V'_{\ms{FB}}
+            -{{\eta}\over 2} V_{DS,\ms{SAT}}\right)
+	   V_{DS,\ms{SAT}}
+           -{{\textstyle 3}\over{\textstyle 2}}
+           {{\textstyle \gamma_{\ms{EFF}}}\over{\textstyle \eta }}
+           F_{B,\ms{SAT}}
+           \right]
+\end{equation}
+{
+The {\tt LEVEL} 3 current-voltage parameter dependencies are summarized in
+figure \ref{mlevel2iv}.\\[0.2in]
+\begin{figure}
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt DELTA} \hfill $\DELTA$\\
+{\tt LAMBDA} \hfill $\LAMBDA$\\
+{\tt NSS} \hfill $\NSS$\\
+{\tt NSUB} \hfill $\NSUB$\\
+{\tt PB} \hfill $\PB$\\
+{\tt TOX} \hfill $\TOX$\\
+{\tt UCRIT} \hfill $\UCRIT$\\
+{\tt UEXP} \hfill $\UEXP$\\
+{\tt VMAX} \hfill $\VMAX$\\
+{\tt UO} \hfill $\UO$\\
+{\tt XJ} \hfill $\XJ$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Required} \\
+\hline
+{\tt L} \hfill $L$\\
+{\tt W} \hfill $W$ \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Optional} \\
+\hline
+{\tt LD} \hfill $\LD$\\
+{\tt WD} \hfill $\WD$ \\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{I/V}\\
+\hline
+{\tt VTO} \hfill $\VTZERO = f(\PHI, \NSS, \TOX)$\\
+{\tt KP} \hfill $\KP = f(\UO, \TOX)$\\
+{\tt PHI} \hfill $\PHI = f(\NSUB)$\\
+{\tt GAMMA} \hfill $\GAMMA = f(\UO, \TOX, \NSUB)$\\
+\hspace*{\fill}\{$I_{D} = f(\W, \Length, \WD, \LD,$\\
+\hspace*{\fill}$\KP, \PHI, \UO, \GAMMA, \VTO, \PB$\\
+\hspace*{\fill}$\VMAX, \XJ, \LAMBDA, \UEXP, \UCRIT, \DELTA)$\}\\
+\hline
+\end{tabular}
+\caption{ MOSFET {\tt LEVEL} 2 I/V parameter relationships.
+\label{mlevel2iv}}
+\end{figure}}
+\vshift
+\noindent\underline{\sl \large {\tt LEVEL} 2 Overlap Capacitances}\\[0.1in]
+\index{Overlap Capacitances, see MOSFET}
+\index{MOSFET, Overlap Capacitances LEVEL 2}
+\index{MOSFET, Overlap Capacitances}
+\index{MOSFET, $C_{GS}$ $C_{GD}$ $C_{GB}$}
+In the {\tt LEVEL 2} model the gate overlap capacitances
+asre strong functions of voltage.
+Two overlap capacitance models are available in \pspice
+the Meyer model based on the model originally proposed by Meyer \cite{meyer:71}
+and the Ward-Dutton model
+\cite{ward:dutton:78,oh:ward:80}.
+\spicetwo and \spicethree use just the Meyer model.
+The Meyer and Ward-Dutton models differ in the derivation of the channel charge.
+\\[0.2in]
+\noindent\underline{\sl \large {\tt LEVEL} 2 Meyer Model}\\[0.1in]
+\index{Meyer model, see MOSFET}
+\index{MOSFET, overlap capacitances Meyer model}
+\index{MOSFET, Meyer model}
+\index{MOSFET, Meyer model, LEVEL 2}
+\index{MOSFET, $C_{GS}$}
+\index{MOSFET, $C_{GD}$}
+\index{MOSFET, $C_{GB}$}
+This model is selected when the parameter {\tt XQC} = $\XQC$ is not specified or
+$\XQC < 0.5$.
+
+The voltage dependent thin-oxide capacitances are used only if $\TOX$ is
+specified in the model statement.
+
+Four operating regions are defined in the Meyer model:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+accumulation region:&$V_{GS} < V_{\ms{ON}} - \PHI$\\
+depletion region:   &$V_{\ms{ON}} - \PHI < V_{GS} < V_{\ms{ON}}$\\
+saturation region:  &$V_{\ms{ON}} < V_{GS} <V_{\ms{ON}} + V_{DS}$\\
+linear region:&$V_{GS} > V_{\ms{ON}}+V_{DS}$\\
+\end{tabular}}\\[0.1in]
+where
+\begin{eqnarray}
+V_{\ms{ON}}  & = & \left\{ \begin{array}{ll}
+            V_{T} +  x_nV_{\ms{TH}} &
+		      \mbox{if } \NFS = {\tt NFS} \mbox{ specified}\\
+            V_{T}                   & \mbox{if } \NFS = {\tt NFS}
+                                       \mbox{ not specified}
+            \end{array} \right.\\ %}
+V_{T} & = & V_{T0} + \GAMMA
+        \left[\sqrt{\PHI - V_{BS}}-\sqrt{\PHI} \right]\\
+x_n      & = & 1 + {{q \NFS} \over {C'_{OX}}} + {{C_D} \over {C'_{OX}}}\\
+C'_{OX}&=&{{\epsilon_{OX}} \over { \TOX}}\\
+C_{OX}&=& C'_{OX}\W_{\ms{EFF}} L_{\ms{EFF}}\\
+C_D & = & {{\textstyle\GAMMA} \over {\textstyle 2 \sqrt{\PHI - V_{BS}}}}
+\end{eqnarray}
+\begin{equation}
+C_{GS} =  \left\{ \begin{array}{ll}
+            \CGSO\W                     & \mbox{accumulation region}\\
+            \frac{2}{3} C_{OX}
+             \left( 1+ {{\textstyle V_{\ms{ON}}
+             - V_{GS}} \over {\textstyle\PHI}}\right)
+            + \CGSO\W_{\ms{EFF}}                   & \mbox{depletion region}\\
+           \frac{2}{3} C_{OX} + \CGSO\W_{\ms{EFF}}  & \mbox{saturation region}\\
+            C_{OX} \left\{ 1 - \left[
+              {{\textstyle V_{GS} - V_{DS} - V_{\ms{ON}}} \over
+               {\textstyle 2(V_{GS}-V_{\ms{ON}}) - V_{DS}}} \right]^2\right\}
+            + \CGSO\W_{\ms{EFF}}  & \mbox{linear region}
+
+            \end{array}
+            \right. %}
+\end{equation}
+\begin{equation}
+C_{GD} =  \left\{ \begin{array}{ll}
+            \CGDO\W_{\ms{EFF}}          & \mbox{accumulation region}\\
+            \CGDO\W_{\ms{EFF}}          & \mbox{depletion region}\\
+            \CGDO\W_{\ms{EFF}}  & \mbox{saturation region}\\
+            C_{OX} \left\{ 1 - \left[
+              {{\textstyle V_{GS} - V_{\ms{ON}}} \over
+               {\textstyle 2(V_{GS}-V_{\ms{ON}}) - V_{DS}}} \right]^2\right\}
+              + \CGDO\W_{\ms{EFF}}  & \mbox{linear region}
+            \end{array}
+            \right. %}
+\end{equation}
+\begin{equation}
+C_{GB} =  \left\{ \begin{array}{ll}
+            C_{OX} + \CGBO L_{\ms{EFF}}        & \mbox{accumulation region}\\
+            C_{OX} \left({{\textstyle V_{\ms{ON}}-V_{GS}}\over {\textstyle\PHI}}
+                   \right) + \CGBO L_{\ms{EFF}} & \mbox{depletion region}\\
+            \CGBO L_{\ms{EFF}} & \mbox{saturation region}\\
+            \CGBO L_{\ms{EFF}} & \mbox{linear region}
+            \end{array}
+            \right.%}
+\end{equation}
+\vshift
+
+\noindent\underline{\sl \large {\tt LEVEL} 2 Ward-Dutton Model
+{\pspice\ only}}\\[0.1in]
+\index{Ward-Dutton model, see MOSFET}
+\index{MOSFET, overlap capacitances Ward-Dutton Model}
+\index{MOSFET, Ward-Dutton model}
+\index{MOSFET, Ward-Dutton model, LEVEL 2}
+\index{MOSFET, $C_{GS}$}
+\index{MOSFET, $C_{GD}$}
+\index{MOSFET, $C_{GB}$}
+
+This model is selected when the parameter {\tt XQC} is specified
+and less than 0.5.
+The charge in the gate $Q_G$ and the substrate $Q_B$ is calculated and the
+difference of these is taken as the channel charge $Q_{\ms{CHANNEL}}$.
+This charge is then partitioned and allocated between the source
+as $Q_S$ and the drain $Q_D$ as follows:
+\begin{eqnarray}
+Q_{\ms{CHANNEL}} & = & Q_D + Q_S \\
+Q_D         & = & \XQC Q_{\ms{CHANNEL}}\\
+\end{eqnarray}
+so that $Q_S          =  (1 - \XQC) Q_{\ms{CHANNEL}}$.
+This partitioning is somewhat arbitrary but produces transient results
+that more closely match measurements than does the Meyer capacitance model.
+However this is at the price of poorer convergence properties and sometimes
+error. This is particularly so when $V_{DS}$ is changing sign.
+
+Two operating regions are defined in the Ward-Dutton model:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+off region:&$V_{GS} \le V_T$\\
+on  region:&$V_{GS} > V_T$\\
+\end{tabular}}\\[0.1in]
+\noindent where
+\begin{eqnarray}
+V_{T} & = & V_{T0} + \GAMMA
+        \left[\sqrt{\PHI - V_{BS}}-\sqrt{\PHI} \right]\\
+C_{OX}&=& C'_{OX}\W_{\ms{EFF}} L_{\ms{EFF}}\\
+C'_{OX}&=&{{\epsilon_{OX}} \over { \TOX}}\\
+\end{eqnarray}
+\noindent In the charge evaluations the following terms are used:
+\begin{eqnarray}
+  v_{G}  &=& v_{GB} - V'_{FB} + \PHI\\
+    v_D  &=& \left\{ \begin{array}{ll}
+             \PHI - v_{BD} & v_{BD} > \PHI \\
+             0 &v_{BD} \le \PHI
+             \end{array} \right. %}
+             \\
+    v_S  &=& \left\{ \begin{array}{ll}
+             \PHI - v_{BS} & v_{BS} > \PHI \\
+             0 &v_{BS} \le \PHI
+             \end{array} \right. %}
+             \\
+    v_E  &=& \left\{ \begin{array}{ll}
+              v_D     & v_D < v_{DS,\ms{SAT}}\\
+              v_{DS,\ms{SAT}} & v_D \ge v_{DS,\ms{SAT}}
+              \end{array}
+              \right. %}
+              \\
+    x_5  &=& (v_E + vs)( \sqrt{v_E} + \sqrt{v_S})\\
+    x_6  &=& ((v_E^2+v_S^2) + v_Ev_S) + \sqrt{v_E}\sqrt{v_S} (v_E+v_S)\\
+    D   &=& v_G (\sqrt{v_E}+\sqrt{v_S})
+          - \gamma_{\ms{EFF}} ( (v_E+v_S) + \sqrt{v_E}\sqrt{v_S} )/1.5
+          \nonumber \\
+          && - .5 (\sqrt{v_E}+\sqrt{v_S}) (v_E+v_S)
+\end{eqnarray}
+where $V'_{FB}$ is defined in (\ref{eqn:vdashfb}) and $V_{DS,\ms{SAT}}$ in
+(\ref{eqn:vdssat:l2}).
+
+\noindent \underline{off region}
+
+\begin{eqnarray}
+Q_G &=& \left\{ \begin{array}{ll}
+       \gamma_{\ms{EFF}} C_{OX}
+       ( \sqrt{\frac{1}{4}\gamma_{\ms{EFF}}^2 + v_G} - \gamma_{\ms{EFF}}/2 )
+                                      & v_G > 0 \\
+       C_{OX} v_G                     & v_G \le 0
+       \end{array} \right. %}
+       \\
+  Q_B &=& -Q_G\\
+  Q_{\ms{CHANNEL}} &=& -( Q_G + Q_B )
+\end{eqnarray}
+
+
+\noindent \underline{on region}
+
+
+\begin{eqnarray}
+    Q_B &=& -\gamma_{\ms{EFF}} C_{OX}
+          \left( {{\textstyle
+             vg \frac{2}{3} ( (v_E+v_S) + \sqrt{v_E}\sqrt{v_S} )
+             - \frac{1}{2} \gamma_{\ms{EFF}} x_5
+             - .4 x_6 } \over {\textstyle D}} \right) \\
+    Q_G &=& C_{OX} \nonumber \\
+        &&   \left( vg - {{\textstyle .5 vg x_5 - .4 \gamma_{\ms{EFF}} x_6
+             - ((v_E^2+v_S^2) + v_Ev_S)(\sqrt{v_E}+\sqrt{v_S})/3
+ } \over{\textstyle D}} \right)
+\end{eqnarray}
+
+where $V'_{FB}$ is defined in (\ref{eqn:vdashfb}).
+\noindent The overlap capacitances are then evaluated as
+\begin{eqnarray}
+    C_{GDB}  &=& \partial Q_G / \partial v_D\\ 
+    C_{GSB}  &=& \partial Q_G / \partial v_S\\ 
+    C_{GGB}  &=& \partial Q_G / \partial v_G\\ 
+    C_{BDB}  &=& \partial Q_B / \partial v_D\\ 
+    C_{BSB}  &=& \partial Q_B / \partial v_S\\ 
+    C_{BGB}  &=& \partial Q_B / \partial v_G
+\end{eqnarray}
+
+{
+The {\tt LEVEL} 2 overlap capacitance parameter dependencies are summarized in
+figure \ref{mlevel2overlap}.
+\begin{figure}
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt CJ} \hfill $\CJ$\\
+{\tt CJSW} \hfill $\CJSW$\\
+{\tt MJ} \hfill $\MJ$\\
+{\tt MJSW} \hfill $\MJSW$\\
+{\tt PB} \hfill $\PB$\\
+{\tt PBSW} \hfill $\PB$\\
+{\tt FC} \hfill $\PB$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt AD} \hfill $A_D$\\
+{\tt AS} \hfill $A_S$\\
+{\tt PD} \hfill $A_D$\\
+{\tt PS} \hfill $A_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Constant Overlap}\\
+\multicolumn{1}{|c|}{Capacitances}\\
+\hline
+{\tt CGSO} \hfill $\CGSO$\\
+{\tt CGDO} \hfill $\CGDO$\\
+{\tt CGBO} \hfill $\CGBO$\\
+\hline
+\end{tabular}
+\caption{ MOSFET {\tt LEVEL} 2 overlap capacitance parameter relationships.
+\label{mlevel2overlap}}
+\end{figure}}
+\\[0.2in]}
+
+\clearpage
+\noindent\underline{\sl {\tt LEVEL 3} I/V Characteristics}
+\index{I/V Characteristics, see MOSFET}
+\index{I/V Characteristics, NMOS}
+\index{I/V Characteristics, PMOS}
+\index{MOSFET, I/V Characteristics}
+\index{NMOS, I/V Characteristics}
+\index{PMOS, I/V Characteristics}
+\index{MOSFET, LEVEL 3 I/V Characteristics}
+\index{NMOS, LEVEL 3 I/V Characteristics}
+\index{PMOS, LEVEL 3 I/V Characteristics}
+
+The {\tt LEVEL} 3 I/V characteristics are based on empirical fits resulting in a
+more accurate description of the I/V response than obtained with the {\tt LEVEL}
+2 model.
+The {\tt LEVEL 3} current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions are as follows:\\[0.1in]
+\begin{tabular}{ll}
+cutoff region:&$V_{GS}<V_{T}$\\
+weak inversion region:&$V_T < V_{GS} \le V_{\ms{ON}}$ \\
+linear region (strong inversion):&$V_{GS} > V_{\ms{ON}}$
+				  and $V_{DS} < V_{DS,\ms{SAT}}$ \\
+saturation region (strong inversion):&$V_{GS} > V_{\ms{ON}}$
+				  and $V_{DS} > V_{DS,\ms{SAT}}$
+\end{tabular}\\
+where
+\begin{equation}
+V_T = \VTO - \sigma V_{DS} + F_C
+\end{equation}
+the effect of short and narrow channel on threshold voltage
+\begin{equation}
+F_C = \GAMMA F_S\sqrt{\PHI- V_{BS}}
+         + F_N(\PHI - V_{BS})
+\label{eqn:fc:level3}
+\end{equation}
+and
+\begin{equation}
+V_{\ms{ON}} = \left\{ \begin{array}{ll}
+	 V_T             & NFS = 0\\
+	 V_T + V_{TH}x_n & NFS \ne 0
+	 \end{array} \right. %}
+\end{equation}
+
+The effect of the short channel is described by
+\begin{equation}
+F_S = 1 - {\XJ\over{L_{\ms{EFF}}}} \left(
+      {{X_{JL} + W_C}\over{\XJ}} 
+      \sqrt{1 - {{W_P\over{\XJ + W_P}}}} - {{X_{JL}}\over\XJ}\right)
+\end{equation}
+where
+\begin{equation}
+W_P = X_D\sqrt{\PB-V_{BS}}
+\end{equation}
+\begin{equation}
+X_D = \sqrt{{2 \epsilon_s}\over q \NSUB}
+\label{m3:xd:eqn}
+\end{equation}
+\begin{equation}
+W_C = \XJ \left[ 0.0831353 + 0.8013929{{W_P}\over{\XJ}}
+      +0.0111077{{W_P}\over{\XJ}} \right]
+\end{equation}
+and
+\begin{equation}
+\sigma = \ETA{{8.15 \time 10^{-22}}\over{C'_{OX}L_{\ms{EFF}}^3}}
+\label{eqn:m:sigma:l3}
+\end{equation}
+The effect of channel width on threshold is
+\begin{equation}
+F_N = {{\textstyle\epsilon_s\delta\pi} \over {\textstyle 4 C'_{OX}\W_{\ms{EFF}}}}
+\end{equation}
+
+The effective mobility due to modulation by the gate
+\begin{equation}
+\mu_S = \UO F_G
+\end{equation}
+and the factor describing mobility modulation by the gate is
+\begin{equation}
+    F_G = {1 \over {1 + \THETA (V_{GSX}-V_T)}}
+\end{equation}
+where
+\begin{equation}
+V_{GSX} = \left\{ \begin{array}{ll}
+          V_{GS}      &  V_{GS} < V_{\ms{ON}}\\
+          V_{\ms{ON}} &  V_{GS} \ge V_{\ms{ON}}
+          \end{array} \right. %}
+\label{eqn:vgsx:l3}
+\end{equation}
+\clearpage
+The drain-source saturation voltage
+\begin{equation}
+V_{DS,\ms{SAT}} = \left\{ \begin{array}{ll}
+		   V_A + V_B - \sqrt{V_A^2 + V_B^2} & \VMAX > 0\\
+		   V_P				    & \VMAX \le 0
+		   \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+V_A = {{V_{GSX} - V_T} \over {1+F_B}}
+\end{equation}
+\begin{equation}
+V_B = {{v_{\ms{MAX}}L_{\ms{EFF}}}\over{\mu_S}}
+\end{equation}
+\begin{equation}
+V_P = V_{GSX} - V_T
+\end{equation}
+The body effect factor
+\begin{equation}
+F_B = {{\GAMMA F_S} \over {4 \sqrt{\phi_{BS}}}} + F_N
+\label{eqn:fb:l3}
+\end{equation}
+where
+\begin{equation}
+\phi_{BS} = \left\{ \begin{array}{ll}
+            \PHI - V_{BS}    &  V_{BS} \le 0\\
+            {{\textstyle \PHI}\over{\textstyle\sqrt{1+\frac{1}{2}V_{BS}/
+                 (\PHI)}}}    & V_{BS} > 0
+		   \end{array} \right. %}
+\end{equation}
+The velocity saturation factor is
+\begin{equation}
+    F_D = \left\{ \begin{array}{ll}
+          {{\textstyle 1} \over {\textstyle 1 + V_{DS}/V_B}}
+					  & \mbox{for} \VMAX \ne 0 \\
+           1                              & \mbox{for} \VMAX = 0
+	   \end{array} \right. %}
+\end{equation}
+\underline{cutoff region}
+\begin{equation}
+I_{D} = 0
+\end{equation}\\[0.2in]
+%
+%
+\underline{linear region}
+\begin{equation}
+ I_{D} =  \KP {{W_{\ms{EFF}}}\over{ L_{\ms{EFF}}}} F_G F_D
+           \left[ V_{GSX} - V_T - {{1 + F_{\ms{B}}} \over 2} V_{DS}
+	   \right] V_{DS}
+      \label{mos3linearids}
+\end{equation}
+%
+%
+\underline{weak inversion region}\\[0.1in]
+When $V_{GS}$ is slightly above $V_T$, $I_{D}$ increases slowly over a few
+thermal voltages $V_{\ms{TH}}$ in
+exponential manner becoming $I_{D}$ calculated for strong inversion.
+This effect is handled empirically by defining two exponential which,
+as well as ensuring an exponential increase in $I_{D}$, also ensure that
+the transconductance $G_M$ (= $\partial I_{D}/\partial V_{GS}$) is
+continuous at $V_{GS}$ = $V_{\ms{ON}}$.
+\begin{equation}
+I_{D} = \left\{ \begin{array}{ll}
+         I_{D,\ms{ON}}
+         \left[ {{\textstyle 10}\over{\textstyle 11}}
+         e^{\textstyle (V_{GS}-V_{\ms{ON}})/(x_nV_{TH})}
+       + {{\textstyle 1}\over{\textstyle 11}}
+         e^{\textstyle \alpha (V_{GS}-V_{\ms{ON}})} \right]  &  \alpha > 0 \\
+         \\
+         I_{D,\ms{ON}}
+         e^{\textstyle (V_{GS}-V_{\ms{ON}})/(x_nV_{TH})}
+         &  \alpha \le 0 
+         \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+\alpha = 11 \left( {{\textstyle G_{M,\ms{ON}}}
+         \over {\textstyle I_{D,\ms{ON}}}}
+         - {{\textstyle 1} \over {\textstyle
+         x_n V_{\ms{TH}}}}
+         \right)
+\end{equation}
+\begin{equation}
+G_{M,\ms{ON}} = {{\partial I_{D,\ms{ON}}} \over {\partial V_{GS}}}
+\end{equation}
+and
+\begin{equation}
+I_{D,\ms{ON}} =  \left\{ \begin{array}{ll}
+                  \parbox{3in}{$I_{D}$ in (\ref{mos3linearids})
+                               with $V_{GS}$ = $V_{ON}$}
+                  & V_{DS} \le V_{DS,\ms{SAT}} \\ \\
+                  \parbox{3in}{$I_{D}$ in (\ref{mos3satids})
+                               with $V_{GS}$ = $V_{ON}$ and
+                               $V_{DS}$ = $V_{DS,\ms{SAT}}$}
+                  & V_{DS} \le V_{DS,\ms{SAT}}
+                  \end{array} \right. %}
+\end{equation}
+\\[0.2in]
+%
+%
+\underline{saturation region}
+\begin{equation}
+I_{D} = {{L_{\ms{EFF}}}\over{\textstyle L_{\ms{EFF}-\Delta_L}}} I_{D,\ms{SAT}}
+      \label{mos3satids}
+\end{equation}
+\begin{equation}
+I_{D,\ms{SAT}}  =   \KP {{\W_{\ms{EFF}}}\over{ L_{\ms{EFF}}}} F_G F_D
+           \left[ V_{GSX} - V_T - {{1 + F_{\ms{B}}}\over 2} V_{DS,\ms{SAT}}
+	   \right] V_{DS,\ms{SAT}}
+\end{equation}
+The reduction in the channel length due to $V_{DS}$ modulation is
+\begin{equation}
+\Delta_L = \left\{ \begin{array}{ll}
+            \Delta'_L    & \Delta'_L < \frac{1}{2} L_{\ms{EFF}}\\
+            L_{\ms{EFF}} - {{\textstyle L_{\ms{EFF}}} \over
+            {\textstyle \Delta'_L}}
+			 & \Delta'_L \ge \frac{1}{2} L_{\ms{EFF}}
+	    \end{array} \right. %}
+            \label{m3deltal}
+\end{equation}
+where the punch through approximation is used for
+$\Delta'_L \ge \frac{1}{2} L_{\ms{EFF}}$>
+In (\ref{m3deltal}) the distance that the depletion region at the drain
+extends into the channel is
+\begin{equation}
+\Delta'_L = \sqrt{ \left( {{E_PX_D^2} \over 2}\right)^2
+                           + \KAPPA X_D^2(V_{DS} - V_{DS,\ms{SAT}})}
+		    - {{E_PX_D^2}\over2}
+\end{equation}
+and
+\begin{equation}
+E_P = {{I_{D,\ms{SAT}}}\over{G_{DS,\ms{SAT}}L_{\ms{EFF}}}}
+\end{equation}
+Here
+\begin{equation}
+G_{DS,\ms{SAT}} = {{\partial I_{D,\ms{SAT}}}\over{\partial V_{DS,\ms{SAT}}}}
+\end{equation}
+{The {\tt LEVEL} 3 current-voltage parameter dependencies
+are summarized in Figure \ref{mlevel3iv}.\\[0.2in]
+\begin{figure}
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt KAPPA} \hfill $\KAPPA$\\
+{\tt NSS} \hfill $\NSS$\\
+{\tt NSUB} \hfill $\NSUB$\\
+{\tt PB} \hfill $\PB$\\
+{\tt THETA} \hfill $\THETA$\\
+{\tt TOX} \hfill $\TOX$\\
+{\tt UO} \hfill $\UO$\\
+{\tt VMAX} \hfill $\VMAX$\\
+{\tt XJ} \hfill $\XJ$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Required} \\
+\hline
+{\tt L} \hfill $L$\\
+{\tt W} \hfill $W$ \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Optional} \\
+\hline
+{\tt LD} \hfill $\LD$\\
+{\tt WD} \hfill $\WD$ \\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{I/V}\\
+\hline
+{\tt VTO} \hfill $\VTZERO = f(\PHI, \NSS, \TOX)$\\
+{\tt KP} \hfill $\KP = f(\UO, \TOX)$\\
+{\tt PHI} \hfill $\PHI = f(\NSUB)$\\
+{\tt GAMMA} \hfill $\GAMMA = f(\UO, \TOX, \NSUB)$\\
+\{$I_{D} = f(\W, \Length, \WD, \LD$\newline
+\hspace*{\fill}$\KP, \PHI, \NSUB, \TOX, \UO, \THETA$\newline
+\hspace*{\fill}$\GAMMA, \VTO, \PB, \VMAX, \XJ, \KAPPA, \ETA)$\}\\
+\hline
+\end{tabular}
+\caption{ MOSFET {\tt LEVEL} 3 I/V parameter relationships.
+\label{mlevel3iv}}
+\end{figure}}
+\noindent\underline{\sl \large {\tt LEVEL} 3 Overlap Capacitances}\\[0.1in]
+\index{MOSFET, overlap capacitances LEVEL 3}
+\index{MOSFET, LEVEL 3, overlap capacitances LEVEL 3}
+\index{MOSFET, $C_{GS}$}
+\index{MOSFET, $C_{GD}$}
+\index{MOSFET, $C_{GB}$}
+\\[0.1in]
+\index{Overlap Capacitances, see MOSFET}
+\index{MOSFET, Overlap Capacitances LEVEL 3}
+\index{MOSFET, Overlap Capacitances}
+In the {\tt LEVEL 3} model the gate overlap capacitances
+asre strong functions of voltage.
+Two overlap capacitance models are available
+the Meyer model based on the model originally proposed by Meyer \cite{meyer:71}
+and the Ward-Dutton model
+\cite{ward:dutton:78,oh:ward:80}. These models differ in the derivation of the
+channel charge.\\[0.2in]
+
+\noindent\underline{\sl \large {\tt LEVEL} 3 Meyer Model}\\[0.1in]
+\index{Meyer model, see MOSFET}
+\index{MOSFET, overlap capacitances Meyer model}
+\index{MOSFET, Meyer model}
+\index{MOSFET, Meyer model, LEVEL 3}
+\index{MOSFET, $C_{GS}$}
+\index{MOSFET, $C_{GD}$}
+\index{MOSFET, $C_{GB}$}
+This model is selected when the parameter {\tt XQC} = $\XQC$ is not specified or
+$\XQC < 0.5$.
+
+The voltage dependent thin-oxide capacitances are used only if $\TOX$ is
+specified in the model statement.
+
+Four operating regions are defined in the Meyer model:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+accumulation region:&$V_{GS} < V_{\ms{ON}} - \PHI$\\
+depletion region:   &$V_{\ms{ON}} - \PHI < V_{GS} < V_{\ms{ON}}$\\
+saturation region:  &$V_{\ms{ON}} < V_{GS} <V_{\ms{ON}} + V_{DS}$\\
+linear region:&$V_{GS} > V_{\ms{ON}}+V_{DS}$\\
+\end{tabular}}\\[0.1in]
+where
+\begin{eqnarray}
+V_{\ms{ON}}  & = & \left\{ \begin{array}{ll}
+            V_{T} +  x_nV_{\ms{TH}} &
+		      \mbox{if } \NFS = {\tt NFS} \mbox{ specified}\\
+            V_{T}                   & \mbox{if } \NFS = {\tt NFS}
+                                       \mbox{ not specified}
+            \end{array} \right.\\ %}
+V_{T} & = & V_{T0} + \GAMMA
+        \left[\sqrt{\PHI - V_{BS}}-\sqrt{\PHI} \right]\\
+x_n      & = & 1 + {{q \NFS} \over {C'_{OX}}} + {{C_D} \over {C'_{OX}}}\\
+C'_{OX}&=&{{\epsilon_{OX}} \over { \TOX}}\\
+C_{OX}&=& C'_{OX}\W_{\ms{EFF}} L_{\ms{EFF}}\\
+C_D & = & {{\textstyle\GAMMA} \over {\textstyle 2 \sqrt{\PHI - V_{BS}}}}
+\end{eqnarray}
+\begin{equation}
+C_{GS} =  \left\{ \begin{array}{ll}
+            \CGSO\W                     & \mbox{accumulation region}\\
+            \frac{2}{3} C_{OX}
+             \left( 1+ {{\textstyle V_{\ms{ON}}
+             - V_{GS}} \over {\textstyle\PHI}}\right)
+            + \CGSO\W_{\ms{EFF}}                   & \mbox{depletion region}\\
+           \frac{2}{3} C_{OX} + \CGSO\W_{\ms{EFF}}  & \mbox{saturation region}\\
+            C_{OX} \left\{ 1 - \left[
+              {{\textstyle V_{GS} - V_{DS} - V_{\ms{ON}}} \over
+               {\textstyle 2(V_{GS}-V_{\ms{ON}}) - V_{DS}}} \right]^2\right\}
+            + \CGSO\W_{\ms{EFF}}  & \mbox{linear region}
+
+            \end{array}
+            \right. %}
+\end{equation}
+\begin{equation}
+C_{GD} =  \left\{ \begin{array}{ll}
+            \CGDO\W_{\ms{EFF}}          & \mbox{accumulation region}\\
+            \CGDO\W_{\ms{EFF}}          & \mbox{depletion region}\\
+            \CGDO\W_{\ms{EFF}}  & \mbox{saturation region}\\
+            C_{OX} \left\{ 1 - \left[
+              {{\textstyle V_{GS} - V_{\ms{ON}}} \over
+               {\textstyle 2(V_{GS}-V_{\ms{ON}}) - V_{DS}}} \right]^2\right\}
+              + \CGDO\W_{\ms{EFF}}  & \mbox{linear region}
+            \end{array}
+            \right. %}
+\end{equation}
+\begin{equation}
+C_{GB} =  \left\{ \begin{array}{ll}
+            C_{OX} + \CGBO L_{\ms{EFF}}        & \mbox{accumulation region}\\
+            C_{OX} \left({{\textstyle V_{\ms{ON}}-V_{GS}}\over {\textstyle\PHI}}
+                   \right) + \CGBO L_{\ms{EFF}} & \mbox{depletion region}\\
+            \CGBO L_{\ms{EFF}} & \mbox{saturation region}\\
+            \CGBO L_{\ms{EFF}} & \mbox{linear region}
+            \end{array}
+            \right.%}
+\end{equation}
+\vshift
+
+\noindent\underline{\sl \large {\tt LEVEL} 3 Ward-Dutton Model}\\[0.1in]
+\index{Ward-Dutton model, see MOSFET}
+\index{MOSFET, overlap capacitances Ward-Dutton Model}
+\index{MOSFET, Ward-Dutton model}
+\index{MOSFET, Ward-Dutton model, LEVEL 3}
+\index{MOSFET, $C_{GS}$}
+\index{MOSFET, $C_{GD}$}
+\index{MOSFET, $C_{GB}$}
+
+This model is selected when the parameter {\tt XQC} is specified and less than
+0.5.
+The charge in the gate $Q_G$ and the substrate $Q_B$ is calculated and the
+difference of these is taken as the channel charge $Q_{\ms{CHANNEL}}$.
+This charge is then partitioned and allocated between the source
+as $Q_S$ and the drain $Q_D$ as follows:
+\begin{eqnarray}
+Q_{\ms{CHANNEL}} & = & Q_D + Q_S \\
+Q_D         & = & \XQC Q_{\ms{CHANNEL}}\\
+\end{eqnarray}
+so that $Q_S          =  (1 - \XQC) Q_{\ms{CHANNEL}}$.
+This partitioning is somewhat arbitrary but produces transient results
+that more closely match measurements than does the Meyer capacitance model.
+However this is at the price of poorer convergence properties and sometimes
+error. This is particularly so when $V_{DS}$ is changing sign.
+Two operating regions are defined in the Ward-Dutton model:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+off region:&$V_{GS} \le V'_T$\\
+on  region:&$V_{GS} > V'_T$\\
+\end{tabular}}\\[0.1in]
+\noindent where
+ \begin{eqnarray}
+  V'_T &=& v_{BIX} + F_C\\
+  v_{BIX} &=& V_{FB} - \sigma V_{DS}
+\end{eqnarray}
+$F_C$ is defined in (\ref{eqn:fc:level3}), $\sigma$ in (\ref{eqn:m:sigma:l3}) and
+$V_{FB}$ is defined in (\ref{mFB1}) or (\ref{mFB1}).
+\underline{off region}
+
+\begin{eqnarray}
+       Q_G &=& 
+      \left\{ \begin{array}{l}
+       \gamma F_S C_{\ms{OX}} \left[
+         \sqrt{ \left({{\textstyle \gamma F_S}\over{\textstyle 2}}\right)^2
+         + (v_{GB}-V_{FB}+\PHI) } - 
+         {{\textstyle\gamma F_S}\over{\textstyle 2}} \right]\\
+      \hspace*{\fill} v_{GB} > (V_{FB}-\PHI)\\
+      \\
+      C_{\ms{OX}} (v_{GB}-V_{FB}+\PHI)
+      \hspace*{\fill} v_{GB} \le (V_{FB}-\PHI)
+      \end{array} \right. %}
+      \\
+    Q_B &=& -Q_G
+\end{eqnarray}
+\underline{on region}
+
+\begin{eqnarray}
+      Q_G &=& \left\{ \begin{array}{ll}
+            C_{\ms{OX}} (V_{GS}-V_{FB}) &V_{DSX} = 0 \\
+             C_{\ms{OX}} ( V_{GS} - v_{BIX} - \frac{1}{2} V_{DSX} + x_a )
+            &V_{DSX} \ne 0
+            \end{array} \right. %}
+            \\
+       Q_B &=& \left\{ \begin{array}{ll}
+            -C_{\ms{OX}} F_C &V_{DSX} = 0 \\
+             -C_{\ms{OX}} ( F_C + \frac{1}{2} F_B V_{DSX}
+             - x_a F_B ) &V_{DSX} \ne 0
+            \end{array} \right. %}
+\end{eqnarray}
+where
+\begin{equation}
+      x_a  = {{\textstyle (1+F_B) V_{DSX}^2}\over
+              {12 V_{GSX} - V'_T - \frac{1}{2} (1+F_B) V_{DSX} }}
+\end{equation}
+
+
+\begin{equation}
+Q_{\ms{CHANNEL}} = -( Q_G + Q_B )
+\end{equation}
+where $F_B$ is defined in (\ref{eqn:fb:l3}),
+$V_{GSX}$ in (\ref{eqn:vgsx:l3}) and
+\begin{equation}
+      V_{DSX}   = \left\{ \begin{array}{ll}
+                    V_{DS,\ms{SAT}} & V_{DS} > V_{D,\ms{SAT}}\\
+                    V_{DS} & V_{DS} \le V_{D,\ms{SAT}}
+                    \end{array} \right. %}
+\end{equation}
+The overlap capacitances are then evaluated as
+\begin{eqnarray}
+    C_{GDB}  &=& \partial Q_G / \partial v_D\\ 
+    C_{GSB}  &=& \partial Q_G / \partial v_S\\ 
+    C_{GGB}  &=& \partial Q_G / \partial v_G\\ 
+    C_{BDB}  &=& \partial Q_B / \partial v_D\\ 
+    C_{BSB}  &=& \partial Q_B / \partial v_S\\ 
+    C_{BGB}  &=& \partial Q_B / \partial v_G
+\end{eqnarray}
+
+The overlap capacitance parameter dependencies are summarized in
+figure \ref{m3overlap:fig}.
+\begin{figure}
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt NSUB} \hfill $\NSUB$\\
+{\tt CJ} \hfill $\CJ$\\
+{\tt CJSW} \hfill $\CJSW$\\
+{\tt MJ} \hfill $\MJ$\\
+{\tt MJSW} \hfill $\MJSW$\\
+{\tt PB} \hfill $\PB$\\
+{\tt PBSW} \hfill $\PBSW$\\
+{\tt FC} \hfill $\FC$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+{\tt AD} \hfill $A_D$\\
+{\tt AS} \hfill $A_S$\\
+{\tt PD} \hfill $P_D$\\
+{\tt PS} \hfill $P_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.1in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+\multicolumn{1}{|c|}{Constant Overlap}\\
+\multicolumn{1}{|c|}{Capacitances}\\
+\hline
+{\tt CGSO} \hfill $\CGSO$\\
+{\tt CGDO} \hfill $\CGDO$\\
+{\tt CGBO} \hfill $\CGBO$\\
+\hline
+\end{tabular}
+\caption{ MOSFET {\tt LEVEL} 3 overlap capacitance parameter relationships.
+\label{m3overlap:fig}}
+\end{figure}
+\vspace*{\fill}
+
+\clearpage
+\noindent {\large \bf BSIM ({\tt LEVEL} 4) MOSFET models.}\\
+\noindent\rule{\textwidth}{0.5mm}\\[0.2in]
+
+The parameters of the BSIM ({\tt LEVEL 4} model are  all  values
+obtained  from
+process  characterization,  and  can  be generated automatically.
+J. Pierret \cite{pierret:84} describes a  means  of  generating  a
+`process'  file,  and  the  program  Proc2Mod  provided in the UC Berkeley
+standard SPICE3 distribution converts this file  into  a  sequence  of  .MODEL
+lines  suitable  for  inclusion  in  a  SPICE  circuit file.
+Parameters marked below with an * in  the  L/W  column  also
+have corresponding parameters with a length and width dependency.
+
+
+Unlike most other models the  BSIM
+model  is  designed  for use with a process characterization
+system that provides all the parameters, thus there  are  no
+defaults  for  the  parameters,  and leaving one out is considered
+an error.
+
+\begin{longtable}[h]{|p{0.6in}|p{3.5in}|p{0.6in}|p{0.6in}|p{0.6in}|}
+\caption[SPICE BSIM (level 4) parameters.]{SPICE BSIM (level 4) parameters. \label{bsim1table}}\\
+
+\hline
+\multicolumn{1}{|c}{\bf Name} &
+\multicolumn{1}{|c}{\parbox{2.77in}{\bf Description}}  &
+\multicolumn{1}{|c}{\bf Units} &
+\multicolumn{1}{|c|}{\bf Default}&
+\multicolumn{1}{|c|}{\bf L/W}\\ \hline
+\endhead
+
+\hline \multicolumn{5}{|r|}{{Continued on next page}} \\ \hline
+\endfoot
+
+\hline \hline
+\endlastfoot
+
+{\tt A0}& drain saturation current for $V_{GS}$ = 0
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_0}&A& 0.1\X
+{\tt A1}& coefficient of $V_1$ (primary transconductance
+          parameter)\X
+{\tt CGBO} &gate-bulk overlap capacitance per meter channel length
+        \para\sym{\CGBO}    & F/m  & \reqd	&\X
+{\tt CGDO} &gate-drain overlap capacitance per meter channel
+        width \para\sym{\CGDO}    & F/m     & \reqd	&\X
+{\tt CGSO} &gate-source overlap capacitance per meter channel width
+        \para\sym{\CGSO}   & F/m  & \reqd	&\X
+{\tt CJ}   &source-drain junction capacitance per unit area\para\sym{\CJ}
+        & F/$\mbox{m}^2$ & \reqd	& \X
+{\tt CJSW} &source-drain junction sidewall capacitance per unit length
+        \para\sym{\CJSW}& F/m  & \reqd	& \X
+{\tt DL}   &shortening of channel \sym{\DL} & $\mu$m     
+	& \reqd	& \X
+{\tt DW}   &narrowing of channel\sym{\DW}  & $\mu$m     
+	& \reqd	& \X
+{\tt DELL} &source-drain junction length\newline reduction \sym{DELL}          & m
+	& \reqd	& \X
+{\tt ETA}  &zero-bias drain-induced barrier lowering coefficient
+        \sym{\ETA}& -
+	& \reqd	&\STAR\X
+{\tt JS}   &source-drain junction current\newline density
+        \sym{\JS}& A/$\mbox{m}^2$ 
+	& \reqd	& \X
+{\tt K1}   &body effect coefficient \sym{\KONE}&$\mbox{V}^{\frac{1}{2}}$   
+	& \reqd	&\STAR\X
+{\tt K2}   &drain/source depletion charge sharing\newline coefficient
+       \sym{\KTWO} & -
+	& \reqd	&\STAR\X
+{\tt MJ}   &grading coefficient of source-drain junction
+        \sym{\MJ}& - & \reqd	& \X
+{\tt MJSW} &grading coefficient of source-drain junction sidewall
+        \sym{\MJSW}     & - & \reqd	&\X
+{\tt MUS}  &mobility at zero substrate bias and at $V_{DS}$ = $V_{DD}$
+        \sym{\MUS}& \hspace*{-0.08in} $\mbox{cm}^2/\mbox{V}^2$s & \reqd&\STAR\X
+{\tt MUZ}  &zero-bias mobility\sym{\MUZ}& $\mbox{cm}^2/\mbox{Vs}$
+	& \reqd	& \X
+{\tt N0}   &zero-bias subthreshold slope coefficient (N-zero) \sym{\NZERO}&-
+	& \reqd	& \STAR\X
+{\tt NB}   &sensitivity of subthreshold slope to substrate bias
+        \para\sym{\NB}& - & \reqd	& \STAR\X
+{\tt ND}   &sensitivity~of~subthreshold slope to drain bias \sym{\ND} & -
+	& \reqd	& \STAR \X
+{\tt PB}   &built in potential of source/\newline drain junction\sym{\PB}& V 
+	& \reqd	& \X
+{\tt PBSW} &built in potential of source/\newline drain juntion sidewall
+        \para\sym{\PBSW}& V & \reqd	& \X
+{\tt PHI}  &surface inversion potential \sym{\PHI} & V & \reqd&\STAR\X
+{\tt RSH}  &drain and source diffusion sheet resistance\para
+        \sym{\RSH}& $\Omega$-square & \reqd	& \X
+{\tt TEMP} &temperature at which parameters were measured  \sym{\TEMP}& C
+	& \reqd	&\X
+{\tt TOX}  &gate oxide thickness \sym{\TOX}   & $\mu$m
+	& \reqd	&\X
+{\tt U0}   &zero-bias transverse-field mobility degradation coefficient
+        (U-zero \sym{\UZERO}& $\mbox{V}^{-1}$   & \reqd	&\STAR\X
+{\tt U1}   &zero-bias velocity saturation coefficient \sym{\UONE}&$\mu$m/V   
+	& \reqd	& \STAR\X
+{\tt VDD}  &measurement bias range  \sym{\VDD}                    & V
+	& \reqd	&\X
+{\tt WDF}  &source-drain junction default width\newline\sym{\WDF} & m
+	& \reqd	&\X
+{\tt VFB}  &flat-band voltage \sym{\VFB}                  & V
+	& \reqd	&\STAR\X
+{\tt X2E} &sensitivity of drain-induced barrier lowering\newline effect
+	   to substrate bias
+	\sym{\XTWOE}& $\mbox{V}^{-1}$ & \reqd	&\STAR \X
+{\tt X2MS} &sensitivity of mobility to substrate bias at $V_{DS}$ = $V_{DD}$
+        \sym{\XTWOMS}& \hspace*{-0.08in} $\mbox{cm}^2/\mbox{V}^2\mbox{s}$
+        & \reqd&\STAR\X
+{\tt X2MZ} &sensitivity of mobility to substrate bias at $V_{DS}$ = 0
+        \sym{\XTWOMZ}& \hspace*{-0.08in} $\mbox{cm}^2/\mbox{V}^2\mbox{s}$
+        & \reqd&\STAR\X
+{\tt X2U0} &sensitivity of transverse field mobility\newline degradation
+        effect to substrate bias\newline (X2U-zero)
+        \sym{\XTWOUZERO} & $\mbox{V}^{-2}$ & \reqd&\STAR\X
+{\tt X2U1} &sensitivity of velocity saturation effect to substrate bias
+        \sym{\XTWOUONE}&$\mu\mbox{mV}^{-2}$ & \reqd	&\STAR \X
+{\tt X3E}  &sensitivity of drain-induced barrier lowering effect to drain
+        bias at $V_{DS}$ = $V_{DD}$\sym{\XTHREEE}& $\mbox{V}^{-1}$    
+	& \reqd	&\STAR \X
+{\tt X3MS} &sensitivity of mobility to drain bias at $V_{DS}$= $V_{DD}$
+        \sym{\XTHREEMS}
+        & \hspace*{-0.08in} $\mbox{cm}^2/\mbox{V}^2\mbox{s}$ & \reqd&\STAR\X
+{\tt X3U1} &sensitivity of velocity saturation effect on drain bias at
+        $V_{DS}$ = $V_{DD}$ \sym{\XTHREEUONE}
+        & $\mu\mbox{V}^{-2}$ & \reqd	& \STAR \X
+{\tt XPART}&gate oxide capacitance charge partition model flag
+        \sym{\XPART}\newline
+        XPART~=~0: selects a 40:60
+	  drain:source\newline\hspace*{\fill}charge partition\newline
+        XPART~=~1: selects a
+	  0:100 drain:source\newline\hspace*{\fill}charge partition
+	& - & \reqd	&\X
+\end{longtable}
+
+\begin{table}
+\caption{SPICE BSIM (level 4) parameters, extensions.
+\label{bsim1pspicetable}}
+\keywordtable{
+{\tt AF}      &flicker noise exponent  \sym{\AF}    & -     &   1      \X
+{\tt CBD} &zero-bias B-D junction capacitance \sym{\CBD}
+     & F     &   0    \X
+{\tt CBS} &zero-bias B-S junction capacitance \sym{\CBS}
+     & F     &   0    \X
+{\tt FC}      &coefficient for forward-bias
+         depletion capacitance\newline formula \sym{\FC}  & -     &   0.5      \X
+{\tt IS} &bulk junction saturation current\sym{\IS}  & A     &   1E-14\X
+{\tt KF}      &flicker noise coefficient \sym{\KF}      & -     &   0      \X
+{\tt L}    & channel length \sym{\Length}& m     &   {\tt DEFL}  \X
+{\tt N}    & bulk $p$-$n$ emission coefficient \para\sym{\N} & - & 0      \X
+{\tt PBSW} & bulk $p$-$n$ sidewall potential\para\sym{\PBSW}& V& {\tt PB}\X}
+\end{table}
+
+\kw{Table \ref{bsim1pspicetable} continued: BSIM ({\tt LEVEL}) 4 model
+keywords, extensions.\vshift}{
+{\tt JSSW}    & bulk junction sidewall current per unit length
+                \para\sym{\JSSW}& A/m   &   0 \X
+{\tt RB}   & bulk ohmic resistance\para\sym{\RB}& $\Omega$&   0    \X
+{\tt RD}   & drain ohmic resistance\para\sym{\RD}& $\Omega$&   0   \X
+{\tt RDS}  & drain-source shunt resistance\sym{\RDS}&$\Omega$  & 0   \X
+{\tt RG}   & gate ohmic resistance\para\sym{\RG}& $\Omega$&   0   \X
+{\tt RS}   & source ohmic resistance\para\sym{\RS}& $\Omega$&   0   \X
+{\tt TT}   & bulk $p$-$n$ transit time\sym{\TT}& s     &   0      \X
+{\tt W}    & channel width \sym{\W}& m     &   {\tt DEFL}\X
+}
+
+\noindent\underline{\sl \large AC Analysis}\\[0.1in]
+\index{MOSFET, AC Analysis}
+The AC analysis uses the model of figure  \ref{m.ps} with the capacitor values
+evaluated at the \dc\ operating point with
+\begin{equation}
+g_m = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{GS}}}
+\end{equation}
+and
+\begin{equation}
+R_{DS} = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{DS}}}
+\end{equation}
+
+\clearpage
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{MOSFET, Noise Model}
+\index{MOSFET, Noise Analysis}
+The MOSFET noise model accounts for thermal noise generated in the
+parasitic resistances and shot and flicker noise generated in the
+drain source current generator.  The rms (root-mean-square) values of
+thermal noise current generators shunting the four parasitic resistance
+$R_B$, $R_D$, $R_G$ and $R_S$ are
+\begin{eqnarray}
+I_{n,B} &=& \sqrt{4kT/R_B}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,D} &=& \sqrt{4kT/R_D}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,G} &=& \sqrt{4kT/R_G}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,S} &=& \sqrt{4kT/R_S}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+The rms value of
+noise current generators in series with the drain-source current generator
+\begin{equation}
+I_{n,DS} = \left( I_{\ms{SHOT},DS}^2 + I_{\ms{FLICKER},DS}^2 \right)^{1/2}
+\end{equation}
+\begin{eqnarray}
+I_{\ms{SHOT},DS} &=& \sqrt{4kTg_m\frac{2}{3}} ~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{FLICKER},DS} &=& \sqrt{{{\textstyle\KF I_{D}^{\AF}} 
+                         \over {\textstyle f K_{\ms{CHANNEL}}}}}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+where the transconductance
+\begin{equation}
+g_m = {{\textstyle\partial I_{D}} \over {\textstyle\partial V_{GS}}}
+\end{equation}
+is evaluated at the \dc\ operating point, and
+\begin{equation}
+K_{\ms{CHANNEL}} = {{\textstyle\partial L_{\ms{EFF}}^2\epsilon_{\ms{Si}}} \over
+                   {\textstyle\partial \TOX}}
+\end{equation}

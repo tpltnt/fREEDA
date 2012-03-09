@@ -1,0 +1,93 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Single Frequency FM current source}
+\hspace{\fill}\textbf{isffm}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=0.5in\epsfbox{figures/i_spice.ps}}
+\caption{Independent Current Source Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+$\tt isffm$:$\langle \tt{instance\ name}\rangle$
+$n_1\ n_2\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+&  \\
+$n_2$ & is the negative element node. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+io: Offset current(A) & DOUBLE & 0 & no\\
+\hline
+ia: RMS current amplitude (A) & DOUBLE & 0 & no\\
+\hline
+fcarrier: AC frequency (Hz) & DOUBLE & 0 & no\\
+\hline
+mdi: modulation index (Dimensionless) & DOUBLE & 0 & no\\
+\hline
+fsignal: Signal frequency (Hz) & DOUBLE & 0 & no\\
+\par
+\hline
+\end{tabular}
+\end{table}
+% example in \FDA
+%\newline
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{isffm:isignal\ 8\ 0\ io=0.2 ia=0.7 fcarrier=4 mdi=0.9
+fsignal=1}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The waveform shape for this source is
+\begin{equation}
+i = i_o + i_a[\sin(2.\pi.f_{carrier}.t) +
+mdi\sin(2.\pi.f_{signal}.t)]
+\end{equation}
+\begin{figure}[hbp]
+\centerline{\epsfxsize=3in\pfig{vsffm.eps}} \caption{Current
+source single frequency frequency modulation waveform for
+\texttt{isffm:isignal\ 8\ 0\ io=0.2 ia=0.7 fcarrier=4 mdi=0.9
+fsignal=1}}
+\end{figure}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{I} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.05.15 \\
+% Credits
+\newpage
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Satish Uppathil & NC State University & May 2002 & \epsfxsize=1in\epsfbox{figures/logo.eps} \\
+svuppath@eos.ncsu.edu & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

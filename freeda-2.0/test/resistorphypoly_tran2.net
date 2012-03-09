@@ -1,0 +1,18 @@
+**** resistorPhyPoly transient characteristic ****
+
+* This choice of conductance coefficients should result in positive resistor
+* values for Vctrl down to about -5V for polyarg = true or false.
+
+.tran2 tstop=4E-6 tstep=2E-8
+
+resistorphypoly:r1 1 2 0 r=1000.0 coeff0=1.0 coeff1=0.1 coeff2=0.0 coeff3=0.002 coeff4=0.0
++ coeff5=0.00004 polyarg=0 tc1=0.0 tc2=0.0 tc1c=0.0 tc2c=0.0 tnom=300.0 tdev=300.0 c=0.0
+resistor:r2 2 0 r = 1000.0
+capacitor:c1 1 0 c = 1E-10
+capacitor:c2 2 0 c = 1E-10
+vpulse:vbias 1 0  v1=-3.0 v2=3.0 td=1E-9 tr=0 tf=0 pw=1E-6 per=2E-6
+
+.out write term 1 vt in "poly_tran2_vt1.out"
+.out write term 2 vt in "poly_tran2_vt2.out"
+
+.end

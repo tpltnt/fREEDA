@@ -1,0 +1,549 @@
+
+\chapter{Convolution Transient Analysis} \label{ch_svtr}
+
+%--------------------------------------------------------------------------
+\section{Introduction}
+
+Transient analysis of distributed microwave circuits is complicated by
+the inability of frequency independent primitives (such as resistors,
+inductors and capacitors) to model distributed circuits. More
+generally, the linear part of a microwave circuit is described in the
+frequency domain by network parameters especially where numerical
+field analysis is used to model a spatially distributed
+structure. Inverse Fourier transformation of these network parameters
+yields the impulse response of the linear circuit. This has been used
+with convolution to achieve transient analysis of distributed
+circuits~\cite{basel:paper,Brazil:New,gamma,delta}.
+
+The major drawback of convolution analysis has been the large time and
+memory requirements that result from recording and convolving the
+nodal voltages of the nonlinear elements. The situation worsens
+because of convergence considerations which require small time
+steps. This chapter develops a convolution-based transient analysis
+which uses state variables instead of node voltages to capture the
+nonlinear response. This has two desirable effects. First, the number
+of state variables required is less than the number of nodes of the
+nonlinear elements and so fewer quantities need to be recorded and
+convolved. Second, parameterized device models can be used as the
+nonlinearity is not restricted to the form of current as a nonlinear
+function of voltage. Parameterized device models result in stable
+transient analysis for larger time steps and so less discretized time
+history is required. Also with improved stability constant time steps
+can be used further improving the robustness of the convolution.
+
+Observation about efficiency of state-variable approach: if we have
+only one element that uses convolution and we use SPICE-like
+transient, the convolution would only be performed at the ports of the
+convolution-based element. That approach is probably much more
+efficient for a large group of circuits. In the case of quasi-optical
+systems, since a big part of the circuit needs to be treated using
+convolution, our approach can be equally or even more efficient if the
+number of nonlinear element ports is less than the number of
+convolution-based element ports.
+
+
+
+%--------------------------------------------------------------------------
+\section{Background}
+
+Distributed linear microwave circuits are described by
+frequency-dependent network parameters and only a few methods are
+available to accommodate these circuits in transient simulation. These
+methods include Impulse Response and Convolution (IRC), Asymptotic Waveform
+Evaluation (AWE), and Laplace Inversion.
+
+\subsection{Impulse Response and Convolution}
+
+One of the first implementations of IRC to distributed microwave
+circuits was by Djordjevic and Sarkar~\cite{sarkar} in 1987.  Since
+that time there have been several efforts to reduce the significant
+aliasing errors that result from the Inverse Fast Fourier Transform
+(I-FFT) operation.
+
+Minimization of aliasing in the I-FFT requires that the imaginary part
+of the frequency response be zero at the maximum frequency. Low pass
+filtering has been used to achieve this~\cite{alpha}. The introduction
+of a small time delay also achieves this result with presumably less
+distortion~\cite{delta}. Insertion of an augmentation network in the
+linear network at the interface with the nonlinear network achieves
+the same result for special types of circuits~\cite{basel:paper}. The
+effect of the augmentation network is compensated in the nonlinear
+iteration scheme. This, however, is not a general technique. It is
+also important to limit the length of the impulse response to reduce
+memory requirements and the resistive augmentation achieves this
+result~\cite{basel:paper}. Augmentation is also effectively achieved
+using $s$ parameters~\cite{theta}, where the reference impedance
+effectively dampens multiple reflections.
+
+Distributed networks are characterized partly by reflections so that
+an impulse response tends to have regions of low value between regions
+of rapid change. In this case thresholding greatly reduces the number
+of impulse response discretizations that need to be
+retained~\cite{basel:paper}. In high speed digital interconnect
+circuitry this can reduce the number of significant impulse responses
+by a factor of 10 to 100, depending on the desired
+accuracy~\cite{basel:paper}.
+
+Convolution as generally practiced uses a rectangular integration
+scheme (essentially an impulse response is treated as being constant
+in a time step interval). P. Stenius \emph{et al.}~\cite{aplac}
+developed a trapezoidal form of the convolution integration which
+should have superior convergence properties than the previous block
+integration.
+
+\subsection{Asymptotic Waveform Evaluation}
+
+The frequency dependent network parameters can be modeled using
+frequency independent primitives (resistors, inductors and capacitors)
+if a rational polynomial transfer function is fitted to the network
+parameters. In practice, this procedure results in an impossibly large
+circuit. The AWE method addresses this problem by reducing the
+dimension of the rational polynomial while minimizing
+distortion~\cite{chan:AWE,multi:pade}. This method works well for
+interconnects in digital systems and lower frequency microwave
+circuits~\cite{Nakhla:Eli,Trithy}. However, higher frequency circuits
+can only be modeled approximately using AWE due to the infinite number
+of poles and zeros of such a circuit.
+
+Most of the AWE methods use the Pad\'e approximation and this and
+other approximations used can have stability problems~\cite{chan:AWE}.
+
+
+\subsection{Numerical Inversion of Laplace Transform Technique}
+
+This technique does not have aliasing problems since it does not
+assume that the function is periodic. The inverse transform exists for
+both periodic and non-periodic functions. There is no causality
+problem for double sided Laplace Transforms, either. Unlike FFT
+methods, the desired part of the response can be achieved without
+doing tedious and unnecessary calculations for the other parts of the
+response. Laplace techniques suffer from the series approximations and
+the nonlinear iterations involved. The advantages and the limitations
+of the Inverse Laplace Methods are discussed in detail in
+\cite{Nakhla:Grif}.
+
+
+%--------------------------------------------------------------------------
+\section{Formulation of the Transient Analysis}
+
+The system being modeled is partitioned into linear and nonlinear
+subnetworks\footnote{The linear/nonlinear classification is not strict
+here since some 'linear' elements such as sources or sometimes
+inductors and capacitors can be treated in the time domain, for
+example to avoid problems with the impulse response.} with the linear
+subnetwork comprising the spatially distributed network characterized
+by EM analysis. This yields a port-based admittance matrix which is
+augmented by other linear circuit elements. Each nonlinear subnetwork
+interfaces with the linear network via an LRG of nodes which contains
+a single LRN \cite{local:reference:node:khalil}.  Sources are included
+in the nonlinear subnetworks as they must be treated in the time
+domain.  From the frequency- and time-domain state variables (${\bf
+X}(f), {\bf x}(t)$), describing the state of the nonlinear
+subnetworks, the voltages with respect to the LRN's, (${\bf
+V}_{NL}(f), {\bf v}_{NL}(t)$), and the currents flowing into the
+nonlinear networks at the interface nodes other than the LRN's (${\bf
+I}_{NL}(f), {\bf i}_{NL}(t)$) are determined by the constitutive
+relations of the nonlinear elements so that ${\bf I}_{NL}(f)$ $=$
+${\bf I}_{NL}({\bf X},f)$ and ${\bf V}_{NL}(f)$ $=$ ${\bf V}_{NL}({\bf
+X},f)$.  As voltages and currents at the element's reference nodes are
+not considered, the number of state variables, $n_S$, is equal to the
+number of interface ports.  With the current flowing into the linear
+network ${\bf I}_L(f)$ $=$ $-{\bf I}_{NL}(f)$, the frequency domain
+voltages at the interface required by the linear network is
+%
+\begin{equation}
+  {\bf V}_{L}({\bf X},f) = {\bf M}_{SV}{\bf I}_{NL}({\bf X},f) \label{eq.fd}
+\end{equation}
+%
+where ${\bf M}_{SV}$ is the state variable impedance
+matrix~\cite{ims99} and it is obtained from a modified nodal
+admittance matrix that supports the concept of local reference
+nodes~\cite{local:reference:node:christoffersen}.  Following discrete
+Fourier transformation the $i$ th component of ${\bf V}_{L}(f)$ at the
+discretized time step $n_t$ is
+%
+\begin{equation}
+  v_{Li}(n_t) = \sum_{j=1}^{n_S} v_{Lij}(n_t)
+\end{equation}
+%
+the contribution of the current at the $j$ th interface node to the
+voltage at the $i$ th node is \cite{svtr}\footnote{Here we assume that
+$m_{i,j}(0)$ is already divided by two after the IFFT operation
+\cite{aplac}.}
+%
+\begin{eqnarray}
+\lefteqn{{v_L}_{i,j}({\bf \hat{X}},n_t) =} \nonumber \\
+ & &	\left\{ \begin{array}{l}
+	   {m_{i,j}(0) \: i_{NL}({\bf \hat{X}},n_t)} \\
+           + \: \sum_{n_{\tau}=1}^{n_t - 1} m_{i,j}(n_{\tau}) \:
+                    i_j(n_t - n_{\tau}), \\
+	\multicolumn{1}{r}{\mbox{if $n_t < N_T$}} \\
+	   {m_{i,j}(0) \: {i_{NL}}_j({\bf \hat{X}},n_t)} \\
+           + \: \sum_{n_{\tau}=1}^{N_T-1} m_{i,j}(n_{\tau}) \:
+                    i_j(n_t - n_{\tau}), \\
+	\multicolumn{1}{r}{\mbox{if $n_t \ge N_T$}}
+	\end{array} \right. \label{eq.conv} 
+\end{eqnarray}
+%
+where $m_{ij}(n_t)$ is the I-FFT of ${\bf M}_{SV}(f)$ with duration
+$N_T$ and is the discrete impulse response contribution of the current
+at the $j$ th interface node to the voltage at the $i$ th node.  Note
+that $m_{ij}(n_t)$ $=$ $0$ for $n_t$ $<$ $0$ and for $n_t$ $\ge$
+$N_T$. Following application of this the error function vector ${\bf
+f}$ $=$ $[f_1 \dots f_i \dots f_{n_S}]^{\mbox{\scriptsize T}}$ is
+formed where
+\begin{equation}
+  f_i = \sum_{j=1}^{n_S} v_{Li,j}(n_t) - v_{NLi}(n_t)
+\label{eq:error}
+\end{equation}
+%
+and in vector form, the complete system is
+%
+\begin{eqnarray}
+{\bf F}({\bf \hat{X}}) = 
+	  \left[ \begin{array}{l} 
+	  \sum_{j=1}^{n_s} {v_L}_{1,j}({\bf \hat{X}},n_t) - 
+				  {v_{NL}}_1({\bf \hat{X}},n_t)  \\
+	  \sum_{j=1}^{n_s} {v_L}_{2,j}({\bf \hat{X}},n_t) - 
+				  {v_{NL}}_2({\bf \hat{X}},n_t) \\ 
+	  \vdots\\
+	  \sum_{j=1}^{n_s} {v_L}_{n_s,j}({\bf \hat{X}},n_t) - 
+				  {v_{NL}}_{n_s}({\bf \hat{X}},n_t) 
+	  \end{array} \right] \label{error_function}
+\end{eqnarray}
+%
+The error function in Eq.~(\ref{error_function}) is solved for
+each time step.
+
+
+%--------------------------------------------------------------------------
+\section{Implementation}
+
+The formulation developed above resulted in a standard nonlinear
+problem that can be solved using the Newton method or quasi-Newton
+method. As the error function changes only slightly from time step to
+time step, efficient iterative matrix solve schemes can be used as a
+very good preconditioner is available from the previous time step.
+The general flow of the analysis is shown in
+Figure~\ref{transient_flow} and was implemented in the freeda$^{\mathrm{TM}}$
+program.
+%
+\begin{figure}[ht]
+\centerline{\epsfxsize=1.6in \pfig{transient_flow.eps}}
+\caption{Flow diagram of the analysis code} \label{transient_flow}
+\end{figure}
+Discretization errors and aliasing errors arise in developing the
+discrete impulse response. Also the time required to perform
+convolution-based transient analysis is very long if a sinusoidal
+steady-state response is to be determined at the same time as
+evaluation of the dc operating level.  This section presents two
+workarounds to these problems.
+
+
+\subsection{Impulse Response Determination}
+
+The impulse response is obtained using the inverse real Fourier
+transformation of each element of ${\bf M}_{SV}$. The transform
+requires special characteristics of the frequency domain variables at
+high frequencies so that aliasing is minimized. Problems occur with
+ideal inductors and capacitors as the matrix elements can go to
+infinity. This can be corrected by cascading a resistive augmentation
+circuit with the linear circuit and so ensure finite
+parameters~\cite{mete,basel:paper}. The use of scattering parameters
+achieves similar resistive augmentation~\cite{theta}. Being resistive,
+the effect of the augmentation network can be removed in transient
+simulation as the resistors are unaffected by the Fourier
+transformation. The current work uses the resistive augmentation
+network shown in Fig.~\ref{augmentation}. The advantage of this
+topology is that no extra nodes are added to the circuit and the size
+of the MNAM is not changed. The augmentation network provides a better
+matrix conditioning for the I-FFT operation at the expense of
+increased error due to finite numerical accuracy. Ideally, the effect
+of the augmentation would be exactly compensated.
+%
+\begin{figure}[ht]
+\centerline{\epsfxsize=2.7in \pfig{augmentation.eps}}
+\caption{Augmentation and compensation network}
+\label{augmentation}
+\end{figure}
+%
+The resistive augmentation network also serves to limit the extent of
+the impulse response as energy is absorbed and multiple reflections
+are damped. Again, note this effect is fully compensated.
+
+Before converting the frequency domain ${\bf M}_{SV}$ (impedance-like)
+matrix to the time domain, the imaginary part of the frequency
+response needs to be band-limited so that the function has a periodic
+(or circular) frequency response. This significantly reduces the
+aliasing errors in the I-FFT operation.
+
+In freeda$^{\mathrm{TM}}$, frequency response limiting is implemented by filtering
+the last part of the frequency spectrum of each matrix element so the
+imaginary part goes to zero and the real part goes to the DC value. In
+this way, the frequency response is periodic. This is in contrast to
+low pass filtering~\cite{basel:paper} which zeroes the high frequency
+response and introducing additional time-delay to take the imaginary
+response to zero~\cite{Brazil:New}. The filtering factor $k_i$ is,
+\begin{equation} 
+  k_i = \left(\frac{n-i}{n-i_0}\right)^2
+\end{equation}
+where $n$ is the number of discrete frequencies, $i$ is the frequency
+index and $i_0$ is the frequency index at which filtering starts.
+For all $i$ greater than $i_0$, the filtering operation on each state
+variable impedance matrix entry is
+\begin{eqnarray}
+  \Re\{m_i\} &=& k_i \times \Re\{m_i\} + (1 - k_i) \times m_0 \\
+  \Im\{m_i\} &=& k_i \times \Im\{m_i\}
+\end{eqnarray}
+The amount of filtering is an analysis option since in some cases it
+is not necessary. By default, only the last 3\% of the spectrum is
+filtered to achieve an acceptable alias reduction.  If this is not
+done the correct impulse response is not assured as the continuity
+condition is inherent in the I-FFT (or FFT) operation.
+
+Causality imposes special considerations for the response obtained
+from the I-FFT operation. A discontinuity of the impulse response
+generally occurs at $t=0$, as the negative time response must be
+zero~\cite{aplac}. In this situation the I-FFT operation yields a
+value which is the average of the one-sided limits of the function at
+that point. That is the value calculated at $t=0$ is one half of the
+value at $t=0^+$. However, the upper side limit (at $t=0^+$) is
+required in numerical integration and so the value of the I-FFT
+calculated time response must be multiplied by 2 to obtain the
+required impulse response. Note that in Equation~(\ref{eq.conv}) the
+first point of the impulse is divided by two, so actually the
+multiplication can be saved.
+
+Fourier transformation is implemented using a real I-FFT algorithm
+from the FFTW library~\cite{FFTW}. This algorithm requires only the
+positive frequency samples since the negative frequency samples are
+the complex conjugate of the corresponding positive frequencies. The
+FFTW library is a comprehensive collection of C routines for computing
+the discrete Fourier transform in one or more dimensions, of both real
+and complex data, and of arbitrary input size.
+
+
+\subsection{Initial Operating Point}
+
+The quickest way to determine the steady state response is to avoid
+the initial transient which largely determines the dc operating point
+with a superimposed time-varying response. The dc voltage at the $i$th 
+node is
+\begin{equation}
+  V_{DCi} = \sum_{j=1}^{n_S} V_{DCi,j} \label{eq.dc1}
+\end{equation}
+where
+\begin{equation}
+  V_{DCi,j} = M_{DCi,j} I_{DCj}
+\end{equation}
+$I_{DCj}$ is the dc current flowing into the nonlinear circuit at the
+$j$ th node, and the $ij$ th DC response (corresponding to resistance)
+is
+\begin{equation}
+  M_{DCi,j} = \sum_{n_{\tau}=0}^{N_T-1} m_{i,j}(n_{\tau})
+\label{eq:mdcij}
+\end{equation}
+Setting $n_t = 0$ and replacing $v_{Li,j}(0)$ by $V_{DCi,j}$ in
+(\ref{eq:error}) the DC operating point (defined by the set of
+$V_{DCi,j}$'s and $I_{DCj}$'s) is determined when the error function
+is zeroed.  These can be used as initial conditions in solving for the
+steady-state response with the same effect as establishing the voltage
+and current conditions before time 0.  The initial condition must
+slowly be removed as the simulation progresses but for $n_t$ $<$ $N_T$
+the initial condition contribution ${^Iv}_{i,j}(n_t)$ is, from
+(\ref{eq.conv}),
+%
+\begin{equation}
+  {^Iv}_{i,j}(n_t) = I_{DCj} \sum_{n_{\tau}=n_t}^{N_T-1} m_{i,j}(n_{\tau})
+\end{equation}
+This can be evaluated more efficiently as
+\begin{equation}
+  {^Iv}_{i,j}(n_t) = \left\{
+  \begin{array}{lr}
+    M_{DCi,j}I_{DCj}, & \mbox{if $n_t = 0$} \\
+    \multicolumn{2}{l}{{^Iv}_{i,j}(n_t-1) - I_{DCj}m_{i,j}(n_t-1)},  \\
+    \multicolumn{2}{r}{\mbox{if $1 \le n_t < N_T$}} \\
+    0, & \mbox{if $n_t \ge N_T$} \\
+\end{array}
+\right.
+\end{equation}
+%
+Now the previous expression for $v_{Li,j}$, (\ref{eq.conv}), becomes
+%
+\begin{eqnarray}
+\lefteqn{{v_L}_{i,j}({\bf \hat{X}},n_t) =} \nonumber \\
+ & &	\left\{ \begin{array}{l}
+        {m_{i,j}(0) \: i_{NL}({\bf \hat{X}},n_t)} + {{^Iv}_{DC}}_{i,j}(n_t) \\
+           + \: \sum_{n_{\tau}=1}^{n_t - 1} m_{i,j}(n_{\tau}) \:
+                    i_j(n_t - n_{\tau}), \\
+	\multicolumn{1}{r}{\mbox{if $n_t < N_T$}} \\
+	   {m_{i,j}(0) \: {i_{NL}}_j({\bf \hat{X}},n_t)} \\
+           + \: \sum_{n_{\tau}=1}^{N_T-1} m_{i,j}(n_{\tau}) \:
+                    i_j(n_t - n_{\tau}), \\
+	\multicolumn{1}{r}{\mbox{if $n_t \ge N_T$}}
+	\end{array} \right. \label{eq.dcconv} 
+\end{eqnarray}
+%
+Thus, the DC initial condition only adds one term to the convolution
+sum.
+
+
+
+
+\subsection{Impulse Response Correction}
+
+The finite length discrete impulse response has inherent errors and
+this is particularly problematic in determining the dc response. The
+linear network is characterized by its transient step response
+\begin{equation}
+{^{STEP}R_i} = \sum_{j=1}^{n_S} M_{DCi,j}
+\end{equation}
+and its dc response (which is known to be more accurate)
+\begin{equation}
+{^{DC}R_i} = \sum_{j=1}^{n_S} M_{SVi,j}(f = 0)
+\end{equation}
+The dc error is characterized by an absolute error
+%
+\begin{equation}
+  E_i = {^{DC}R_i} - {^{STEP}R_i}
+\end{equation}
+%
+and a relative error
+%
+\begin{equation}
+  {\epsilon_i} = E_i  / {^{DC}R_i}
+\end{equation}
+%
+The dc error of the time domain solution can be corrected by
+multiplying each row $i$ of impulse responses of $M_{SV}$ by the
+following factor
+%
+\begin{equation}
+  f_{Ei} = {^{DC}R_i} / {^{STEP}R_i}
+\end{equation}
+%
+which is ideally 1.  When the dc response $R_i$ is very small a
+correction would be erroneous.  The importance is taken as
+${^{DC}R_i}$ relative to $E_i$. Now the error correction algorithm is
+for each $i$\\
+\medskip
+\centerline{
+\begin{tabular}{ll}
+if $|{^{DC}R_i}| > |E_i|$ & $m_{i,j}(n_t) \leftarrow 
+	f_{Ei} m_{i,j}(n_t)$\\
+else if ${^{DC}R_i} \ne 0$
+      & $m_{i,j}(n_t) \leftarrow m_{i,j}(n_t) + E_i /(n_S N_T)$ \\
+else &  do nothing
+\end{tabular}}
+
+
+\subsection{Parameterized Nonlinear Models}
+
+Let the nonlinear subnetwork be described by the following generalized
+parametric equations~\cite{rizzoli:92:1}
+\begin{eqnarray}
+  {\bf v_{NL}}(t) &=& u[{\bf x}(t), \frac{d{\bf x}}{dt}, \dots , 
+                 \frac{d^n{\bf x}}{dt^n}, {\bf x}_D(t)] \\
+  {\bf i_{NL}}(t) &=& w[{\bf x}(t), \frac{d{\bf x}}{dt}, \dots ,
+                 \frac{d^n{\bf x}}{dt^n}, {\bf x}_D(t)] 
+  \label{eq1riz3}
+\end{eqnarray}
+where $v_{NL}(t)$, $i_{NL}(t)$ are vectors of voltages and currents at
+the common ports, ${\bf x}(t)$ is a vector of state variables and
+${\bf x}_D(t)$ a vector of time-delayed state variables, i.e.,
+$x_{Di}(t)=x_i(t-\tau_i)$. The time delays $\tau_i$ may be functions
+of the state variables. All vectors in (\ref{eq1riz3}) have the same
+size $n_d$ equal to the number of common (device) ports. This kind of
+representation is convenient from the physical viewpoint, as it is
+equivalent to a set of implicit integro-differential equations in the
+port currents and voltages. This allows an effective minimization of
+the number of subnetwork ports, and what is more important, results in
+extreme generality in device modeling capabilities.
+
+Here a parametric diode model for the diode element is
+presented~\cite{rizzoli:92:1}. The full model includes capacitances
+and nonlinear resistance, but here a simple case is shown for didactic
+purposes.  The conventional current equation for the diode is
+\begin{equation}
+  i(t) = I_s (\exp(\alpha v(t)) - 1) \label{eq_dio1}
+\end{equation}
+and, based on previous work~\cite{rizzoli:92:1}, the parametric model
+is as follows
+%
+\begin{eqnarray}
+  v(t) & = & \left\{ \begin{array}{l}
+	x(t)            \\
+          \multicolumn{1}{r}{\mbox{if $x(t) \leq V_1$}}  \\
+	V_1+\frac{1}{\alpha} \ln(1 + \alpha (x(t) - V_1)) \\
+	  \multicolumn{1}{r}{\mbox{if $x(t) > V_1$}}
+  \end{array} \right. \\
+  i(t) & = & \left\{ \begin{array}{l}
+	I_s (\exp(\alpha x(t)) - 1) \\
+          \multicolumn{1}{r}{\mbox{if $x(t) \leq V_1$}}  \\
+	I_s \exp(\alpha V_1) (1 + \alpha (x(t)-V_1)) - I_s \\
+	  \multicolumn{1}{r}{\mbox{if $x(t) > V_1$}}
+  \end{array} \right. 
+\end{eqnarray}
+%
+where $V_1$ is some threshold value. The model requires the current,
+voltage and derivatives to be continuous at $x = V_1$. This implies
+that
+%
+\begin{equation}
+  V_1 = \frac{\ln ( G_1 / \alpha I_s )}{\alpha}
+\end{equation}
+%
+where $G$ is the slope $\partial i / \partial v$ and is chosen to be
+$\mbox{5e8} \cdot I_s$. Note that using this value, $V_1$ becomes
+independent of the saturation current. In this way, the maximum value
+of the exponential function is limited to 5e8.
+
+The plots of Figures~\ref{fig:vi}, \ref{fig:xi} and~\ref{fig:xv} show
+the improvement in the behavior of the model when using the state
+variable approach. In a diode the current has an exponential
+dependence on voltage. This causes convergence problems when the
+voltage is updated during nonlinear iteration. At voltages greater
+than the threshold, small voltage increments can result in large
+current changes and hence changes in the error function. The
+possibility of large changes is eliminated through the use of
+parameterization which ensures smooth, well behaved current, voltage
+and error function variations when the state variable is updated. See
+Figures~\ref{fig:xi} and~\ref{fig:xv}.
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=3.5in \pfig{diode_iv.eps}}
+\caption{Relation between $v$ and $i$ in a diode.} \label{fig:vi}
+\end{figure}
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=3.5in \pfig{diode_ix.eps}}
+\caption{Relation between $x$ and $i$ in a diode.} \label{fig:xi}
+\end{figure}
+%
+\begin{figure}[htpb]
+\centerline{\epsfxsize=3.5in \pfig{diode_vx.eps}}
+\caption{Relation between $x$ and $v$ in a diode.} \label{fig:xv}
+\end{figure}
+%
+
+
+
+\subsection{Convolution}
+
+Convolution of the impulse response of the linear circuit with the
+outputs of the nonlinear elements has been proposed for transient
+analysis of distributed circuits with
+\cite{theta,Brazil:New,gamma,delta,alpha,basel:paper,Blazeck:Mittra}. The
+major problem identified with this type of analysis is the rapid
+growth in computation and memory requirements. The convolution
+integral, which becomes a convolution sum in computer implementations,
+is $O(n_{MAX}^2 {n_S}^2)$ where $n_{MAX}$ is the length of the impulse
+response and $n_S$ is the number of state variables. Memory usage is
+$O(n_{MAX} \times {n_S}^2)$, principally due to storage of the matrix
+impulse response. Thus reducing the number of state variables, $n_S$,
+(i.e., using the minimum number of state variables rather than the
+voltages at all nodes of the nonlinear network) dramatically reduces
+memory and compute time. As state variables permit the use of
+parameterized device models, the stability of the convolution analysis
+is improved allowing larger time steps thus reducing $n_{MAX}$.
+

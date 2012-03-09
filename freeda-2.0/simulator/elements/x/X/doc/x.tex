@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Subcircuit instance}
+\hspace{\fill}\textbf{x}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1.5in\epsfbox{x_spice.ps}} \caption{X ---
+subcircuit instance.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+%\newline
+$\tt x$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $ $\langle
+\tt{subcircuit\ name}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$, $n_2$ $\cdots$ & are the element nodes. \\
+subcircuit name & is the name of the subcircuit.\\
+\end{tabular}
+% Parameter list
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{x:1 2 4 17 3 1 MULTI}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+Subcircuits are incorporated by using the ``{\tt X}'' element. The
+number of nodes of the ``{\tt X}'' element must correspond to the
+number of nodes in the definition of the subcircuit (i.e. the
+definition in the {\tt .SUBCKT} statement.
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{X} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

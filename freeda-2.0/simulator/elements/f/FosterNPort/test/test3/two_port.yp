@@ -1,0 +1,20 @@
+* Simple two port consisting of a pi circuit with each leg being a 50 ohm
+* resistor in series with an inductor = 314.15926 nH
+ports=2;
+rpoles(1,1)=1;
+cpoles(1,1)=0;
+rpoles(1,2)=1;
+cpoles(1,2)=0;
+rpoles(2,1)=1;
+cpoles(2,1)=0;
+rpoles(2,2)=1;
+cpoles(2,2)=0;
+*
+realp(1,1,1)=-159154.9;
+realp(1,2,1)=-159154.9;
+realp(2,1,1)=-159154.9;
+realp(2,2,1)=-159154.9;
+realr(1,1,1)=6366.2;
+realr(1,2,1)=-3183.099;
+realr(2,1,1)=-3183.099;
+realr(2,2,1)=6366.2;

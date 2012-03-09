@@ -1,0 +1,1015 @@
+\chapter{Carrying On\label{chapter:chap3}}
+
+In this chapter, we introduce the different element and control
+statement lines that \spice\ allows you to use, starting with the different
+types of circuit elements. In particular we discuss inductors,
+active elements (diodes and transistors), and transmission lines.
+We then cover the different types of analyses you can do with \spice,
+starting with the most common, the transient analysis, which is
+introduced in Chapter 2.   The main role of the control statements
+is to specify these analyses.
+
+{
+Each implementation of \spice\ differs in the range of elements and control
+statements used.  In this chapter, we describe those elements and
+control statements found in all versions of \spice, i.e. those found
+in \spicetwo.}
+
+\section{Elements}
+
+Resistors and capacitors are described briefly in Chapter 2.
+We now look at the other elements, both passive and active.
+The most common form of the element is described only.
+For example, we do not
+describe how a temperature dependency could be specified.  That
+sort of detail is found in the reference section
+(chapters \ref{chapter:statement} and \ref{chapter:element}).
+
+\subsection{Inductors and Mutual Inductors}
+
+An example showing an inductor and a mutual inductor is shown
+below:
+\par\noindent
+\centerline{\pfig{inductor.ps}}
+\par\noindent
+\begin{center}
+{\tt\begin{verbatim}
+L1 1 2 20nH
+L2 3 2 40nH
+L3 4 5 40nH
+K  L1 L2 0.90
+\end{verbatim} }
+\end{center}
+\par\noindent
+Note how the `dot' is placed on the first node of each inductor.
+
+\subsection{Active Devices}
+
+Unlike passive devices, such as resistors, active, or semiconductor,
+devices can not be specified by one or a few parameter values.
+To save typing effort a separate {\tt .model} line is created for
+every semiconductor device type that might appear in the circuit.
+In this part of the tutorial, we do not describe the meaning
+of the parameters in the model line.  That can be found in the Reference
+section
+(chapters \ref{chapter:statement} and \ref{chapter:element}).
+Instead, we give examples showing how semiconductor devices
+are inserted into a \spice\ circuit.
+We only describe the bipolar junction diode, bipolar junction transistor,
+and the MOS field effect transistor.  Spice can also be used to describe
+junction field effect transistors and Gallium Arsenide but the process is the
+same.
+
+\subsubsection{Diodes and Bipolar Transistors}
+
+The schematic and partial \spice\ net-list for a simple TTL inverter
+is shown in Figure~\ref{ttl}.
+%
+\begin{figure}
+\centerline{\epsfysize=8.7cm\pfig{ttlgate.ps}}
+\par\noindent
+{\tt\begin{verbatim}
+Q3 7 4 0 NQ1A
+D1 8 7 DPN
+Q4 6 3 8 NQ1A
+R4 5 6 100
+*
+* Model element for NPN Transistor type NQ1A (courtesy Signetics)
+.MODEL  NQ1A  NPN  IS= 1.95E-17  BF= 7.03E+01  VAF= 1.80E+01  IKF= 1.80E-02
+\end{verbatim} }
+\par\noindent
+{\em (Remainder of model deleted)}
+\par\noindent
+{\tt
+\begin{verbatim}
+* Model for diode type DPN
+.MODEL DPN D(IS= 8.17E-17  RS= 2.85E+01  N= 9.99E-01  CJO= 1.65E-13
++      VJ= 8.01E-01 M= 4.61E-01  EG= 7.99E-01  XTI= 4.00E+00)
+\end{verbatim} }
+\caption{TTL Circuit Description.}
+\label{ttl}
+\end{figure}
+%
+Note the following features in this circuit description:
+\begin{itemize}
+  \item The format for bipolar junction  transistors is:\\
+  \offsetparbox{
+%{\it {\tt Q}name Collector-Node Base-Node Emitter-Node Model-Name}
+{\it {\tt Q}name  NCollector NBase NEmitter  \B NSubstrate\E  ModelName
+ \B Area\E  \B {\tt OFF}\E\\{\tt +} \B {\tt IC=}Vbe,Vce\E }}\\
+specifying a three terminal device.
+  \item The format for diodes is:
+\offsetparbox{
+%{\it {\tt D}name Positive-Node Negative-Node Model-Name}
+{\it {\tt D}name $n_1$ $n_2$ ModelName \B Area\E  \B {\tt OFF}\E
+\B {\tt IC}=$V_D$\E }}
+specifying a two terminal device.
+  \item The use of `{\tt +}'s in the model lines to `join' different
+lines in the file into one line for \spice.
+\end{itemize}
+It is also possible to have an `area' parameter in the diode and bipolar
+transistor element line.  This area parameter is a scale factor, not
+an absolute measure. An area of `1.0' (which is the default) specifies
+that the model parameters are used unchanged.
+Specifying another area factor causes
+\spice\ to change some of the model parameters to reflect a larger or
+smaller transistor.  An area of `2.0' specifies a situation equivalent
+to  two transistors operating in parallel.
+
+\subsubsection{MOSFETs}
+
+The MOSFET element line looks quite different than the element line
+for a bipolar transistor.  There are two major differences.
+First, the MOSFET is a four terminal device.
+Three of the terminals (source, drain, gate) have analogous functions to
+the three terminals
+in a bipolar transistor.  The current
+passes between the drain to the source (analogous to the emitter and
+collector) and is controlled
+by the voltage on the gate (analogous to the base).
+The fourth terminal is the `substrate' referring
+to the bulk silicon in which the transistor
+sits.  For correct functioning, the
+substrate must be connected to the ground or Vcc node, for
+n-channel and p-channel transistors respectively.
+
+The second major difference is that the physical dimensions of the
+transistor are specified in the model line.
+Specifically, the channel length and width, and source and drain perimeters
+and areas are specified.  These are the actual
+dimensions, as they appear on the chip.  An example is shown in
+Figure~\ref{mos-ex}.
+%
+\begin{figure}
+\centerline{\pfig{cmostx.ps}}
+\par\noindent
+\centerline{\tt M1 0 1 2 0 nenh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u}
+\caption{Example of a MOSFET element specification.}
+\label{mos-ex}
+\end{figure}
+%
+This example matches the usual general model format:
+\offsetparbox{
+%{\it
+%{\tt M}name Drain-Node Gate-Node Source-Node Substrate-Node Model-Name \\
+%+ [l=Length-Value] [w=Length-Value] [ad=Length-Value] \\
+%+ [as=Length-Value] [pd=Length-Value] [sd=Length-Value]
+%}
+{\it {\tt M}name NDrain NGate NSsource NBulk ModelName
+              \B {\tt L}=Length\E  \B {\tt W}=Width\E  \\
+      {\tt +} \B {\tt AD}=DrainDiffusionArea\E
+              \B {\tt AS}=SourceDiffusionArea\E  \\
+      {\tt +} \B {\tt PD}=DrainPerimeter\E  \B {\tt PS}=SourcePerimeter\E \\
+      {\tt +} \B {\tt OFF}\E  \B {\tt IC=}$V_{DS},V_{GS},V_{BS}$\E
+}
+}
+\par\noindent
+where {\tt []} indicates optional parameters.
+{\pspice\ supports additional element parameters.
+(For the full general format please see the reference catalog.)}
+
+Note that though the {\it drain} and {\it source}
+have different physical meanings
+(the {\it source} is the source of the majority carrier -- electrons for
+an n-channel [nmos] device and holes for a p-channel [pmos] device),
+no error is produced if they are interchanged in the \spice\
+circuit description.
+For example, in figure~\ref{mos-ex}, using {\tt M1 2 1 0 0 },
+produces the same simulation results as using {\tt M1 0 1 2 0}.
+
+An example of a CMOS digital inverter circuit,
+together with its \spice\ model is given
+in Figure~\ref{cmos-ex}.
+Note the use of the {\tt .option} line in this example to fix
+circuit-wide default values for {\tt L}, {\tt W}, {\tt AD}, and {\tt AS}.
+%
+\begin{figure}[h]
+\centerline{\pfig{cmosex.ps}}
+\par\noindent
+{\tt \begin{verbatim}
+CMOS Inverter Example
+*
+M0 0 1 2 0 nenh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u
+M1 5 1 2 5 penh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u
+Vcc 5 0 DC 5V
+*
+* following option line fixes transistor length and width, and
+* drain/source area defaults
+*
+.options defl=0.8u defw=1.6u defad=3.2p defas=3.2p
+*
+*
+.model nenh nmos
++    Level=2               Ld=4.000e-8        Tox=1.750000e-08
++    Nsub=1.506725e+17     Vto=0.59073        Kp=6.124495e-05
+\end{verbatim}
+\par\noindent
+{\em (Remainder of model omitted.)}
+\begin{verbatim}
+.model penh pmos
++    Level=2               Ld=4.000000e-08    Tox=1.750000e-08
+\end{verbatim} }
+\par\noindent
+{\em (Remainder of model omitted.)}
+%+    Gamma=0.814660             Phi=1.00                Uo=641.842
+%+    Uexp=0.0998923             Ucrit=6408.27           Delta=6.35195
+%+    Vmax=132350.               Xj=7.415125e-9          Lambda=0.
+%+    Nfs=1.000e+11              Neff=21.4017            Nss=3.000000e+10
+%+    Tpg=-1.0000                Rsh=154                 Cgso=2.42e-10
+%+    Cgdo=2.42e-10              Cj=5.4e-04              Mj=.3426
+%+    Cjsw=2.15e-10              Mjsw=.2315
+%*
+%.end
+\caption{A CMOS inverter.}
+\label{cmos-ex}
+\end{figure}
+%
+
+\subsection{Transmission Lines}
+
+Though a transmission line  is a four terminal device, two of the
+terminals are normally set to a common reference node, an example
+of which is shown in Figure~\ref{tl1}.
+%
+\begin{figure}
+\centerline{\pfig{transl.ps}}
+\par\noindent
+{\tt
+\begin{verbatim}
+T1 1 0 2 0 Z0=50 TD=333ps
+\end{verbatim}
+}
+\caption{Example of a transmission line.}
+\label{tl1}
+\end{figure}
+%
+This lossless transmission line model supports only a single mode of
+propagation.
+If the two `reference' terminals (nodes {\tt 0} in this example)
+correspond to two electrically different nodes in the
+physical circuit then two modes are excited and two transmission lines
+are required in the corresponding \spice\ description.
+
+If quick simulation times are important then it is necessary to limit
+the use of small transmission lines.  In a transient simulation the
+minimum time step does not exceed half the propagation delay of the line.
+Smaller time steps result in longer simulation times.
+If this is a problem, remember that a transmission line can be safely
+replaced by the equivalent lumped inductor and capacitor if the length
+of the line is smaller than 1/10th of the shortest signal wavelength of
+interest.
+
+\subsection{Voltage and Current Sources}
+
+\subsubsection{Independent Sources}
+
+Spice supplies a number of independent voltage and current source types.
+As many of the source's features only make sense in the context
+of the analysis to be used, only some of the source's features
+are discussed here.  In particular, we present those features that
+might be used in a transient analysis (see Chapter 2 and Section 3.2.1).
+
+Voltage supplies are specified using DC independent sources, for
+example:
+\par\noindent
+\begin{center}
+{\tt VCC 5 0 DC 5}
+\end{center}
+\par\noindent
+for a 5~V DC power supply between nodes 5 and 0.
+
+Any repeating non-sinusoidal waveform can be specified using the
+{\tt pulse} waveform specification, an example of which was
+given in Chapter 2.  {\tt pulse} is often used to describe digital clocks,
+for example.
+
+Non-repeating non-sinusoidal waveforms are specified
+using the piece-wise linear ({\tt pwl}) waveform function.
+One period of the {\tt pulse} example presented in Chapter 2 is
+shown below in the piece-wise linear format:\\
+\centerline{\pfig{pwlex.ps}}
+\begin{center}
+{\tt vin 1 0 pwl (0ns 0V 4ns 0V 7ns 1.5V 12ns 1.5V 14ns 0V 17ns 0V)}
+\end{center}
+
+
+\vfil\eject
+Sinusoidal and decaying sinusoidal waveforms are specified
+using the {\tt SIN} function, for example:
+{\tt
+\begin{verbatim}
+Vin  4 0 sin(2.5 1 100meg 10ns)
+\end{verbatim} }
+\centerline{\pfig{sinusoid.ps}}
+\vspace{3mm}\par\noindent
+Spice also allows you to specify exponential and single-frequency FM
+signals.  Please see the reference catalog for details.
+
+\subsubsection{Dependent Sources}
+
+These are the most overlooked elements \spice\ provides.
+Four different types of linear dependent sources can be
+specified in \spice:
+\begin{itemize}
+\item Voltage-controlled voltage source and current-controlled current
+source:
+\par\noindent
+\centerline{\pfig{depsceef.ps}}
+\par\noindent
+\begin{center}
+\begin{tabular}{ll}
+{\tt E1 4 3 2 1 3.3}  & {\em A voltage gain of 3.3.} \\
+{\tt F1 6 5 Va 1.7} & {\em A current gain of 1.7}
+\end{tabular}
+\end{center}
+\item Voltage-controlled current source and current-controlled voltage
+source:
+\end{itemize}
+\par\noindent
+\centerline{\pfig{depscegh.ps}}
+\par\noindent
+\begin{center}
+\begin{tabular}{ll}
+{\tt G1 4 3 2 1 15mmho}  & {\em A transconductance of 15$\times 10^{-3}$mho
+($\Omega^{-1}$).} \\
+{\tt H1 6 5 Va 0.5k} & {\em A transresistance of 500 Ohms}
+\end{tabular}
+\end{center}
+The above are linear sources.  Non-linear sources can also be specified.
+For example, the following voltage-controlled current source
+actually specifies a non-linear resistance that could be used as
+part of a non-linear Thevenin equivalent circuit:
+\par\noindent
+\centerline{\pfig{thevnlin.ps}}
+\par\noindent
+\begin{center}
+{\tt Gout 2 1 2 0   0 1m -0.6m}
+\end{center}
+The format used in this example is:
+\begin{center}
+  {\it {\tt G}xxx node1 node2 ref-node1 ref-node2 C0 C1 C2}
+\end{center}
+to produce a dependent source that obeys the equation:
+\[
+I = C0 + C1 (V(ref-node2) - V(ref-node1)) + C2 (V(ref-node2) - V(ref-node1))^2.
+\]
+In this case, the equation specifying the current is:
+\[
+ I = 0 + 1 \times 10^{-3} V_{out} - 0.6\times 10^{-3} V_{out}^2
+\]
+\par\noindent
+The above non-linear source is quadratic and dependent on only one
+other variable.
+The same format can be used to specify higher order polynomials.
+A source dependent on the voltages/currents on/in {\tt ND} other nodes/branches
+can be specified by including a {\tt poly(nd)} statement in the element line.
+For example, the following linear
+voltage-controlled voltage source specifies a gated sinusoidal source:
+\par\noindent
+\centerline{\pfig{depeply.ps}}
+\par\noindent
+\begin{center}
+{\tt\begin{verbatim}
+Vsine 1 0 sin (0 0.5 100k 5us)
+Vpulse 2 0 pwl (0ns 0V 14us 0V 15us 1V 65us 1V 66us 0V)
+Egate 3 0 poly(2)  1 0   2 0  0 0 0 1
+\end{verbatim} }
+\end{center}
+
+i.e. This source specifies a voltage,
+\[
+{\tt Vgate} = 0 + 0\times {\tt Vsine}
+    +0\times {\tt Vpulse} + 1 \times {\tt Vpulse} \times {\tt Vpulse}
+\]
+which has the following waveform:\\
+\centerline{\pfig{plssine.ps}}
+\vspace{3mm}\par\noindent
+In its general form, a polynomial of any complexity can be specified.  e.g.
+The generalized voltage controlled voltage source,
+{\tt\begin{verbatim} EX <node> <node> poly(2) V1 V2  k0 k1 k2 k3 k4 k5 k6 k7
+\end{verbatim}
+}
+\par\noindent
+specifies a controlled voltage of the form
+\[
+  EX = k1 + k2\times V1 + k3\times V2 + k4\times V1\times V2 + k5 V1^2 + k6 V2^2
+    + k7 V1^2 V2^2
+\]
+This could be extended to create polynomials as a function of 3, 4, etc.
+variables.  However, as a practical matter, it is very difficult to
+read and understand non-linear polynomials with more than two inputs.
+It is easier
+to create two-input polynomials separately and combine them with
+another polynomial.
+
+\section{Analyses}
+
+\subsection{Transient Analysis}
+
+In the transient analysis response is observed
+with one or more time-varying inputs.
+A simple example is given in Chapter 2.
+
+The first step performed by \spice\ in a transient analysis is to
+compute the initial DC or bias point condition.  During this
+computation it is
+assumed that the voltage across capacitors is zero, the current
+through inductors is zero, and the value for dependent sources is zero.
+\spice\ then conducts
+the transient simulation by calculating all of the voltages and
+currents at a set of points in time.
+In the rest of this section, we discuss a number of issues related
+to transient analyses, starting with a treatment of convergence.
+%We are going to discuss
+%four points in the rest of this section.
+%First we discuss convergence.  This leads into a treatment of
+%how you can influence \spice\ in determining the initial bias point,
+%and then we present how you can
+%influence spice to determine the time interval between the time
+%steps and thus the accuracy and computer-run-time of the
+%simulation.
+%Finally, we show how you can obtain a Fourier transform of a transient
+%signal.
+
+\subsubsection{DC Convergence}
+\label{convergence}
+
+During both the DC analysis and the following transient analysis
+iterative numerical techniques are used to obtain a solution.
+The objective of these techniques is to iterate on the value
+of the node voltages and branch currents until successive iterations
+only bring very small changes in their values, i.e. \spice\ {\em
+converges} on a solution in the DC analysis and at every time step.
+
+Sometimes \spice\ can not converge on a solution.
+If this occurs during the DC analysis it will report this problem in the
+output file with a `{\tt convergence problem}' message like.
+Failure to converge in the DC analysis is usually due to an error in
+specifying node numbers, circuit values or model parameter values.
+These should be checked carefully before proceeding further.
+However, sometimes \spice\ is having a genuine problem in converging
+and you might have to help it find a solution.
+
+In many bistable circuits (e.g. flip-flops) and positive feedback circuits,
+\spice\ will not converge in the DC analysis or will converge to
+an undesirable value (e.g. midway between logic-0 and logic-1 in a
+latch).  One way to help \spice\ converge to the correct value is to
+use the {\tt off} option to turn off devices in the feedback path, e.g.,
+\begin{center}
+{\tt M0 0 1 2 0 pd=5.2u ad=5.2u off}
+\end{center}
+allowing \spice\ to find a DC solution.  Spice turns the devices back on
+during the transient analysis.
+Another approach is to use {\tt nodeset} to provide `hints' to \spice\
+or to specify initial conditions that force a solution.
+
+\subsubsection{Nodeset and Initial Conditions}
+
+The basic difference between using nodeset and specifying initial conditions
+is that the latter forces nodes to the specified voltage while
+nodeset only provides hints.
+The values
+specified by the nodeset line are only used during the first
+part of the DC solution
+procedure and then ignored in the later parts.  Thus if they are incorrect,
+or inconsistent, convergence is not prevented.
+As an example of nodeset, ts use as follows in the the simple latch,
+will result in the output (node {\tt 2})
+converging to 5~V (assuming a CMOS latch):
+\par\noindent
+\centerline{\pfig{latch.ps}}
+\par\noindent
+\begin{center}
+{\tt .nodeset V(1)=0V}
+\end{center}
+\vspace{3mm}
+
+When initial conditions are set, they are used through the entire DC solution
+right to the start of the transient analysis.
+For example in the circuit above, the use of
+{\tt .IC V(1)=1V} will result
+in {\tt V(1)} starting at 1~V in the transient analysis while
+the use of {\tt .nodeset V(1)=1V} would result in  {\tt V(1)} starting
+at 0~V.
+An error or inconsistency in specifying initial conditions with {\tt .IC} might
+prevent \spice\ from converging.
+
+A second way to specify initial conditions is to specify them in
+the element lines.  For example, the statement,
+\begin{center}
+{\tt C1 6 0 IC=3.1}
+\end{center}
+initializes the voltage across capacitor {\tt C1} to 3.1~V.  For an inductor,
+the following statement will set the initial current flowing through it to
+4.3~mA:
+\begin{center}
+{\tt L3 4 5 IC=4.3m}
+\end{center}
+If {\tt IC=} statements are used then it is necessary to include a ``Use IC=''
+({\tt UIC}) statement in the {\tt .tran} statement, e.g.
+\begin{center}
+.tran  200ps 34ns UIC
+\end{center}
+Specifying {\tt UIC} commands \spice\ to skip the
+DC bias calculation, making it is necessary
+for the initial conditions to be completely specified through a combination
+of {\tt IC=} and {\tt .IC} statements.  Be careful.
+
+\subsubsection{Simulation Time Step Size}
+
+Using a smaller time step increases both the results accuracy and computer
+run-time of the simulation.  One thing to be very aware of is if short
+transmission lines or very fast edges are specified
+then the simulation time step will be very short.
+For example, trying to
+obtain a `step response' with a waveform/statement such as the
+following will greatly increase rise time (and also quite likely
+lead to convergence problems).
+\centerline{\pfig{stepsp.ps}}
+\par\noindent
+\begin{center}
+{\tt .Vin 4 0 PWL 0ns 0V 1ps 5V 40ns 5V}
+\end{center}
+It is also possible to change the
+time step, and other step-related parameters, in the {\tt .options}
+statement.  Please see the reference catalog for details.
+
+\subsubsection{Transient Analysis Convergence Problems}
+\label{transconv}
+
+\spice\ might report a transient analysis convergence problem with
+a message like the following:
+\begin{center}
+{\tt
+\begin{verbatim}
+*ERROR*: Convergence problem in Transient Analysis at
+
+         TIME =
+
+\end{verbatim} }
+{\em etc.}
+\end{center}
+\par\noindent
+Sometimes \spice\ is not so hopeful and just `dumps' you part way
+through the analysis, e.g. part way into a 40~ns analysis \spice\
+might suddenly stop the analysis at 34~ns and end with:
+\begin{center}
+{\tt
+\begin{verbatim}
+  3.400E-09     5.452E+00   6.602E+00   6.892E+00
+Y
+0         ***** JOB ABORTED
+\end{verbatim}
+}
+\end{center}
+In this case, the problem was a too-short implicit time step caused
+by a very short (62.3~ps delay) transmission line:
+\begin{center}
+{\tt Tline3 10 0 11 0 z0=60 td=62.3ps}
+\end{center}
+Replacing the line with its equivalent lumped circuit,
+\begin{center}
+{\tt
+\begin{verbatim}
+Lline3 10 11 7.48nH
+Cline3a 10 0 1.03pF
+Cline3b 11 0 1.03pF
+\end{verbatim}
+}
+\end{center}
+solved the problem.
+
+If your transient analysis convergence problem is not being caused
+by a too short a time step, then it is most likely caused by
+an error in specifying
+a circuit node number or parameter value.  Your circuit and {\tt .model}
+lines should be checked carefully.  Often looking at the circuit
+description as specified in the output listing
+is more useful than looking at the file you typed in, as the output
+listing is describing what \spice\ `sees'.
+
+However, \spice\ is a numerical program and can be quirky.  For example,
+one simulation driven by the pulse
+\begin{center}
+{\tt V2 4 0 Pulse(0V 5V 0n 1.2n 1.2n 20n 40n)}
+\end{center}
+would abort about half way through the simulation.
+However, turning the pulse `up-side-down' (interchanging {\tt 0V} and {\tt 5V}),
+\begin{center}
+{\tt V2 4 0 Pulse(5V 0V 0n 1.2n 1.2n 20n 40n)}
+\end{center}
+allowed the simulation to complete.
+
+\subsubsection{Spectral Analysis -- Fourier Transform}
+
+The {\tt .Four} control statement can be used to find the spectrum
+of any time-varying signal in a transient analysis.
+For example, in Chapter 2, we used
+the following time-domain signal as the input to an RC circuit:
+\par\noindent
+\centerline{\pfig{pulseex.ps}}
+\par\noindent
+\begin{center}
+{\tt vin 1 0 pulse (0 1.5 4ns 3ns 5ns 2ns 17ns)}
+\end{center}
+The addition of the control statement,
+\begin{center}
+{\tt .Four 58.82MegHz V(1) V(2)}
+\end{center}
+to this file,
+specifies that the spectrum of the input ({\tt V(1)}) and output ({\tt V(2)})
+voltage waveforms
+are also to be obtained.  The frequency specified in this statement is the
+fundamental frequency of the waveform (1/17~ns = 58.82~MHz).
+As a result of this statement, the output file reports the magnitude
+and phase
+of the first nine harmonics for each signal.  In this case, the output
+for V(1) is:
+\begin{center}
+{\tt
+\begin{verbatim}
+0****     FOURIER ANALYSIS                 TEMPERATURE =   27.000 DEG C
+
+0***********************************************************************
+
+ FOURIER COMPONENTS OF TRANSIENT RESPONSE V(1)
+0DC COMPONENT =   5.293D-01
+0HARMONIC   FREQUENCY    FOURIER    NORMALIZED    PHASE     NORMALIZED
+    NO         (HZ)     COMPONENT    COMPONENT    (DEG)    PHASE (DEG)
+
+     1      5.882D+07   7.750D-01     1.000000   -91.352       0.000
+
+     2      1.176D+08   2.561D-01     0.330483    99.249     190.601
+
+     3      1.765D+08   7.623D-02     0.098364    16.321     107.673
+
+     4      2.353D+08   2.980D-02     0.038451  -123.300     -31.947
+
+     5      2.941D+08   2.502D-02     0.032282  -167.139     -75.786
+
+     6      3.529D+08   6.971D-03     0.008994   -46.439      44.913
+
+     7      4.118D+08   9.869D-03     0.012734    81.719     173.071
+
+     8      4.706D+08   1.722D-02     0.022225    -9.729      81.623
+
+     9      5.294D+08   1.346D-02     0.017363  -169.978     -78.625
+\end{verbatim} }
+\end{center}
+A similar table is obtained for V(2).
+
+\subsection{DC Analyses}
+\label{DC}
+
+Spice enables you to conduct the following DC analyses:
+\begin{itemize}
+  \item DC solution for a particular input voltage/current condition
+    ({\tt .OP}).
+  \item DC solutions over a range of input conditions ({\tt .DC}).
+  \item Small signal DC transfer functions, including gain, input
+    and output resistance ({\tt .TF}).
+  \item Sensitivity of the DC value of an output to some set of
+    parametric variations ({\tt .SENS}).
+\end{itemize}
+These are discussed in turn.
+
+The insertion of a line with just
+\begin{center}
+{\tt .OP}
+\end{center}
+on it asks \spice\ to determine the DC bias point of the circuit with
+inductors shorted and capacitors opened, just the same as the DC analysis
+conducted before a transient analysis.  It might be used in situations
+where you wish to know the DC bias point but the analysis you are
+doing does not request it (e.g. such as when determining a frequency response).
+
+A command line beginning with {\tt .DC} instructs \spice\ to sweep the specified
+voltage source over the specified range, reporting the DC bias point
+for each combination of input conditions.
+If more than one source is specified
+in the {\tt .DC} statement, then the first source will be swept over its
+entire range for every value of the second source.
+An example is given in Figure~\ref{fig:DC} in which two analyses alternatives
+are presented at the bottom.
+The left hand alternative instructs \spice\ to plot the transfer characteristics
+of the CMOS inverter, the right hand
+example instructs \spice\ to plot
+the output V-I characteristics for when Vin is 5~V.
+Both examples specify that the voltage sweep is to be from 0 to 5~V in
+0.1~V increments.
+The resulting output V-I characteristic (obtained using the statements
+on the right hand side of the Figure~\ref{fig:DC}) is plotted in
+Figure~\ref{VI-out}.
+
+\begin{figure}
+\begin{center}
+\par\noindent
+{\pfig{cmosdc.ps}}
+\par\noindent
+{\tt
+\begin{verbatim}
+MOS Inverter
+*
+M0 0 1 2 0 nenh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u
+M1 2 1 5 5 penh l=0.8u w=1.6u ad=3.2p as=3.2p pd=5.2u ad=5.2u
+Vcc 5 0 DC 5V
+\end{verbatim} }
+\par\noindent
+\begin{tabular}{ll}
+{\tt Vin 1 0 }      & {\tt Vin 1 0 5V} \\
+                    & {\tt Vout 2 0 } \\
+{\tt .DC Vin 0 5 0.1}\ \ \ \ \ \ \ \ \ \ \ \ \  & {\tt .DC Vout 0 5 0.1} \\
+{\tt .print DC V(2)} & {\tt .print DC I(Vout)}
+\end{tabular}
+\end{center}
+\caption{DC response example.
+Two alternative analyses are presented at the bottom and are described
+in the text.}
+\label{fig:DC}
+\end{figure}
+
+%
+\begin{figure}
+\centerline{\epsfxsize=4in\pfig{cmosinv.ps}}
+\caption{Output V-I characteristics for CMOS inverter.}
+\label{VI-out}
+\end{figure}
+Now, if you wish to find the small signal output resistance at say {\tt Vout} =
+$X$~V,
+\[
+  r_{out} = \left. {\partial v\over \partial i}\right|_{V_{out}=X\ V}
+\]
+then one way to obtain this would be to measure the slope of the plot shown
+in Figure~\ref{VI-out} at {\tt Vout} = $0.5$~V.  However, \spice\ provides an
+easier way to get this result as a transfer function {\tt .TF}:
+\begin{center}
+{\tt .TF I(vout) Vout}
+\end{center}
+There is no need for a {\tt .print} statement with {\tt .TF}.
+Running this produces the output:
+\begin{center}
+{\tt
+\begin{verbatim}
+ OUTPUT RESISTANCE AT I(VOUT)             =  2.247D+03
+\end{verbatim}
+}
+\end{center}
+
+A DC sweep can also be done by specifying a slow moving input and a
+conducting a transient analysis.
+Sometimes this is necessary, for example in circuits
+with hysteresis, such as a Schmitt Trigger.
+
+Sometimes we wish to know the sensitivities of various output parameters
+with respect to variations in circuit parameters.  For example, we might
+wish to know whether to specify resistors to +/-10\% or +/-1\% in order
+to guarantee a certain bias point in a transistor amplifier.  This is
+done with the {\tt .sens} statement.  The following example determines
+the sensitivity of the bias point of an amplifier to variations in resistance
+values:\\
+\centerline{\pfig{ceamp.ps}}
+\par\noindent
+{\em Extract from input file:}
+\par\noindent
+\begin{center}
+{\tt
+\begin{verbatim}
+Common-Emitter Amplifier
+
+R1 2 5 40k
+R2 2 0 40k
+* Measure the Base current
+Vbase 3 2
+Q1 4 3 6 NQ1A
+RC1 5 4 4k
+RE1 6 0 100
+
+* AC source with unity magnitude and AC buffered
+Vin 1 0 AC
+Cbuff 1 2 100u
+
+Vcc 5 0 5V
+
+* Find the bias point
+.OP
+
+*Find the sensitivity of the bias voltage at the collector
+.sens V(4)
+\end{verbatim}
+}
+\end{center}
+\par\noindent
+{\em Extracts from output file reporting DC bias point and the sensitivity
+analysis:}
+\par\noindent
+\begin{center}
+{\tt
+\begin{verbatim}
+  NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE     NODE   VOLTAGE
+NODE   VOLTAGE     NODE   VOLTAGE
+
+ (  1)    0.0000    (  2)    1.1432    (  3)    1.1432    (  4)    0.3220    (
+  5)    5.0000    (  6)    0.1237
+
+0DC SENSITIVITIES OF OUTPUT V(4)
+0        ELEMENT         ELEMENT       ELEMENT       NORMALIZED
+          NAME            VALUE      SENSITIVITY    SENSITIVITY
+                                    (VOLTS/UNIT) (VOLTS/PERCENT)
+
+          R1           4.000D+04      1.114D-06      4.457D-04
+          R2           4.000D+04     -3.303D-07     -1.321D-04
+          RC1          4.000D+03     -7.010D-05     -2.804D-03
+          RE1          1.000D+02      1.192D-03      1.192D-03
+\end{verbatim}
+}
+\end{center}
+
+In this case, if the value for {\tt RE1} changed by 100\% the collector voltage
+would only change by only 119~mV.
+
+\subsection{Small Signal AC Analysis}
+
+Analog circuits are often analyzed in terms of their frequency response to
+steady-state, sinusoidal, small-voltage, input signals.
+With small voltage swing signals, all of the circuit elements can be treated
+as being linear  around some bias point.
+Three types of AC analysis can be done:
+\begin{enumerate}
+  \item Obtain circuit response(s) as a function of frequency using
+    the {\tt .AC} analysis.
+  \item Conduct a noise analysis as a function of frequency using
+    a {\tt .NOISE} element together with a {\tt .AC} element.
+  \item Analyze the circuit for harmonic distortion using the
+    {\tt .DISTO} element together with the {\tt .AC} element.
+\end{enumerate}
+In this section, we discuss the first two types of analysis only.
+The distortion analysis capability provided in \spicetwo is somewhat limited
+and so is not presented.
+
+Consider the frequency response of the LC filter described, with
+its \spice\ file, in Figure~\ref{LC}.
+%
+\begin{figure}
+\centerline{\pfig{lcex.ps}}
+\par\noindent
+\begin{center}
+\begin{tabular}{ll}
+{\tt RLC filter} & \\
+{\tt * } & \\
+{\tt Vin 1 0 AC 1V } & {\em AC signal source} \\
+{\tt * } & \\
+{\tt R1 1 2 15Ohm } & \\
+{\tt L1 2 3 50mH } & \\
+{\tt C1 3 0 1.5uF } & \\
+{\tt * } & \\
+{\tt .AC dec 20 100Hz 10kHz } & {\em AC analysis specification}\\
+{\tt * } & \\
+{\tt .print AC VM(3) } & {\em print results of AC analysis} \\
+\end{tabular}
+\end{center}
+\caption{LC filter and the \spice\ file specifying a frequency response
+analysis.  (Comments in {\em emphasis} are not part of the file.)}
+\label{LC}
+\end{figure}
+%
+There are several features in this file that differentiate it from
+a file specifying a transient analysis.  First the signal source {\tt  Vin}
+is specified as an {\tt AC} source, not a source in the time domain.
+Here it specifies a sinusoid with a magnitude of 1~Volt.  The {\tt .AC} control
+statement specifies that
+we wish the frequency range to be swept over a frequency range of
+100~Hz to 10~kHz in decade ({\tt dec})
+increments with {\tt 20} points per decade.
+i.e. The output contains a total of 40 frequency points,
+20 between 100~Hz and 1~kHz
+and 20 between 1~KHz and 10~Hz.  The {\tt .print} statement specifies
+that this is an AC analysis and specifies that the magnitude of the voltage
+({\tt VM}) of node 3 with respect to node 0 be printed at each frequency
+point.  Examples of other results that can also be obtained include:
+\begin{center}
+\begin{tabular}{ll}
+{\bf Control statement Example} & {\bf Meaning} \\
+{\tt .print AC VR V(2,3)} & {\em Real part of the voltage across the inductor} \\
+{\tt .print AC VI V(2,3)} & {\em Imaginary part of the voltage across the inductor} \\
+{\tt .print AC VP I(Vin)} & {\em Phase of current through the voltage source} \\
+{\tt .print AC VDB(3)} & {\em Voltage in dB, $10\times log_{10}(magnitude)$}
+\end{tabular}
+\end{center}
+The results obtained by running the \spice\ file specified in Figure~\ref{LC}
+are shown in Figure~\ref{LC-plot}.  Note again that a DC analysis is carried
+out
+before the AC analysis so as to obtain the bias point (this is not shown).
+
+\begin{figure}
+\centerline{\epsfxsize=5in\pfig{lc.ps}}
+\caption{Frequency response of the circuit shown in Figure~\protect{\ref{LC}}.}
+\label{LC-plot}
+\end{figure}
+
+In Section~\ref{DC}, we show how to obtain the (non-linear) output impedance
+as a function of the output voltage.  For small voltage swing signals, all
+impedances are linear, so we are interested in input and output impedance
+as a function of frequency.
+For example, we could plot the output impedance of the
+LCR circuit above using the following \spice\ file:
+{\tt
+\begin{verbatim}
+RLC filter
+*
+* `Short' input so that it does not form
+* part of the output impedance
+Vin 1 0 AC 0V
+*
+R1 1 2 15Ohm
+L1 2 3 50mH
+C1 3 0 1.5uF
+*
+.AC dec 20 100Hz 10kHz
+*
+* Measure output impedance with a current source
+Iout 0 3 AC 1
+*
+* Measure Zout:
+.print AC VM(3)
+.end
+\end{verbatim}
+}
+\par\noindent
+The output impedance is plotted in Figure~\ref{zout}.
+
+\begin{figure}
+\centerline{\epsfxsize=6in\pfig{lcz.ps}}
+\caption{Output impedance vs. frequency for LC
+circuit shown in in Figure~\protect{\ref{LC}}.}
+\label{zout}
+\end{figure}
+
+Spice is also capable of conducting a noise analysis as part of
+the AC analysis.  This analysis is often useful as an aid to the
+design of analog circuits.   For  full details please see the {\tt .NOISE}
+and {\tt .PRINT} control statement descriptions in the reference catalog
+(Part III).
+
+\subsection{Monte Carlo Analysis}
+
+The Monte Carlo analysis is a statistical analysis of the circuit causing
+the circuit to be analyzed many times with a random change of model parameters
+(parameters in a {\tt .MODEL} statement).
+{It is available in the \pspice\ version only.}
+
+The form on the Monte Carlo analysis is
+
+{\pspiceninetytwoform{{\tt .MC} NumberOfRuns AnalysisType
+        OutputSpecification OutputFunction \B {\tt LIST}\E\\
+                {\tt +} \B {\tt OUTPUT(} OutputSampleType {\tt )}\E
+                \B {\tt RANGE(}LowValue{\tt ,} HighValue{\tt )}\E\\
+        {\tt +} \B {\tt SEED=}SeedValue\E
+     }}
+
+Monte Carlo analysis repeates \dc\ analysis as specified by the {\tt .DC} statement,
+\ac\ small-signal analysis as specified by the {\tt .AC} statement, or
+transient analysis as specified by the {\tt .TRAN} statement.
+In the {\tt .MC} statement the way in which the results of the multiple runs
+are interested is controlled by the {\it OutputSpecification}] and
+{\it OutputFunction} parameters.
+
+A typical use of Monte Carlo analysis is to predict yield of a circuit
+by examining the effect of process variations such as length and width
+of transistors. As well the effect of temperature on circuit performance
+can be investigated.
+
+The initial run uses the nominal parameter values given in the NETLIST.
+Subsequent runs statistically vary model parameters indicated as having
+either lot or device tolerances. These tolerances
+are specified in a {\tt .MODEL} statement.
+
+\subsection{Transfer Function Specification}
+
+The transfer function specifies a small-signal \dc\ analysis from which
+a small-signal transfer function and input and output resistances are computed.
+The transfer function computed is the ratio of the \dc\ value of the output quantity
+to the input quantity.  In the above examples the following transfer functions are
+computed:\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|l|l|}
+\hline
+EXAMPLE & Transfer Function\\
+\hline
+&\\
+.TF V(10) VINPUT   &${{\textstyle\tt V(10)}\over{\textstyle\tt VINPUT}}$\\&\\
+.TF V(10,2) ISOURCE&${{\textstyle\tt V(10,2)}\over{\textstyle\tt ISOURCE}}$\\&\\
+.TF I(VLOAD) ISOURCE&${{\textstyle\tt I(VLOAD)}\over{\textstyle\tt ISOURCE}}$\\&\\
+\hline
+\end{tabular} \hspace*{\fill}
+
+{
+\subsection{Parameteric Analysis}
+\subsection{Sensistivity and Worst Case Analysis}
+}
+
+%\section{More on Spice Errors}
+ %
+%In Section~\ref{err1}, \ref{convergence} and \ref{transconv}
+%we discussed how most
+%problems in \spice\ runs can be attributed to the circuit file writer
+%mis-specifying a node name or a circuit element parameter.  Sometimes

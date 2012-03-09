@@ -1,0 +1,501 @@
+Below are all of the tables for the MESFET elements concatenated together.
+The column delimiter is `&'  and the line terminator is `\X'.
+
+Other commands  \tt  sets typewriter font
+$ $ delimits a mathematical equation.
+\sym{} is a macro that right shits a symbol
+
+I hope that this helps.
+
+
+{\tt A0}& drain saturation current for $V_{GS}$ = 0
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_0}&A& 0.1\X
+{\tt A1}& coefficient of $V_1$ (primary transconductance
+          parameter)
+          ({\tt LEVEL=4}) \version{\sspice} \sym{A_1}&A/V& 0.05\X
+{\tt A2}& coefficient of $V_1^2$ 
+          ({\tt LEVEL=4}) \hfill \version{\sspice} \sym{A_1}&$\mbox{A/V}^2$& 0\X
+{\tt A3}& coefficient of $V_1^3$
+          ({\tt LEVEL=4}) \hfill \version{\sspice} \sym{A_1}&$\mbox{A/V}^3$& 0\X
+{\tt AA0}& temperature cofficient of {\tt A0}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A0}}&A& 0\X
+{\tt AA1}& temperature cofficient of {\tt A1}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A1}}&A& 0\X
+{\tt AA2}& temperature cofficient of {\tt A2}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A2}}&A& 0\X
+{\tt AA3}& temperature cofficient of {\tt A3}
+          ({\tt LEVEL=4}) \kwversion{\sspice} \sym{A_{A3}}&A& 0\X
+{\tt AALF} & linear temperature coefficient of {\tt ALPHA}
+           ({\tt LEVEL=1,2,3,-1})
+	   \version{\sspice} \sym{A_{\alpha}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AB} & linear temperature coefficient of {\tt B} ({\tt LEVEL=2,3})
+        \kwversion{\sspice} \sym{A_B} & $^{\circ}\mbox{C}^{-1}$& 0	\X
+{\tt ABET} & linear temperature coefficient of {\tt BETA}
+        \kwversion{\sspice} \sym{A_{\beta}} & \%/$^{\circ}$C	& 0	\X
+{\tt ACGS} & linear temperature coefficient of {\tt CGS} ({\tt LEVEL=1,3,4,-1})
+	   \kwversion{\sspice} \sym{A_{CGS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ACGD} & linear temperature coefficient of {\tt CGD} ({\tt LEVEL=1,3,4},-1)
+	   \kwversion{\sspice} \sym{A_{CGD}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ADEL} & linear temperature coefficient of {\tt DELTA} ({\tt LEVEL=3,-1})
+	   \kwversion{\sspice} \sym{A_{\delta}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AF}& flicker noise exponent\sym{A_F}& -	& 1	\X
+{\tt AGAM}& linear temperature coefficient of {\tt GAMA} ({\tt LEVEL=1,3,4})
+           \kwversion{\sspice} \sym{A_{\lambda}}& \%/$^{\circ}$C& 0	\X
+{\tt ALAM}& linear temperature coefficient of {\tt LAMBDA} ({\tt LEVEL=1,2,3})
+           \kwversion{\sspice} \sym{A_{\lambda}}& \%/$^{\circ}$C& 0	\X
+{\tt ALPHA} & saturation voltage parameter
+	  ({\tt LEVEL=1,2,3,-1})\sym{\alpha}&$\mbox{V}^{-1}$& 2	\X
+{\tt ALFA}& alternative keyword of {\tt ALPHA} ({\tt LEVEL=1,2,3,-1})
+	   \kwversion{\sspice} \sym{\alpha}&$\mbox{V}^{-1}$& 2\X
+{\tt AQ} & linear temperature coefficient of {\tt Q} ({\tt LEVEL=3})
+        \kwversion{\sspice} \sym{A_Q} & $^{\circ}\mbox{C}^{-1}$& 0	\X
+{\tt AR1}	 & linear temperature coefficient of {\tt R1} ({\tt LEVEL=1,4})
+	   \kwversion{\sspice} \sym{A_{R1}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AR2}	 & linear temperature coefficient of {\tt R2} ({\tt LEVEL=1,4})
+	   \kwversion{\sspice} \sym{A_{R2}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ALPHATCE}	 & exponential temperature coefficient of {\tt ALPHA}
+           ({\tt LEVEL=-11})
+	   \kwversion{\sspice} \sym{T_{C,\alpha}}& \%/$^{\circ}$C	& 0\X
+{\tt ARD}	 & alternative keyword for {\tt TRD1}
+	   \kwversion{\sspice} \sym{A_{RD}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARF}	 & linear temperature coefficient of {\tt RF} ({\tt LEVEL=1,4})
+	   \kwversion{\sspice} \sym{A_{RF}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARG}	 & alternative keyword for {\tt TRG1}
+	   \kwversion{\sspice} \sym{A_{RG}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARI}	 & linear temperature coefficient of {\tt RI}
+	   \kwversion{\sspice} \sym{A_{RI}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARS}	 & alternative keyword for {\tt TRS1}
+	   \kwversion{\sspice} \sym{A_{RS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AT}	& linear temperature coefficient of {\tt TAU}
+	   \kwversion{\sspice} \sym{A_{\tau}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AU}	& linear temperature coefficient of {\tt U} ({\tt LEVEL=1,3})
+	   \kwversion{\sspice} \sym{A_U}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AVDS} & linear temperature coefficient of {\tt VDS0}
+          ({\tt LEVEL}=4) \kwversion{\sspice} \sym{A_{VDS0)}}
+						&$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt AVBD} & linear temperature coefficient of {\tt VBD} \sym{A_{VBD}}
+						&$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt AVT0} & (AVT-zero) linear temperature coefficient of {\tt VTO}
+          \kwversion{\sspice} \sym{A_{VT0)}} &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt B} & doping tail extending parameter \sym{B} 
+          \notforsspice{\version{\pspice} ({\tt LEVEL=2}) 
+          \version{\sspice}} ({\tt LEVEL=2,3})
+	&$\mbox{V}^{-1}$& 0.3 \X
+{\tt BETA}& transconductance coefficient
+	   ({\tt LEVEL=1,2,3}) \sym{\beta}&$\mbox{A/V}^2$& 0.1\X
+{\tt BETA}& transconductance coefficient
+           ({\tt LEVEL=4}) \kwversion{\sspice} \sym{\beta}&$\mbox{1/V}^2$& 0\X
+{\tt BETATCE} & exponential temperature coefficient of {\tt BETA}
+         \sym{T_{C,{\beta}}} & \%/$^{\circ}$C	& 0\X
+{\tt BRD}	& quadratic  temperature coefficient of {\tt RD}
+                  \kwversion{\sspice}  \sym{B_{RD}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRG}	& quadratic  temperature coefficient of {\tt RG}
+                  \kwversion{\sspice}  \sym{B_{RG}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRI}	& quadratic  temperature coefficient of {\tt RI}
+                  \kwversion{\sspice}  \sym{B_{RI}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRS}	& quadratic  temperature coefficient of {\tt RS}
+                  \kwversion{\sspice}  \sym{B_{RD}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BVT0}	& quadratic  temperature coefficient of {\tt VT0}
+                  \kwversion{\sspice}  \sym{B_{VT0}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt CDS}& drain-source capacitance
+        \sym{C_{DS}}& F	& 0	\X
+{\tt CGD}& zero-bias gate-drain p-n capacitance \sym{C_{GD}}& F	& 0\X
+{\tt CGD0}& alternative keyword for {\tt CGD}
+        \kwversion{\sspice} \sym{C_{GD}}& F	& 0\X
+{\tt CGS}& zero-bias gate-source p-n capacitance
+        \sym{C_{GS}}& F	& 0	\X
+{\tt CGS0}& alternative keyword for {\tt CGS}
+        \kwversion{\sspice} \sym{C_{GS}}& F	& 0\X
+{\tt DELTA}& output feedback parameter ({\tt LEVEL=3}) 
+         \sym{\delta}&$\mbox{(AV)}^{-1}$& 0	\X
+{\tt DELTA}& output feedback parameter ({\tt LEVEL=-1}) 
+         \sym{\delta}&$\mbox{(AV)}^{-1}$& 0.2	\X
+{\tt DELT}& alternative keyword for {\tt DELTA} ({\tt LEVEL=3}) 
+         \kwversion{\sspice} \sym{\delta}&$\mbox{(AV)}^{-1}$& 0	\X
+{\tt DELT}& alternative keyword for {\tt DELTA} ({\tt LEVEL=-1}) 
+         \kwversion{\sspice} \sym{\delta}&$\mbox{(AV)}^{-1}$& 0	\X
+{\tt DLVL}& breakdown model flag\hfill {\tt not used}
+	    \begin{tabular}{ll}
+	    {\tt DLVL} &= 1 use original model\\
+	               &= 2 use enhanced model
+	    \end{tabular}
+	  &-&1\X
+{\tt E}& drain current power law coefficient
+        \kwversion{\sspice} ({\tt LEVEL=1}) \sym{E}& -	& 2\X
+{\tt EG} & bandgap voltage (barrier height) at 0~K\sym{E_G(0)}
+	                  \kwnote{ Schottky Barrier Diode: 0.69}
+	                  \kwnote{ Silicon: 1.16}
+	                  \kwnote{ Gallium Arsenide: 1.52}
+	                  \kwnote{ Germanium: 0.67}
+         ({\tt LEVEL=1,2,3,4})  & eV	& 1.52	\X
+{\tt EG} & bandgap voltage (barrier height) at 0~K\sym{E_G(0)}
+	                  \kwnote{ Schottky Barrier Diode: 0.69}
+	                  \kwnote{ Silicon: 1.16}
+	                  \kwnote{ Gallium Arsenide: 1.52}
+	                  \kwnote{ Germanium: 0.67}
+         ({\tt LEVEL=-1})  & eV	& 1.11	\X
+{\tt FC} & forward-bias depletion capacitance factor\sym{F_C}& -	& 0.5	\X
+{\tt GAMMA}	& Static feedback parameter
+          	  also known as  voltage slope parameter of
+                  pinch-off voltage
+         \kwversion{\pspice} ({\tt LEVEL=3})
+         \kwversion{\sspice} ({\tt LEVEL=1,3}) 
+         \sym{\gamma} & -	& 0	\X
+{\tt GAMA}	&  alternative keyword for {\tt GAMMA}
+         \kwversion{\sspice} \hfill ({\tt LEVEL 1,3,-1}) \sym{\gamma} & -& 0\X
+{\tt GAMA}	& Slope of drain characteristic in the linear region
+          ({\tt LEVEL=4}) \hfill \version{\sspice}
+         \sym{\gamma'} & -	& 1.5	\X
+{\tt GAMMATCE} & exponential temperature coefficient of {\tt GAMMA}
+         \sym{T_{C,{\gamma}}} & \%/$^{\circ}$C	& 0\X
+{\tt GAP1}	& First bandgap correction factor
+           \sym{F_{\ms{GAP1}}}
+	                 \kwnote{  Silicon: 0.000473}
+	                 \kwnote{  Old Value for Silicon: 0.000702}
+	                 \kwnote{  Gallium Arsenide: 0.000541}
+	                 \kwnote{  Germanium: 0.000456}
+          \kwversion{\hspice ; \sspice}
+	 & 	eV/$^{\circ}$C& 0.000541	\X
+{\tt GAP2}	& Second bandgap correction factor
+           \sym{F_{\ms{GAP2}}}
+	                 \kwnote{  Silicon: 0.000636}
+	                 \kwnote{  Old Value for Silicon: 0.001108}
+	                 \kwnote{  Gallium Arsenide: 0.000204}
+	                 \kwnote{  Germanium: 0.000210}
+          \kwversion{\hspice ; \sspice}
+	 & 	$^{\circ}$C& 0.000541	\X
+{\tt GMAX}& enhanced breakdown model parameter {\tt not used}&S&0\X
+{\tt IS}& gate p-n saturation current\sym{I_S}&A	& 1E-14 \X
+{\tt K1}& enhanced breakdown model parameter {\tt not used}&V$^{-1}$&0\X
+{\tt K2}& enhanced breakdown model parameter {\tt not used}&V&0\X
+{\tt K3}& enhanced breakdown model parameter {\tt not used}&V$^2$&0\X
+{\tt KF}& flicker noise coefficient\sym{K_F}& -	& 0	\X
+{\tt LAMBDA}& channel-length modulation ({\tt LEVEL=1,2,3,-1})
+              \sym{\lambda}&$\mbox{V}^{-1}$& 0 \X
+{\tt LAMB}& alternative keyword for {\tt LAMBDA} ({\tt LEVEL=1,2,3})
+           \kwversion{\sspice} \sym{\lambda}&$\mbox{V}^{-1}$& 0 \X
+{\tt LEVEL}& model index
+              \hfill  1 $\rightarrow$ Curtice quadratic model
+              \kwnote{  2 $\rightarrow$ Raytheon model}
+              \kwnote{  3 $\rightarrow$ TOM (Triquint) model}
+              \kwnote{  4 $\rightarrow$ Curtice cubic model}
+              \kwnote{  5 $\rightarrow$ Materka-Kacprzak model}
+              \kwnote{  6 $\rightarrow$ Angelov model}
+{\tt LEVEL}s  4,5,6 \sspice\ only
+    	& -  &  1	\X 
+{\tt M}	& gate p-n grading coefficient \sym{M}& -& 0.5	\X
+{\tt MGS}& gate-source p-n grading coefficient
+           \kwversion{\sspice} \sym{M_{GS}}& - & M\X
+{\tt MGD}& gate-drain p-n grading coefficient
+           \kwversion{\sspice}  \sym{M_{GS}}& - & M\X
+{\tt N}	& gate p-n emission coefficient\sym{n}& -	& 1	\X
+{\tt NG}& constant part of threshold ideality factor
+{\tt LEVEL} -1 \sspice\ only \sym{N_G}& -	& 1	\X
+{\tt ND}& part of threshold ideality factor that depends on $V_{DS}$
+{\tt LEVEL} -1 \sspice\ only \sym{N_D}& V$^{-1}$& 0	\X
+{\tt NPLT} &  ({\sc not used})
+          \version{\sspice} \sym{V_{GMN}}& s	&  0	\X
+{\tt Q}	& power-law parameter ({\tt LEVEL=3,-1})
+         \sym{Q}& -	&  2	\X
+{\tt R1}	& breakdown gate-drain resistance ({\tt LEVEL}=1,4)
+          \kwversion{\sspice} \hfill{\sc not used} \sym{R_1}&$\Omega$& $\infty$	\X
+{\tt R2}	& breakdown dependency on channel current
+        ({\tt LEVEL}=1,4)\kwversion{\sspice}\hfill({\tt LEVEL}=1,4)
+	\hfill{\sc not used}\sym{R_2}&$\Omega$&0\X
+{\tt RD}	& drain resistance
+          \sym{R_D}&$\Omega$& 0	\X
+{\tt RF}	& forward-biased gate-source resistance ({\tt LEVEL}=1,4)
+          \kwversion{\sspice} \sym{R_F}&$\Omega$& $\infty$	\X
+{\tt RG}& gate resistance
+          \sym{R_G}&$\Omega$& 0	\X
+{\tt RI}& channel resistance\hfill ({\sc not used}) \hfill
+          \kwversion{\sspice}
+          \sym{R_I}&$\Omega$& 0	\X
+{\tt RS}	& source resistance
+          \sym{R_S}&$\Omega$& 0\X
+{\tt T}	& alternative keyword for {\tt TAU}
+          \kwversion{\sspice} \sym{\tau}& s	&  0	\X
+{\tt TBET}	& alternative keyword for {\tt BETATCE}
+          \kwversion{\sspice} \sym{T_{C,{\beta}}}& s	&  0	\X
+{\tt TJ} & junction temperature \hfill  ({\sc not used}) 
+          \version{\sspice} \sym{T_J}& s	&  0	\X
+{\tt TM} &  ({\sc not used})
+          \version{\sspice} \sym{T_M}& s	&  0	\X
+{\tt TME} &  ({\sc not used})
+          \version{\sspice} \sym{T_{ME}}& s	&  0	\X
+{\tt TNOM} & nominal temperature ({\sc not used})
+          \kwversion{\sspice} \sym{T_{\ms{NOM}}}& s	&  0	\X
+{\tt TAU}  & conduction current delay time\sym{\tau}& s	&  0	\X
+{\tt TRG1} & linear temperature coefficient of {\tt RG}\sym{A_{RG}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0	\X
+{\tt TRD1} & linear temperature coefficient of {\tt RD}\sym{A_{RD}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0	\X
+{\tt TRS1} & linear temperature coefficient of {\tt RS}\sym{A_{RS}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0	\X
+{\tt U}& critical field parameter for mobility degradation
+           ({\tt LEVEL=1,2,3}) \kwversion{\sspice} \sym{\mu}&V/m& 0	\X
+{\tt VBI}& gate p-n potential\sym{V_{\ms{BI}}}& V&1\X
+{\tt VBR}& enhanced breakdown model parameter {\tt not used}&V$^2$&$\infty$\X
+{\tt VBD}  & breakdown voltage
+          \kwversion{\sspice} \sym{A_{VBD)}} & V & $\infty$\X
+{\tt VDELTA}	
+	& capacitance transistion voltage 
+          ({\tt LEVEL}=2,3) \sym{V_{\Delta}}
+						& V	& 0.2	\X
+{\tt VDS0}	
+	& $V_{DS}$ at which {\tt BETA} was measured
+          ({\tt LEVEL}=4) \hfill \version{\sspice} \sym{V_{\Delta}}
+						& V	& 4	\X
+{\tt VGMN} &  ({\sc not used})
+          \version{\sspice} \sym{V_{GMN}}& s	&  0	\X
+{\tt VGMX} &  ({\sc not used})
+          \version{\sspice} \sym{V_{GMN}}& s	&  0	\X
+{\tt VDMX} &  ({\sc not used})
+          \version{\sspice} \sym{V_{GMN}}& s	&  0	\X
+{\tt VMAX} & capacitance limiting voltage  ({\tt LEVEL=2,3})
+\sym{V_{\ms{MAX}}}& V	& 0.5	\X
+{\tt VTO}	 & (VT-oh)  pinch-off voltage \sym{V_{T0}}& V  & -2.5	\X
+{\tt VT0} & (VT-0) alternative keyword for {\tt VTO}
+          \kwversion{\sspice} \sym{A_{VDS0)}} & V & -2.5\X
+{\tt VTOTC} & linear temperature coefficient of {\tt VTO}\sym{T_{C,VT0}}
+            & V/$^\circ$C	& 0	\X
+{\tt XTI} & temperature exponent of {\tt IS}\sym{X_{TI}}& -	& 0\X
+{\tt VBITC} & linear temperature coefficient of {\tt VBI}\sym{T_{C,BI}}a
+& -	& 0\X & 0\X
+{\tt AC10} & temperature coefficient of {\tt C10}
+	   \sym{A_{C10}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ACF0} & temperature coefficient of {\tt CF0}
+	   \sym{A_{CF0}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AF}& flicker noise exponent\sym{A_F}& -	& 1	\X
+{\tt AE} & temperature coefficient of {\tt E}
+	   \sym{A_{E}}&V$^{-1}$& 0\X
+{\tt AFAB} & slope factor of breakdown current ($\ge$ 0)
+	   \sym{A_{FAB}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AFAG} & slope factor of gate conduction current
+	   \sym{A_{FAG}}&V$^{-1}$& 38.696\X
+{\tt AGAM} & temperature coefficient of {\tt GAMA}
+	   \sym{A_{\gamma}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AIDS}& linear temperature coefficient of {\tt IDSS}
+           \sym{A_{\lambda}}& \%/$^{\circ}$C& 0	\X
+{\tt AKE}	 & temperature coefficient of {\tt KE}
+	   \sym{A_{KE}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AKG}	 & temperature coefficient of {\tt KG}
+	   \sym{A_{KG}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARD}	 & alternative keyword for {\tt TRD1}
+	   \sym{A_{RD}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARG}	 & alternative keyword for {\tt TRG1}
+	   \sym{A_{RG}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ARS}	 & alternative keyword for {\tt TRS1}
+	   \sym{A_{RS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AR10}	& temperature coefficient of {\tt R10}
+	   \sym{A_{R10}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ASL}	& temperature coefficient of {\tt SL}
+	   \sym{A_{SL}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt ASS}	& temperature coefficient of {\tt SS}
+	   \sym{A_{SS}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AT}	& temperature coefficient of {\tt T}
+	   \sym{A_{T}}&$^{\circ}\mbox{C}^{-1}$& 0\X
+{\tt AVBC} & linear temperature coefficient of {\tt VDC}
+             \sym{A_{VBC)}} &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt AVP0} & linear temperature coefficient of {\tt VP0}
+          \sym{A_{VP0)}} &$^{\circ}\mbox{C}^{-1}$ & 0\X
+{\tt C10}& gate-source Schottky barrier capacitance for $V_{GS}$ = 0.
+        \sym{C_{10}}& F	& 0	\X
+{\tt CF0}& gate-drain feedback capacitacne for $V_{GD}$ = 0.
+        \sym{C_{F0}}& F	& 0	\X
+{\tt C1S}& constant parasitic component of gate-source capacitance
+        \sym{C_{1S}}& F	& 0	\X
+{\tt CDE}& drain-source electrode capacitance
+        {\sc not used} \sym{C_{DE}}& F	& 0	\X
+{\tt CDGE}& drain-gate electrode capacitance
+        {\sc not used} \sym{C_{DGE}}& F	& 0	\X
+{\tt CDS}& drain-source capacitance
+        \sym{C_{DS}}& F	& 0	\X
+{\tt CDSD}& low frequency trappin capacitance ({\sc not used})
+        \sym{C_{DSD}}& F	& 0	\X
+{\tt CGE}& gate-source electrode capacitance
+        {\sc not used} \sym{C_{DE}}& F	& 0	\X
+{\tt CGS0}& zero-bias gate-source p-n capacitance in Raytheon capacitance
+           model. Used if {\tt CLVL} = 2 \sym{C_{GS}}& F	& 0	\X
+{\tt CGD0}& zero-bias gate-drain p-n capacitance in Raytheon capacitance
+           model. Used if {\tt CLVL} = 2 \sym{C_{GS}}& F	& 0	\X
+{\tt CLVL}& capacitance model flag
+            {\tt CLVLV = 1} use Materka-Kacprzak capacitance model
+            {\tt CLVLV = 2} use Raytheon capacitance model
+           \sym{C_{LVL}}& -	& 1	\X
+{\tt E}& constant part of drain current power \sym{E}& -	& 2\X
+{\tt FCC} & \sym{F_{CC}}& -	& 0.8	\X
+{\tt GAMA}	& Voltage slope parameter of pinch-off voltage \sym{\gamma}
+	        &$\mbox{V}^{-1}$& 0\X
+{\tt IB0}& current parameter of gate-drain breakdown
+              source ($\ge$ 0)\sym{I_{B0}}&A&0\X
+{\tt IDSS}& frain saturation current for $V_{GS}$ = 0\sym{I_{DSS}}&A	& 0.1 \X
+{\tt IG0}& saturation current of gate-source schottky
+            barrier\sym{I_{G0}}&A&0\X
+{\tt K1}& slope parameter of gate-source capacitance\sym{K_1}
+	        &$\mbox{V}^{-1}$& 1.25\X
+{\tt KE}& dependence of drain current  power on $V_{GS}$\sym{K_E}
+	        &$\mbox{V}^{-1}$& 0\X
+{\tt KF}& slope parameter of gate-drain feedback capacitance\sym{K_F}& -	& 0	\X
+{\tt KFL}& flicker noise coefficient\sym{K_{FL}}& -	& 0	\X
+{\tt KG}& linearregion drain current $V_{GS}$ dependence \sym{K_G}
+	        &$\mbox{V}^{-1}$& 0\X
+{\tt KR}& slope factor of intrinsic channel resistance\sym{K_R}
+	        &$\mbox{V}^{-1}$& 0\X
+{\tt LEVEL}& model index \hfill must be 5 & -  &  1	\X 
+{\tt M}	& gate p-n grading coefficient\sym{M}& -	& 0.5	\X
+{\tt MGS}& gate-source p-n grading coefficient \sym{M_{GS}}& - & M	\X
+{\tt MGD}& gate-drain p-n grading coefficient \sym{M_{GS}}& - & M	\X
+{\tt R10}	& intrinsic channel resistance for $V_{GS}$ = 0.
+          \sym{R_{10}}&$\Omega$& $\infty$	\X
+{\tt RD}	& drain resistance \sym{R_D}&$\Omega$& 0	\X
+{\tt RDSD}	& channel trapping resistance {\sc not used} \sym{R_{DSD}}
+		  &$\Omega$& $\infty$	\X
+{\tt RG}& gate resistance \sym{R_G}&$\Omega$& 0	\X
+{\tt RS}	& source resistance \sym{R_S}&$\Omega$& 0\X
+{\tt SL}	& slope of $V_{GS}$ = 0 drain
+                  current, linear region \sym{S_L}&S& 0.15\X
+{\tt SS}	& slope of $V_{GS}$ = 0 drain
+                  current, saturated region \sym{S_S}&S& 0\X
+{\tt T}	& channel transit time delay \sym{\tau}& s	&  0	\X
+{\tt TJ}	& junction temperature \version{\sspice} \sym{T_J} &K& 298 \X
+{\tt TNOM}	& model reference temperature ($> 0$) \version{\sspice}
+		  \sym{T_{NOM}} &K& 298 \X
+{\tt TRG1} & temperature coefficient of {\tt RG}\sym{A_{RG}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0	\X
+{\tt TRD1} & temperature coefficient of {\tt RG}\sym{A_{RD}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0	\X
+{\tt TRS1} & temperature coefficient of {\tt RG}\sym{A_{RS}}
+           & $^{\circ}\mbox{C}^{-1}$ & 0	\X
+{\tt VBC}  & breakdown voltage ($\ge 0$ \sym{V_{BC}} & V & $\infty$\X
+{\tt VBI}	& gate p-n potential in Raytheon capacitance
+           model. Used if {\tt CLVL} = 2.  \sym{V_{\ms{BI}}}& V	& 1	\X
+{\tt VP0} &(VP-zero) pinch-off voltage for $V_{DS}$ = 0 \sym{V_{P0}}&V &-2.5\X
+{\tt AF}& flicker noise exponent\sym{A_F}& -	& 1	\X
+{\tt ACGS}	& linear temperature coefficient of {\tt CGS} \sym{A_{CGS}}
+	& $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ACGD}	& linear temperature coefficient of {\tt CGD} \sym{A_{CGD}}
+	& $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ALFA}	& saturation voltage parameter ($\ge 0$) \sym{\alpha}& V$^{-1}$ & 1.5 \X
+{\tt ARI}	& linear temperature coefficient of {\tt RI} \sym{A_{RI}}
+	& $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ARG}	& linear temperature coefficient of {\tt RG} \sym{A_{RG}}
+	& $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ARD}	& linear temperature coefficient of {\tt RD} \sym{A_{RD}}
+	& $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt ARS}	& linear temperature coefficient of {\tt RS} \sym{A_{RS}}
+	& $^{\circ}\mbox{C}^{-1}$ & 0 \X
+{\tt B1}	& unsaturated coefficient of {\tt P1} \sym{B_1} &-& 0 \X
+{\tt B2}	& drain voltage slope parameter for {\tt B1} \sym{B_2}
+	&-& 3.0 \X
+{\tt BCGD}	& quadratic  temperature coefficient of {\tt CGD} \sym{B_{CGD}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BCGS}	& quadratic  temperature coefficient of {\tt CGS} \sym{B_{CGS}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRI}	& quadratic  temperature coefficient of {\tt RI} \sym{B_{RI}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRG}	& quadratic  temperature coefficient of {\tt RG} \sym{B_{RG}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRS}	& quadratic  temperature coefficient of {\tt RS} \sym{B_{RS}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt BRD}	& quadratic  temperature coefficient of {\tt RD} \sym{B_{RD}}
+	& $^{\circ}\mbox{C}^{-2}$ & 0 \X
+{\tt CGD0}	& gate-source capacitance at $\Psi_3=\Psi_4=0$ (>= 0)
+		 \sym{C_{GD0}}&F&0\X
+{\tt CGS0}	& gate-source capacitance at $\Psi_1=\Psi_2=0$ (>= 0)
+		 \sym{C_{GS0}}&F&0\X
+{\tt EG}	& barrier height at 0~K \sym{E_G} &V& 0.8 \X
+{\tt GAMA}	& voltage slope parameter for pinch-off
+                  ({\sc NO LONGER USED})
+	 	&V$^{-1}$& 0 \X
+{\tt IB0}	& breakdown saturation current ($\ge 0$) \sym{I_{B0}} &A& 0 \X
+{\tt IPK}	& drain current at peak $g_m$ ($\ge 0$) \sym{I_{PK}} &A& 0.1 \X
+{\tt IS}	& diode saturation current ($\ge 0$) \sym{I_S} &A& 0 \X
+{\tt LAMB}& slope of the drain characteristic \sym{\lambda} &V$^{-1}$& 0 \X
+{\tt LEVEL}& model index \hfill must be 6 & -  &  1	\X 
+{\tt N}	& diode ideality factor ($> 0$\sym{N} &-& 1 \X
+{\tt NR}	& breakdown ideality factor ($> 0$ \sym{N_R} &-& 10 \X
+{\tt P2}	& polynomial coefficient of channel current \sym{P_2}
+		 & V$^{-2}$ & 0 \X
+{\tt P3}	& polynomial coefficient of channel current \sym{P_3}
+		 & V$^{-3}$ & 0 \X
+{\tt P4}	& polynomial coefficient of channel current \sym{P_4}
+		 & V$^{-4}$ & 0 \X
+{\tt P5}	& polynomial coefficient of channel current \sym{P_5}
+		 & V$^{-5}$ & 0 \X
+{\tt P6}	& polynomial coefficient of channel current \sym{P_6}
+		 & V$^{-6}$ & 0 \X
+{\tt P7}	& polynomial coefficient of channel current \sym{P_7}
+		 & V$^{-7}$ & 0 \X
+{\tt P8}	& polynomial coefficient of channel current \sym{P_7}
+		 & V$^{-8}$ & 0 \X
+{\tt P10}	& polynomial coefficient of g-s capacitance \sym{P_{10}}
+	& - & 0 \X
+{\tt P11}	& polynomial coefficient of g-s capacitance \sym{P_{11}}
+	& V$^{-1}$ & 0 \X
+{\tt P12}	& polynomial coefficient of g-s capacitance \sym{P_{12}}
+	& V$^{-2}$ & 0 \X
+{\tt P13}	& polynomial coefficient of g-s capacitance \sym{P_{13}}
+	& V$^{-3}$ & 0 \X
+{\tt P14}	& polynomial coefficient of g-s capacitance \sym{P_{14}}
+	& V$^{-4}$ & 0 \X
+{\tt P20}	& polynomial coefficient of g-s capacitance \sym{P_{20}}
+	& - & 0 \X
+{\tt P21}	& polynomial coefficient of g-s capacitance \sym{P_{21}}
+	& V$^{-1}$ & 0 \X
+{\tt P22}	& polynomial coefficient of g-s capacitance \sym{P_{22}}
+	& V$^{-2}$ & 0 \X
+{\tt P23}	& polynomial coefficient of g-s capacitance \sym{P_{23}}
+	& V$^{-3}$ & 0 \X
+{\tt P24}	& polynomial coefficient of g-s capacitance \sym{P_{24}}
+	& V$^{-4}$ & 0 \X
+{\tt P30}	& polynomial coefficient of g-d capacitance \sym{P_{30}}
+	& - & 0 \X
+{\tt P31}	& polynomial coefficient of g-d capacitance \sym{P_{31}}
+	& V$^{-1}$ & 0 \X
+{\tt P32}	& polynomial coefficient of g-d capacitance \sym{P_{32}}
+	& V$^{-2}$ & 0 \X
+{\tt P33}	& polynomial coefficient of g-d capacitance \sym{P_{33}}
+	& V$^{-3}$ & 0 \X
+{\tt P34}	& polynomial coefficient of g-d capacitance \sym{P_{34}}
+	& V$^{-4}$ & 0 \X
+{\tt P40}	& polynomial coefficient of g-d capacitance \sym{P_{40}}
+	& - & 0 \X
+{\tt P41}	& polynomial coefficient of g-d capacitance \sym{P_{41}}
+	& V$^{-1}$ & 0 \X
+{\tt P42}	& polynomial coefficient of g-d capacitance \sym{P_{42}}
+	& V$^{-2}$ & 0 \X
+{\tt P43}	& polynomial coefficient of g-d capacitance \sym{P_{43}}
+	& V$^{-3}$ & 0 \X
+{\tt P44}	& polynomial coefficient of g-d capacitance \sym{P_{44}}
+	& V$^{-4}$ & 0 \X
+{\tt P1CC}	& polynomial coefficient of g-d capacitance \sym{P_{1CC}}
+	& & 0 \X
+{\tt PSAT}	& polynomial coefficient of channel current {\tt PSAT}  \sym{P_1}
+	& V$^{-1}$ & 1.3 \X
+{\tt RI}	& channel resistacne ($\ge 0$) {\sc NOT USED} \sym{R_I} & & 0 \X
+{\tt T}	& channel time delay ($\ge 0$) \sym{\tau} &s& 0 \X
+{\tt TJ}	& junction temperature \sym{T_J} &K& 298 \X
+{\tt TM}	& $I_{DS}$ linear temperature coefficient \sym{T_M} & & 0 \X
+{\tt TME}	& $I_{DS}$ power law temperature coefficient \sym{T_{ME}}&&0 \X
+{\tt TNOM}	& model reference temperature ($> 0$) \sym{T_{NOM}} &K& 298 \X
+%{\tt TRD1}& alternative keyword for {\tt ARD}\sym{A_{RD}} & C$^{-1}$ & 0 \X
+%{\tt TRD2}& alternative keyword for {\tt BRD}\sym{B_{RD}} & C$^{-1}$ & 0 \X
+%{\tt TRG1}& alternative keyword for {\tt ARG}\sym{A_{RG}} & C$^{-1}$ & 0 \X
+%{\tt TRG2}& alternative keyword for {\tt BRG}\sym{B_{RG}} & C$^{-1}$ & 0 \X
+%{\tt TRI1}& alternative keyword for {\tt ARI}\sym{A_{RI}} & C$^{-1}$ & 0 \X
+%{\tt TRI2}& alternative keyword for {\tt BRI}\sym{B_{RI}} & & 0 \X
+%{\tt TRS1}& alternative keyword for {\tt ARS}\sym{A_{RS}} & & 0 \X
+%{\tt TRS2}& alternative keyword for {\tt BRS}\sym{B_{RS}} & & 0 \X
+{\tt VBD}	& breakdown voltage \sym{V_{BD}} & & 0 \X
+{\tt VPK0}	& gate-source voltage for unsaturated peak $g_m$\sym{V_{PK0}}
+	&V& -0.5 \X
+{\tt VPKS}	& gate-source voltage for peak $g_m$ \sym{V_{PKS}}
+	&V& 0 \X
+{\tt XTI}	& saturation current temperature exponent \sym{X_{TI}}
+	& & 2 \X

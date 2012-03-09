@@ -1,0 +1,28 @@
+* Long Test of normal diode (D). A voltage ramp.
+.options verbose
+.options ftol=1e-10
+.options jupdm=0
+.tran2 tstop=1s tstep=1us
+
+vpulse:v1 1 0 v2=4 tr=1ms tf=1ms pw=3ms  per=6ms
+r:1 1 2 r=100
+d:d1 2 0 r0=2
+
+*.options gnuplot
+*
+*.options preamble1="set term x11 font 'helvetica,13';
+*         set title 'Current through diode'; set xlabel 'X';
+*         set ylabel 'DIODE CURRENT (A)'"
+*.out plot element "d:d1" 0 it preamble1 in "diodeqki.out"
+*
+*.options preamble2="set term x11 font 'helvetica,13';
+*         set title 'Volatge across diode'; set xlabel 'X';
+*         set ylabel 'DIODE VOLTAGE (V)'"
+*.out plot term 2 vt "set title 'Voltage across Diode'" in "diodeqkv.out"
+*
+*.options preamble3="set term x11 font 'helvetica,13';
+*         set title 'Current through diode'; set xlabel 'X';
+*         set logscale y;
+*         set ylabel 'DIODE CURRENT (log)'"
+*.out plot element "d:d1" 0 it preamble3 in "diodeqkilog.out"
+.end

@@ -1,0 +1,2336 @@
+\addcontentsline{toc}{part}{PART III CATALOG}
+\chapter{Statement Catalog\label{chapter:statement}}
+
+\mysline{.AC}{AC Analysis}
+\mysline{COMMENT}{Comment Line}
+\mysline{.DC}{DC Analysis}
+\mysline{.DISTO}{Small-Signal Distortion Analysis
+\spicetwo\ (?) and \spicethree\ Only}
+\mysline{.DISTRIBUTION}{Distribution Specification
+         {(\pspice\ only)}}
+\mysline{.END}{End Statement}
+\mysline{.ENDS}{End Subcircuit Statement}
+\mysline{.FOUR}{Fourier Analysis}
+\mysline{.FUNC}{Function Definition \pspiceninetytwo Only}
+\mysline{.IC}{Initial Conditions}
+\mysline{.INC}{Include Statement}
+\mysline{.LIB}{Library Statement}
+\mysline{.MC}{Monte Carlo Analysis {(\pspice\ only)}}
+\mysline{.MODEL}{Model Statement}
+\mysline{.NODESET}{Node Voltage Initialization}
+\mysline{.NOISE}{Small-Signal Noise Analysis}
+\mysline{.OP}{Operating Point Analysis}
+\mysline{.OPTIONS}{Option Specification}
+\mysline{.PARAM}{Parameter Definition {\pspiceninetytwo\ Only}}
+\mysline{.PLOT}{Plot Specification}
+\mysline{.PRINT}{Print Specification}
+\mysline{.PROBE}{Data Output Specification {\pspice\ Only}}
+\mysline{.PZ}{Pole-Zero Analysis \spicethree\ Only}
+\mysline{.SAVEBIAS}{Save Bias Conditions}
+\mysline{.SENS}{Sensitivity Analysis}
+\mysline{.STEP}{Parameteric Analysis \pspiceninetytwo\ Only}
+\mysline{.SUBCKT}{Subcircuit Statement}
+\mysline{.TEMP}{Temperature Specification}
+\mysline{.TEXT}{Text Parameter Definition \pspiceninetytwo\ Only}
+\mysline{.TF}{Transfer Function Specification {\pspice\ Only}}
+\mysline{TITLE}{Title Line}
+\mysline{.TRAN}{Transient Analysis}
+\mysline{.WATCH}{Watch Analysis Statement \pspiceninetytwo\ Only}
+\mysline{.WCASE}{Sensitivity and Worst Case Analysis
+\pspiceninetytwo\ Only}
+\mysline{.WIDTH}{Width Specification}
+\raggedbottom
+\section*{Conventions}
+
+Square brackets ``[ $\ldots$ ] ''indicate an optional quantity.
+
+Italics indicate a quantity that is replaced by a specific value.
+
+
+%
+% .AC
+%
+\statement{.AC}{AC Analysis}
+
+The {\tt .AC} statement initializes an \ac\ small-signal analysis sweeping the
+frequency of the independent voltage and current sources.
+
+\form{{\tt .AC DEC} FrequenciesPerDecade FStart FStop\\
+      {\tt .AC OCT} FrequenciesPerOctave FStart FStop\\
+      {\tt .AC LIN} NumberPoints FStart FStop}
+
+
+\begin{widelist}
+\item[{\tt DEC}] is the decade sweep keyword specifying that the
+     frequency $F_1$ is to be swept logarithmically by decades.
+
+\item[{\it FrequenciesPerDecade}]
+      specifies the number of frequencies per decade.
+
+\item[{\tt OCT}] is the octave sweep keyword specifying that the
+     frequency is to be swept logarithmically by octaves.
+
+\item[{\it FrequenciesPerOctave}]
+      specifies the number of frequencies per octave.
+
+\item[{\tt LIN}] is the linear sweep keyword specifying that the frequency
+     is to be swept linearly.
+
+\item[{\it NumberPoints}]
+      specifies the total number of frequencies in a linear sweep.
+
+\item[{\it FStart}]
+      is the starting frequency of the frequency sweep.\\
+      (Units: Hz; Required; {\it FStart} $>$ 0)
+
+\item[{\it FStop}]
+      is the stopping frequency of the frequency sweep.\\
+      (Units: Hz; Required; {\it FStop} $\ge$ {\it FStart})
+\end{widelist}
+
+
+\example{.AC DEC 10 1kHz 100Mhz\\
+         .AC DEC 10 1kHz 100Mhz}
+
+\note{
+\item A \dc\ analysis is automatically performed
+      prior  to  an \ac\ small-signal analysis to find the operating point.
+      Using the \dc\ values of voltage and current at the operating point
+      the  linearized, small-signal models of nonlinear devices are determined.
+
+\item In \ac\ analysis voltage sources without \ac\ specifications are shorted
+and current sources without \ac\ specifications are opened.
+}
+
+
+
+%
+\statement{COMMENT}{Comment Card}
+
+Used to insert a comment in the circuit NETLIST.
+
+\form{{\tt *} a comment string}
+
+\note{
+\item
+A comment line begins with an asterisk ``*'' in the first position of the line.
+There can be no leading white space.
+\item
+Comment lines can appear anywhere in the input file and are ignored
+except that they are echoed in the output log file.
+\item {In \pspice comments} can appear anywhere
+on following a semicolon ``;''.
+The remainder of the line (following the ``;'') is ignored except for purposes of
+echoing the input NETLIST in the log file.
+}
+
+%
+% .DC
+%
+\statement{.DC}{DC Analysis}
+
+In \dc\ analysis the \dc\ operating  point  of a circuit is determined for
+a range of values of up to two independent voltage or current sources.\\[0.1in]
+
+\form{{\tt .DC}
+  SourceName1 StartValue1 StopValue1 ValueIncrement1\\
+  {\tt +} \B SourceName2 StartValue2 StopValue2 ValueIncrement2\E }
+
+\pspiceform{{\tt .DC} \B {\tt LIN} \E
+  SweepVariableName1 StartValue1 StopValue1 ValueIncrement1\\
+  {\tt +} \B SourceName2 StartValue2 StopValue2 ValueIncrement2\E \\[0.1in]
+  {\tt .DC} {\tt OCT}
+  SweepVariableName1 StartValue1 StopValue1 PointsPerOctave1\\
+  {\tt +} SweepVariableName2 StartValue2 StopValue2 PointsPerOctave2 \E \\[0.1in]
+  {\tt .DC} {\tt DEC}
+  SweepVariableName1 StartValue1 StopValue1 PointsPerDecade1\\
+  {\tt +} SweepVariableName2 StartValue2 StopValue2 PointsPerDecade2 \E \\[0.1in]
+  {\tt .DC} SweepVariableName1 {\tt LIST} Value$_{1,1}$\B Value$_{1,2}$ $\ldots$
+  Value$_{1,N}$\E\\
+  {\tt +} \B SweepVariableName2 {\tt LIST} Value$_{2,1}$\E Value$_{2,2}$ $\ldots$
+  Value$_{2,N}$\E\E\\
+  }
+
+\begin{widelist}
+\item[{\it SourceName1}] is the name of the first independent voltage
+({\tt V} element) or current ({\tt I} element) source the value of which will be
+swept.
+
+\item[{\it StartValue1}] is the starting value of the sweep of the first
+voltage or current source.
+
+\item[{\it StopValue1}] is the final value of the sweep of the first
+voltage or current source.
+
+\item[{\it ValueIncrement1}] is the increment by which the value of the first
+voltage or current source is incremented.
+
+\item[{\it SourceName2}] is the name of the first independent voltage
+({\tt V} element) or current ({\tt I} element) source the value of which will be
+swept.
+
+\item[{\it StartValue2}] is the starting value of the sweep of the second
+voltage or current source.
+
+\item[{\it StopValue2}] is the final value of the sweep of the second
+voltage or current source.
+\end{widelist}
+
+\begin{widelist}
+\item[{\it ValueIncrement2}] is the increment by which the value of the second
+voltage or current source is incremented.
+
+\item[{\tt LIN}] is the linear sweep keyword. This is the default sweep type.
+
+\item[{\tt OCT}] is the octave sweep keyword specifying that the sweep
+variable or variables is to be swept logarithmically by octaves.
+
+\item[{\tt DEC}] is the decade sweep keyword specifying that the sweep
+variable or variables is to be swept logarithmically by decades.
+
+\item[{\it PointsPerOctave1}] is the number of points per octave in a {\tt OCT}
+     sweep type for the first sweep.
+
+\item[{\it PointsPerDecade1}] is the number of points per decade in a {\tt DEC}
+     sweep type for the first sweep.
+
+\item[{\it PointsPerOctave2}] is the number of points per octave in a {\tt OCT}
+     sweep type for the second sweep.
+
+\item[{\it PointsPerDecade2}] is the number of points per decade in a {\tt DEC}
+     sweep type for the second sweep.
+
+\item[{\it SweepVariableName1}] is the name of the first sweep variable.
+The sweep variable can be:
+\begin{enumerate}
+\item the name of an independent voltage or current source. The {\it DCvalue}
+      of the source is swept.
+\item the name of a parameter of a specific model specified in the form
+     {\it ModelName}{\tt (}{\it ParameterKeyword}{\tt )}. For example to sweep
+     the {\tt IS} parameter of an {\tt NPN} model of name {\tt MYNPN} the
+     {\it SweepVariableName} would be {\tt MYNPN(IS)}.
+\item the keyword {\tt TEMP} which indicates that the analysis temperature
+     in $^{\circ}$C is swept. The model parameters are updated for each
+     sweep value.
+\end{enumerate}
+
+\item[{\it SweepVariableName2}] is the name of the second sweep variable.
+     The properties are as for {\it SweepVariableName1} as described above.
+
+\item[{\tt LIST}] indicates that the value of the {\it SweepVariable} will take the
+     values, in order, in the following list rather than be swept.
+
+\item[{\it Value$_{\,i,j}$}] the $j$th value to be assigned to the $i$th sweep
+     variable.
+\end{widelist}
+
+\example{.DC VIN 0.25 5.0 0.25\\
+         .DC VDS 0 10 .5 VGS 0 5 1\\
+         .DC VCE 0 10 .25 IB 0 10U 1U\\
+        }
+
+\pspiceexample{.DC VIN 0.25 5.0 0.25\\
+         .DC VDS 0 10 .5 VGS 0 5 1\\
+         .DC VCE 0 10 .25 IB 0 10U 1U\\
+         .DC LIN VCE 0 10 .25 IB 0 10U 1U\\
+         .DC DEC MYNPN(IS) 1.E-15 1.e-17 3\\
+         .DC TEMP -25 0 25 50 75 100 VIN 0.25 5.0 0.25
+        }
+
+\note{
+\item The {\tt .DC} statement initiates a \dc\ operating point analysis.
+
+\item In the \dc\ analysis inductors are shorted and capacitors are open
+      circuited.
+
+\item A \dc\ analysis over a range of source conditions can be used to produce
+      the transfer characteristic of a circuit or current-voltage
+      characteristics of a semiconductor device such as a transistor.
+      An example of determining the transfer characteristic of an operational
+      amplifier is given in section \ref{ex:opamp:DC}.
+      An example of determining the current-voltage
+      characteristics of a transistor
+      is in section \ref{ex:opamp:DC}.
+
+\item[3] A \dc\ analysis over a range of source conditions can also be used
+      to provide biasing information in circuit design.
+
+\item[4] The specified independent voltage
+or current source or sources are stepped over a user-specified range and
+the  \dc\  output  variables indicated by the {\tt .PRINT} statement are stored
+for each source value.
+
+\item[5] When two sources are specified the first
+source is swept over its range for each  value  of  the
+second source. For example, consider\\
+\centerline{\tt .DC VDS 0 10 5 VGS 0 5 2.5}\\
+{\tt VGS} is swept from 0 to 5V in 2.5V increments.  For each value of {\tt VGS}
+{\tt VDS} is swept from 0 to 10V in 5V increments so that that 9 \dc\ analyses
+performed are\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|c|r|r|}
+\hline
+\multicolumn{1}{|c}{RUN}&
+\multicolumn{1}{|c}{{\tt VDS}}&
+\multicolumn{1}{|c|}{{\tt VGS}}\\
+\hline
+1 & 0 & 0\\
+2 & 5 & 0\\
+3 &10 & 0\\
+4 & 0 &2.5\\
+5 & 5 &2.5\\
+6 &10 &2.5\\
+7 & 0 & 5\\
+8 & 5 & 5\\
+9 &10 & 5\\
+\hline
+\end{tabular}
+\hspace*{\fill}\\
+\item[6] When the sweep is completed the original values are restored.
+\item[7] The sweep can go in either direction. That is,
+{\it StartValue} can be less than or greater than {\it StopValue} but
+{\it ValueIncrement} must be positive.
+}
+
+%
+% .DISTO
+%
+{
+\statement{.DISTO}{Small-Signal Distortion Analysis}
+
+In distortion  analysis the steady-state harmonic and intermodulation
+products for small input signal are computed as a part of an \ac\ analysis.
+One or two excitation frequencies, $F_1$ and $F_2$ may be specified.
+If only one excitation frequency, $F_1$, is specified the program
+evaluates the second and third harmonic distortions. If a second excitation
+frequency, $F_2$, is specified the three lowest order intermodulation
+distortion components are evaluated as well.
+
+\form{{\tt .DISTO} ResistorName \B OutputInterval
+     \B $F_2$Over$F_1$ \B $F_1$ReferencePower\\
+     {\tt +} \B $F_2$ReferencePower\E\E\E\E
+     }
+
+\spicethreeform{{\tt .DISTO DEC} FrequenciesPerDecade $F_1$Start $F_1$Stop
+                       \B $F_2$Over$F_1$\E\\
+      {\tt .DISTO OCT} FrequenciesPerOctave $F_1$Start $F_1$Stop
+                       \B $F_2$Over$F_1$\E\\
+      {\tt .DISTO LIN} NumberPoints $F_1$Start $F_1$Stop \B $F_2$Over$F1$\E
+     }
+
+
+\begin{widelist}
+\item[{\it ResistorName}]
+     the name of the output resistor. The power dissipated in this resistor
+     is reported as the distortion measures.
+     \spicetwo\ only.
+
+\item[{\it OutputInterval}]
+     is the optional output reporting interval at which distortion components
+     produced by all nonlinear components is reported.  By default, or if
+     omitted no detailed output is produced.
+     \spicetwo\ only.
+
+\item[{\it $F_1$ReferencePower}]
+     power level of $F_1$.
+     \spicetwo\ only.\\
+     (Units: W; Optional; Default: 1.0E-3 (i.e. 1~mW or 1~dBm))
+
+\item[{\it $F_2$ReferencePower}]
+     power level of $F_2$.
+     \spicetwo\ only.\\
+     (Units: W; Optional; Default: 1.0E-3 (i.e. 1~mW or 1~dBm))
+
+\item[{\tt DEC}] is the decade sweep keyword specifying that the
+     frequency $F_1$ is to be swept logarithmically by decades.
+
+\item[{\it FrequenciesPerDecade}]
+      specifies the number of frequencies per decade.
+
+\item[{\tt OCT}] is the octave sweep keyword specifying that the
+     frequency $F_1$ is to be swept logarithmically by octaves.
+
+\item[{\it FrequenciesPerOctave}]
+      specifies the number of frequencies per octave.
+\end{widelist}
+
+\begin{widelist}
+
+\item[{\tt LIN}] is the linear sweep keyword specifying that the frequency
+     $F_1$ is to be swept linearly.
+
+\item[{\it NumberPoints}]
+      specifies the total number of frequencies in a linear sweep.
+
+\item[{\it $F_1$Start}]
+      is the starting frequency of the $F_1$ sweep.
+
+\item[{\it $F_1$Stop}]
+      is the stopping frequency of the $F_1$ sweep.
+
+\item[{\it $F_2$Over$F_1$}]
+      is the ratio of $F_2$ to $F_1$.
+
+      In \spicethree\ , if  {\it $F_2$Over$F_1$} is omitted an harmonic
+      analysis only is reported. Otherwise
+      $F_2 = ${\it $F_2$Over$F_1\,F_1$Start}
+
+      In \spicetwo\ , if {\it $F_2$Over$F_1$} is omitted it defaults to 0.9.
+      $F_2 = ${\it $F_2$Over$F_1\,F_1$}
+
+      {\it $F_2$Over$F_1$} should be an irrational number between 0.0 and
+      1.0. If it is a rational number the signals at $F_1$ and $F_2$
+      are harmonically related and the spectral analysis may in error.
+      Since an irrational number can not actually be specified
+      care should be excercized in choosing
+      {\it $F_2$Over$F_1$} so that $F_1$ and $F_2$ are not simple multiples of
+      each other.  For example, use 0.498 instead, if you want to set
+      {\it $F_2$Over$F_1$} to 0.5.  The rule to follow is to keep
+      the denominator in the fractional representation of {\it $F_2$Over$F_1$}
+      as large as possible with at least three digits for accurate  results.
+\end{widelist}
+
+
+\example{.DISTO DEC 10 1kHz 100Mhz\\
+         .DISTO DEC 10 1kHz 100Mhz 0.9}
+
+
+\note{
+\item
+In \spicetwo\ the distortion analysis must be performed in conjunction
+with an \ac\ analysis.  The {\tt .AC} statement (see page
+\pageref{.ACstatement}) specifies the sweep parameters for $F_1$.
+
+\item
+In \spicethree\ the distortion analysis is also performed in conjunction
+with the \ac\ analysis specified by the {\tt .AC} statement.
+The amplitudes and relative phases of the input distortion components are
+specified in the {\tt .AC statement} as the arguments of the {\tt DISTOF1}
+keyword for $F_1$ and of the {\tt DISTOF2} keyword for $F_2$.
+This enables several sources to generate components at $F_1$ and/or $F_2$.
+If the DISTOF1 or DISTOF2 keywords are missing from a source then this source
+is assumed
+to have no input at $F_1$ or $F_2$ respectively.
+
+When a spectral analysis is performed (both $F_1$ and $F_2$ specified)
+the  circuit is treated as having sinusoidal inputs at two
+different frequencies $F_1$ and $F_2$.
+$F_1$ is swept but $F_2$ is fixed at
+{\it $F_2$Over$F_1\,$}{\it FStart}. Each independent
+source in the circuit can have two
+inputs at $F_1$ and $F_2$ for distortion analysis.
+}
+
+\note{
+\item[3]
+Distortion analysis is not valid if switches (if present)
+change state under the small excitations used for distortion calculations.
+
+\item[4]
+Evaluation of the small-signal  distortion of
+a  circuit is based on a multi-dimensional Volterra series analysis.
+The  nonlinearities are expanded in
+a third order multi-dimensional Taylor series around
+the  operating  point determined from an operating point (\dc ) analysis.
+Using this analysis the distortion components are evaluated symbolically
+
+\item[5] In \spicetwo\ the following distortion components are
+       evaluated.\\[0.1in]
+      \offset\begin{tabular}{lcp{3.5in}}
+      HD2 &-&the magnitude of the second harmonic at frequency
+             $2F_1$ assuming that $F_2$ is not present.\\
+      HD3 &-&the magnitude of the third harmonic at frequency
+             $3F_1$ assuming that $F_2$ is not present.\\
+      SIM2 &-&the magnitude of the sum frequency $F_1+F_2$\\
+      DIM2 &-&the magnitude of the difference frequency $F_1-F_2$\\
+      DIM3 &-&the magnitude of the third order intermodulation frequency
+              $2F_1-F_2$
+      \end{tabular}
+
+\item
+      In \spicethree\ the complex values of the above distortion components are
+      computed at all nodes in the circuit. The distortion components at any
+      node can be reported using the {\tt .PRINT} statement (discussed on
+      page \pageref{.PRINTstatement}) or the {\tt .PLOT} statement (discussed on
+      page \pageref{.PLOTstatement}). The running variable in the output is the
+      frequency $F_1$.
+
+\item
+      The quantities reported are the actual \ac\ voltages
+      and currents and must be normalized by the user to the sources at $F_1$ and
+      $F_2$ to obtain true distortion measures.
+}
+
+\fornutmeg{
+The distortion component  desired  (2*F1  or  3*F1)  can  be
+selected using commands in nutmeg, and then printed or plotted.
+(Normally, one is interested primarily in the magnitude
+of  the  harmonic  components,  so the magnitude of the a.c.
+distortion value is looked at.)  It  should  be  noted  that
+these are the a.c. values of the actual harmonic components,
+and are not equal to HD2 and HD3. To obtain HD2 and HD3, one
+must divide by the corresponding a.c. values at F1, obtained
+from an .AC card. This division can  be  done  using  nutmeg
+commands.}
+
+
+
+\fornutmeg{
+The analysis produces plots of all node voltages/branch currents
+at the intermodulation product frequencies F1+F2, F1-F2, and
+(2*F1)-F2,  versus  the  swept  frequency  F1. The intermodulation product of
+interest may be selected  using  the  setplot  command,  and
+displayed  with  the  print  and  plot commands. It is to be
+noted as in the harmonic analysis case, the results are  the
+actual  a.c.  voltages  and  currents at the intermodulation
+frequencies, and need to be normalized w.r.t .AC  values  to
+obtain the intermodulation parameters.}
+
+} % end
+%
+% .DISTRIBUTION
+%
+\statement{.DISTRIBUTION}{Distribution Specification}
+
+The {\tt .DISTRIBUTION} statement specifies the statistical tolerance
+distribution used in Monte Carlo analysis (see the {\tt .MC}
+statement on page \pageref{.MCstatement}).
+
+\pspiceform{{\tt .DISTRIBUTION} DistributionName
+{\tt (}{\it Deviation1, Probability1}{\tt )}\\{\tt +}
+{\tt (}{\it Deviation2, Probability2}{\tt )}
+\B {\tt (}{\it Deviation3, Probability3}{\tt )} ... \E}
+
+
+\begin{widelist}
+\item[{\it DistributionName}] is the name the user  assigns to the distribution defined by the succeeding values.
+
+\item[{\it Deviation}] Relative deviation from nominal value.\\
+($-1 \le$ {\it Deviation} $ \le 1$).
+
+\item[{\it Probability}] Probability of preceding deviation.\\
+({\it Probability} $\ge$ 0)
+
+\end{widelist}
+
+\note{
+\item Parentheses, `(' and `)', and commas, `,', in the NETLIST are ignored and
+      are generally used to make the NETLIST more readable.
+
+\item The pairs of values ({\it Deviation}, {\it Probability}) define a
+      piecewise linear
+      probability distribution curve used in calculating the random numbers
+      used in Monte Carlo analysis.
+
+\item The {\it Deviation}s must be in ascending order:\\
+      {\it Deviation1} $<$ {\it Deviation2} $<$ {\it Deviation3} $<$ $\ldots$
+
+\item 100 ({\it Deviation}, {\it Probability}) pairs can be specified.
+
+%      For example the truncated
+%      distribution in figure \ref{tgdist} is specified by\\
+%      {\tt .DISTRIBUTION TRUNCATED (hg,kg) (hg,kg) (hg,kg) (hg,kg)}
+%\begin{figure}[hbp]
+%\centering
+%\ %\pfig{tgdist.ps}
+%\caption{User specified truncated distribution.\label{tgdist}}
+%\end{figure}
+}
+
+%
+% .END
+%
+\statement{.END}{End Statement}
+
+This statement indicates the end of the NETLIST of a circuit.
+{
+While it is often inserted automatically by most \spice\ simulators when the
+last statement of the NETLIST is read and it is not {\tt .END}
+}
+its usage is
+recommended as several circuits in one file are supported by
+{some versions of \spice\ including \pspice .}
+
+\form{{\tt .END}}
+
+
+%
+% .ENDS
+%
+\statement{.ENDS}{End Subcircuit Statement}
+
+The end subcircuit statement indicates the end of a subcircuit definition.
+
+\form{{\tt .ENDS} \B SubcircuitName\E }
+
+\begin{widelist}
+\item[{\it SubcircuitName}] Indicates which subcircuit is being terminated.
+If  omitted, all subcircuits being defined are terminated.
+Its use is required when nested subcircuit definitions are being made.
+It is good practise to use the full form of {\tt .ENDS}.
+\end{widelist}
+
+\example{.ENDS NAND\_GATE}
+
+\note{
+\item See the definition of {\tt .SUBCKT} on page \pageref{.SUBCKTstatement}.
+}
+
+%
+% .FOUR
+%
+\statement{.FOUR}{Fourier Analysis}
+
+The Fourier analysis statement initiates a Fourier analysis of the results of
+a transient analysis.
+
+\form{{\tt .FOUR} Frequency OutputSpecification \B OutputSpecification $\ldots$ \E}
+
+\begin{widelist}
+\item[{\it Frequency}] specifies the fundamental frequency of the transient
+waveform to be analyzed.  It is used to determine the period of the waveform.
+
+\item[{\it OutputSpecification}]  specifies the quantity to be reported
+     as the result of the Fourier Analysis.  It has the same format as the
+     {\it OutputSpecification} in a {\tt .PRINT} statement (see page
+     \pageref{.PRINTstatement}).
+\end{widelist}
+
+\example{.FOUR 1M V(10,2) V(5) I(VLOAD)}
+
+\note{
+\item
+Fourier analysis uses the transient output waveform in the time interval from
+${\tt TSTOP} -T$ to {\tt TSTOP}.  $T$ is the period of the {\it Frequency}
+parameter ($T=1/{\it Frequency}$) specified
+in the {\tt .FOUR} statement.  {\tt TSTOP} is the final transient analysis time
+specified in the {\tt .TRAN} statement (which is described on page
+\pageref{.TRANstatement}.
+
+\item Unlike most other analyses, a {\tt .PRINT}, {\tt .PROBE}
+or {\tt .PLOT} statement is not required for the data to be reported.
+}
+
+%
+% .FUNC
+%
+{
+\statement{.FUNC}{Function Definition}
+
+In this statement commonly used expressions can be defined as more convenient
+functions.
+
+\pspiceninetytwoform{{\tt .FUNC}
+FunctionName{\tt (}\B Argument1, Argument2, $\ldots$ Argument10\E\E\E{\tt )}
+= FunctionDeclaration
+}
+
+\begin{widelist}
+\item[{\it FunctionName}] is the name of the function being defined.  It
+     must begin with an alphabetic character (A-Z).
+
+\item[{\it Argument1}] is a function argument.
+     There can be from 0 to 10 arguments.
+
+\item[{\it FunctionDeclaration}] can be any regular algebraic expression
+     (see section \ref{section:algebraic:expression}
+     on page \pageref{section:algebraic:expression}) and
+     can use previously defined functions and the Laplace variable $s$.
+     The expression delimiters
+     {\tt \{} and {\tt \}} need not be used.
+     The {\it FunctionDeclaration} is automatically enclosed within the expression
+     delimiters {\tt \{} and {\tt \}}. The function declaration plus the
+     two delimiters must be no more than 80 characters (one line) long.
+\end{widelist}
+
+\example{.FUNC}
+
+\note{
+\item The names of predefined functions must be avoided.  The predefined
+      functions are listed in section \ref{section:algebraic:expression}
+      on page \pageref{section:algebraic:expression}.
+
+\item Functions are treated as macros in the C programming language.
+      when user defined functions are invoked a textual expansion is
+      performed and the resultant expansion is evaluated as a regular
+      expression.  The FunctionDeclaration before and after expansion is
+      enclosed within expression delimiters {\tt \{} and {\tt \}}.  This
+      defines how nested functions are treated.
+
+\item It is faster to use predefined functions if available. Predefined
+functions also test the validity of the arguments and evaluate the correct
+as asymptotic behavior.
+}
+
+} % end
+
+%
+% .IC
+%
+\statement{.IC}{Initial Conditions}
+
+The {\tt .IC} statement is used to set initial conditions for transient
+analysis. It has no effect on other types of analyses.
+
+
+\form{{\tt .IC V(}NodeName1{\tt )}=Voltage1 \B V(NodeName2{\tt )}
+     =Voltage2 $\ldots$ \E}
+
+\begin{widelist}
+\item[{\tt V}] is the keyword specifying a node voltage
+
+\item[{\it NodeName}]
+     is the name of a node.
+     {Note that in \spicetwo\ and \spicethree\ {\it NodeName}
+     must be an integer.}
+
+\item[{\it Voltage}] is a numeric value.
+\end{widelist}
+
+\example{ .IC V(11)=4.9 V(2)=2.5}
+
+\note{
+\item Initial conditions can be specified for the following elements:
+      {\tt B} (MESFET),
+      {\tt C} (capacitor),
+      {\tt D} (diode),
+      {\tt Q} (BJT),
+      {\tt M} (MOSFET) and
+      {\tt J} (JFET)
+\item The {\tt .IC} statement has two different effects depending on whether
+      the {\tt UIC} (use initial conditions) keyword is present on the
+      {\tt .TRAN} statement.
+      \begin{enumerate}
+      \item If the {\tt UIC} keyword is \underline{specified} in the {\tt .TRAN}
+        statement:\\
+        The initial conditions specified in the {\tt .IC} statement are used
+        to establish the initial conditions.  Initial conditions specified
+        for individual elements using the {\tt IC} parameter on the element
+        line will always have precedence over those specified in a {\tt .IC}
+        statement.\\
+        No \dc\ analysis is performed prior to a transient analysis. Thus it
+        is important to establish the initial conditions at all nodes using
+        the {\tt .IC} statement or using the {\tt IC} element parameter.
+      \item If the {\tt UIC} keyword is \underline{not specified} in the {\tt .TRAN}
+        statement:\\
+        A \dc\ analysis is performed prior to a transient analysis. During
+        the \dc\ analysis the node voltages indicated in
+        the {\tt .IC} statement are held constant at the initial
+        condition values. During transient analysis the nodes are not
+        constrained to the initial condition values.
+      \end{enumerate}
+}
+
+%
+% .INC
+%
+\statement{.INC}{Include Statement}
+
+\form{ {\tt .INC} FileName}
+
+\begin{widelist}
+\item[{\it Filename}] is the name of the file which is to be included.
+\end{widelist}
+
+\note{
+\item The contents of {\it Filename} are read as if it were part of the original
+      file.
+
+\item Libraries could be included using the {\tt .INC} statement or by
+      the {\tt .LIB} statement discussed on page \pageref{.LIBstatement}.
+      The difference is that the {\tt .INC}
+      statement includes the contents of the library file (except for
+      comments) in internal data structures.  However a {\tt .LIB}
+      statement causes the library file to be scanned and an index
+      constructed for model ({\tt .MODEL}) and subcircuit ({\tt .SUBCKT})
+      statements.  The models subcircuits in the library file are included in
+      internal data structures if they are referred to.  Thus
+      the use of {\tt .LIB} statements is a much more efficient way of using
+      library files leading to both a smaller program and faster library access,
+      especially for large libraries.  Library files can only contain
+      models and subcircuits so that the type of files that can be
+      incorporated using a {\tt .LIB} statement is more restricted than the
+      type of file that can be incorporated using a {\tt .INC} statement.
+}
+%
+% .LIB
+%
+\statement{.LIB}{Library Statement}
+
+The {\tt .LIB} statement is an efficient way to include {\tt .MODEL} statements
+and subcircuits.
+
+\form{ {\tt .LIB} \B FileName \E}
+
+\begin{widelist}
+\item[{\it Filename}] is the name of the library file.
+     (Optional; Default: NOM.LIB)
+\end{widelist}
+
+\note{
+\item The library file can only contain a restricted set of \spice\ statements.
+      It must contain only {\tt .MODEL} statements, subcircuit definitions
+      (between {\tt .SUBCKT} and {\tt .ENDS} statements), and {\tt .LIB}
+      statements.
+
+\item The library file {\it Filename} is searched in the current directory
+      and then in a list of directories specified by the environment variable
+      {{\tt PSPICELIB}}
+      (for compatibility purposes the environment
+      variable {\tt PSPICELIB} is also supported).
+\item If the DOS operating system is being used the library environment
+      specification has the form
+      \begin{itemize}
+      \item[] {\tt SET PSPICELIB =} {\it Directory1} \B {\tt ;}
+              {\it Directory2} $\ldots$ \E
+      \end{itemize}
+      The environment variable may be set in the {\tt AUTOEXEC.BAT} file
+      in the root DOS directory or before \pspice\ is evoked.
+      For example:
+      \begin{itemize}
+      \item[] {\tt SET PSPICELIB =
+      C:$\backslash$SPICE$\backslash$MY\_LIB;D:$\backslash$SPICE$\backslash$TI\_LIB}
+      \end{itemize}
+}
+
+\offsetenumerate{
+\item[4.] If the UNIX operating system is being used the library environment
+      specification has the form
+      \begin{itemize}
+      \item[] {\tt setenv PSPICELIB} = {\it Directory1} \B {\tt ;}
+              {\it Directory2} $\ldots$ \E
+      \end{itemize}
+      For example:
+      \begin{itemize}
+      \item[] {\tt setenv PSPICELIB = ~/SPICE/MY\_LIB;~/SPICE/TI\_LIB}
+      \end{itemize}
+\item[5.] Libraries could be included using the {\tt .INC} statement or by
+      the {\tt .LIB} statement.  The difference is that the {\tt .INC}
+      statement includes the contents of the library file (except for
+      comments) in internal data structures.  However a {\tt .LIB}
+      statement causes the library file to be scanned and an index
+      constructed of model ({\tt .MODEL}) and subcircuit ({\tt .SUBCKT})
+      statements.  The models subcircuits in the library file are included in
+      internal data structures only if they are referred to.  Thus
+      the use of {\tt .LIB} statements is a much more efficient way of using
+      library files leading to both a smaller program and faster library access,
+      especially for large libraries.
+}
+
+
+
+%
+% .MC
+%
+\statement{.MC}{Monte Carlo Analysis}
+
+The Monte Carlo analysis is a statistical analysis of the circuit causing
+the circuit to be analyzed many times with a random change of model parameters
+(parameters in a {\tt .MODEL} statement).
+
+\pspiceform{{\tt .MC} NumberOfRuns AnalysisType OutputSpecification
+                OutputFunction \B {\tt LIST}\E\\
+                {\tt +} \B {\tt OUTPUT(} OutputSampleType {\tt )}\E
+     }
+
+\pspiceninetytwoform{{\tt .MC} NumberOfRuns AnalysisType OutputSpecification
+                OutputFunction \B {\tt LIST}\E\\
+                {\tt +} \B {\tt OUTPUT(} OutputSampleType {\tt )}\E
+                \B {\tt RANGE(}LowValue{\tt ,} HighValue{\tt )}\E\\
+        {\tt +} \B {\tt SEED=}SeedValue\E
+     }
+
+\begin{widelist}
+\item[{\it NumberOfRuns}] is the total number of runs to do. This number
+includes the initial nominal run.
+
+\item[{\it AnalysisType}] is the type of analysis to be performed in the Monte
+     Carlo runs after the initial nominal run (using the nominal values of
+     model parameters).  All analyses
+     specified in the {\tt NETLIST} are performed in the nominal run.
+     The {\it AnalysisType} must be one of the following:
+\begin{widelist}
+\item[{\tt DC}] is a keyword indicating that the \dc\ analysis as
+     specified by the {\tt .DC} statement is repeated.
+     The sweep variable used in analyzing the output
+     {\it OutputSpecification} is the value of the independent voltage
+     or current source specified in the {\tt .DC} statement (as discussed
+     on page \pageref{.DCstatement}).
+
+\item[{\tt AC}] is a keyword indicating that the \ac\ small-signal analysis as
+     specified by the {\tt .AC} statement is repeated.
+     The sweep variable used in analyzing the output
+     {\it OutputSpecification} is frequency.
+
+\item[{\tt TRAN}] is a keyword indicating that the transient analysis as
+     specified by the {\tt .TRAN} statement is repeated.
+     The sweep variable used in analyzing the output
+     {\it OutputSpecification} is time.
+\end{widelist}
+
+\item[{\it OutputSpecification}]  specifies the quantity to be reported
+     as the result of the Monte Carlo Analysis.  It has the same format as the
+     {\it OutputSpecification} in a {\tt .PRINT} statement (see page
+     \pageref{.PRINTstatement}). The result is the value of the
+     {\it OutputSpecification} with respect to a sweep for {\tt DC} and {\tt AC}
+     analysis, and as a waveform for {\tt TRAN analysis}.
+
+\end{widelist}
+\clearpage
+
+\begin{widelist}
+\item[{\it OutputFunction}] indicates the function to be performed on the
+     output indicated by {\it OutputSpecification} to reduce the sweep
+     or waveform at each run to a single numeric value.
+     {
+     The {\it OutputSpecification} must be one of the following keywords:}
+     \begin{widelist}
+     \item[{\tt YMAX}] which produces the greatest deviation of the sweep or
+                       waveform from the nominal run.
+
+     {
+     \item[{\tt MAX}] which results in the maximum value in each sweep or
+                      waveform.
+
+     \item[{\tt MIN}] which results in the minimum value in each sweep or
+                      waveform.
+
+     \item[{\tt RISE\_EDGE({\it Value})}] which reports as the result the
+                      first run when the waveform crosses above the threshold
+              {\it Value}.
+              The algorithm used requires that
+              one point in the waveform be below {\it Value}
+              and the succeeding point be above {\it Value}.
+
+     \item[{\tt FALL\_EDGE({\it Value})}] which reports as the result the
+                      first run when the waveform crosses below the threshold
+              {\it Value}.
+              The algorithm used requires that
+              one point in the waveform be above {\it Value}
+              and the succeeding point be below {\it Value}.
+     }
+     \end{widelist}
+
+
+\item[{\tt LIST}] is an optional keyword that results in the model parameter
+                  values that are statistically varied
+                  being printed out prior to each run. If it is omitted
+          then the statistically generated model parameter
+          values are not produced prior to each run.
+
+
+\item[{\tt OUTPUT}] is an optional keyword indicating the type of output to
+                  be produced by runs after the initial nominal run. The
+          output produced for each run sampled is determined by the
+          {\tt .PLOT}, {\tt .PRINT} and {\tt .PROBE} statements in
+          the NETLIST. If this keyword is missing output is produced
+          only for the nominal run.
+
+\end{widelist}
+
+\begin{widelist}
+
+\item[{\it OutputSampleType}] indicates the method by which runs are selected
+                  for output reporting.
+          The output produced for each run selected is determined by the
+          {\tt .PLOT}, {\tt .PRINT} and {\tt .PROBE} statements in
+          the NETLIST.
+          {\it OutputSampleType} must be one of the following:
+          \begin{widelist}
+          \item[{\tt ALL}]
+          indicates that  the output is to be produced for all runs.
+
+          \item[{\tt FIRST {\it Nruns}}]
+          indicates that  the output is to be produced only for the
+          first {\it Nruns} runs.
+
+          \item[{\tt EVERY {\it NthRun}}]
+          indicates that  the output is to be produced for
+          {\it NthRun}th run.
+
+          \item[{\tt RUNS} {\it Run1 \B Run2 ... \B Run25 \E\E}]
+          indicates that  the output is to be produced for the
+          indicated runs. Up to 25 runs can be indicated.
+
+          \end{widelist}
+{
+\item[{\tt RANGE}] is an optional range indicating the range of the sweep
+                  variable over which {\it OutputFunction} is to be performed.
+          If this keyword is missing, output is produced but
+          the range is not restricted.  The range of the sweep
+          variable to be considered is from {\it LowValue}
+          to {\it HighValue} inclusive.
+
+\item[{\it LowValue}] is the low end of the sweep variable to be considered
+                  in evaluating {\it OutputFunction}.
+
+
+\item[{\it HighValue}] is the low end of the sweep variable to be considered
+                  in evaluating {\it OutputFunction}.
+
+
+\item[{\tt SEED}] is the keyword for the seed of the random number generator
+                  used in Monte Carlo Analysis
+
+\item[{\it SeedValue}] is the value of the seed used in the random number
+generator used to select sample runs at random.
+    (Optional; Default: 17,533; $1 \le$ {\it SeedValue}$ \le 32,767$)
+}
+
+\end{widelist}
+
+
+\note{
+\item A typical use of Monte Carlo analysis is to predict yield of a circuit
+      by examining the effect of process variations such as length and width
+      of transistors.
+
+\item A {\tt .TEMP} statement also can result in multiple circuit
+      simulations as the temperature is varied. In conjunction with a {\tt .MC}
+      statement a Monte Carlo analysis is performed for each temperature before
+      the temperature is updated in a temperature sweep.
+
+\item Only model parameters (parameters in a {\tt .MODEL} statement) are
+      varied.
+
+\item If the {\it AnalysisType} is {\tt DC} only one independent voltage or
+      current source can be specified in the {\tt .DC} statement (discussed on
+      page \pageref{.DCstatement}).
+
+\item The random number generator is the subtractive method generator described
+      by Knuth \cite[p. 171]{knuth:subtractive}.
+
+\item The initial run uses the nominal parameter values given in the NETLIST.
+      Subsequent runs statistically vary model parameters indicated as having
+      either lot {\tt LOT} or device {\tt DEV} tolerances. These tolerances
+      are specified in a {\tt .MODEL} statement (see page
+      \pageref{.MODELstatement}).
+}
+
+\specialnote{Method}{}
+The initial Run of a Monte Carlo Analysis uses the nominal values of the
+model parameters possibly updated to their new values if the analysis
+temperature is different from the the nominal temperature in effect when the
+{\tt .MODEL} statement was read.  The nominal values of the model parameters
+as well as their tolerances and type of statistical distribution are
+specified in a {\tt .MODEL} statement (see page \pageref{.MODELstatement}).
+If $X(T)$ is the value of the model parameter at temperature $T$, $r$ is a
+random number between $-1$ and $+1$ inclusive, and $X_T$ is the tolerance of
+$X(T_{\ms{NOM}})$ is the nominal temperature, the value of X to be used in
+Monte Carlo analysis is
+\begin{equation}
+X'(T) = X(T)(1+rX_T)
+\end{equation}
+
+The random number $r$ has a statistical distribution which has a type indicated
+in the {\tt .MODEL} statement. The distribution type must be either one of
+the built-in distributions or specified by the user in a {\tt .DISTRIBUTION}
+statement (see page \pageref{.DISTRIBUTIONstatement}).  The tolerance  is
+specified immediately following the distribution in a {.MODEL} statement.
+Specification of the distribution type and tolerance assignment are
+described on page \pageref{.MODELstatementTOL}.
+
+
+%
+% .MODEL
+%
+\statement{.MODEL}{Model Statement}
+
+Model statements specify the parameters of elements that either are
+too numerous to put on the element line or are common to many elements.\\
+
+\form{ {\tt .MODEL} ModelName ModelType {\tt (}Keyword=Value ... {\tt )}}
+
+\pspiceform{ {\tt .MODEL} ModelName ModelType
+{\tt (}Keyword=Value \B ToleranceSpecification\E $\ldots$ {\tt )}}
+
+
+\begin{widelist}
+\item[{\it ModelName}] is the name of the model specified by the user.
+\item[{\it ModelType}] is the model type which is specific to particular elements.
+                       The model types are given in the table below.
+\item[{\it ToleranceSpecification}] is the specification of the statistical
+                     distribution and tolerance of a parameter.  This is used
+             in a Monte Carlo simulation to assign random variations to
+             the model parameter.
+                     {\it ToleranceSpecification} is discussed on page
+             \pageref{.MODELstatementTOL}.
+\item[{\it Keyword}] is the name of the model parameter which is discussed on
+                     the pages referred to below.
+\item[{\it Value}] is the numeric value of the model parameter.
+\end{widelist}
+
+\example{.MODEL MOSFET1 MOS (LEVEL=2 VTO=-0.76 GAMMA=0.6 CGSO=3.35E-10)}
+
+\begin{center}
+\begin{tabular}{|l|l|c|l|l|}
+\hline
+\multicolumn{1}{|c}{MODEL}&
+\multicolumn{1}{|c}{SPICE}&
+\multicolumn{1}{|c}{ELEMENT}&
+\multicolumn{1}{|c}{DESCRIPTION}&
+\multicolumn{1}{|c|}{PAGE}\\
+\multicolumn{1}{|c}{TYPE}&
+\multicolumn{1}{|c}{VERSION|}& NAME&&\\
+\hline \hline
+\multicolumn{5}{|c|}{PASSIVE DEVICE MODELS}
+\\
+\hline
+RES \modelversion{}     & R & resistor model    &
+   {\pageref{RESmodelsp3},}
+   \pageref{RESmodelpspice} \\
+CAP \modelversion{}     & C & capacitor model   &
+   {\pageref{CAPmodelsp3},}
+   \pageref{CAPmodelpspice}
+   \\
+IND \modelversion{\pspice}  & L & inductor model    &
+   \pageref{INDmodelpspice} \\
+\hline
+\hline
+\multicolumn{5}{|c|}{SEMICONDUCTOR DEVICE MODELS}
+ \\
+\hline
+D   \modelversion{} & D & diode model       & \pageref{DIODEmodel} \\
+NPN \modelversion{} & Q & NPN bjt model & \pageref{NPNmodel} \\
+PNP \modelversion{} & Q & PNP bjt model & \pageref{PNPmodel} \\
+LPNP    \modelversion{\pspice}&Q& Lateral PNP bjt model& \pageref{PNPmodel} \\
+NJF \modelversion{} & J& N-channel junction FET (JFET)&\pageref{NJFmodel} \\
+PJF \modelversion{} & J& P-channel junction FET (JFET)& \pageref{PJFmodel}\\
+GASFET  \modelversion{\pspice}&B&N-channel GaAs MESFET&
+    {\pageref{GASFETmodelsp3},}
+    \pageref{GASFETmodelpspice}
+    \\
+NMF \modelversion{\spicethree}&B&N-channel GaAs MESFET&\\ % \pageref{NMFmodel} \\
+PMF \modelversion{\spicethree}&B&P-channel GaAs MESFET&\\ 
+% Device Types  \pageref{PMFmodel} \\
+NMOS    \modelversion{} & M & N-channel MOSFET  & \pageref{NMOSmodel} \\
+PMOS    \modelversion{} & M & P-channel MOSFET  & \pageref{PMOSmodel} \\
+SWMODEL \modelversion{\spicethree}&&& \pageref{SWMODELmodel} \\
+URC \modelversion{\spicethree}& T   &Lossy RC transmission line&
+        \pageref{URCmodel} \\
+\hline
+\hline
+\multicolumn{5}{|c|}{MISCELLANEOUS DEVICE MODELS}
+\\
+\hline
+CORE    \modelversion{\pspice}  &K  & nonlinear, transformer (magnetic core)
+    & \pageref{COREmodelpspice} \\
+VSWITCH \modelversion{\pspice}  &S  & voltage switch
+    & \pageref{VSWITCHmodel} \\
+ISWITCH \modelversion{\pspice}  &W  & current switch
+    & \pageref{ISWITCHmodel} \\
+SW  \modelversion{\spicethree}  &   &
+    & \pageref{SWMODELmodel} \\
+CSW \modelversion{\spicethree}  &   &
+    & \pageref{CSWmodel} \\
+\hline
+\hline
+\multicolumn{5}{|c|}{DISTRIBUTED DEVICE MODELS}
+\\
+\hline
+URC \modelversion{} &   &Uniform Distributed RC model& \pageref{URCmodel} \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\multicolumn{1}{|c}{MODEL}&
+\multicolumn{1}{|c}{SPICE}&
+\multicolumn{1}{|c}{ELEMENT}&
+\multicolumn{1}{|c}{DESCRIPTION}&
+\multicolumn{1}{|c|}{PAGE}\\
+\multicolumn{1}{|c}{TYPE}&
+\multicolumn{1}{|c}{VERSION}& \multicolumn{1}{|c}{NAME}&&\\
+\hline
+\hline
+\multicolumn{5}{|c|}{DIGITAL INTERFACE AND DIGITAL DEVICE MODELS}
+\\
+\hline
+DINPUT  \modelversion{\pspice} &N& digital input model
+    & \pageref{DINPUTmodel} \\
+DOUTPUT \modelversion{\pspice} &O& digital output model
+    & \pageref{DOUTPUTmodel} \\
+UIO    \modelversion{\pspice} &U& digital I/O model
+    & \\ %  \pageref{UIOmodel} \\
+UGATE   \modelversion{\pspice} &U& standard gate
+    & \\ % \pageref{UGATEmodel} \\
+UTGATE  \modelversion{\pspice} &U& tri-state gate
+    & \\ % \pageref{UTGATEmodel} \\
+UEFF    \modelversion{\pspice} &U& edge-triggered flip-flop
+    & \\ % \pageref{UEFFmodel} \\
+UGFF    \modelversion{\pspice} &U& gated flip-flop
+    & \\ % \pageref{UGFFmodel} \\
+UWDTH   \modelversion{\pspice} &U& pulse width checker
+    & \\ % \pageref{UWDTHmodel} \\
+USUHD   \modelversion{\pspice} &U& setup and hold checker
+    & \\ % \pageref{USUHDmodel} \\
+UDLY    \modelversion{\pspice} &U& digital delay line
+    & \\ % \pageref{UDLYmodel} \\
+UADC    \modelversion{\pspice} &U& multi-bit analog-to-digital converter
+    & \\ % \pageref{UDCmodel} \\
+UDAC    \modelversion{\pspice} &U& multi-bit digital-to-analog converter
+        &\\ % \pageref{UDACmodel} \\
+\hline
+\end{tabular}
+\end{center}
+Virtually all of the device model parameters have default values which
+generally result in typical operation.\\[0.1in]
+
+\specialnote{Tolerance and Distribution Assignment}{}
+\label{.MODELstatementTOL}
+Immediately following the specification of a model parameter
+a statistical distribution and tolerance can be assigned.
+These are used in conjunction with Monte Carlo analysis which is controlled
+by the {\tt .MC} statement described on page
+\pageref{.MCstatement}
+The Monte Carlo analysis is a statistical analysis of the circuit causing
+the circuit to be analyzed many times with a random change of certain model
+parameters). The form of the tolerance and distribution assignment is\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+{\tt DEV}\B{\tt /DeviceTrackingIndex}\E\B{\tt /}{\it
+         DistributionType}\E Tolerance\B{\tt \%}\E\\
+{\tt +}
+{\tt LOT}\B{\tt /LotTrackingIndex}\E\B{\tt /}{\it
+         DistributionType}\E Tolerance\B{\tt \%}\E
+}\\[0.1in]
+\begin{widelist}
+
+\item[{\tt DEV}] is the keyword for the device tolerance specification.
+
+\item[{\it DeviceTrackingIndex}] specifies which random number to use.
+           It must be one of 1, 2, ... 10.  Two parameters with the same
+           {\it DeviceTrackingIndex} are correlated. Conversely
+           if two parameters have different
+           {\it DeviceTrackingIndex} then they are uncorrelated.\\
+           {\it LotTrackingIndex} and {\it DeviceTrackingIndex} refer to
+       different random numbers and so choosing the same
+           {\it LotTrackingIndex} and {\it DeviceTrackingIndex} does not
+       correlate the {\tt LOT} and {\tt DEV} distributions.\\
+           (Units: none; Optional; Default: 1)
+
+
+\item[{\it DistributionType}] is the type of the statistical distribution
+           used in generating random numbers.  There are two predefined
+       distribution types and a user specified distribution type can be
+       used.  The allowable types are:
+       \begin{widelist}
+       \item[{\tt UNIFORM}] specifies a uniform distribution of random
+       numbers between -1 and +1.
+       \item[{\tt GAUSS}] specifies a Gaussian distribution of random
+       numbers between $\pm 4 \sigma$.  In this case {\it Tolerance}
+       specifies $\sigma$.
+       \item[{\it DistributionName}] is the name of a user specified
+       distribution specified in a {\tt .DISTRIBUTION} statement (see page
+       \pageref{.DISTRIBUTIONstatement}).
+       \end{widelist}
+
+\item[{\it LotTolerance}] is the lot tolerance specification.
+It may be specified as an absolute quantity or as a percentage if
+followed by \%. It is converted to a fraction of the
+nominal value.  The magnitude of the fractional value must be $\le$ 1.
+
+\item[{\tt LOT}] is the keyword for the lot tolerance specification.
+
+\item[{\it LotTrackingIndex}] specifies which random number to use.
+           It must be one of 1, 2, ... 10.  Two parameters with the same
+           {\it LotTrackingIndex} are correlated. Conversely
+           two parameters have different
+           {\it LotTrackingIndex}'s then they are uncorrelated.\\
+           {\it LotTrackingIndex} and {\it DeviceTrackingIndex} refer to
+       different random numbers and so choosing the same
+           {\it LotTrackingIndex} and {\it DeviceTrackingIndex} does not
+       correlate the {\tt LOT} and {\tt DEV} distributions.\\
+           (Units: none; Optional; Default: 1)
+
+\item[{\it DeviceTolerance}] is the device tolerance specification.
+It may be specified as an absolute quantity or as a percentage if
+followed by \%. It is converted to a fraction of the
+nominal value.  The magnitude of the fractional value must be $\le$ 1.
+
+\end{widelist}
+
+{
+\example{
+.MODEL
+}
+
+}
+
+\note{
+\item Both lot ({\tt LOT}) and device ({\tt DEV}) tolerances can be
+specified separately. Lot and device tolerances combine for the purposes
+of determining the total tolerance of a model parameter.  The sum of device
+and lot tolerances must be less than the nominal model parameter value
+(i.e. is less than 100\%).
+
+\item A total of 20 random number are generated internally. Of these 10 are
+for lot tolerancing and 10 are for device tolerancing. Parameters with the
+same lot tolerance index ({\it LotToleranceIndex}) use the same random number
+to generate statistical variations and so are fully correlated. Similarly
+parameters with the
+same device tolerance index ({\it DeviceToleranceIndex}) use the same random
+number. However the random number for a lot and that for a device are always
+uncorrelated.   If $X(T)$ is the value of a model parameter at temperature
+$T$, $R_{\ms{LOT}}({\it LotToleranceIndex})$ is random number for lot
+variations and
+$R_{\ms{DEV}}({\it DeviceToleranceIndex})$ is random number for device
+variations, $X_{\ms{LOT}}$ is the fractional lot tolerance
+$X_{\ms{DEV}}$ is the fractional device tolerance, the value used in a Monte
+Carlo simulation is
+\begin{equation}
+X'(T) = X(T) \left(1 +
+R_{\ms{LOT}}({\it LotTrackingIndex}) X_{\ms{LOT}} +
+R_{\ms{DEV}}({\it DeviceTrackingIndex}) X_{\ms{DEV}}
+\right)
+\end{equation}
+}
+
+
+%
+% .NODESET
+%
+\statement{.NODESET}{Node Voltage Initialization}
+
+\form{{\tt .NODESET V(}NodeName{\tt )}=Voltage \B
+{\tt V(}NodeName{\tt )}=Voltage $\ldots$ \E}
+
+\begin{widelist}
+\item[{\it V}] is the keyword specifying a node voltage
+\item[{\it NodeName}]
+     is the name of a node.
+     {Note that in \spicetwo\ and \spicethree\ {\it NodeName}
+     must be an integer.}
+\end{widelist}
+
+\example{ .NODESET V(11)=4.9 V(2)=2.5}
+
+\note{
+\item
+   This statement can be used if convergence problems are encountered
+   in a \dc\ analysis.
+   For most circuits \spice\ will be able to determine the
+   \dc\ voltage or initial transient solution.
+\item
+   The statement can be used with astable circuits such as multivibrators and
+   flip flops to ensure that these circuits are initialized in a particular
+   state.
+}
+
+\input{noise}
+
+%
+% .OP
+%
+\statement{.OP}{Operating Point Analysis}
+
+In the operating point analysis a \dc\ analysis is performed
+to determine the \dc\ voltages and currents without performing
+any sweeps.
+
+\form{{\tt.OP}}
+
+\note{
+\item
+The operating point analysis is performed by default prior to \ac\ small-signal
+({\tt .AC}) and transient ({\tt .TRAN}) analyses
+to determine the operating point about which the circuit is linearized
+for \ac\ analysis and as the initial starting point for transient analysis.
+
+\item
+The ({\tt .OP}) analysis is performed if no other analyses are specified.
+
+\item
+The operating point analysis is performed with inductors shorted and capacitors
+opened.
+
+\item Following \dc\ analysis the nonlinear devices are linearized to determine
+their \ac\ small-signal models.
+
+\item
+A {\tt .TRAN} analysis performs its own \dc\
+analysis to determine the initial conditions (or bias point) for transient
+analysis ignoring the bias point determined in a {\tt .OP} analysis.
+}
+%
+% .OPTIONS
+%
+\statement{.OPTIONS}{Option Specification}
+\index{option, see {\tt .OPTIONS}}
+
+The options specification provides the user control over the program
+and a way of setting defaults for certain elements and analyses.
+
+\form{{\tt .OPTIONS} \B Keyword\E ... \B Keyword=Value\E ...}
+
+Multiple keywords can be included in a single {\tt .OPTIONS} statement
+and  in any order.\\[0.1in]
+
+\noindent Keywords:
+\begin{widelist}
+
+\optionitem{ACCT}{}
+Sets reporting of accounting and statistics.
+This option is a flag and does not have a value.
+\\(Default: not set)
+
+\optionitem{ABSTOL}{=\it Value}
+Sets the absolute current error tolerance.
+\\(Default: 1~pA ($10^{-12}$))
+
+{
+\optionitem{BYPASS}{}
+The bypass option.\\
+\spicethree\ only.}
+
+\optionitem{CHGTOL}{=\it Value}
+Resets  the  charge  tolerance  of  the  program.
+\\(Units: C; Default: 10~fC $10^{-14}$)
+
+{
+\optionitem{CPTIME}{=\it Value}
+Sets the maximum CPU-time.
+\\(Units: s; Default: $\infty$)\\\spicetwo\ only.}
+
+\optionitem{DEFAD}{=\it Value}
+Sets the default value of the  MOS  drain  diffusion  area ({\tt AD})
+used in the M element (see page \pageref{Melement}).
+\\(Units: m$^2$ Default: 0)
+
+\optionitem{DEFAS}{=\it Value}
+Sets the default value of the MOS  source  diffusion  area ({\tt AS})
+used in the M element (see page \pageref{Melement}).
+\\(Units: m$^2$ Default: 0)
+
+\end{widelist}
+
+\begin{widelist}
+\optionitem{DEFL}{=\it Value}
+Sets the value of the MOS channel length ({\tt L})
+used in the M element (see page \pageref{Melement}).
+\\(Units: m; Default: 100$\mu$m (1E-4))
+
+\optionitem{DEFW}{=\it Value}
+Resets the value for MOS channel width ({\tt W})
+used in the M element (see page \pageref{Melement}).
+\\(Units: m; Default: 100 $\mu$m (1E-4))
+
+\optionitem{EXPAND}{}
+Reports in output logfile the devices and nodes created in subcircuit expansions.
+This option is a flag and does not have a value.
+\\(Default: no expansion)
+{\\\pspice\ only.}
+
+\sspicetwoonly{
+\optionitem[{\tt FMAX}]  Maximum frequency for simulation
+of distributed circuit.
+(Units Hz:; Default: 10~GHz ($10^10$))}
+
+\optionitem{GMIN}{=\it Value}
+Resets the  value of the minimum conductance $G_{\ms{MIN}}$. The usage of
+$G_{\ms{MIN}}$ is controlled by the code implementing individual
+elements.   Generally is the minimum conductance between nodes.
+It is used to aid convergence.
+\\(Units: S; Default: $10^{-12}$ (1E-12))
+
+\optionitem{ITL1}{=\it IntegerValue}
+Sets the limit on the number of \dc\ iterations.
+\\(Default: 100)
+
+\optionitem{ITL2}{=\it IntegerValue}
+Sets the \dc\  transfer curve iteration limit.
+\\(Default: 50)
+
+{
+\optionitem{ITL3}{=\it IntegerValue}
+Sets the minimum number of iterations used in transient analysis.
+\\(Default: 4)\\\spicetwo\ only.
+
+\optionitem{ITL4}{=\it IntegerValue}
+Sets the maximum of transient iterations at each time point.
+\\(Default: 10)\\\spicetwo\ only.
+}
+
+\optionitem{ITL5}{=\it IntegerValue}
+Sets the transient analysis  total  iteration  limit. If
+ITL5=0 this test is omitted. Used in transient analysis ({\tt .TRAN}).
+{\\\pspice\ only.}
+\\(Default: 5000)
+
+\optionitem{LIBRARY}{}
+Reports in output logfile the statements and devices extracted from
+a library file
+This option is a flag and does not have a value.
+\\(Default: no report)
+{\\\pspice\ only.}
+
+{
+\optionitem{LIMPTS}{=\it Value}
+Sets the maximum number of points that can be printed or plotted in
+a \dc\ , \ac\ or transient analysis.
+\\(Default: 201)\\\spicetwo\ only.
+
+\optionitem{LIMTIM}{=\it Value}
+Sets the maximum CPU time for generating plots.  Used only if the program
+was terminated because the time specified by the {\tt CPTIME} option
+was exceeded.
+\\(Units: s; Default: 10)\\\spicetwo\ only.
+}
+
+\end{widelist}
+
+\begin{widelist}
+
+\optionitem{LIST}{}
+Sets summary reporting of circuit elements in input NETLIST.
+\\(Default: not set)
+
+{
+\optionitem{LVLCOD}{=\it IntegerValue}
+Sets an internal option of the program when running on CDC computers.
+If {\tt LVLCOD}=1 machine code for the matrix solution is generated.
+\\(Default: 2)\\\spicetwo\ only.
+
+\optionitem{LVLTIM}{=\it IntegerValue}
+If {\tt LVLTIM}=1 then iteration time step control is used.
+If {\tt LVLTIM}=2 then the time step indicated by the truncation error is
+used.
+If {\tt METHOD}={\tt GEAR} and MAXORD>2 then LVLTIM is set to 2 by SPICE.
+\\(Default: 2)\\\spicetwo\ only.
+
+\optionitem{MAXORD}{=\it IntegerValue}
+Sets the maximum order of the integration method if {\tt METHOD}={\tt GEAR}
+\\(Default: 2; 2$\le${\tt MAXORD}$\le$6)\\\spicetwo\ only.
+
+\optionitem{METHOD}{=\it String}
+Sets the numerical integration method to be used.
+If {\tt METHOD}={\tt GEAR} then Gear's method is used.
+If {\tt METHOD}={\tt TRAPEZOIDAL} then the trapezoidal method is used.
+\\(Default: {\tt TRAPEZOIDAL})\\\spicetwo\ only.
+}
+
+\optionitem{NODE}{}
+Sets reporting of the node table.
+\\(Default: not set)
+
+\optionitem{NOECHO}{}
+Suppresses listing of input file in output log file.
+\\(Default: input lines listed.)
+{\\\pspice\ only.}
+
+\spicetwoonly{\optionitem[{\tt NOFREQ}] Number of frequency points to be used
+       in simulation of distributed circuit.  Must be a power of 2.\\
+       (Default: 1024)}
+
+\optionitem{NOMOD}{}
+Un-sets reporting of model parameters.
+\\(Default: set)
+
+\optionitem{NOPAGE}{}
+Un-sets page breaks in the output log file.
+Useful if the log file is to printed by a
+program which automatically paginates the output.
+This option is a flag and does not have a value.
+\\(Default: set)
+
+\optionitem{NUMDGT}{=\it IntegerValue}
+Sets the number of significant digits used in printing values in the output
+log file.
+\\(Default: 4; $0<{\it IntegerValue}\le 8$)
+{\\\spicetwo\ and \pspice\ only.}
+
+\end{widelist}
+
+\begin{widelist}
+\optionitem{OPTS}{}
+Sets reporting of the option values.
+\\(Default: not set)
+
+\optionitem{PIVREL}{=\it Value}
+Sets the minimum acceptable pivot value used in partial pivoting
+in the solution of the network equations
+{(such as solving for the nodal
+voltages $\m{v}_n$ in (\ref{nodal:yvj}) on page \pageref{nodal:yvj})}.
+{\tt PIVREL} is the minimum acceptable ratio of
+an acceptable pivot value to the  largest  column entry.
+%In the  numerical  pivoting  algorithm  the
+%allowed   minimum   pivot   value   is   determined  by
+%{\tt EPSREL} = {\tt AMAX1}({\tt PIVREL} * {\tt MAXVAL}, {\tt PIVTOL}) where
+%{\tt MAXVAL} is  the maximum  element  in the column where a pivot is sought.
+\\(Default: 0.001)
+
+\optionitem{PIVTOL}{=\it Value}
+Sets the minimum value of a matrix element for it to be used as a pivot.
+\\(Default: $10^{-13}$)
+
+\optionitem{RELTOL}{=\it Value}
+Sets the relative error tolerance of voltages and currents.
+\\(Default: 0.001)
+
+
+\optionitem{TNOM}{=\it Value}
+Sets the nominal temperature.
+This is assumed to be the temperature at which the model parameters were
+measured.  In some cases it is overwritten by a temperature parameter in the
+{\tt .MODEL} statement.
+\\(Units: $^{\circ}$C; Default: 27$^{\circ}$C (300K))
+
+\optionitem{TRTOL}{=\it Value}
+Sets the factor by which the approximated truncation error evaluated
+in transient analysis is scaled.
+\\(Default: 7)
+
+\optionitem{VNTOL}{=\it Value}
+Sets the absolute voltage error tolerance.
+\\(Units: V; Default: 1$\mu$V (1E-6))
+
+\end{widelist}
+
+%
+% .PARAM
+%
+\statement{.PARAM}{\pspiceninetytwo\ Only}{Parameter Definition}
+
+This statement defines parameters that can be used in subsequent statements
+and element lines.
+
+\pspiceform{ {\tt .PARAM}
+\B ParameterName = NumericValue $\ldots$ \E
+\B ParameterName = {\tt \{} Expression {\tt \}} $\ldots$ \E}
+
+\begin{widelist}
+\item[{\it ParameterName}] Name of a parameter with first character being
+     alphabetic (a-z).
+     If this is the name of a
+     previously defined parameter at the same level of subcircuit expansion
+     then the parameter value is changed.
+     If the {\tt .PARAM} statement is
+     is in the top level circuit then the parameter value is global.
+     If the {\tt .PARAM} statement is
+     is in a subcircuit then the parameter value is local and can be used at
+     the current subcircuit expansion level or lower in the subcircuit
+     expansion hierarchy.
+
+\item[{\it NumericValue}] is a numeric value which can be an integer or
+     floating point number followed by optional scale factor and/or unit.
+     (e.g. 1.E-9, 1N, 1NV and 1.E-9V are equivalent.)
+
+\item[{\it Expression}] is a standard expression as described in the Algebraic
+Expressions section on page \pageref{section:algebraic:expression}.
+     Note that the expression must be enclosed in braces
+     ({\tt \{} $\ldots$ {\tt \}}).
+
+\end{widelist}
+
+{\example{
+.PARAM VDD = 10V, VSS = 0 VREF = 2.5\\
+.PARAM VREF = { VDD/2}
+.PARAM LENGTH = {1.10*L}
+}}
+
+\note{
+
+\item
+Predefined parameters are supported and the user must avoid using these.
+Predefined parameters:\\
+{\offset\begin{tabular}{|l|l|l|}
+\hline
+{\bf Name} & {\bf Value}   &  {\bf Description}  \\
+\hline
+\hline
+TEMP       & not supported & Analysis temperature.\\
+           & Reserved for future expansion\\\\
+VT         & not supported & Thermal voltage.\\
+           & Reserved for future expansion\\
+\hline
+\end{tabular}
+}
+
+\item In \pspice\ , in most places where a numeric value is required
+an expression (within braces {\tt \{ $\ldots$ \})} can be used instead.
+An expression can contain any support mathematical operation, constant numeric
+values or expressions. Exceptions are
+     \begin{itemize}
+     \item Polynomial coefficients.
+     \item The values of the transmission line device parameters {\tt NL} and
+           {\tt F}.
+     \item The values of the piece-wise linear characteristic in the {\tt PWL}
+           form of the independent voltage ({\tt V}) and current ({\tt I})
+           sources.
+     \item[and]
+     \item The values of the resistor device parameter {\tt TC}.
+     \item As node numbers.
+     \item Values of most statements (such as .TEMP, .AC, .TRAN etc.)
+     \end{itemize}
+Specifically included are
+     \begin{itemize}
+     \item The values of all other device parameters.
+     \item The values in {\tt .IC} and {\tt .NODESET} statements.
+     \item The values in {\tt .SUBCKT} statements.
+     \item[and]
+     \item The values of all model parameters.  {\tt F}.
+     \end{itemize}
+
+\item Hierarchical usage of {\tt .PARAM} statements in subcircuits is
+supported.  The parameters defined in a {\tt .PARAM} statement are
+available in the subcircuit in which they are defined or in lower nested
+subcircuits. Thus parameters defined in a subcircuit are not available
+higher in the hierarchy.  The same concept applies to values of a parameter
+changed in a subcircuit.  Value changes are local and are available in the
+current subcircuit and lower nested subcircuits.
+
+{\item Libraries are searched for parameters not defined in the
+      circuit NETLIST or in included files. A {\tt .PARAM} statement does
+      not have to be within a subcircuit in a library.}
+
+}
+
+\input{plot}
+
+\input{print}
+
+%
+% .PROBE
+%
+\statement{.PROBE}{Data Output Specification}
+
+{\large\bf There is a big problem here --- Probe is a trademark of Microsim
+corporation}
+
+The {\tt .PROBE} statement saves the node voltages and device currents in a
+file for subsequent probing.
+
+\pspiceform{
+{\tt .PROBE}\B {\tt /CSDF}\E \B OutputSpecification $\ldots$ \E
+}
+
+\begin{widelist}
+
+\item[{\tt /CSDF}] is a keyword resulting in the output probing file being
+     written in ASCII format.  By default the probing file is output in
+     the more efficient binary format. However, only the ASCII formated is
+     fully portable between computers and operating systems.
+
+\item[{\it OutputSpecification}] specifies a node voltage or device current
+     to be included in the probe data file.
+     The output specifications supported are those supported for the
+     {\tt .PRINT} and {\tt .PLOT} statements.  A comprehensive
+     description of the {\tt OutputSpecification} supported is
+     given in the section on output specification
+     on page \pageref{.PRINToutputspecification}.\\
+     If an {\it OutputSpecification} is not given then all node voltages
+     and device currents are stored in the probing file.
+\end{widelist}
+
+\example{
+.PROBE V(10) V(5,3) I(VIN)\\
+.PROBE VM(10) VR(5,3) IP(VLOAD)\\
+.PROBE/CSDF V(10) IG(VIN)\\
+.PROBE\\[0.1in]
+}
+     The first example will output data from {\tt .DC}, {\tt .AC} and
+     {\tt .TRAN} analyses.\\
+     The second example will output data only from a {\tt .AC} analysis.\\
+     The third example will output the node voltage at node 10 for
+     {\tt .DC}, {\tt .AC} and {\tt .TRAN} analyses but output the group
+     delay of the current in the independent voltage source {\tt VIN}
+     only from an {\tt .AC} analysis. As well the data will be output in ASCII
+     format.\\
+     The fourth example results in all node voltages and device currents
+     being stored.
+
+\note{
+
+\item
+The probing data is stored in the file {\tt PROBE.DAT} .
+
+\item
+The results of \dc , \ac\ and transient analyses are saved.
+An {\it OutputSpecification} which is unique to a particular type of
+analysis is ignored when the the results of analyses are being selected to
+storage.
+An example is {\tt VI(10)} which selects the imaginary part of the voltage at
+node 10 and so only applies for storage of the results for an \ac\
+small-signal analysis.
+
+\item
+The results stored in the probe file can subsequently be viewed using
+{the \probe program described in chapter \ref{chapter:probe}.}
+}
+
+
+%
+% .PZ
+%
+{
+\statement{.PZ}{Pole-Zero Analysis}
+
+In pole zero analysis the poles and zeros of the small signal \ac
+transfer function of a two-port is evaluated.
+
+%\begin{figure}[h]
+%\centering
+%\ pfig{pz.ps}
+%\caption{Two port definition for pole-zero analysis. \label{fig:pz}}
+%\end{figure}
+
+{
+\form{{\tt .PZ} Node1 Node2 Node3 Node4 {\tt CUR POL}\\
+      {\tt .PZ} Node1 Node2 Node3 Node4 {\tt CUR ZER}\\
+      {\tt .PZ} Node1 Node2 Node3 Node4 {\tt CUR PZ}\\
+      {\tt .PZ} Node1 Node2 Node3 Node4 {\tt VOL POL}\\
+      {\tt .PZ} Node1 Node2 Node3 Node4 {\tt VOL ZER}\\
+      {\tt .PZ} Node1 Node2 Node3 Node4 {\tt VOL PZ}
+}
+}
+
+
+\begin{widelist}
+\item[{\it Node1}] is the positive input node.
+
+\item[{\it Node2}] is the negative input node.
+
+\item[{\it Node3}] is the positive output node.
+
+\item[{\it Node4}] is the negative output node.
+
+\item[{\tt CUR}] is the keyword to evaluate the transfer function (output
+voltage)/(input  current)
+
+\item[{\tt VOL}] is the keyword to evaluate the transfer function (output
+voltage)/(input  voltage)
+
+\item[{\tt POL}] is the keyword to evaluate the poles of the transfer
+function only.
+
+\item[{\tt ZERO}] is the keyword to evaluate the zeroes of the transfer
+function only.
+
+\item[{\tt PZ}] is the keyword to evaluate the poles and zeroes of the transfer
+function.
+\end{widelist}
+
+\example{.PZ 1 0 3 0 CUR POL\\
+         .PZ 2 3 5 0 VOL ZER\\
+         .PZ 4 1 4 1 CUR PZ}
+
+\note{
+\item
+The pole-zero analysis works  with  resistors {\tt R}, capacitors {\tt C},
+inductors {\tt L},
+linear controlled  sources {\tt E},{\tt F},{\tt G} and {\tt H};  independent
+voltage and current sources {\tt V} and {\tt I}, bipolar junction
+transistors, {\tt Q};  MOSFETs, {\tt M};  JFETs {\tt J};
+and  diodes {\tt D}.  In particular distributed devices such as Transmission
+lines are not supported as these do not have a pole-zero description.
+
+\item
+In interactive mode, the command  syntax  is  the  same
+except  that the first field is PZ instead of .PZ.  To print
+the results, one should use the command ``{\tt PRINT ALL}''.
+
+\item
+The program first computes the \dc\ operating point  and  then
+determines  the  linearized, small-signal models for all the
+nonlinear devices in the circuit. This circuit is then  used
+to find the poles and zeros.
+}
+
+}
+%
+% .SAVEBIAS
+%
+{\statement{.SAVEBIAS}{Save Bias
+Conditions}
+
+}
+
+%
+% .SENS
+%
+\statement{.SENS}{Sensitivity Analysis}
+
+The sensitivity analysis calculates the \dc\ small-signal sensitivities of each
+output quantity with respect to every circuit parameter.
+
+\form{{\tt .SENS} OutputSpecification \B OutputSpecification $\ldots$ \E }
+
+\begin{widelist}
+
+\item[{\it OutputSpecification}]  is the specification of the small-signal output
+     quantity.  It has the same format as the
+     {\it OutputSpecification} in a {\tt .PRINT} statement (see page
+     \pageref{.PRINTstatement}).
+
+\end{widelist}
+
+\example{.SENS V(10) V(10,2) I(VLOAD)}
+
+\note{
+\item
+The {\tt .SENS} statement initiates a small-signal \ac\ analysis.
+
+\item
+The transfer function computed is the sensitivity (or partial derivative) of the
+\dc\ value of the output quantity
+with respect to the each and every circuit parameter.  For example, if a resistor
+is specified with value $x$ and a capacitor is specified with value $c$ then, for
+the above examples the following sensitivities
+are computed:\\[0.1in]
+${{\textstyle\partial\tt V(10)}\over{\textstyle\partial x}}$\hfill
+${{\textstyle\partial\tt V(10,2)}\over{\textstyle\partial x}}$\hfill
+${{\textstyle\partial\tt VLOAD}\over{\textstyle\partial x}}$\hfill
+${{\textstyle\partial\tt V(10)}\over{\textstyle\partial c}}$\hfill
+${{\textstyle\partial\tt V(10,2)}\over{\textstyle\partial c}}$\hfill
+${{\textstyle\partial\tt VLOAD}\over{\textstyle\partial c}}$
+}
+
+%
+% .STEP
+%
+{\statement{.STEP}{Parameteric Analysis}}
+
+%
+% .SUBCKT
+%
+\statement{.SUBCKT}{Subcircuit Statement}
+
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2in\pfig{x_spice.ps}
+\caption{Subcircuit.}
+\end{figure}
+
+{
+\form{ {\tt .SUBCKT} SubcircuitName $N_1$ \B $N_2$ $N_3$ ... $N_N$\E}
+}
+
+\pspiceform{ {\tt .SUBCKT} SubcircuitName $N_1$ \B $N_2$ $N_3$ ... $N_N$\E
+\\{\tt +} \B {\tt PARAMS:} \B Keyword = {\tt \{} Expression {\tt \}} $\ldots$ \E
+\B Keyword = Value $\ldots$ \E \E}
+
+\pspiceninetytwoform{ {\tt .SUBCKT} SubcircuitName $N_1$ \B $N_2$ $N_3$ ... $N_N$\E
+\\{\tt +} \B PARAMS: \B keyword = {\tt \{} Expression {\tt \}} $\ldots$ \E
+\B Keyword = Value $\ldots$ \E \E}
+
+\begin{widelist}
+\item[{\it SubcircuitName}] is the name of the subcircuit.
+\item[$N_1$] is the first node of the subcircuit.
+\item[$N_N$] is the $N$th node of the subcircuit.
+\item[{\tt PARAMS:}] indicates that parameters are to be passed to
+the subcircuit.
+\item[{\it Keyword:}] is a keyword which may be replaced by a value
+specified on a subcircuit call ({\tt X}) element.
+(See page \pageref{Xelement}).
+\item[{\it Value:}] is a numeric value.
+\item[{\it Expression:}] is an algebraic expression which evaluates to a numeric
+value.
+(See section \ref{section:algebraic:expression}
+on page \pageref{section:algebraic:expression} for allowable expressions).
+\end{widelist}
+\example{.SUBCKT MULTI 2 4 17 3 1}
+
+\note{
+
+\item The global ground node, node 0
+  {(or in \pspice\ node {\tt GND})}
+must not be one of the subcircuit nodes.
+\item
+Subcircuits are incorporated by using the ``{\tt X}'' element.
+The number of nodes of the ``{\tt X}'' element must correspond to
+the number of nodes in the definition of the subcircuit (i.e. is
+in the {\tt .SUBCKT} statement). See page \pageref{Xelement} for
+a description of the {\tt X} element.
+
+
+\item
+The last line in a subcircuit definition is the
+.ENDS line (see page \pageref{.ENDSstatement}).
+
+\item
+The only restriction on the statements within a subcircuit
+is that control lines such as {\tt .AC}, {\tt .DC} or {\tt .OPTIONS}
+are not allowed. However, element lines, model statements and
+other subcircuit definitions and subcircuit calls are allowed.
+
+\item
+Device  models  or  subcircuit  definitions
+included as part of a  subcircuit  definition  are
+local only.  Subcircuits and models that are to be ``known''
+by all elements and subcircuits must be defined at the top level
+of the circuit hierarchy.
+
+\item
+The nodes of elements in the subcircuit definition are local except for
+those that also appear on the {\tt .SUBCKT} statement and for the ground
+({\tt 0}) node.
+The local nodes are given the unique name\\
+\hspace*{\fill}
+{\it SubcircuitName1}:[{\it SubcircuitName2}: $\ldots$ ]{\it LocalNodeName} .
+\hspace*{\fill}\\
+and local devices are given the unique name\\
+\hspace*{\fill}
+{\it DeviceType}:{\it SubcircuitName1}:[{\it SubcircuitName2}
+$\ldots$ ]{\it DeviceName} .
+\hspace*{\fill}
+}
+
+
+%
+% .TEMP
+%
+\statement{.TEMP}{Temperature Specification}
+
+The {\tt .TEMP} statement specifies the temperatures at which the circuit
+is to be simulated.
+
+\form{{\tt .TEMP} $T_1$ \B $T_2$ $\ldots$ $T_N$ \E}
+
+\begin{widelist}
+\item[{$T_1$}] is the first temperature at which the circuit is to be
+simulated.
+\item[{$T_N$}] is the $N$th temperature at which the circuit is to be
+simulated.
+\end{widelist}
+
+\note{
+
+\item
+The circuit is first simulated at temperature $T_1$ and then resimulated at
+temperature $T_2$ and so on.
+\item If the {\tt .TEMP} statement is missing then $T_1$ is assumed to be
+$T_{\ms{NOM}}$ specified in a {\tt .OPTIONS} statement.
+
+\item
+Model parameters are specified at $T_{\ms{NOM}}$ and prior to the simulation
+at a new temperature temperature dependent device parameters are
+reevaluated.
+}
+
+%
+% .TEXT
+%
+{
+\statement{.TEXT}{Text Parameter Definition}
+
+} % end
+
+%
+% .TF
+%
+\statement{.TF}{Transfer Function Specification}
+
+The transfer function specifies a small-signal \dc\ analysis from which
+a small-signal transfer function and input and output resistances are computed..
+
+\form{{\tt .TF} OutputSpecification InputSourceName}
+
+\begin{widelist}
+
+\item[{\it OutputSpecification}]  is the specification of the small-signal output
+     quantity.  It has the same format as the
+     {\it OutputSpecification} in a {\tt .PRINT} statement (see page
+     \pageref{.PRINTstatement}).
+
+\item[{\it InputSourceName}]  specifies the the name of the small-signal input
+     independent voltage ({\tt V}) or current ({\tt I}) source.
+\end{widelist}
+
+\example{.TF V(10) VINPUT\\
+     .TF V(10,2) ISOURCE\\
+     .TF I(VLOAD) ISOURCE}
+
+\note{
+\item
+The {\tt .TF} statement initiates a small-signal \dc\ analysis from which
+a small-signal transfer function and input and output resistances are computed.
+
+\item
+The transfer function computed is the ratio of the \dc\ value of the output quantity
+to the input quantity.  In the above examples the following transfer functions are
+computed:\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|l|l|}
+\hline
+EXAMPLE & Transfer Function\\
+\hline
+&\\
+.TF V(10) VINPUT   &${{\textstyle\tt V(10)}\over{\textstyle\tt VINPUT}}$\\&\\
+.TF V(10,2) ISOURCE&${{\textstyle\tt V(10,2)}\over{\textstyle\tt ISOURCE}}$\\&\\
+.TF I(VLOAD) ISOURCE&${{\textstyle\tt I(VLOAD)}\over{\textstyle\tt ISOURCE}}$\\&\\
+\hline
+\end{tabular} \hspace*{\fill}
+}
+%
+% TITLE
+%
+\statement{TITLE}{Title Line}
+
+The {\tt TITLE} line must be the first line of the input file. The string
+on this line included as the banner in the output log file appearing at
+the top of each page.
+
+
+%
+% .TRAN
+%
+
+\statement{.TRAN}{Transient Analysis}
+
+In transient analysis the current and voltages in a circuit are computed
+as a function of time.
+
+General form:
+
+\form{{\tt .TRAN} TSTEP TSTOP \B TSTART \B TMAX\E\E \B {\tt UIC}\E }
+
+\begin{widelist}
+\item[{\it TSTEP}] is the time increment for reporting transient
+simulation results.
+\\(Units: s)
+
+\item[{\it TSTOP}] is the final analysis time.
+\\(Units: s)
+
+\item[{\it TSTART}] is the start time for reporting the
+        transient results. Transient analysis always begins at time 0.
+        Before the time {\tt TSTART} no results are recorded.
+        \\(Units: s; Optional; Default: 0)
+
+\item[{\it TMAX}]
+is the maximum  step size used in incrementing the time during transient
+analysis.
+        \\(Units: s; Optional; Default: the smaller of {\tt TSTEP}
+    and ({\tt TSTOP}-{\tt TSTART})/50)
+
+\item[{\tt UIC}] is the optional keyword to use initial conditions specified
+on the element line, by a {\tt .IC} statement or a {\tt .NODESET} statement.
+Normally the operating point is determined (using a \dc\ analysis) before a
+transient analysis is initiated. If the {\tt UIC} keyword is present
+the initial \dc\ analysis is omitted and instead the initial conditions
+specified by the {\tt IC} parameter supported by certain elements,
+by the {\tt .IC} statement,
+or by the
+{\tt .NODESET} statement are used.
+{
+In addition \pspice\ supports using an operating point solution
+that was previously saved using the {\tt .SAVEBIAS} statement.}
+\end{widelist}
+
+
+\example{.TRAN 1NS 100NS\\
+         .TRAN 1NS 1000NS 500NS\\
+         .TRAN 10NS 1US UIC}
+
+\note{
+
+\item  If the {\tt UIC} keyword is \underline{not present}
+      a \dc\ analysis is automatically
+      performed prior  to  a  transient ({\tt .TRAN})  analysis to find the
+      operating point of the circuit.
+      All sources which are not time dependent (for example,  power  supplies)
+      are  set  to their \dc\ value.  The transient time interval is
+      specified on a .TRAN control line.  The operating point solution
+      is used as the initial conditions for a transient analysis.
+      Individual operating point solutions are overridden by initial transient
+      conditions specified on the {\tt .TRAN} statement or by the initial
+      conditions specified for specific elements by the {\tt IC} keyword.
+
+\item
+Normally the operating point is determined (using a \dc\ analysis) before a
+transient analysis is initiated. If the {\tt UIC} keyword is present
+the initial \dc\ analysis is omitted and instead the initial conditions
+specified by the {\tt IC} parameter supported by certain elements,
+by the {\tt .IC} statement (see \pageref{.ICstatement}),
+or by the
+{\tt .NODESET} statement (see \pageref{.NODESETstatement}) are used.
+{
+In addition \pspice\ supports using an operating point solution
+that was previously saved using the {\tt .SAVEBIAS} statement described
+on page \pageref{.SAVEBIASstatement}.}
+\item  If the {\tt UIC} keyword is \underline{present} the initial conditions
+            specified in
+        the {\tt .IC} statement (described on page \pageref{.ICstatement})
+        are used
+        to establish the initial conditions.  Initial conditions specified
+        for individual elements using the {\tt IC} parameter on the element
+        line will always have precedence over those specified in a {\tt .IC}
+        statement.\\
+        No \dc\ analysis is performed prior to a transient analysis. Thus it
+        is important to establish the initial conditions at all nodes using
+        the {\tt .IC} statement or using the {\tt IC} element parameter.
+
+}
+
+%
+% .WATCH
+%
+{
+\statement{.WATCH}{Watch Analysis Statement}
+}
+
+%
+% .WCASE
+%
+{
+\statement{.WCASE}{Sensitivity and Worst Case Analysis}
+
+The sensitivity and worst case analysis is a statistical analysis of
+a circuit causing
+the circuit to analyzed many times with a random change of model parameters
+(parameters in a {\tt .MODEL} statement).
+
+\form{{\tt .WCASE} NumberOfRuns AnalysisType OutputSpecification OutputFunction
+                \B {\tt LIST}\E\\
+                {\tt +} \B {\tt OUTPUT(}OutputSampleType {\tt )}\E
+                \B {\tt RANGE(}LowValue{\tt ,} HighValue{\tt )}\E
+     }
+
+\begin{widelist}
+
+\item[{\it NumberOfRuns}] is the total number of runs to do. This number
+includes the initial nominal run.
+
+\item[{\it AnalysisType}] is the type of analysis to be performed in Monte
+     Carlo runs after the initial nominal run.  All analyses
+     specified in the {\tt NETLIST} are performed in the nominal run.
+     The {\it AnalysisType} must be one of the following:
+     \begin{widelist}
+     \item to be filled in
+     \end{widelist}
+
+\item[{\tt DC}] is a keyword indicating that the \dc\ analysis as
+     specified by the {\tt .DC} statement is repeated.
+     The sweep variable used in analyzing the output
+     {\it OutputSpecification} is the value of the independent voltage
+     or current source specified in the {\tt .DC} statement which is discussed
+     on page \pageref{.DCstatement}.
+
+\item[{\tt AC}] is a keyword indicating that the \ac\ small-signal analysis as
+     specified by the {\tt .AC} statement is repeated.
+     The sweep variable used in analyzing the output
+     {\it OutputSpecification} is frequency.
+
+\item[{\tt TRAN}] is a keyword indicating that the transient analysis as
+     specified by the {\tt .TRAN} statement is repeated.
+     The sweep variable used in analyzing the output
+     {\it OutputSpecification} is time.
+
+
+\item[{\it OutputSpecification}]  specifies the quantity to be reported
+     as the result of the Monte Carlo Analysis.  It has the same format as the
+     {\it OutputSpecification} in a {\tt .PRINT} statement (see page
+     \pageref{.PRINTstatement}). The result is the value of the
+     {\it OutputSpecification} with respect to a sweep for {\tt DC} and {\tt AC}
+     analysis, and as a waveform for {\tt TRAN analysis}.
+
+\item[{\it OutputFunction}] indicates the function to be performed on the
+     output indicated by {\it OutputSpecification} to reduce the sweep
+     or waveform at each run to a single numeric value. The
+     {\it OutputFunction} must be one of the following keywords:
+     \item[{\tt YMAX}] which produces the greatest deviation of the sweep or
+                       waveform from the nominal run.
+
+
+     \item[{\tt MAX}] which results in the maximum value in each sweep or
+                      waveform.
+
+     \item[{\tt MIN}] which results in the minimum value in each sweep or
+                      waveform.
+
+     \item[{\tt RISE\_EDGE({\it Value})}] which reports as the result the
+                      first run when the waveform crosses above the threshold
+              {\it Value}.
+              The algorithm used requires that
+              one point in the waveform be below {\it Value}
+              and the succeeding point be above {\it Value}.
+\end{widelist}
+\clearpage
+
+\begin{widelist}
+     \item[{\tt FALL\_EDGE({\it Value})}] which reports as the result the
+                      first run when the waveform crosses below the threshold
+              {\it Value}.
+              The algorithm used requires that
+              one point in the waveform be above {\it Value}
+              and the succeeding point be below {\it Value}.
+
+
+\item[{\tt RANGE}] is an optional range indicating the range of the sweep
+                  variable over which {\it OutputFunction} is to be performed.
+          If this keyword is missing output is produced
+          the range is not restricted.  The range of the sweep
+          variable to be considered is from {\it LowValue}
+          to {\it HighValue} inclusive.
+
+\item[{\it LowValue}] is the low end of the sweep variable to be considered
+                  in evaluating {\it OutputFunction}.
+
+
+\item[{\it HighValue}] is the low end of the sweep variable to be considered
+                  in evaluating {\it OutputFunction}.
+
+\end{widelist}
+
+\begin{widelist}
+\item[{\tt LIST}] is an optional keyword that results in the model parameter
+                  values that are statistically varied
+                  being printed out prior to each run. If it is omitted
+          then the the statistically generated model parameter
+          values are not produced prior to each run.
+
+
+\item[{\tt OUTPUT}] is an optional keyword indicating the type of output to
+                  be produced by runs after the initial nominal run. The
+          output produced for each run sampled is determined by the
+          {\tt .PLOT}, {\tt .PRINT} and {\tt .PROBE} statements in
+          the NETLIST. If this keyword is missing output is produced
+          only for the nominal run.
+
+
+
+\item[{\it SEED}] is the keyword for the seed of the random number generator
+                  used in Monte Carlo Analysis
+
+\item[{\it SeedValue}] is the value of the seed used in the random number
+generator used to select sample runs at random.
+    (Optional; Default: 17,533; $1 \le$ {\it SeedValue}$ \le 32,767$)
+
+\end{widelist}
+
+\note{
+\item If the {\it AnalysisType} is {\tt DC} only one independent voltage or
+      current source can be specified in the {\tt .DC} statement (discussed on
+      page \pageref{.DCstatement}).
+
+\item The random number generator is the subtractive method generator described
+      by Knuth \cite[p. 171]{knuth:subtractive}.
+
+\item The initial run uses the nominal parameter values given in the NETLIST.
+      Subsequent runs statistically vary model parameters indicated as having
+      either lot {\tt LOT} or device {\tt DEV} tolerances. These tolerances
+      are specified in a {\tt .MODEL} statement (see page
+      \pageref{.MODELstatement}).
+}
+
+} % end
+
+%
+% .WIDTH
+%
+\statement{.WIDTH}{Width Specification}
+
+\form{{\tt .WIDTH OUT=}{\it ColumnWidth}}
+
+\begin{widelist}
+\item[{\tt OUT}] is the keyword for column width of the output file.
+\item[{\it ColumnWidth}] is the column width of the output file.
+                 It must be either 80 or 132.  If there is no {\tt .WIDTH}
+                 statement the ColumnWidth defaults to 80.
+\end{widelist}
+
+\example{
+.WIDTH OUT=80\\
+.WIDTH OUT=132
+}

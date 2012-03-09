@@ -1,0 +1,198 @@
+
+\chapter{Algebraic Expressions}
+This page is still under development so there may be problems.
+The big one is that expressions do not work at all now.
+
+Most places where a numeric value is normally used
+an expression (within braces {\tt \{ $\ldots$ \})} can be used instead.
+An expression can contain any supported mathematical operation,
+constant numeric values, parenthesees ``( $\ldots$ )'' to indicate precedence,
+commas ``,'' to separate arguments of a function,
+or parameters. Valid parameters must begin with an alphabetic character.
+Places where expressions cannot be used are 
+     \begin{itemize}
+     \item As polynomial coefficients.
+     \item The values of the transmission line device parameters {\tt NL} and
+           {\tt F}.
+     \item The values of the piece-wise linear characteristic in the {\tt PWL}
+           form of the independent voltage ({\tt V}) and current ({\tt I})
+           sources.
+     \item The values of the resistor device parameter {\tt TC}.
+     \item As node numbers.
+     \item[and]
+     \item Values of most statements (such as .TEMP, .AC, .TRAN etc.)
+     \end{itemize}
+Specifically included are
+     \begin{itemize}
+     \item The values of all other device parameters.
+     \item The values in {\tt .IC} and {\tt .NODESET} statements.
+     \item The values in {\tt .SUBCKT} statements.
+     \item[and]
+     \item The values of all model parameters.
+     \end{itemize}
+
+Operators that can be used in expressions are listed in Table
+\ref{table:expression:operators}. Here $x$ and $y$ maybe numbers,
+parameters or sub-expressions.
+The result of the logical operations is either 0 or 1.
+Operands are treated as 1 if they are not exactly zero.
+The precedence of the operators is also given in Table
+\ref{table:expression:operators} and follows normal practice.
+A higher precedence number indicates higher prcedence and
+operators of the same precedence are evaluated from left to right.
+For example\\
+
+    \begin{tabular}{lp{3.5in}}
+    {\tt idss* ( vgs + vgs\^{}2 )} & is evaluated as 
+			     ${\tt idss} * ( {\tt vgs} + ({\tt vgs} ^ 2) )$
+			     \newline
+                             where {\tt idss} and {\tt vgs} are parameters
+			     defined elsewhere.\\
+                     
+    {\tt 3 + 5 -- 4||(3\^{}-4)$>$=23}
+				& is evaluated as \newline
+				 $(((3 + 5) - (-4)) || ((3 ^ (-4)) >= 23))$\\
+    \end{tabular}
+
+\begin{table}
+\caption{Expression operators.\label{table:expression:operators}}
+\begin{center}
+\begin{tabular}{|l|c|l|l|}
+\hline
+\multicolumn{1}{|c}{\bf Operator } &
+\multicolumn{1}{|c}{\bf Precedence} &
+\multicolumn{1}{|c}{\bf Syntax } &
+\multicolumn{1}{|c|}{\bf Description}  \\
+\multicolumn{1}{|c}{\bf  Name } &
+\multicolumn{1}{|c}{\bf  Index } &
+\multicolumn{1}{|c}{} &
+\multicolumn{1}{|c|}{} \\
+\hline
+\hline
+\multicolumn{4}{|c|}{Arithmetic Operators} \\
+UNARY\_PLUS	& 10& {\tt +}$x$            	& unary plus \\
+UNARY\_MINUS	& 10& {\tt -}$x$            	& unary minus \\
+POWER		& 9 & $x${\tt \^{}}$y$  or
+                  $x${\tt **}$y$ 		& raise to a power, $x^y$ \\
+MULTIPLY	& 8 & $x${\tt *}$y$		& multiply \\
+DIVIDE		& 8 & $y${\tt /}$x$	        & divide \\
+PLUS		& 7 & $x${\tt +}$y$		& plus \\
+MINUS		& 7 & $x${\tt -}$y$		& minus \\
+\hline
+\hline
+\multicolumn{4}{|c|}{Logical Operators} \\
+\hline
+NOT		& 10& {\tt !}$x$		& NOT \\
+GREATER\_OR\_EQUAL& 6 & $x>=y$			& greater than or equal \\
+LESS\_OR\_EQUAL	& 6 & $x<=y$			& less than or equal \\
+GREATER\_THAN	& 6 & $x>y$			& greater than \\
+LESS\_THAN	& 6 & $x<y$			& less than \\
+EQUAL		& 5 & $x==y$			& equality \\
+NOT\_EQUAL	& 5 & $x!=y$			& no equal \\
+AND		& 4 & $x${\tt \&}$y$           	& logical and \\
+OR		& 3 & $x${\tt |}$y$           	& logical or \\
+XOR		& 2 & $x${\tt ~}$y$		& exclusive or \\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Functions that can be used in expressions are listed in Table
+\ref{table:expression:functions}. 
+
+\begin{table}
+\caption{Expression functions.\label{table:expression:functions}}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+{\bf Operator }	& {\bf   Syntax } & {\bf Description}  \\
+\hline
+SIN		&{\tt sin($x$)}	& sine, argument in radians \\
+COS		& {\tt cos($x$)}	& cosine, argument in radians \\
+TAN		& {\tt tan($x$)}	& tangent, argument in radians \\
+ASIN		& {\tt asin($x$)} or {\tt arcsin($x$)}
+					& arcsine, result in radians \\
+ACOS		& {\tt acos($x$)} or {\tt arcsin($x$)}
+					& arccosine, result in radians \\
+ATAN		& {\tt atan($x$)} or {\tt arcsin($x$)}
+					& arctangent, result in radians \\
+SINH		& {\tt sinh($x$)}	& hyperbolic sine \\
+COSH		& {\tt cosh($x$)}	& hyperbolic cosine \\
+TANH		& {\tt tanh($x$)}	& hyperbolic tangent \\
+EXP		& {\tt exp($x$)}	& exponentiation, $e^x$ \\
+ASINH		& {\tt asinh($x$)} or {\tt arcsinh($x$)}
+                                        & arc-hyberbolic sine \\
+ACOSH		& {\tt acosh($x$)} or {\tt arccosh($x$)}
+					& arc-hyberbolic cosine \\
+ATANH		& {\tt atanh($x$)} or {\tt arctanh($x$)}
+					& arc-hyberbolic tangent \\
+ABS		& {\tt abs($x$)}	& absolute, $|x|$ \\
+SQRT		& {\tt sqrt($x$)}	& square root, $\sqrt{x}$ \\
+LN		& {\tt ln($x$)}		& log to base e of $x$ \\
+LOG		& {\tt log($x$)} or log10($x$)	& log to base 10 of $x$ \\
+SIGN		& {\tt sign($x$)}		& sign of $x$
+						$= \left\{ \begin{array}{rl}
+                                                   1 & \mbox{if}~ x >= 0 \\
+                                                  -1 & \mbox{if}~ x<0 \\
+				          	\end{array}  \right. $ \\ %} 
+DB		& {\tt db($x$)}		& decibell  = 10 log($x$) \\
+LIMIT		& {\tt limit($x$,{\it min},{\it max})} & limit
+					$= \left\{ \begin{array}{rl}
+                                        {\it min} & \mbox{if}~ x < {\it min} \\
+                                        {\it max} & \mbox{if}~ x < {\it max} \\
+                                            x & \mbox{otherwise} \\
+				       	\end{array}  \right. $ \\ %}
+TABLE		& {\tt table($x,x_1,y_1,...,x_n,y_n$)} & table lookup, 
+					  see note 1 \\
+DUPLICATE	& {\tt dup($x$)}	& duplicates $x$, 
+					  see note 2 \\
+IF		& {\tt if($x,y,z$)}     & conditional,
+					$= \left\{ \begin{array}{rl}
+                                        y & \mbox{if}~ x~ \mbox{not zero} \\
+                                        z & \mbox{if}~ x~ \mbox{is zero} \\
+				       	\end{array} \right. $ \\ %}
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+Note:
+\begin{enumerate}
+\item[1.] The table look up function returns a $y$ value
+given an $x$ value and a set of ($x$,$y$) points defining piece-wise linear.
+The number of $x-y$ pairs in the table function is limited
+approximately to 100.  A further limit is imposed by the amounjt of
+information thatmustbe retained during expression evalurion.  To
+obtain the full 100 print capability in a complicated expression it may be
+necessary to use an intermediate variable.
+expre
+
+\item The dup() function duplicates an operand.
+      It provides a means to use a sub-expression twice while only evaluating
+      it once. For example 
+
+      \medskip
+
+      \begin{tabular}{lll}
+       \multicolumn{1}{c}{Operation} &
+       \multicolumn{1}{c}{Expansion} \\
+       \hline
+      (dup($x$)+)           & $\longrightarrow$ & $x + x$ \\
+      (dup(dup($x$))+*)     & $\longrightarrow$ & $(x + x)*x$ \\
+      limit(dup($x$),max) & $\longrightarrow$ & $ \left\{ \begin{array}{rl}
+				      x & \mbox{if}~ x~ < ~ \mbox{max} \\
+				      \mbox{max} & \mbox{if}~ x~ > ~ \mbox{max}
+                                           \end{array} \right.$ \\ % }
+      if(dup(dup($x$))>0, *2,*3)&
+			 $\longrightarrow$ & $ \left\{ \begin{array}{rl}
+				      2x & \mbox{if}~ x~ > ~ 0 \\
+				      3x & \mbox{if}~ x~ < ~ 0 \\
+                                           \end{array} \right.$ % }
+      \end{tabular}
+
+      \medskip
+
+      \noindent
+      It is good practice to enforce precedence by using parentheses. That
+      is, use ({\tt dup($x$)}+) rather than {\tt dup($x$)}+ .
+\end{enumerate}

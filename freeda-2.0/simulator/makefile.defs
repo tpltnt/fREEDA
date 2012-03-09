@@ -1,0 +1,83 @@
+# The main Makefile definitions
+
+FRHOME = Enter freeda path here
+TSRC = Enter Trilinos source path here
+TLIB = Enter Trilinos library path here
+
+# Name of compilers and utilities
+MAKE = make
+CC = gcc
+CXX = g++
+FC = gfortran
+LEX = flex
+YACC = bison
+AR = ar
+RANLIB = ranlib
+RM = rm
+CP = cp
+MKDIR = mkdir
+BASH = bash
+
+# include paths
+FFTW_IP = -I $(FRHOME)/libs/fftw-2.1.5/fftw -I $(FRHOME)/libs/fftw-2.1.5/rfftw
+
+EPETRA_IP      = -I $(TSRC)/epetra/src -I $(TLIB)/epetra/src/
+EPETRAEXT_IP   = -I $(TSRC)/epetraext/src
+EPETRAEXTT_IP  = -I $(TSRC)/epetraext/src/transform
+TEUCHOS_IP     = -I $(TSRC)/teuchos/src
+AMESOS_IP      = -I $(TSRC)/amesos/src
+AZTECOO_IP     = -I $(TSRC)/aztecoo/src -I $(TLIB)/aztecoo/src/
+NOX_IP         = -I $(TSRC)/nox/src -I $(TLIB)/nox/src/
+NOXEPETRA_IP   = -I $(TSRC)/nox/src-epetra -I $(TSRC)/epetraext/src/model_evaluator/
+IFPACK_IP      = -I $(TSRC)/ifpack/src
+DIDASKO_IP     = -I $(TSRC)/didasko/src
+ML_IP          = -I $(TSRC)/ml/src -I $(TLIB)/ml/src/
+COARSEN_IP     = -I $(TSRC)/ml/src/Coarsen
+COMM_IP        = -I $(TSRC)/ml/src/Comm
+FEGRID_IP      = -I $(TSRC)/ml/src/FEGrid
+INCLUDE_IP     = -I $(TSRC)/ml/src/Include
+KRYLOV_IP      = -I $(TSRC)/ml/src/Krylov
+MAIN_IP        = -I $(TSRC)/ml/src/Main
+MATRIXFREE_IP  = -I $(TSRC)/ml/src/MatrixFree
+MLAPI_IP       = -I $(TSRC)/ml/src/MLAPI
+OPERATOR_IP    = -I $(TSRC)/ml/src/Operator
+REFMAXWELL_IP  = -I $(TSRC)/ml/src/RefMaxwell
+SMOOTHER_IP    = -I $(TSRC)/ml/src/Smoother
+UTILS_IP       = -I $(TSRC)/ml/src/Utils
+SACADO_IP 		 = -I $(TSRC)/sacado/src/ -I $(TSRC)/sacado/src/mpl/
+
+# Path where the package libs are.
+PACKLIB = lib/
+EPETRALIB    = $(TLIB)/epetra/src/
+EPETRAEXTLIB = $(TLIB)/epetraext/src/
+TEUCHOSLIB   = $(TLIB)/teuchos/src/
+AMESOSLIB    = $(TLIB)/amesos/src/
+NOXLIB       = $(TLIB)/nox/src/
+NOXEPETRALIB = $(TLIB)/nox/src-epetra/
+IFPACKLIB    = $(TLIB)/ifpack/src/
+AZTECOOLIB   = $(TLIB)/aztecoo/src/
+MLLIB        = $(TLIB)/ml/src/
+SACADOLIB    = $(TLIB)/sacado/src/
+
+LDFLAGS = -L ./lib -L $(PACKLIB) \
+  -lanalysis -L $(NOXEPETRALIB) -L $(IFPACKLIB) -L $(EPETRALIB) -L $(TEUCHOSLIB) \
+  -L $(AMESOSLIB) -L $(MLLIB) -L $(AZTECOOLIB) -L $(EPETRAEXTLIB) -L $(NOXLIB) -L $(SACADOLIB) \
+  -lio -lnetwork -lcompat -lnoxepetra -lifpack  \
+  -lamesos -lml -laztecoo -lepetra -lepetraext -lnox -lteuchos -lsacado -llapack  \
+  -lrfftw -lfftw -lblas -lgfortran -lm
+
+OPTFLAGS = $(FFTW_IP) \
+    $(NOXEPETRA_IP) $(IFPACK_IP) $(EPETRA_IP) $(EPETRAEXT_IP) $(EPETRAEXTT_IP) $(TEUCHOS_IP) $(AMESOS_IP) \
+    $(COARSEN_IP) $(COMM_IP) $(FEGRID_IP) $(INCLUDE_IP) $(KRYLOV_IP) $(MAIN_IP) $(MATRIXFREE_IP) $(MLAPI_IP) \
+    $(OPERATOR_IP) $(REFMAXWELL_IP) $(SMOOTHER_IP) $(UTILS_IP) $(ML_IP) $(AZTECOO_IP) $(NOX_IP) -I $(TEUCHOSLIB) \
+   -I $(EPETRAEXTLIB) $(SACADO_IP) -I $(SACADOLIB) -fstrict-aliasing -funroll-loops -fomit-frame-pointer
+
+TEMPLATEFLAGS = $(OPTFLAGS)
+# Global C++ flags
+GLOXXFLAGS = $(OPTFLAGS)
+CXXFLAGS = $(GLOXXFLAGS)
+
+# Global C flags
+GLOFLAGS = $(OPTFLAGS)
+CFLAGS = $(GLOFLAGS)
+

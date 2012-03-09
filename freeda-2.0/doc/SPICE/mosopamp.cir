@@ -1,0 +1,73 @@
+     * MOSOPAMP.CIR
+     *
+     *
+     * Basic Mosfet Op-amp
+     *
+     *******
+     *
+     * Set the ouput width to 80 columns
+     *
+     .WIDTH OUT = 80
+     *
+     * VDD is the supply.  The opamp has a single 5V supply.
+     *
+     VDD 1 0 DC 5V
+     *
+     * Specify the MOSFETs and their connections
+     *
+     M1 5 5 1 1 PCH L=2.0U W=20U AD=136P AS=136P
+     M2 6 5 1 1 PCH L=2.0U W=20U AD=136P AS=136P
+     M3 5 3 4 0 NCH L=2.4U W=80U AD=136P AS=136P
+     M4 6 2 4 0 NCH L=2.4U W=80U AD=136P AS=136P
+     M5 7 6 1 1 PCH L=2.0U W=80U AD=136P AS=136P
+     M6 1 7 8 0 NCH L=2.0U W=60U AD=136P AS=136P
+     *
+     * The opamp has two inputs. Both are biased at 2.5V.  The negative input
+     * has an AC signal.  Note that the AC signal has a peak value of 1V
+     * but AC analysis is smaal signal so that this large AC value has no
+     * does not produce distortion.  The output results of AC analysis are
+     * conveniently interpreted by setting the {\it ACmagnitude} of the source
+     * to 1.
+     *
+     VPOS 2 0 DC 2.5
+     VNEG 3 0 DC 2.5 AC 1
+     *
+     * Set the bias current sources.
+     *
+     I1 4 0 DC 0.1MA
+     I2 7 0 DC 0.2MA
+     I3 8 0 DC 1MA
+     *
+     .MODEL NCH NMOS LEVEL=2 VTO=0.71 GAMMA=0.29 CGSO=2.89E-10
+     + CGDO=2.89E-10 CJ=3.27E-4 MJ=0.4 TOX=225E-10 NSUB=3.5E16
+     + XJ=0.2E-6 LD=0 UO=411 UEXP=0 KF=6.5E-28 LAMBDA=0.02 
+     *
+     .MODEL PCH PMOS LEVEL=2 VTO=-0.76 GAMMA=0.6 CGSO=3.35E-10
+     + CGDO=3.35E-10 CJ=4.75E-4 MJ=0.4 TOX=225E-10 NSUB=1.6E16
+     + XJ=0.2E-6 LD=0 UO=139 UEXP=0 KF=5E-30 LAMBDA=0.02
+     *
+     * To determine operating point
+     *
+     .OP
+     *
+     * To determine small signal analysis
+     *
+     .AC DEC 10 100 60MEG 
+     *
+     * Produce a table of the AC analysis results.  Node 8 is the output.
+     *
+     .PRINT AC V(8)
+     *
+     * Produce a plot of the AC analysis results.
+     *
+     .PLOT AC V(8)
+     *
+     * Set initial conditions at several nodes to aid in convergence
+     * in determining the operating point.
+     *
+     .NODESET V(6)=3.5 V(7)=1.5 V(8)=2.5 V(4)=1.5
+     *
+     * CURRENT THRU M1 AND M4 IS THE SAME = 0.05MA
+     *
+     .END
+

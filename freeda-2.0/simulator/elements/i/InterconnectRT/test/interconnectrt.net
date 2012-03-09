@@ -1,0 +1,31 @@
+*** Transient InterconnectRT test
+
+*** Transient Analysis
+.tran2 tstop=4e-6 tstep=10e-9 out_steps=5
+
+.options InitTmp=300
+
+.ref "tref"
+.ref 0
+
+*** Sources
+vpulse:Vp 1 0 v1=1 v2=5 per=2e-6 pw=1e-6 tr=0.05e-6 tf=0.05e-6
+
+*** Network
+resistor:rs 1 2 r=2k
+interconnectrt:irt1 2 0 1000 "tref" l=1e-3 metal="copper" pdr=1
+*interconnectrt:irt1 2 0 1000 "tref" l=1e-3 rho=1.83e-8 tc=0.004041 pdr=1
+
+*** Thermal network
+resistor:rt1 1000 1001 r=6e3
+vsource:vt1 1001 "tref" vdc=InitTmp
+capacitor:ct1 1000 1001 c=1e-12
+
+*** Transient Output
+.options gnuplot
+*.out plot term 2 vt  in "trans_input.out"
+.out plot term 2 vt element "interconnectrt:irt1" 0 it div in "trans_res.out"
+*.out plot element "interconnectrt:irt1" 0 it in "trans_current.out"
+.out plot element "interconnectrt:irt1" 1 ut in "trans_temp.out"
+
+.end

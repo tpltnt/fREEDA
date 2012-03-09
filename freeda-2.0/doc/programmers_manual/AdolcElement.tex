@@ -1,0 +1,31 @@
+\documentclass[10pt]{article}
+    \topmargin 0mm
+    \oddsidemargin -2mm
+    \evensidemargin -2mm
+    \textwidth 173mm
+    \textheight 210mm
+
+\usepackage{listings}
+    % Set up a set of common parameters for listings package to format C++ code...
+    % These settings are "too wide" for the standalone doc, but should be about
+    % right once integrated into the overall fREEDA doc again.
+    \lstloadlanguages{[GNU]C++,[gnu]make}
+        \lstset{language={[GNU]C++}, % p 12 of listings.dvi
+        numbers=left,           % p 29 of listings.dvi
+        numberstyle=\tiny,      % p 29 of listings.dvi
+        stepnumber=1,           % p 29 of listings.dvi
+        numbersep=5pt,          % p 29 of listings.dvi
+        showstringspaces=false, % p 29 of listings.dvi
+        xrightmargin=10mm,      % p 31 of listings.dvi
+        frame=lines,            % p 32 of listings.dvi
+        framexleftmargin=5mm,   % p 32 of listings.dvi
+        framexrightmargin=15mm,  % p 32 of listings.dvi
+        basicstyle=\footnotesize}   % p 27 of listings.dvi
+    % End of adds for listings package
+
+\begin{document}
+\lstinputlisting[caption=AdolcElement.h]{
+    C:/cygwin/home/fphart/freeda_el/AdolcElement.h}
+\lstinputlisting[caption=AdolcElement.cc]{
+    C:/cygwin/home/fphart/freeda_el/AdolcElement.cc}
+\end{document}

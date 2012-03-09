@@ -1,0 +1,155 @@
+\element{S}{Voltage Controlled Switch}
+\begin{figure}[h]
+\centering
+\ \pfig{s_spice.ps}
+\caption{S --- voltage controlled switch element.}
+\end{figure}
+
+\notforsspice{
+\form{{\tt S}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$ ModelName
+   \B {\tt ON}\E \B {\tt OFF}\E }}
+
+\pspiceform{{\tt S}name $N_{+}$ $N_{-}$ $N_{C+}$ $N_{C-}$
+ModelName}
+
+\example{S1 1 2 3 4 SWITCH1 \\
+         S2 5 6 3 0 SM2 \\
+         SWITCH1 1 2 10 0 SMODEL1}
+
+\begin{widelist}
+\item[$N_{+}$] is the positive node of the switch.
+\item[$N_{-}$] is the negative node of the switch.
+\item[$N_{C+}$] is the positive controlling node of the switch.
+\item[$N_{C-}$] is the negative controlling node of the switch.
+\item[{\it ModelName}] is the model name and is required.
+\notforsspice{
+\end{widelist}
+
+\begin{widelist}
+\item[{\tt ON}] is the optional initial condition.
+It is intended for use with the {\tt UIC} option
+on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+starting from other than the quiescent operating point.
+It is also the initial condition on the device for \dc\ analysis.
+\item[{\tt OFF}] is the optional initial condition.
+If specified the \dc\ operating point is calculated with the terminal voltages
+set to zero.  Once convergence is obtained, the
+program continues to iterate to obtain the exact  value of
+the  terminal  voltages.  The OFF option is used to enforce the solution
+to  correspond  to  a  desired  state if the circuit has more than one stable
+state.
+}
+\end{widelist}
+\notforsspice{ The initial conditions are optional.  For the
+voltage  controlled switch, nodes $N_{C+}$ and N{C-} are the
+positive and negative controlling nodes respectively.  For the
+current  controlled switch, the controlling current is that
+through the specified voltage source. The direction of positive
+controlling current flow is from the positive node, through the
+source, to the negative node.\\[0.1in]}
+\modeltype{VSWITCH}
+
+\model{VSWITCH}{Voltage-Controlled Switch Model}
+\begin{figure}[h]
+\centering
+\ \pfig{vswitch.ps}
+\caption{VSWITCH --- voltage controlled switch model. \label{vswitch}}
+\end{figure}
+
+\notforsspice{
+The voltage-controlled switch model is supported by
+both \spicethree\ and \pspice. However the model keywords differ slightly.\\[0.1in]
+
+\kw{\spicethree\ keywords:}{
+{\tt VT}   & threshold voltage\sym{V_{\ms{ON}}}& V     & 0.0    \X
+{\tt VH}   & hysteresis voltage\sym{V_{\ms{OFF}}} & V     & 0.0    \X
+{\tt RON}  & on resistance      \sym{R_{\ms{ON}}}&$\Omega$&1.0    \X
+{\tt ROFF} & off resistance     \sym{R_{\ms{OFF}}}&$\Omega$&1/GMIN\X
+}
+}
+
+\kw{\pspice\ keywords:}{
+{\tt VON}   & threshold voltage\sym{V_{\ms{ON}}}& V     & 0.0    \X
+{\tt VOFF}   & hysteresis voltage\sym{V_{\ms{OFF}}} & V     & 0.0    \X
+{\tt RON}  & on resistance      \sym{R_{\ms{ON}}}&$\Omega$&1.0    \X
+{\tt ROFF} & off resistance     \sym{R_{\ms{OFF}}}&$\Omega$&1/GMIN\X
+}
+
+Care must be exercised in using the switch.  An instantaneous switch
+is highly nonlinear and will very likely lead to convergence problems.
+This problem is alleviated in the {\tt VSWITCH} model by ramping the resistance
+of the switch from its off value to its on value.  For this ramping action to be
+effective the difference between $V_{\ms{ON}}$ and $V_{\ms{OFF}}$
+must not be too small. Also the values of $R_{\ms{ON}}$ and $R_{\ms{OFF}}$
+should not be extreme.
+The ration $R_{\ms{ON}}/R_{\ms{OFF}}$ should be be as small as possible.
+
+If $R_{\ms{ON}}/R_{\ms{OFF}}$  is large, e.g.
+$R_{\ms{ON}}/R_{\ms{OFF}}$ $>$ $10^{12}$, then the default error tolerances
+{\tt TRTOL} and {\tt CHGTOL}, specified in a {\tt .OPTIONS} statement
+(see page \pageref{.OPTIONSstatement}) may need to be changed.
+\begin{widelist}
+\item[{\tt TRTOL}] Change to 1.0 from 7.0 idf there are convergence problems
+during transient analysis.
+\item[{\tt CHGTOL}] If a switch is across a capacitor then {\tt CHGTOL} should be
+reduced to $10^{-16}$ if there are convergence problems
+during transient analysis.
+\end{widelist}
+
+\noindent\underline{\bf \large Switch Model}\\[0.1in]
+
+The switch is modeled by a voltage variable resistor $R$ and an input
+input resistance $R_{\ms{IN}}$, see figure \ref{vswitch}.
+$R_{\ms{IN}}$ = $1/G_{\ms{MIN}}$ to ensure that the
+controlling nodes are not floating and that the voltage $v$ between the
+controlling nodes can not change instantaneously.
+\notforsspice{ $G_{\ms{MIN}}$ = {\tt GMIN} is described on page \pageref{GMIN}.}
+\\[0.1in]
+
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+\begin{eqnarray}
+R_{\ms{MEAN}} & = & \sqrt{R_{\ms{ON}} + R_{\ms{OFF}}} \\
+R_{\ms{RATIO}}& = &       R_{\ms{ON}}/ R_{\ms{OFF}} \\
+V_{\ms{MEAN}} & = & \sqrt{V_{\ms{ON}} + V_{\ms{OFF}}} \\
+V_{\Delta}& = & \left({{\textstyle v - V_{\ms{MEAN}}} \over
+              {\textstyle V_{\ms{ON}}- V_{\ms{OFF}}}}\right)
+\end{eqnarray}
+If $V_{\ms{ON}}> V_{\ms{OFF}}$
+the switch resistance
+\begin{equation}
+R = \left\{
+\begin{array}{ll}
+R_{\ms{ON}}                            & v \ge V_{\ms{ON}} \\
+R_{\ms{OFF}}                            & v \le V_{\ms{OFF}}\\
+R_{\ms{MEAN}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 V_{\Delta}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 V_{\Delta}^3}
+  & V_{\ms{OFF}} < v < V_{\ms{ON}} \\
+\end{array} \right. %}
+\end{equation}
+If $V_{\ms{ON}}< V_{\ms{OFF}}$
+the switch resistance
+\begin{equation}
+R = \left\{
+\begin{array}{ll}
+R_{\ms{ON}}                            & v \le V_{\ms{ON}} \\
+R_{\ms{OFF}}                            & v \ge V_{\ms{OFF}}\\
+R_{\ms{MEAN}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 V_{\Delta}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 V_{\Delta}^3}
+  & V_{\ms{OFF}} < v < V_{\ms{ON}} \\
+\end{array} \right. %}
+\end{equation}
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{VSWITCH, Noise Model}
+\index{VSWITCH, Noise Analysis}
+
+The voltage controlled switch noise model accounts for thermal noise generated
+in the switch resistance.
+The rms (root-mean-square) values of
+thermal noise current generators shunting the switch resistance is
+\begin{equation}
+I_{n} = \sqrt{4kT/R}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{equation}
+where $T$ is the analysis temperature in kelvin (K), and $k$ (=
+$1.3806226\,10^{-23}$~J/K) is Boltzmans constant.

@@ -1,0 +1,1189 @@
+\chapter[fREEDA Commands]{fREEDA Commands\label{chap:dotted_commands}}
+
+\section[.inc \- Include Statement]{.inc \- Include Statement}
+
+\noindent The {\tt .inc} statement is an efficient way to include subcircuits and common netlist code.
+
+\form{ {\tt .lib} \B FileName \E}\\
+{\it Filename} is the name of the file to be read.
+
+\note{
+\item   It must contain only {\tt .model} statements, subcircuit
+        definitions (between {\tt .subckt} and {\tt .ends} statements),
+        and {\tt .lib} statements.
+
+\item The include file {\it Filename} is searched in the current directory.
+}
+
+\offsetenumerate{
+\item[] {\tt .INC} and
+      the {\tt .LIB} function similarly with the exception that .LIB searches for the file in a specific directory while .INC searches for the file in current directory.}
+
+\clearpage
+\section[.lib \- Library Statement]{.lib \- Library Statement}
+
+\noindent The {\tt .lib} statement is an efficient way to include
+{\tt .model} statements and subcircuits.
+
+\form{ {\tt .lib} \B FileName \E}\\
+{\it Filename} is the name of the library file.
+
+\note{
+\item   It must contain only {\tt .model} statements, subcircuit
+        definitions (between {\tt .subckt} and {\tt .ends} statements),
+        and {\tt .lib} statements.
+
+\item The library file {\it Filename} is searched in the directory pointed to by the environment variable  specified by the environment variable FREEDA\_LIBRARY .
+}
+
+\offsetenumerate{
+\item[] Libraries could be included using either the {\tt .INC} statement or by
+      the {\tt .LIB} statement.    {\tt .INC} and
+      the {\tt .LIB} function similarly with the exception that .LIB searches for the file in a specific directory while .INC searches for the file in current directory.}
+
+\clearpage
+\section{.locate \- Identify Location of Terminals} \noindent\textit{Form:}
+\newline
+{\tt .locate $\langle$ \tt{terminal\ name}$\rangle$ $\langle$
+\tt{X}$\rangle$ $\langle$ \tt{Y}$\rangle$} \\[0.2in]
+\newline
+\textit{Description:}\\
+.LOCATE is used to identify the position of a terminal.\\[0.2in]
+
+\textit{Credits:}\\[0.1in]
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Michael Steer & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+m.b.steer@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+
+\clearpage
+\section[.plot \- Plot Specification]{.plot \- Plot Specification}
+
+NOT FULLY FUNCTIONAL as of \FDA1.3
+
+The plot specification controls the information that is plotted as
+the result of various analyses.\\
+
+\noindent\textit{Form:} \notforsspice{ \form{{\tt .PLOT TRAN}
+OutputSpecification \B PlotLimits\E
+     \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT AC   } OutputSpecification \B PlotLimits\E
+       \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT DC   } OutputSpecification  \B PlotLimits\E
+       \\{\tt +} \B OutputSpecification \B PlotLimits\E $\ldots$ \E\\[0.1in]
+      {\tt .PLOT NOISE} NoiseOutputSpecification
+            \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+       \\{\tt +} \B NoiseOutputSpecification
+        \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E\\[0.1in]
+      {\tt .PLOT DISTO} DistortionOutputSpecification
+           \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+           \\{\tt +} \B DistortionOutputSpecification
+           \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E
+              $\ldots$ \E
+        \B {\tt (}DistortionReportType{\tt )}\E \B PlotLimits\E\\[0.1in]
+     }}
+
+\begin{widelist}
+\item[{\tt tran}] is the keyword specifying that this {\tt .plot} statement
+     controls the reporting of results of a transient analysis initiated by the
+     {\tt .TRAN} statement.
+
+\item[{\tt ac}] is the keyword specifying that this {\tt .plot} statement
+     controls the reporting of results of a small-signal \ac\ analysis initiated by
+     the {\tt .ac} statement.
+
+\item[{\tt dc}] is the keyword specifying that this {\tt .plot} statement
+     controls the reporting of results of a \dc\ analysis initiated by the
+     {\tt .dc} statement.
+
+\item[{\tt noise}] is the keyword specifying that this {\tt .plot} statement
+     controls the reporting of results of a noise analysis initiated by the
+     {\tt .noise} statement.
+
+\sspiceonly{
+\item[{\tt as}] is the keyword specifying that this {\tt .plot} statement
+     controls the reporting of results of a scattering parameter analysis.
+     }
+\end{widelist}
+
+\begin{widelist}
+\item[{\it OutputSpecification}] specifies the voltage or current to be plotted
+     against the sweep variable. The sweep variable is dependent on the type
+     of analysis.\\[0.1in]
+
+     \notforsspice{
+     \underline{Voltages} may be specified as an absolute voltage at a terminal:
+     {\tt V({\it TerminalName})} or
+     the voltage at one terminal with respect to that at another terminal,\newline
+     e.g. {\tt V(Terminal1Name,Terminal2Name)}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt V} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt VR} &-&real part\\
+      {\tt VI} &-&imaginary part\\
+      {\tt VM} &-&magnitude\\
+      {\tt VP} &-&phase\\
+      {\tt VDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      In \ac\  analysis the default is {\tt VM} for magnitude.\\[0.1in]
+
+     \underline{Currents} are specified by referencing the name of the voltage
+     source through which the current is measured, e.g.
+     {\tt I(V{\it VoltageSourceName})}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt I} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt IR} &-&real part\\
+      {\tt II} &-&imaginary part\\
+      {\tt IM} &-&magnitude\\
+      {\tt IP} &-&phase\\
+      {\tt IDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      In \ac\  analysis the default is {\tt IM} for magnitude.
+      }
+
+\item[{\it PlotLimits}] are optional and can be placed after any output
+     specification. {\it PlotLimits} has the form
+     {\tt (}{\it LowerLimit}{\tt ,}{\it UpperLimit}{\tt )} .
+     All quantities will be plotted using the same
+     {\it PlotLimits}.  The default is to automatically scale the plot and
+     perhaps use different scales for each of the quantities to be plotted.
+\end{widelist}
+
+\begin{widelist}
+\item[{\it NoiseOutputSpecification}]
+     specifies the noise measure to be reported. The two options are
+     {\tt ONOISE} which reports the output noise and
+     {\tt INOISE} which reports the equivalent input noise.
+     See the {\tt .NOISE} statement
+     for a detailed explanation.
+
+     It  must be one of the following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt ONOISE} &-&magnitude of the output noise\\
+      {\tt DB(ONOISE)} &-&output noise in dB\\
+      {\tt INOISE} &-&magnitude of the equivalent input noise\\
+      {\tt DB(INOISE)} &-&equivalent input noise in dB\\
+      {\tt GAIN} &-&voltage gain\\
+      {\tt DB(GAIN)} &-&voltage gain in dB (= 20 log({\tt GAIN})\\
+      {\tt GT} &-&transducer gain\\
+      {\tt DB(GT)} &-&transducer gain in dB (= 10 log({\tt GT})\\
+      {\tt NF} &-&spot noise factor\\
+      {\tt DB(NF)} &-& spot noise figure (= 10 log({\tt NF})\\
+      {\tt SNR} &-&output signal-to-noise ratio\\
+      {\tt DB(SNR)} &-&output signal-to-noise ratio in dB (= 20 log({\tt SNR})\\
+      {\tt TNOISE} &-&output noise temperature.
+      \end{tabular}
+\end{widelist}
+
+\begin{widelist}
+
+\item[{\it SParameterOutputSpecification}]
+      specifies the S-parameter output variables that are to be printed.
+      Each variable must have one of the following forms:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt S(i,j)} &-&Magnitude of $S_{ij}$\\
+      {\tt SR(i,j)} &-&Real part of $S_{ij}$\\
+      {\tt SI(i,j)} &-&Imaginary part of $S_{ij}$\\
+      {\tt SP(i,j)} &-&Phase of $S_{ij}$ in degrees\\
+      {\tt SDB(i,j)} &-&Magnitude of $S_{ij}$ in dB
+                         (= 20 log({\tt {\tt S(i,j)}}))\\
+      {\tt SG(i,j)} &-&Group delay of $S_{ij}$
+      \end{tabular}\\
+      The port numbers are $i,j$  which are specified using the {\tt PNR} keywor
+      when the port (`P') element is specified.
+
+\notforsspice{
+\item[{\it DistortionOutputSpecification}]
+     specifies the distortion component to be reported
+     in a tabular format of up to 8 columns plus an initial column with the sweep
+     variable.  The {\it DistortionOutputSpecification} is one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt HD2} &-&the second harmonic distortion\\
+      {\tt HD3} &-&the second harmonic distortion\\
+      {\tt SIM2} &-&the sum frequency intermodulation component\\
+      {\tt DIM2} &-&the difference frequency intermodulation component\\
+      {\tt DIM3} &-&the third order intermodulation component
+      \end{tabular}\\
+      See the {\tt .DISTO} statement for
+      a description of these distortion components.
+
+\item[{\it DistortionReportType }]
+     specifies the format for reporting the distortion components.
+     It  must be one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      R &-&real part\\
+      I &-&imaginary part\\
+      M &-&magnitude\\
+      P &-&phase\\
+      DB &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      The default is {\tt M} for magnitude.
+}
+\end{widelist}
+
+\note{
+\item There can be any number of {\tt .PLOT} statements.
+
+\item All of the output quantities specified on a single {\tt .PLOT} statement
+will be plotted on the same graph using ASCII characters. An
+overlap will be indicated by the letter {\tt X}.  The plot
+produced by the {\tt .PLOT} statement is a line printer plot.
+While plotting is primitive it can be plotted on any printer and
+is incorporated in the output log file.
+
+\item The plot output of the results of an \ac\ analysis always have a
+logarithmic vertical scale.}
+
+\clearpage
+\section[.print \- Print Specification]{.print \- Print Specification}
+
+NOT FULLY FUNCTIONAL as of \FDA1.3
+
+\noindent\textit{Form:}
+\newline
+The print specification controls the information that is reported
+as the result of various analyses.
+
+\form{{\tt .print TRAN } OutputSpecification \B
+OutputSpecification $\ldots$
+      \E\\[0.1in]
+      {\tt .print AC   } OutputSpecification \B OutputSpecification $\ldots$
+      \E\\[0.1in]
+      {\tt .print DC   } OutputSpecification \B OutputSpecification $\ldots$
+      \E\\[0.1in]
+\sspiceonly{
+      {\tt .print NOISE} NoiseOutputSpecification
+              \B NoiseOutputSpecification $\ldots$ \E\\[0.1in]
+      {\tt .print AS} SParameterOutputSpecification
+              \B\B SParameterOutputSpecification\E $\ldots$ \E\\[0.1in]
+              }
+    \notforsspice{
+      {\tt .print DISTO} DistortionOutputSpecification
+              {\tt ( }DistortionReportType{ \tt )}\\{\tt +}
+              \B DistortionOutputSpecification
+              {\tt ( }DistortionReportType{ \tt )} $\ldots$ \E}
+     }
+
+\begin{widelist}
+\item[{\tt TRAN}] is the keyword specifying that this {\tt .print} statement
+     controls the reporting of results of a transient analysis initiated by the
+     {\tt .TRAN} statement.
+
+\item[{\tt AC}] is the keyword specifying that this {\tt .print} statement
+     controls the reporting of results of a small-signal \ac\ analysis initiated by
+     the {\tt .AC} statement.
+
+\item[{\tt DC}] is the keyword specifying that this {\tt .print} statement
+     controls the reporting of results of a \dc\ analysis initiated by the
+     {\tt .DC} statement.
+
+\item[{\tt NOISE}] is the keyword specifying that this {\tt .print} statement
+     controls the reporting of results of a noise analysis initiated by the
+     {\tt .NOISE} statement.
+
+\sspiceonly{
+\item[{\tt AS}] is the keyword specifying that this {\tt .print} statement
+     controls the reporting of results of a scattering parameter analysis.
+     }
+
+\notforsspice{
+\item[{\tt DISTO}] is the keyword specifying that this {\tt .print} statement
+     controls the reporting of results of a small-signal \ac\ distortion analysis
+     initiated by the {\tt .DISTO} statement.
+     }
+
+\item[{\it OutputSpecification}] specifies the voltage or current to be reported
+     in a tabular format of up to 8 columns plus an initial column with the
+     sweep variable.\\[0.1in]
+
+     \underline{Voltages} may be specified as an absolute voltage at a node:
+     {\tt V({\it TerminalName})} or
+     the voltage at one node with respect to that at another node,\newline
+     e.g. {\tt V(Terminal1Name,Terminal2Name)}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt V} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt VR} &-&real part\\
+      {\tt VI} &-&imaginary part\\
+      {\tt VM} &-&magnitude\\
+      {\tt VP} &-&phase\\
+      {\tt VDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      In \ac\  analysis the default is {\tt VM} for magnitude.\\[0.1in]
+
+     \underline{Currents} are specified by referencing the name of the voltage
+     source through which the current is measured, e.g.
+     {\tt I(V{\it VoltageSourceName})}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt I} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt IR} &-&real part\\
+      {\tt II} &-&imaginary part\\
+      {\tt IM} &-&magnitude\\
+      {\tt IP} &-&phase\\
+      {\tt IDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      In \ac\  analysis the default is {\tt IM} for magnitude.
+
+\item[{\it NoiseOutputSpecification}]
+     specifies the noise measure to be reported. The two options are
+     {\tt ONOISE} which reports the output noise and
+     {\tt INOISE} which reports the equivalent input noise.
+     See the {\tt .NOISE} statement
+     for a detailed explanation.
+
+It  must be one of the following:\\
+{\tt ONOISE} - RMS output noise voltage\\
+{\tt DB(ONOISE)} - output noise voltage in dB (= 20 log({\tt ONOISE})\\
+{\tt INOISE} - RMS equivalent input noise voltage\\
+{\tt DB(INOISE)} - equivalent input noise voltage in dB (= 20 log({\tt INOISE})\\
+{\tt GAIN} - voltage gain\\
+{\tt DB(GAIN)} - voltage gain in dB (= 20 log({\tt GAIN})\\
+{\tt GT} - transducer gain\\
+{\tt DB(GT)} - transducer gain in dB (= 10 log({\tt GT})\\
+{\tt NF} - spot noise factor\\
+{\tt DB(NF)} - spot noise figure (= 10 log({\tt NF})\\
+{\tt SNR} - output signal-to-noise ratio\\
+{\tt DB(SNR)} - output signal-to-noise ratio in dB (= 20 log({\tt SNR})\\
+{\tt TNOISE} - output noise temperature.
+
+\item[{\it SParameterOutputSpecification}] specifies the S-parameter output variables that are to be printed.
+Each variable must have one of the following forms:\\
+{\tt S(i,j)} - Magnitude of $S_{ij}$\\
+{\tt SR(i,j)} - Real part of $S_{ij}$\\
+{\tt SI(i,j)} - Imaginary part of $S_{ij}$\\
+{\tt SP(i,j)} -Phase of $S_{ij}$ in degrees\\
+{\tt SDB(i,j)} - Magnitude of $S_{ij}$ in dB
+(= 20 log({\tt {\tt S(i,j)}}))\\
+{\tt SG(i,j)} - Group delay of $S_{ij}$\\
+
+The port numbers are $i,j$  which are specified using the {\tt
+PNR} keyword when the port element is specified.
+\end{widelist}
+
+\notforsspice{
+\begin{widelist}
+\item[{\it DistortionOutputSpecification}]
+     specifies the distortion component to be reported
+     in a tabular format of up to 8 columns plus an initial column with the sweep
+     variable.  The {\it DistortionOutputSpecification} is one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt HD2} &-&the second harmonic distortion\\
+      {\tt HD3} &-&the second harmonic distortion\\
+      {\tt SIM2} &-&the sum frequency intermodulation component\\
+      {\tt DIM2} &-&the difference frequency intermodulation component\\
+      {\tt DIM3} &-&the third order intermodulation component
+      \end{tabular}\\
+      See the {\tt .DISTO} statement for
+      a description of these distortion components.
+
+\item[{\it DistortionReportType }]
+     specifies the format for reporting the distortion components.
+     It  must be one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      R &-&real part\\
+      I &-&imaginary part\\
+      M &-&magnitude\\
+      P &-&phase\\
+      DB &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      The default is {\tt M} for magnitude.
+\end{widelist}
+}
+
+\note{
+\item There can be any number of {\tt .print} statements.
+
+\item The number of significant digits of the results reported is
+{\tt NUMDGT} which is set in a {\tt .options} statement.}
+
+\underline{{\tt dc} and {\tt tran} Reporting}\\
+The output specifications available for the \dc\ sweep and
+transient analyses are
+
+\begin{widelist}
+
+\item[{\tt I(}{\it DeviceName}{\tt )}]
+Current through a two terminal device (such as a resistor {\tt R}
+element) or the output of a controlled voltage or current source.
+e.g. {\tt I(R22)} is the current flowing through resistor {\tt
+R22} from node $N_1$ to $N_2$ of {\tt R22}.
+
+\item[{\tt I}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )}]
+Current flowing into terminal named {\it TerminalName} (such as
+{\tt B} for gate) from the device named {\it DeviceName} (such as
+{\tt Q12}). e.g. {\tt IB(Q12)}
+
+\item[{\tt I}{$\,$PortName}{\tt (}{\it TransmissionLineName}{\tt )}]
+Current at port named {\it PortName} (either {\tt A} or {\tt B})
+of the transmission line device named   {\it TransmissionLineName}
+
+\item[{\tt V(}{\it TerminalName}{\tt )}]
+Voltage at a node of name {\it TerminalName}.
+
+\item[{\tt V(}{$n_1,n_2$}{\tt )}]
+Voltage at node $n_1$ with respect to the voltage
+ at node $n_2$.
+
+\item[{\tt V(}{\it DeviceName}{\tt )}]
+Voltage across a two terminal device (such as a resistor {\tt R}
+element) or at the output of a controlled voltage or current
+source.
+
+\item[{\tt V}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )}]
+Voltage at terminal named {\it TerminalName} (such as {\tt G} for
+gate) of the device named   {\it DeviceName} (such as {\tt M12}).
+e.g. {\tt VG(M12)}
+
+\item[{\tt V}{$\,$TerminalName1$\,$TerminalName2}{\tt (}{\it DeviceName}{\tt )}]
+Voltage at terminal named {\it TerminalName1} (such as {\tt G} for
+gate) th respect to the terminal name {\it TerminalName2} (such as
+{\tt S} for source) of the device named   {\it DeviceName} (such
+as {\tt M12}). e.g. {\tt VGS(M12)}
+
+\item[{\tt V}{$\,$PortName}{\tt (}{\it TransmissionLineName}{\tt )}]
+Voltage at port named {\it PortName} (either {\tt A} or {\tt B})
+of the transmission line device named   {\it TransmissionLineName}
+(such as {\tt T5}). e.g. {\tt VA(M5)}
+
+\end{widelist}
+
+\hspace*{\fill}\\[0.1in]
+
+\noindent\underline{Two Terminal Device Types Supported for \dc
+and
+Transient Analysis Reporting}\\[0.1in]
+The single character identifier  for the following elements as
+well as the rest of the device name can be used as the {\it
+DeviceName} in the {\tt I(}{\it DeviceName}{\tt )}  and {\tt
+I(}{\it DeviceName}{\tt )}
+output specifications.\\
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline
+{\tt C} & capacitor\\
+{\tt D} & diode\\
+{\tt E} & voltage-controlled voltage source\\
+{\tt F} & current-controlled current source\\
+{\tt G} & voltage-controlled current source\\
+{\tt H} & current-controlled voltage source\\
+{\tt I} & independent current source\\
+{\tt L} & inductor\\
+{\tt R} & resistor\\
+{\tt V} & independent voltage source\\
+\hline
+\end{tabular}\\[0.1in]
+
+\noindent \underline{Multi-Terminal Device Types Supported for \dc
+and Transient Analysis Reporting}\\[0.1in]
+The single character identifier for the following elements as well
+as the rest of the device name can be used as the {\it DeviceName}
+in the {\tt I}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )},
+{\tt V}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )} and {\tt
+V}{$\,$TerminalName1$\,$TerminalName2}{\tt (}{\it DeviceName}{\tt
+)}
+output specifications.\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline {\tt B} & GaAs MESFET\ \ \ Terminals:\newline
+\hspace*{1in}D --- drain\newline \hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+{\tt J} & JFET\ \ \ Terminals:\newline \hspace*{1in}D ---
+drain\newline \hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+{\tt M} & MOSFET\ \ \ Terminals:\newline \hspace*{1in}B --- bulk
+or substrate\newline \hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+{\tt Q} & BJT\ \ \ Terminals\newline \hspace*{1in}C ---
+collector\newline \hspace*{1in}B --- base\newline \hspace*{1in}E
+--- emitter\newline
+\hspace*{1in}S --- source\\
+\hline
+\end{tabular}\\[0.1in]
+
+\noindent
+\underline{{\tt AC} Reporting}\\
+The output specifications available for reporting the results of
+an \ac\ frequency sweep analysis includes all of the specification
+formats discussed above for \dc\ and transient analysis together
+with a number of possible
+suffixes:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt DB} &-&$10\,\mbox{log}(10\,magnitude)$\\
+      {\tt M} &-&magnitude\\
+      {\tt P} &-&phase\\
+      {\tt R} &-&real part\\
+      {\tt I} &-&imaginary part\\
+      {\tt G} &-&group delay = ${\partial \phi/ \partial f}$\newline
+                 where $\phi$ is the phase of the quantity being reported
+         and $f$ is the analysis frequency.
+      \end{tabular}\\
+In \ac\  analysis the default suffix is {\tt M} for magnitude.\\[0.1in]
+
+\noindent\underline{Two-Terminal Device Types Supported for
+\ac\ Reporting}\\[0.1in]
+
+The single character identifier  for the following elements as
+well as the rest of the device name can be used as the {\it
+DeviceName} in the {\tt I(}{\it DeviceName}{\tt )}  and {\tt
+I(}{\it DeviceName}{\tt )}
+output specifications.\\
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline
+{\tt C} & capacitor\\
+{\tt D} & diode\\
+{\tt I} & independent current source\\
+{\tt L} & inductor\\
+{\tt R} & resistor\\
+{\tt V} & independent voltage source\\
+\hline
+\end{tabular}\\[0.1in]
+
+\noindent \underline{Multi-Terminal Device Types Supported for \dc
+and Transient Analysis
+Reporting}\\[0.1in]
+The single character identifier for the following elements as well
+as the rest of the device name can be used as the {\it DeviceName}
+in the {\tt I}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )},
+{\tt V}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )} and {\tt
+V}{$\,$TerminalName1$\,$TerminalName2}{\tt (}{\it DeviceName}{\tt
+)}
+output specifications.\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline {\tt B} & GaAs MESFET\ \ \ Terminals:\newline
+\hspace*{1in}D --- drain\newline \hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+\hline {\tt J} & JFET\ \ \ Terminals:\newline \hspace*{1in}D ---
+drain\newline \hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+\hline {\tt M} & MOSFET\ \ \ Terminals:\newline \hspace*{1in}B ---
+bulk or substrate\newline \hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+\hline {\tt Q} & BJT\ \ \ Terminals\newline \hspace*{1in}C ---
+collector\newline \hspace*{1in}B --- base\newline \hspace*{1in}E
+--- emitter\newline
+\hspace*{1in}S --- source\\
+\hline
+\end{tabular}
+
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\[0.1in]
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Michael Steer & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+m.b.steer@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+
+\clearpage
+\section{Structure of a fREEDA Netlist}
+
+There are four types of elements used in TRANSIM: \footnote{
+element: a model of a physical component of a network.} nodes,
+edges, edge coupling groups (ECGs) and node coupling groups
+(NCGs).  Within those broad classifications there are a wide
+variety of individual element types, for example, ``mlin''
+(microstrip line), ``coax'' (coaxial cable), and ``idealj'' (ideal
+junction).  ``element'' and ``model'' are used synonomously.
+
+\subsection{Lexical Rules}
+
+A lexical rule defines an identifiable object in the input file.
+That is it defines the equivalent of words.  Words put togetehr in
+a particular order define a grammar. fREEDA recognizes many "words"
+but the important one are as follows.
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf whitespace}& a blank\\
+                &  a newline followed immediately by a + sign.\\
+                &  a tab\\
+                &  a vertical tab\\
+                &  a newpage
+\end{tabular}
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf identifier} & A character sequence beginning with an
+alphabetic character \[A-Za-z\]
+\end{tabular}
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf variables} & A variable must begin with an alphabetic
+character or a \$
+                followed by alphanumeric characters or `\_' or
+                `.'\\
+                & Example: \\
+                & \indent {\tt HEIGHT}\\
+                & \indent {\tt \$height}\\
+                & \indent {\tt height.1\_1}\\
+                & Note that {\tt HEIGHT} and {\tt height} are identical as
+                case is not preserved.
+\end{tabular}
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf strings} & Either as an identifier (a continuous sequence of
+alphanumeric characters) or enclosed within double quotes. \\
+               &The following special escaped characters are allowed in
+               strings defined within double quotes.\\
+                & {\tt " } To include a double quote in a string.\\
+                & {\tt $\backslash$n } To indicate a newline \\
+               & Examples:\\
+               & \indent {\tt gate}\\
+               & \indent {\tt "VOLTAGE WAVEFORM"}\\
+               & Note: Strings may continue across lines using the
+               continuation syntax:\\
+               & {\tt "VOLTAGE}\\
+               & {\tt + WAVEFORM"}\\
+               & or simply by continuing across a line as in\\
+               & {\tt "VOLTAGE}\\
+               & {\tt WAVEFORM"}
+\end{tabular}
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf numbers}] & ``E'' or ``e'' to indicate exponent.
+\end{tabular}
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf dotted command} & A ``.'' followed by alphabetic characters
+at the beginning of a line.
+\end{tabular}
+
+\begin{tabular}{p{1.5in}p{3in}}
+{\bf lf}& A line feed or carriage return.
+\end{tabular}
+
+\subsubsection{Capitalization}
+
+The case of identifiers and keywords is ignored in TRANSIM
+netlists. The significance of case is retained only within quoted
+strings, and in that case it is always retained. Internally
+characters are mapped to lower case.
+
+\clearpage
+\section{SPICE Elements}
+
+All regular SPICE elements have the same syntax as in standard
+SPICE but with the following additions.
+\begin{enumerate}
+\item A {\tt .model} specification is allowed for all elements.
+\item Anything that can appear in a {\tt .model} specification can be
+      included in the specification of the element.
+\item If a parameter is not specified either through an  element
+specification or a {\tt.model} specification then the default
+parameters for that model will apply to this element.
+\end{enumerate}
+
+{\tt <term\_id>} is either an integer or a string in double
+quotes, and is the name of a terminal in the network.  {\tt
+<term\_id\_list>} is a list of one or more terminal id's separated
+by white space.
+
+\section{General File Comments}
+The first line of an input file is used as the identifier string
+and is associated with various output files to identify their
+origin. It is seen strictly as a text string and no processing is
+done on it. If a particular statement won't fit on a single line,
+it may be continued by placing a ``+'' at the beginning of each
+additional line.  All comments are proceeded by an ``*'' (an
+asterisk) and there is no limit to the number of comment lines
+used in a file. A comment may begin anywhere on a line (such as
+after a statement) and any text after the asterisk is ignored by
+the parser.
+
+\section{Element Instance Syntax}
+
+Each instance of an element in TRANSIM netlist is declared in the
+same manner with each declaration existing on a separate line.
+The syntax is:
+\begin{tt}
+\begin{verbatim}
+        element:instance_id term1 term2....  model = "identifier"
+\end{verbatim}
+\end{tt}
+The terms {\em element} and {\em identifier} are the same as those
+used in the description of the {\em .model} statement and {\em
+instance\_id} is a unique string that identifies this instance of
+{\em identifier}. {\em term1}, {\em term2}, etc. are the terminal
+specifiers which maybe a string or numeric values.
+
+\section{Netlist Variables}
+
+Local variables for use inside a netlist may be set with the {\em
+.options} command using the same syntax as used to set system
+variables.  For example
+
+\begin{tt}
+\begin{verbatim}
+                      .options logic1 = 5.0
+                      .options logic0 = 0.6
+                      .options  vdiff = logic1 - logic2
+\end{verbatim}
+\end{tt}
+
+These local variables do not need to be declared before being set
+but they must be set before being used.  Local variables are
+designed so that common parameters (such as microstrip width) may
+be declared in each {\em .model} statement as a variable with the
+variables value set once at the top of the netlist.  Changing
+width requires changing one variable rather than multiple
+declarations in different {\em .model} statements. The third {\em
+.options} statement above illustrates the use of mathematical
+operations on local variables, in this case the difference between
+{\bf logic1} and {\bf logic0} is assigned to {\bf vdiff}. Various
+analyses rely on variables set in a {\em .options} statement.  The
+variables are defined in the description of the particular
+analyses.
+
+\clearpage
+\section{.couple  --- Couple Elements}
+
+{\em NOT FUNCTIONAL in current version}
+\noindent\textit{Form:}
+\newline
+{\tt .couple $\langle$ \tt{element\ instance\ name}$\rangle$ ... $\langle$
+\tt{element\ instance\ name}$\rangle$ $\langle$ \tt{terminal\
+name}$\rangle$ $\langle$ \tt{terminal\ name}$\rangle$}\\[0.2in]
+\newline
+\textit{Description:}\\
+.couple is used to identify the elements that combine to create a coupled element.\\[0.2in]
+
+This command is used to indicate which edges (or nodes) to be
+simulated as coupled lines.  The syntax is:
+\begin{tt}
+\begin{verbatim}
+                 .couple line_1 line_2 line_3....
+\end{verbatim}
+\end{tt}
+where {\em line\_1} etc. are the specific names given to each
+instance of a line (or node).  Note that the type of model used
+for coupled edges or nodes must be able to handle coupling.  In
+general, a single line or node that may also be coupled is just a
+subset of the coupled line case.  In other words, if a coupled
+line model (such as {\bf cmlin}) is specified as the line model
+and the {\em .couple} statement is not used, then the simulator
+will default to using the uncoupled model (in this case {\bf
+mlin}).  This is not a runtime option but is fixed inside the code
+modules for each model.
+
+\clearpage
+\subsection{.locate --- Identify Location of Terminals}
+
+This command is used to define the physical location or a terminal.  These cartesian
+coordinates refer to the locations of the ``logical'' terminals of
+the device.  The units are meters.  The syntax is:
+\begin{tt}
+\begin{verbatim}
+                       .locate term x y
+                       .locate term x y z
+\end{verbatim}
+\end{tt}
+where {\tt term} is one of the terminals of a device in the
+netlist and {\tt x}, {\tt y} and {\tt z} (if provided) are the
+coordinates of that terminal. Be default {\tt z}=0.
+
+\noindent\textit{Credits:}\\[0.1in]
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Michael Steer & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+m.b.steer@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+
+\clearpage
+\section{.model}
+
+\noindent
+\textit{Description:}\\
+.model is used to identify the elements that combine to create a coupled element.\\[0.2in]
+
+The syntax of the {\em .model} statement is:
+
+\begin{tt}
+\begin{verbatim}
+              .model identifier element (par1 par2 ...)
+\end{verbatim}
+\end{tt}
+\begin{itemize}
+\item({\em identifier}) is any character string name assigned by the user
+by which this particular model will be referred.
+\item({\em model\_type}) is the model name as defined in the .c file associated
+with this model and as declared in pd\_physdef.c.
+\item(par1 par2...) is the parameter list.
+\end{itemize}
+
+The {\em .model} statement must be used before it is referred to in the netlist.  All fREEDA elements can utilize a {\em .model} statement.
+
+\clearpage
+\section{.options}
+
+\noindent
+\textit{Description:}\\
+.options is used to identify the elements that combine to create a coupled element.\\[0.2in]
+
+This command allows various runtime options and user defined
+netlist variables to be set prior to execution.  The various
+system options will be discussed later in this appendix but the
+general syntax is:
+\begin{tt}
+\begin{verbatim}
+                .options variable = value
+                .options variable = "string"
+\end{verbatim}
+\end{tt}
+
+The first case is used for assigning a numeric value to a variable
+and the second is used to assign a string.  Note that double quote
+marks (``...'') must be used to surround the string.  Not
+typecasting of numeric variables is performed in the .options
+command and thus no distinction is made between floating point and
+integer values. Therefore 2 is the same as 2.00 until the value is
+actually used in the simulator.  Exponential notation is denoted
+by the ``e'' operator (i.e. 0.001 = 1.0e-3). Note that string
+variables may contain any symbols but must be continuous with no
+white space between characters (i.e. ``V\_high'' not ``V high'').
+
+\clearpage
+\section{.out}
+\noindent\textit{Form:}\\
+{\tt .out write ( [[$<${\it qualifier}$>$] $<${\it value}$>$*]
+$<${\it operator}$>$ )*
+      in $<${\it filename}$>$} \\
+This write what is left on the stack into the file {\it filename}
+or \\
+{\tt .out system ( [[<{\it qualifier}$>$] <{\it value}$>$*] [<{\it
+operator}$>$] )* } This performs a system call of the string
+equivalent of whatever is left on
+the stack.  \\
+\newline
+{\tt .out $\langle$ \tt{terminal\ name}$\rangle$ $\langle$
+\tt{terminal\ name}$\rangle$ $\langle$ \tt{terminal\
+name}$\rangle$ $\langle$ \tt{terminal\ name}$\rangle$}\\[0.2in]
+\newline
+\textit{Description:}\\
+.out is used to identify the elements that combine to create a coupled element.\\[0.2in]
+
+The {\em .out} command is used to process and output data
+resulting from a fREEDA run.  The {\em .out} statement uses stacks
+and has a syntax much like a reverse polish notation calculator.
+It is a powerful output engine and can be utilized in its own
+right or in conjunction with the more usual {\em .print} and {\em
+.plot} statements although these provide much less functionality.
+A variety of signal processing functions including arithmetic
+operators may be used to manipulate the data prior to writing it
+to a file, plotting to the screen or piping it to a system call.
+
+fREEDA has an interpretive output language which uses a reverse
+polish syntax. The operators operate on a stack and as an
+operation is performed zero or more arguments are consumed by an
+operator.
+
+Details of the various options will be shown at the end of this
+section but for most situations and netlists, the voltages and
+currents at the various external ports are to be written to output
+files in standard ASCII format. An example is shown below:
+
+\begin{tt}
+\begin{verbatim}
+                 .out write term 1 vt in "1v.out"
+                 .out write term 2 it in "2i.out"
+\end{verbatim}
+\end{tt}
+
+In the first example, the voltage at terminal 1 is written out to
+file ``1v.out''.  The second example writes the current going {\em
+into} terminal 2 to the file ``2i.out''.
+
+\clearpage
+\subsection{Qualifiers}
+
+\begin{tabular}{ll}
+{\bf type} & {\bf description} \\
+\\
+\multicolumn{2}{l}{\sl qualifiers  (network types)} \\
+\\
+{\it term} & terminal reference\\
+{\it junct} & junction (node) reference (NOT CURRENTLY AVAILABLE) \\
+{\it line} & line (edge) reference (NOT CURRENTLY AVAILABLE)
+\end{tabular}
+
+\subsection{Nomenclature}
+
+The following nomenclature is used in describing the output
+operators.
+
+%\begin{tabular}{ll}
+\begin{longtable}{ll}
+{\bf type} & {\bf description} \\
+\multicolumn{2}{l}{\sl scalar numeric types} \\
+\\
+{\it i} & integer \\
+{\it f} & floating-point \\
+{\it r} & real (integer or floating-point) \\
+{\it c} & complex \\
+{\it s} & scalar (integer, floating-point or complex) \\
+\\
+\multicolumn{2}{l}{\sl scalar and mixed numeric types} \\
+\\
+{\it fv} & floating-point vector \\
+{\it cv} & complex vector \\
+{\it v} & floating-point or complex vector \\
+{\it fsv} & floating-point scalar or vector \\
+{\it csv} & complex scalar or vector \\
+{\it sv} & scalar or vector (any) \\
+{\it prom} & an appropriately-promoted numeric type \\
+{\it -x} & (suffix to vector types) x data required \\
+\\
+\multicolumn{2}{l}{\sl other types} \\
+\\
+{\it any} & any type \\
+{\it string} & character string \\
+{\it var} & variable name \\
+{\it file} & data file \\
+{\it func} & function pointer
+\end{longtable}
+%\end{tabular}
+\clearpage
+\subsection{Operators}
+
+\subsection*{General Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\bf operator} & {\bf function} & {\bf argument(s)} & {\bf result} \\
+\\
+\\
+{\tt dup} & duplicate object & {\it any} & {\it same} \\
+{\tt get} & get element of vector & {\it arg:v \newline index:i} & {\it s} \\
+{\tt put} & modify element of vector & {\it arg:v \newline index:i
+\newline
+  val:s} & {\it v} \\
+{\tt stripx} & remove x data & {\it vx} & {\it v} \\
+{\tt shell} & execute shell command (UNIX ENVIRONMENT ONLY)& {\it
+string} & {\it none}
+\end{tabular}
+
+\subsection*{Network Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt v} & complex voltage vector at a terminal & {\it term} & {\it cv} \\
+{\tt i} & complex current vector at a terminal & {\it term} & {\it cv} \\
+{\tt vt} & transient voltage vector at a terminal & {\it term} & {\it fv} \\
+{\tt it} & transient current vector at a terminal & {\it term} & {\it fv} \\
+{\tt zl} & load impedance at a terminal (NOT CURRENTLY SUPPORTED)& {\it term} & {\it cv} \\
+{\tt ymelem} & element of the y-parameter matrix of a junction
+(NOT CURRENTLY SUPPORTED)&
+  {\it junct \newline row:i \newline col:i} & {\it cv} \\
+{\tt z0} & characteristic impedance of a line & {\it line}  (NOT CURRENTLY SUPPORTED)& {\it cv} \\
+{\tt gamma} & complex attenuation of a line & {\it line}  (NOT CURRENTLY SUPPORTED)& {\it cv} \\
+{\tt yp} & admittance parameter of two terminals & {\it term} (NOT
+CURRENTLY SUPPORTED)& {\it fv}
+\end{tabular}
+\newpage
+\subsection*{Arithmetic Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt add} & addition & {\it sv \newline sv} & {\it prom} \\
+{\verb:+:} & addition & {\it sv \newline sv} & {\it prom} \\
+{\tt sub} & subtraction & {\it sv \newline sv} & {\it prom} \\
+{\verb:-:} & subtraction & {\it sv \newline sv} & {\it prom} \\
+{\tt mult} & multiplication & {\it sv \newline sv} & {\it prom} \\
+{\verb:*:} & multiplication & {\it sv \newline sv} & {\it prom} \\
+{\tt div} & division & {\it sv \newline sv} & {\it prom} \\
+{\verb:/:} & division & {\it sv \newline sv} & {\it prom} \\
+{\tt real} & real part & {\it csv} & {\it fsv} \\
+{\tt imag} & imaginary part & {\it csv} & {\it fsv} \\
+{\tt mag} & magnitude & {\it csv} & {\it fsv} \\
+{\tt abs} & absolute value or magnitude & {\it sv} & {\it fsv} \\
+{\tt contphase} & continuous phase & {\it csv} & {\it fsv} \\
+{\tt prinphase} & principal value phase & {\it csv} & {\it fsv} \\
+{\tt conj} & complex conjugate & {\it csv} & {\it csv} \\
+{\tt neg} & additive inverse (negative) & {\it sv} & {\it sv} \\
+{\tt recip} & reciprocal & {\it sv} & {\it sv}
+\end{tabular}
+\newpage
+\subsection*{Mathematical Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt db} & dB ($20 \log_{10}$) & {\it sv} & {\it fsv} \\
+{\tt db10} & dB applied to power ($10 \log_{10}$) & {\it sv}
+  & {\it fsv} \\
+{\tt rad2deg} & convert radians to degrees & {\it fsv} & {\it fsv} \\
+{\tt deg2rad} & convert degrees to radians & {\it fsv} & {\it fsv} \\
+{\tt minlmt} & limit the minimum value & {\it arg:fsv \newline min:f} &           {\it fsv} \\
+{\tt maxlmt} & limit the maximum value & {\it arg:fsv \newline
+max:f} &
+  {\it fsv} \\
+{\tt diff} & differences & {\it fsv} & {\it fsv} \\
+{\tt deriv} & derivative & {\it fsv} & {\it fsv} \\
+{\tt sum} & sums & {\it fsv} & {\it fsv} \\
+{\tt integ} & integral & {\it fsv} & {\it fsv}
+\end{tabular}
+
+\newpage
+\subsection*{Signal Processing Operators}
+
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt smpltime} & current analysis timebase as x {\em and} y of
+result &
+  {\it none} & {\it fv} \\
+{\tt sweepfrq} & current analysis sweep frequencies as x {\em and}
+  y of result & {\it none} & {\it fv} \\
+{\tt smplcvt} & interpolate {\em signal1} over timebase of {\em
+signal2} &
+  {\it signal1:v \newline signal2:vx} & {\it vx} \\
+{\tt sweepcvt} & interpolate {\em frq1} over sweep frequencies of
+{\em frq2} &
+  {\it frq1:v \newline frq2:vx} & {\it vx} \\
+{\tt maketime} & create timebase starting at $t=0$ in x {\em and}
+y of result &
+  {\it tmax:r \newline pts:i} & {\it vx} \\
+{\tt makesweep} & create sweep frequencies starting at $f=0$ in x
+  {\em and} y of result & {\it fmax:r \newline pts:i} & {\it vx} \\
+{\tt fft} & FFT (argument should have $2^{k}$ points) &
+  {\it timedata:fv} & {\it cv} \\
+{\tt invfft} & inverse FFT (argument should have $2^{k}-1$ points)
+&
+  {\it frqdata:cv} & {\it fv} \\
+{\tt cconv} & real circular (FFT) convolution with zero padding &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt upcconv} & unpadded real circular (FFT) convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt sconv} & slow (time-domain) real convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt fconv} & fast (approximate) real convolution &
+  {\it signal1:fv \newline signal2:fv} & {\it fv} \\
+{\tt lpbwfrq} & lowpass Butterworth filter frequency response &
+  {\it frqvec:vx \newline corner:f \newline order:i} & {\it cvx}
+\end{tabular}
+
+\newpage
+\subsection*{Other Operators}
+
+\bigskip
+\begin{tabular}{p{.8in}p{2.5in}p{1.0in}p{.75in}}
+{\tt catalog} & produce catalog of elements &
+  {\it none} & {\it func}
+\end{tabular}
+
+\noindent Example
+
+\begin{verbatim}
+.out write catalog in "list.txt"
+\end{verbatim}
+Writes the catalog of the elements in the current fREEDA build and
+puts the catalog in the file `list.txt'.
+
+\clearpage
+\section{.tran}
+
+Similar to SPICE's {\em .tran} card with syntax:
+\begin{tt}
+\begin{verbatim}
+                 .tran start stop delta
+\end{verbatim}
+\end{tt}
+where {\tt start} is the starting transient analysis time, {\tt
+stop} is the ending time and {\tt delta} is the time increment. If
+{\tt delta} is zero, the finest time increment is used (determined
+by the highest frequency, {\tt sfrq} and the number of frequency
+points {\tt spts}).
+
+\section{.tran2}
+
+Under construction
+
+\section{.tran4}
+
+Under construction
+
+\clearpage
+\section{.tran basel}
+
+NO LONGER SUPPORTED
+
+But it will be.  The analysis was used in an earlier version and performs convolution-based analysis.
+
+This section defines the options used in Mark Basel's particular
+form of transient analysis.  This analysis is not publicly
+available.  The variables set in in a {\em .options} statement for
+this analysis are shown in Table \ref{tran_basel_runtimeops.tab}
+
+\begin{table}
+\caption{fREEDA runtime options}
+\label{tran_basel_runtimeops.tab}
+\centerline{\begin{tabular}{|c|c|c|} \hline \hline
+Variable Name & Definition & Use \\
+\hline
+iterationdump & Debugging dump for  & ON or OFF \\
+              & each iteration of   & \\
+              & transient analysis  & \\
+\hline
+dump  & Debugging dump of & ON or OFF \\
+      & various variables & \\
+\hline
+dumpnet  & Debugging dump of network & ON or OFF \\
+         & as interpreted by TRANSIM & \\
+\hline
+dcNormal & Switch for using & ON or OFF \\
+         & threshold error & \\
+         & correction      & \\
+\hline
+spts & number of frequency & int: power of 2 \\
+     & points used in y(f) & \\
+\hline
+$Z_m$ & Matching network impedance & float, ohms \\
+type  & form of analysis & ``transient'' \\
+      &                  & ``hb'' \\
+\hline
+sfrq & Maximum frequency & float: hz \\
+\hline
+LPFOrder & low pass filter order & int: 1,2 or 3 \\
+\hline
+impulselength & fraction of impulse & float: 0-1 \\
+              & response to use in  & \\
+              & transient analysis  & \\
+\hline
+impulsescale & scale factor for & float: any \\
+             & impulse responses & \\
+\hline
+ytthresthru & relative threshold level  & float: 0-1\\
+            & for thru and self impulse & \\
+            & response terms            & \\
+\hline
+ytthrescross & relative threshold level  & float: 0-1\\
+             & for cross impulse         & \\
+             & response terms            & \\
+\hline
+tolerance & stopping difference & float: any\\
+          & for successive values & \\
+          & in Newton iteration   & \\
+\hline
+maxNoOfIterates & Maximum number of & int: any \\
+                & Newton iteration  & \\
+                & steps per analysis point & \\
+\hline
+LPFCornerFrequency & corner frequency when & float: hz\\
+                   & using LP filter & \\
+\hline
+\end{tabular}
+}
+\end{table}

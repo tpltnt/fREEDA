@@ -1,0 +1,113 @@
+\element{O}{Digital Output Interface}
+
+\begin{figure}[h]
+\centering
+\ \pfig{o_spice.ps}
+\caption{O --- Digital output interface element.}
+\end{figure}
+
+\form{{\tt O}name InterfaceNode ReferenceNode ModelName
+  \B{\tt SIGNAME = } DigitalSignalName \E}
+
+\begin{widelist}
+\item[{\it InterfaceNode}]
+     Identifier of node interfacing between digital signal and
+     continuous time circuit.
+\item[{\it ReferenceNode}]
+     Identifier of reference node. Normally this is ground
+\item[{\it ModelName}]
+     Name of the model specifying transistions times and resistances and
+     capacitances of each logic state.
+\item[{\tt SIGNAME}]
+     Keyword for digital signal name. (optional)
+\item[{\it DigitalSignalName}]
+     Digital signal name.
+\end{widelist}
+
+\example{
+    O100 1 0 INTERFACE\_TO\_MEMORY SIGNAME=MEM1 \\
+    OADD1 1 0 2 ADD1
+    }
+
+\modeltype{DOUTPUT}
+
+The digital output interface is modeled by time variable resistances between
+the {\it Interface Node} and the {\it Low Level Node} and between the
+the {\it Interface Node} and the {\it High Level Node}.
+The variable resistances are shunted by fixed capacitances.
+The parameters are controlled by parameters specified in the model.
+The resistance varies exponentially from the old state to the new state over
+the time period indicated for the new state.
+This approximates the output of a digital gate.
+
+
+\model{DOUTPUT}{Digital Output Interface Model}
+
+\keyword{
+{\tt FILE}  & digital output filename.
+          If more than one model refers to the same file then the
+                  filenames specified must be identical and not logicly
+                  equivalent.  This ensures that the file is opened
+                  only once.
+        & - & \reqd \X
+{\tt FORMAT}    & digital output file format    & - & 1 \X
+{\tt TIMESTEP}& digital output file time step   & s & 1NS   \X
+{\tt TIMESCALE}& digital output file time scale & s & 1     \X
+{\tt CHGONLY}   & Output type flag: \newline
+                  = 0 $\rightarrow$ output at each {\tt TIMESTEP} \newline
+                  = 1 $\rightarrow$ output only on state change
+        & - & 0 \X
+{\tt CLOAD} & capacitance           & F & 0 \X
+{\tt RLOAD} & resistance                    & $\Omega$& 1000\X
+{\tt S{\it n}NAME}  & state ``n'' character abreviation\newline
+      {\it n} = 0, 2, ..., or 19
+    & - & \reqd \X
+{\tt S{\it n}VLO}   & state ``n'' low level voltage\newline
+      {\it n} = 0, 2, ..., or 19
+    & s & \reqd \X
+{\tt S{\it n}VHI}   & state ``n'' high level voltage\newline
+      {\it n} = 0, 2, ..., or 19
+    & s & \reqd \X
+}
+
+The digital output interface is modeled by a resistance {\it RLoad}
+and capacitance {\it CLoad} between
+the {\it InterfaceNode} and the {\it Reference Node }.
+The values of {\it Rload} and {\it CLoad} are specified in the model
+{\it ModelName}.
+
+A state transistion from state $n$ ($n$ = one of 0, 1, 2, ... 19) is indicated
+if the interface voltage
+$V_{\mbox{\it InterfaceNode}}$ $-$ $V_{\mbox{\it ReferenceNode}}$
+between the {\it InterfaceNode} and the
+{\it ReferenceNode} node is outside the range
+{\tt S{\it n}VHI} $-$ {\tt S{\it n}VLO}.
+If there is a state transistion then the valid voltage range of each state
+$k$ is considered in order from state k =  0 to state 19 to determine
+which voltage range
+{\tt S{\it k}VHI} $-$ {\tt S{\it k}VLO} brackets the current interface
+voltage
+$V_{\mbox{\it InterfaceNode}}$ $-$ $V_{\mbox{\it ReferenceNode}}$.
+The first valid state becomes the new state.  If there is no valid state
+then the new state is indeterminate and designated by ``{\tt ?}''.
+At each {\tt TIME} being a multiple integer of {\tt TIMESTEP}
+a line is written to the
+digital output file {\it OutputFileName}.
+If the new state at the time $t_i$ = $i \cdot {\tt TIMESTEP}$ is $n$ then
+the $i$~th line is:
+\begin{equation*}
+{{\textrm int}(i \cdot {\tt TIMESCALE})  n}
+\end{equation*}
+where int() is the integer operation.
+An example of the first few lines of {\it OutputFileName} with a
+{\tt TIMESTEP} of 1~ns and {\tt TIMESCALE} of 2 is:
+\boxed{0.0 1\\
+       2 0\\
+       4 2\\
+       6 3\\
+       8 ?\\
+      10 1\\
+      12 0\\
+      14 1
+      }
+\rm

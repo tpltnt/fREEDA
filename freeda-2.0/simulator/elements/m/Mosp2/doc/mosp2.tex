@@ -1,0 +1,143 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{P Channel MOSFET level 2 model}
+\hspace{\fill} \textbf{mosp2}}
+\hrulefill\linethickness{0.5mm}\line(1,0){425} \normalsize
+\newline
+%\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=4in\epsfbox{m.ps}} \caption{P Channel MOSFET
+Level 2 model}
+\end{figure}
+% form for \FDA
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Form:}
+\newline
+$\tt mosp2$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ n_3\
+n_4\ $ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the drain node, \\
+$n_2$ & is the gate node, \\
+$n_3$ & is the source node, \\
+$n_4$ & is the bulk node. \\
+\end{tabular}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|l|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+vt0: Zero bias threshold voltage (V)& DOUBLE & 0 & no\\
+\hline
+kp: Transconductance parameter ($\textrm{A}/\textrm{V}^2$) & DOUBLE & $2\times10^{-5}$ & no\\
+\hline
+gamma: Bulk threshold parameter ($\textrm{V}^{0.5}$) & DOUBLE & 0 & no\\
+\hline
+phi: Surface inversion potential (V) & DOUBLE & 0.6 & no\\
+\hline
+lambda: Channel-length modulation ($\textrm{1/V}$) & DOUBLE & 0 & no\\
+\hline
+rd: Drain ohmic resistance ($\Omega$) & DOUBLE & 0 & no\\
+\hline
+rs: Source ohmic resistance ($\Omega$) & DOUBLE & 0 & no\\
+\hline
+is: Bulk junction saturation current (A) & DOUBLE & $1\times10^{-14}$ & no\\
+\hline
+pb: Bulk junction potential (V) & DOUBLE & 0.8 & no\\
+\hline
+js: Bulk junction saturation current density (A) & DOUBLE &
+0 & no\\
+\hline
+tox: Oxide thickness (m)& DOUBLE & $1\times10^{-7}$ & no\\
+\hline
+ld: Lateral diffusion length (m) & DOUBLE & 0 & no\\
+\hline
+u0: Surface mobility ($\textrm{cm}^2/\textrm{V-s}$)& DOUBLE & 600 & no\\
+\hline
+fc: Forward bias junction fit parameter & DOUBLE &  0.5 & no\\
+\hline
+nsub: Substrate doping ($\textrm{cm}^{-3}$) & DOUBLE & $1\times10^{15}$ & no\\
+\hline
+tpg: Gate material type & DOUBLE & 1 & no\\
+\hline
+nss: Surface state density ($\textrm{cm}^{-2}$) & DOUBLE & 0 & no\\
+\hline
+delta: Width effect on threshold & DOUBLE & 0 & no\\
+\hline
+uexp: Crit. field exp for mob. deg. & DOUBLE & 0 & no\\
+\hline
+ucrit: Crit. field for mob. degradation & DOUBLE &
+$1\times10^{4}$ & no\\
+\hline
+vmax: Maximum carrier drift velocity & DOUBLE & 0 & no\\
+\hline
+xj: Junction depth & DOUBLE & 0 & no\\
+\hline
+neff: Total channel charge coeff. & DOUBLE & 1 & no\\
+\hline
+nfs: Fast surface state density & DOUBLE & 0 & no\\
+\hline
+tnom: Nominal temperature (C)& DOUBLE & 27 & no\\
+\hline
+kf: Flicker noise coefficient & DOUBLE & 0 & no\\
+\hline
+af: Flicker noise exponent & DOUBLE & 1 & no\\
+\hline
+t: Device temperature (C)& DOUBLE & 27 & no\\
+\hline
+l: Device length (m)& DOUBLE & $2\times10^{-6}$ & no\\
+\hline
+w: Device width (m)& DOUBLE & $50\times10^{-6}$ & no\\
+\hline
+alpha: Impact ionization current coefficient & DOUBLE & 0 & no\\
+\hline
+
+\end{tabular}
+\end{table}
+
+% example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{mosp2:p1\ 2\ 3\ 0\ 0\ l=1.2u w=20u}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+\FDA  has the NMOS level 2 model based on the MOS level ,
+Grove-Frohman model in SPICE. The model uses the charge
+conservative Yang-Chatterjee model for modeling charge and capacitance. \\
+%%%%%%%%%%%%% Equations follow below
+
+
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\noindent\textit{Notes:}\\
+This is the \texttt{M} element in the SPICE compatible netlist.
+The unmodified Yang-Chatterjee charge model has a charge partition
+scheme in the saturation region that sets the drain charge to
+zero.  This results in
+a loss of the high-frequency current roll-off at the drain node in saturation. \\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2002.08.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Aaron Walker & NC State University & August 2002 & \epsfxsize=1in\epsfbox{logo.eps} \\
+ & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

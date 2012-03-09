@@ -1,0 +1,532 @@
+\indexentry{constitutive relations}{33}
+\indexentry{state equations}{33}
+\indexentry{ac Analysis}{33}
+\indexentry{small signal analysis}{33}
+\indexentry{analysis, AC}{33}
+\indexentry{analysis, small signal}{33}
+\indexentry{indefinite nodal admittance matrix}{34}
+\indexentry{netlist}{37}
+\indexentry{model}{37}
+\indexentry{subcircuits}{37}
+\indexentry{title}{37}
+\indexentry{.end}{37}
+\indexentry{Delimiter}{43}
+\indexentry{White Space}{43}
+\indexentry{line continuation}{43}
+\indexentry{continuation line}{43}
+\indexentry{Expression}{44}
+\indexentry{Prefix}{44}
+\indexentry{Units}{44}
+\indexentry{polynomial}{47}
+\indexentry{POLY}{47}
+\indexentry{laplace expressions}{49}
+\indexentry{chebyschev expressions}{49}
+\indexentry{function}{49}
+\indexentry{.FUNC}{49}
+\indexentry{FUNC}{49}
+\indexentry{Differences between versions, see Versions}{50}
+\indexentry{Versions, Syntax}{50}
+\indexentry{.AC}{53}
+\indexentry{AC Analysis}{53}
+\indexentry{COMMENT}{54}
+\indexentry{Comment Card}{54}
+\indexentry{.DC}{55}
+\indexentry{DC Analysis}{55}
+\indexentry{.DISTO}{58}
+\indexentry{Small-Signal Distortion Analysis}{58}
+\indexentry{.DISTRIBUTION}{61}
+\indexentry{Distribution Specification}{61}
+\indexentry{.END}{62}
+\indexentry{End Statement}{62}
+\indexentry{.ENDS}{63}
+\indexentry{End Subcircuit Statement}{63}
+\indexentry{.FOUR}{64}
+\indexentry{Fourier Analysis}{64}
+\indexentry{.FUNC}{65}
+\indexentry{Function Definition}{65}
+\indexentry{.IC}{66}
+\indexentry{Initial Conditions}{66}
+\indexentry{.INC}{67}
+\indexentry{Include Statement}{67}
+\indexentry{.LIB}{68}
+\indexentry{Library Statement}{68}
+\indexentry{.MC}{69}
+\indexentry{Monte Carlo Analysis}{69}
+\indexentry{.MODEL}{72}
+\indexentry{Model Statement}{72}
+\indexentry{.NODESET}{76}
+\indexentry{Node Voltage Initialization}{76}
+\indexentry{.NOISE}{77}
+\indexentry{Small-Signal Noise Analysis}{77}
+\indexentry{.OP}{82}
+\indexentry{Operating Point Analysis}{82}
+\indexentry{.OPTIONS}{83}
+\indexentry{Option Specification}{83}
+\indexentry{option, see {\tt .OPTIONS}}{83}
+\indexentry{.OPTIONS, ACCT}{83}
+\indexentry{ACCT}{83}
+\indexentry{.OPTIONS, ABSTOL}{83}
+\indexentry{ABSTOL}{83}
+\indexentry{.OPTIONS, BYPASS}{83}
+\indexentry{BYPASS}{83}
+\indexentry{.OPTIONS, CHGTOL}{83}
+\indexentry{CHGTOL}{83}
+\indexentry{.OPTIONS, CPTIME}{83}
+\indexentry{CPTIME}{83}
+\indexentry{.OPTIONS, DEFAD}{83}
+\indexentry{DEFAD}{83}
+\indexentry{.OPTIONS, DEFAS}{83}
+\indexentry{DEFAS}{83}
+\indexentry{.OPTIONS, DEFL}{83}
+\indexentry{DEFL}{83}
+\indexentry{.OPTIONS, DEFW}{83}
+\indexentry{DEFW}{83}
+\indexentry{.OPTIONS, EXPAND}{83}
+\indexentry{EXPAND}{83}
+\indexentry{.OPTIONS, GMIN}{83}
+\indexentry{GMIN}{83}
+\indexentry{.OPTIONS, ITL1}{83}
+\indexentry{ITL1}{83}
+\indexentry{.OPTIONS, ITL2}{84}
+\indexentry{ITL2}{84}
+\indexentry{.OPTIONS, ITL3}{84}
+\indexentry{ITL3}{84}
+\indexentry{.OPTIONS, ITL4}{84}
+\indexentry{ITL4}{84}
+\indexentry{.OPTIONS, ITL5}{84}
+\indexentry{ITL5}{84}
+\indexentry{.OPTIONS, LIBRARY}{84}
+\indexentry{LIBRARY}{84}
+\indexentry{.OPTIONS, LIMPTS}{84}
+\indexentry{LIMPTS}{84}
+\indexentry{.OPTIONS, LIMTIM}{84}
+\indexentry{LIMTIM}{84}
+\indexentry{.OPTIONS, LIST}{84}
+\indexentry{LIST}{84}
+\indexentry{.OPTIONS, LVLCOD}{84}
+\indexentry{LVLCOD}{84}
+\indexentry{.OPTIONS, LVLTIM}{84}
+\indexentry{LVLTIM}{84}
+\indexentry{.OPTIONS, MAXORD}{84}
+\indexentry{MAXORD}{84}
+\indexentry{.OPTIONS, METHOD}{84}
+\indexentry{METHOD}{84}
+\indexentry{.OPTIONS, NODE}{85}
+\indexentry{NODE}{85}
+\indexentry{.OPTIONS, NOECHO}{85}
+\indexentry{NOECHO}{85}
+\indexentry{.OPTIONS, [}{85}
+\indexentry{[}{85}
+\indexentry{.OPTIONS, NOMOD}{85}
+\indexentry{NOMOD}{85}
+\indexentry{.OPTIONS, NOPAGE}{85}
+\indexentry{NOPAGE}{85}
+\indexentry{.OPTIONS, NUMDGT}{85}
+\indexentry{NUMDGT}{85}
+\indexentry{.OPTIONS, OPTS}{85}
+\indexentry{OPTS}{85}
+\indexentry{.OPTIONS, PIVREL}{85}
+\indexentry{PIVREL}{85}
+\indexentry{.OPTIONS, PIVTOL}{85}
+\indexentry{PIVTOL}{85}
+\indexentry{.OPTIONS, RELTOL}{85}
+\indexentry{RELTOL}{85}
+\indexentry{.OPTIONS, TNOM}{85}
+\indexentry{TNOM}{85}
+\indexentry{.OPTIONS, TRTOL}{85}
+\indexentry{TRTOL}{85}
+\indexentry{.OPTIONS, VNTOL}{85}
+\indexentry{VNTOL}{85}
+\indexentry{.PARAM}{86}
+\indexentry{{\sc  PSpice}\ Only}{86}
+\indexentry{.PLOT}{88}
+\indexentry{Plot Specification}{88}
+\indexentry{.PRINT}{92}
+\indexentry{Print Specification}{92}
+\indexentry{.PROBE}{98}
+\indexentry{Data Output Specification}{98}
+\indexentry{.PZ}{99}
+\indexentry{Pole-Zero Analysis}{99}
+\indexentry{.SAVEBIAS}{100}
+\indexentry{Save Bias Conditions}{100}
+\indexentry{.SENS}{101}
+\indexentry{Sensitivity Analysis}{101}
+\indexentry{.STEP}{102}
+\indexentry{Parameteric Analysis}{102}
+\indexentry{.SUBCKT}{103}
+\indexentry{Subcircuit Statement}{103}
+\indexentry{.TEMP}{105}
+\indexentry{Temperature Specification}{105}
+\indexentry{.TEXT}{106}
+\indexentry{Text Parameter Definition}{106}
+\indexentry{.TF}{107}
+\indexentry{Transfer Function Specification}{107}
+\indexentry{TITLE}{108}
+\indexentry{Title Line}{108}
+\indexentry{.TRAN}{109}
+\indexentry{Transient Analysis}{109}
+\indexentry{.WATCH}{111}
+\indexentry{Watch Analysis Statement}{111}
+\indexentry{.WCASE}{112}
+\indexentry{Sensitivity and Worst Case Analysis}{112}
+\indexentry{.WIDTH}{114}
+\indexentry{Width Specification}{114}
+\indexentry{A}{117}
+\indexentry{Convolution}{117}
+\indexentry{CONV}{117}
+\indexentry{Convolution Model}{117}
+\indexentry{B}{118}
+\indexentry{GaAs MESFET}{118}
+\indexentry{GASFET}{118}
+\indexentry{}{118}
+\indexentry{Curtice Quadratic Model, see GASFET, LEVEL 1}{118}
+\indexentry{GASFET, LEVEL 1 (Curtice Quadratic) Model}{118}
+\indexentry{Statz Model, see GASFET, LEVEL 2}{118}
+\indexentry{GASFET, LEVEL 2 (Raytheon or Statz) Model}{118}
+\indexentry{Raytheon Model, see GASFET, LEVEL 2}{118}
+\indexentry{TOM Model, see GASFET, LEVEL 3}{118}
+\indexentry{GASFET, LEVEL 3 (TOM) Model}{118}
+\indexentry{Triquint Model, see GASFET, LEVEL 3}{118}
+\indexentry{Curtice-Ettenberg Cubic Model, see GASFET, LEVEL 4}{118}
+\indexentry{GASFET, LEVEL 4 (Curtice Cubic) Model}{118}
+\indexentry{Materka-Kacprzak Model, see GASFET, LEVEL 5}{118}
+\indexentry{GASFET, LEVEL 5 (Materka-Kacprzak) Model}{118}
+\indexentry{Angelov Model, see GASFET, LEVEL 6}{118}
+\indexentry{GASFET, LEVEL 6 (Angelov) Model}{118}
+\indexentry{TOM2 Model, see GASFET, LEVEL -1}{118}
+\indexentry{GASFET, LEVEL -1 (TOM2) Model}{118}
+\indexentry{GASFET, Temperature Dependence}{125}
+\indexentry{Temperature Dependence, see GASFET}{125}
+\indexentry{Parasitic Resistances, see GASFET, \pspice}{126}
+\indexentry{GASFET, \pspice\ Parasitic Resistance}{126}
+\indexentry{GASFET, \pspice\ $R_S$}{126}
+\indexentry{GASFET, \pspice\ $R_G$}{126}
+\indexentry{GASFET, \pspice\ $R_D$}{126}
+\indexentry{MESFET, see GASFET (\pspice)}{126}
+\indexentry{Leakage Currents, see GASFET}{126}
+\indexentry{GASFET, I/V Characteristics, Leakage Currents}{126}
+\indexentry{GASFET, Leakage Currents}{126}
+\indexentry{GASFET, LEVEL 1 (Curtice) Model, I/V}{127}
+\indexentry{GASFET, LEVEL 1 (Curtice) Model, I/V}{127}
+\indexentry{I/V Characteristics, see GASFET}{127}
+\indexentry{GASFET, I/V Characteristics}{127}
+\indexentry{I-V characteristics, see GASFET}{127}
+\indexentry{GASFET, LEVEL 2 (Raytheon) Model, I/V}{128}
+\indexentry{GASFET, LEVEL 2 (Raytheon) Model, I/V}{128}
+\indexentry{I/V Characteristics, see GASFET}{128}
+\indexentry{GASFET, I/V Characteristics}{128}
+\indexentry{I-V characteristics, see GASFET}{128}
+\indexentry{GASFET, LEVEL 3 (Triquint) Model, I/V}{131}
+\indexentry{GASFET, LEVEL 3 (TOM) Model, I/V}{131}
+\indexentry{I/V Characteristics, see GASFET}{131}
+\indexentry{GASFET, I/V Characteristics}{131}
+\indexentry{I-V characteristics, see GASFET}{131}
+\indexentry{GASFET, LEVEL -1 (TOM-2) Model, I/V}{133}
+\indexentry{I/V Characteristics, see GASFET}{133}
+\indexentry{GASFET, I/V Characteristics}{133}
+\indexentry{I-V characteristics, see GASFET}{133}
+\indexentry{GASFET, LEVEL -1 (Triquint) Model, I/V}{134}
+\indexentry{GASFET, LEVEL -1 (TOM) Model, I/V}{134}
+\indexentry{I/V Characteristics, see GASFET}{134}
+\indexentry{GASFET, I/V Characteristics}{134}
+\indexentry{I-V characteristics, see GASFET}{134}
+\indexentry{GASFET, LEVEL -1 (TOM-2) Model, I/V}{136}
+\indexentry{I/V Characteristics, see GASFET}{136}
+\indexentry{GASFET, I/V Characteristics}{136}
+\indexentry{I-V characteristics, see GASFET}{136}
+\indexentry{GASFET, LEVEL 4 (Curtice) Model, I/V}{137}
+\indexentry{GASFET, LEVEL 4 (Curtice) Model, I/V}{137}
+\indexentry{I/V Characteristics, see GASFET}{137}
+\indexentry{GASFET, I/V Characteristics}{137}
+\indexentry{I-V characteristics, see GASFET}{137}
+\indexentry{GASFET, Temperature Dependence}{140}
+\indexentry{Temperature Dependence, see GASFET}{140}
+\indexentry{Parasitic Resistances, see GASFET, \pspice}{141}
+\indexentry{GASFET, \pspice\ Parasitic Resistance}{141}
+\indexentry{GASFET, \pspice\ $R_S$}{141}
+\indexentry{GASFET, \pspice\ $R_G$}{141}
+\indexentry{GASFET, \pspice\ $R_D$}{141}
+\indexentry{MESFET, see GASFET (\pspice)}{141}
+\indexentry{GASFET, LEVEL 5 (Materka-Kacprzak) Model, I/V}{142}
+\indexentry{GASFET, LEVEL 5 (Materka-Kacprza) Model, I/V}{142}
+\indexentry{I/V Characteristics, see GASFET}{142}
+\indexentry{GASFET, I/V Characteristics}{142}
+\indexentry{I-V characteristics, see GASFET}{142}
+\indexentry{GASFET, Temperature Dependence}{144}
+\indexentry{Temperature Dependence, see GASFET}{144}
+\indexentry{Parasitic Resistances, see GASFET, \pspice}{145}
+\indexentry{GASFET, \pspice\ Parasitic Resistance}{145}
+\indexentry{GASFET, \pspice\ $R_S$}{145}
+\indexentry{GASFET, \pspice\ $R_G$}{145}
+\indexentry{GASFET, \pspice\ $R_D$}{145}
+\indexentry{MESFET, see GASFET (\pspice)}{145}
+\indexentry{GASFET, LEVEL 6 (Angelov) Model, I/V}{146}
+\indexentry{GASFET, LEVEL 6 (Angelov) Model, I/V}{146}
+\indexentry{I/V Characteristics, see GASFET}{146}
+\indexentry{GASFET, I/V Characteristics}{146}
+\indexentry{I-V characteristics, see GASFET}{146}
+\indexentry{GASFET, AC Analysis}{147}
+\indexentry{GASFET, Noise Model}{147}
+\indexentry{GASFET, Noise Analysis}{147}
+\indexentry{C}{149}
+\indexentry{Capacitor}{149}
+\indexentry{CAP}{150}
+\indexentry{{\sc  Spice3}\ Only}{150}
+\indexentry{CAP}{150}
+\indexentry{{\sc  PSpice}\ Only}{150}
+\indexentry{D}{152}
+\indexentry{Diode}{152}
+\indexentry{DIODE}{152}
+\indexentry{Diode Model}{152}
+\indexentry{DIODE, Temperature Dependence}{153}
+\indexentry{Temperature Dependence, see DIODE}{153}
+\indexentry{DIODE, Parasitic Resistance}{153}
+\indexentry{Parasitic Resistance, see DIODE}{153}
+\indexentry{DIODE, $R_S$}{153}
+\indexentry{DIODE, Current Characteristic}{153}
+\indexentry{DIODE, AC Analysis}{155}
+\indexentry{DIODE, Noise Model}{155}
+\indexentry{DIODE, Noise Analysis}{155}
+\indexentry{E}{156}
+\indexentry{Voltage-Controlled Voltage Source}{156}
+\indexentry{F}{160}
+\indexentry{Current-Controlled Current Source}{160}
+\indexentry{G}{162}
+\indexentry{Voltage-Controlled Current Source}{162}
+\indexentry{H}{166}
+\indexentry{Current-Controlled Voltage Source}{166}
+\indexentry{I}{168}
+\indexentry{Independent Current Source}{168}
+\indexentry{J}{175}
+\indexentry{Junction Field-Effect Transistor}{175}
+\indexentry{NJF}{175}
+\indexentry{N-Channel JFET Model}{175}
+\indexentry{PJF}{176}
+\indexentry{P-Channel JFET Model}{176}
+\indexentry{JFET, Temperature Dependence}{176}
+\indexentry{Temperature Dependence, see JFET}{176}
+\indexentry{Parasitic Resistances, see JFET}{177}
+\indexentry{JFET, \pspice\ Parasitic Resistance}{177}
+\indexentry{JFET, \pspice\ $R_S$}{177}
+\indexentry{JFET, \pspice\ $R_G$}{177}
+\indexentry{JFET, \pspice\ $R_D$}{177}
+\indexentry{Junction Field Effect Transistor, see JFET}{177}
+\indexentry{Leakage Currents, see JFET}{178}
+\indexentry{JFET, I/V Characteristics, Leakage Currents}{178}
+\indexentry{JFET, Leakage Currents}{178}
+\indexentry{JFET, AC Analysis}{179}
+\indexentry{JFET, Noise Model}{180}
+\indexentry{JFET, Noise Analysis}{180}
+\indexentry{K}{181}
+\indexentry{Mutual Inductor}{181}
+\indexentry{CORE}{183}
+\indexentry{{\sc  PSpice}\ Only}{183}
+\indexentry{CORE, AC Analysis}{186}
+\indexentry{K, AC Analysis}{186}
+\indexentry{L}{187}
+\indexentry{Inductor}{187}
+\indexentry{IND}{187}
+\indexentry{{\sc  PSpice}\ Only}{187}
+\indexentry{M}{189}
+\indexentry{MOSFET}{189}
+\indexentry{NMOS}{191}
+\indexentry{N-CHANNEL MOSFET MODEL}{191}
+\indexentry{PMOS}{191}
+\indexentry{P-CHANNEL MOSFET MODEL}{191}
+\indexentry{MOSFET, Process Oriented Model}{197}
+\indexentry{MOSFET, Temperature Dependence}{198}
+\indexentry{Temperature Dependence, see MOSFET}{198}
+\indexentry{Parasitic Resistances, see MOSFET}{199}
+\indexentry{MOSFET, Parasitic Resistance}{199}
+\indexentry{Parasitic Resistance, see MOSFET}{199}
+\indexentry{MOSFET, $R_S$}{199}
+\indexentry{MOSFET, $R_G$}{199}
+\indexentry{MOSFET, $R_D$}{199}
+\indexentry{MOSFET, $R_B$}{199}
+\indexentry{PMOS, $R_S$}{199}
+\indexentry{PMOS, $R_G$}{199}
+\indexentry{PMOS, $R_D$}{199}
+\indexentry{PMOS, $R_B$}{199}
+\indexentry{NMOS, $R_S$}{199}
+\indexentry{NMOS, $R_G$}{199}
+\indexentry{NMOS, $R_D$}{199}
+\indexentry{NMOS, $R_B$}{199}
+\indexentry{Leakage Currents, see MOSFET}{200}
+\indexentry{MOSFET, I/V Characteristics, Leakage Currents}{200}
+\indexentry{MOSFET, Leakage Currents}{200}
+\indexentry{Depletion capacitance, see MOSFET}{201}
+\indexentry{MOSFET, Depletion capacitance}{201}
+\indexentry{$C_{BS}$}{201}
+\indexentry{$C_{BD}$}{201}
+\indexentry{I/V Characteristics, see MOSFET}{202}
+\indexentry{MOSFET, I/V Characteristics}{202}
+\indexentry{NMOS, I/V Characteristics}{202}
+\indexentry{PMOS, I/V Characteristics}{202}
+\indexentry{I-V characteristics, see MOSFET}{202}
+\indexentry{Overlap Capacitance, see MOSFET}{203}
+\indexentry{MOSFET, Overlap Capacitance LEVEL 1}{203}
+\indexentry{MOSFET, $C_{GB}$}{203}
+\indexentry{MOSFET, $C_{GD}$}{203}
+\indexentry{MOSFET, $C_{GS}$}{203}
+\indexentry{I/V Characteristics, see MOSFET MOSFET}{204}
+\indexentry{MOSFET, I/V Characteristics LEVEL 2}{204}
+\indexentry{NMOS, I/V Characteristics LEVEL 2}{204}
+\indexentry{PMOS, I/V Characteristics LEVEL 2}{204}
+\indexentry{MOSFET, LEVEL 2 I/V Characteristics}{204}
+\indexentry{NMOS, LEVEL 2 I/V Characteristics}{204}
+\indexentry{PMOS, LEVEL 2 I/V Characteristics}{204}
+\indexentry{MOSFET, LEVEL 2 linear region}{207}
+\indexentry{MOSFET, LEVEL 2 weak inversion region}{207}
+\indexentry{MOSFET, LEVEL 2 saturation region}{207}
+\indexentry{Overlap Capacitances, see MOSFET}{208}
+\indexentry{MOSFET, Overlap Capacitances LEVEL 2}{208}
+\indexentry{MOSFET, Overlap Capacitances}{208}
+\indexentry{MOSFET, $C_{GS}$ $C_{GD}$ $C_{GB}$}{208}
+\indexentry{Meyer model, see MOSFET}{208}
+\indexentry{MOSFET, overlap capacitances Meyer model}{208}
+\indexentry{MOSFET, Meyer model}{208}
+\indexentry{MOSFET, Meyer model, LEVEL 2}{208}
+\indexentry{MOSFET, $C_{GS}$}{208}
+\indexentry{MOSFET, $C_{GD}$}{208}
+\indexentry{MOSFET, $C_{GB}$}{208}
+\indexentry{Ward-Dutton model, see MOSFET}{209}
+\indexentry{MOSFET, overlap capacitances Ward-Dutton Model}{209}
+\indexentry{MOSFET, Ward-Dutton model}{209}
+\indexentry{MOSFET, Ward-Dutton model, LEVEL 2}{209}
+\indexentry{MOSFET, $C_{GS}$}{209}
+\indexentry{MOSFET, $C_{GD}$}{209}
+\indexentry{MOSFET, $C_{GB}$}{209}
+\indexentry{I/V Characteristics, see MOSFET}{211}
+\indexentry{I/V Characteristics, NMOS}{211}
+\indexentry{I/V Characteristics, PMOS}{211}
+\indexentry{MOSFET, I/V Characteristics}{211}
+\indexentry{NMOS, I/V Characteristics}{211}
+\indexentry{PMOS, I/V Characteristics}{211}
+\indexentry{MOSFET, LEVEL 3 I/V Characteristics}{211}
+\indexentry{NMOS, LEVEL 3 I/V Characteristics}{211}
+\indexentry{PMOS, LEVEL 3 I/V Characteristics}{211}
+\indexentry{MOSFET, overlap capacitances LEVEL 3}{213}
+\indexentry{MOSFET, LEVEL 3, overlap capacitances LEVEL 3}{213}
+\indexentry{MOSFET, $C_{GS}$}{213}
+\indexentry{MOSFET, $C_{GD}$}{213}
+\indexentry{MOSFET, $C_{GB}$}{213}
+\indexentry{Overlap Capacitances, see MOSFET}{213}
+\indexentry{MOSFET, Overlap Capacitances LEVEL 3}{213}
+\indexentry{MOSFET, Overlap Capacitances}{213}
+\indexentry{Meyer model, see MOSFET}{214}
+\indexentry{MOSFET, overlap capacitances Meyer model}{214}
+\indexentry{MOSFET, Meyer model}{214}
+\indexentry{MOSFET, Meyer model, LEVEL 3}{214}
+\indexentry{MOSFET, $C_{GS}$}{214}
+\indexentry{MOSFET, $C_{GD}$}{214}
+\indexentry{MOSFET, $C_{GB}$}{214}
+\indexentry{Ward-Dutton model, see MOSFET}{214}
+\indexentry{MOSFET, overlap capacitances Ward-Dutton Model}{214}
+\indexentry{MOSFET, Ward-Dutton model}{214}
+\indexentry{MOSFET, Ward-Dutton model, LEVEL 3}{214}
+\indexentry{MOSFET, $C_{GS}$}{214}
+\indexentry{MOSFET, $C_{GD}$}{214}
+\indexentry{MOSFET, $C_{GB}$}{214}
+\indexentry{MOSFET, AC Analysis}{219}
+\indexentry{MOSFET, Noise Model}{220}
+\indexentry{MOSFET, Noise Analysis}{220}
+\indexentry{N}{221}
+\indexentry{Digital Input Interface}{221}
+\indexentry{DINPUT}{222}
+\indexentry{Digital Input Interface Model}{222}
+\indexentry{O}{224}
+\indexentry{Digital Output Interface}{224}
+\indexentry{DOUTPUT}{224}
+\indexentry{Digital Output Interface Model}{224}
+\indexentry{P}{226}
+\indexentry{Port Element}{226}
+\indexentry{Q}{227}
+\indexentry{Bipolar Junction Transistor}{227}
+\indexentry{NPN}{228}
+\indexentry{NPN Si Bipolar Transistor Model}{228}
+\indexentry{PNP}{228}
+\indexentry{PNP Si Bipolar Transistor Model}{228}
+\indexentry{LPNP}{228}
+\indexentry{{{\sc  PSpice}\ Only\hfill }Lateral PNP Si Bipolar Transistor Model}{228}
+\indexentry{BJT, Temperature Dependence}{232}
+\indexentry{Temperature Dependence, see BJT}{232}
+\indexentry{Depletion capacitance, see BJT}{233}
+\indexentry{BJT, Depletion capacitance}{233}
+\indexentry{I/V Characteristics, see BJT}{234}
+\indexentry{BJT, I/V Characteristics}{234}
+\indexentry{NPN, I/V Characteristics}{234}
+\indexentry{PNP, I/V Characteristics}{234}
+\indexentry{I-V characteristics, see BJT}{234}
+\indexentry{Parasitic Resistances, see BJT}{234}
+\indexentry{BJT, Parasitic Resistance}{234}
+\indexentry{BJT, $R_B$}{234}
+\indexentry{BJT, $R_E$}{234}
+\indexentry{BJT, $R_C$}{234}
+\indexentry{MOSFET, AC Analysis}{234}
+\indexentry{MOSFET, Noise Model}{235}
+\indexentry{MOSFET, Noise Analysis}{235}
+\indexentry{R}{236}
+\indexentry{Resistor}{236}
+\indexentry{RES}{236}
+\indexentry{{\sc  Spice3}\ Only}{236}
+\indexentry{RES}{237}
+\indexentry{{\sc  PSpice}\ Only}{237}
+\indexentry{MOSFET, Noise Model}{238}
+\indexentry{MOSFET, Noise Analysis}{238}
+\indexentry{S}{239}
+\indexentry{Voltage Controlled Switch}{239}
+\indexentry{VSWITCH}{240}
+\indexentry{Voltage-Controlled Switch Model}{240}
+\indexentry{VSWITCH, Noise Model}{241}
+\indexentry{VSWITCH, Noise Analysis}{241}
+\indexentry{T}{242}
+\indexentry{Transmission Line}{242}
+\indexentry{URC}{243}
+\indexentry{Lossy RC Transmission Line Model}{243}
+\indexentry{U}{245}
+\indexentry{Universal Element}{245}
+\indexentry{V}{246}
+\indexentry{Independent Voltage Source}{246}
+\indexentry{W}{254}
+\indexentry{Current Controlled Switch}{254}
+\indexentry{ISWITCH}{254}
+\indexentry{Current-Controlled Switch Model}{254}
+\indexentry{ISWITCH, Noise Model}{256}
+\indexentry{ISWITCH, Noise Analysis}{256}
+\indexentry{X}{257}
+\indexentry{Subcircuit Call}{257}
+\indexentry{Z}{258}
+\indexentry{Distributed Discontinuity}{258}
+\indexentry{LBEND}{259}
+\indexentry{Microstrip Right-Angle Bend Model}{259}
+\indexentry{MBEND}{260}
+\indexentry{Microstrip Mitered Right-Angle Bend Model}{260}
+\indexentry{TJUNC}{261}
+\indexentry{Microstrip T-Junction Model}{261}
+\indexentry{XJUNC}{262}
+\indexentry{Microstrip X-junction}{262}
+\indexentry{ZSTEP}{263}
+\indexentry{Microstrip Impedance Step Model}{263}
+\indexentry{Z}{264}
+\indexentry{MESFET}{264}
+\indexentry{GASFET}{264}
+\indexentry{}{264}
+\indexentry{GASFET, Temperature Dependence}{266}
+\indexentry{Temperature Dependence, see GASFET}{266}
+\indexentry{Parasitic Resistances, see GASFET, \pspice}{267}
+\indexentry{GASFET, \pspice\ Parasitic Resistance}{267}
+\indexentry{GASFET, \pspice\ $R_S$}{267}
+\indexentry{GASFET, \pspice\ $R_G$}{267}
+\indexentry{GASFET, \pspice\ $R_D$}{267}
+\indexentry{MESFET, see GASFET (\pspice)}{267}
+\indexentry{Leakage Currents, see GASFET}{267}
+\indexentry{GASFET, I/V Characteristics, Leakage Currents}{267}
+\indexentry{GASFET, Leakage Currents}{267}
+\indexentry{GASFET, \spicethree (Raytheon) Model, I/V}{268}
+\indexentry{GASFET, \spicethree  (Raytheon) Model, I/V}{268}
+\indexentry{I/V Characteristics, see GASFET}{268}
+\indexentry{GASFET, I/V Characteristics}{268}
+\indexentry{I-V characteristics, see GASFET}{268}
+\indexentry{GASFET, AC Analysis}{270}
+\indexentry{GASFET, Noise Model}{270}
+\indexentry{GASFET, Noise Analysis}{270}

@@ -1,0 +1,112 @@
+\element{R}{Resistor}
+\begin{figure}[h]
+\centering
+\ \pfig{r_spice.ps}
+\caption{R --- resistor element.}
+\end{figure}
+
+{
+\form{ {\tt R}name $N_1$ $N_2$ ResistorValue {\tt IC=}$V_R$\E }
+}
+
+\spicethreeform{ {\tt R}name $N_1$ $N_2$ \B ModelName \E ResistorValue
+   \B {\tt IC=}$V_R$\E
+   \B{\tt L=} Length\E \B{\tt W=} Width\E }
+
+\pspiceform{ {\tt R}name  $N_1$ $N_2$ \B ModelName \E ResistorValue \B \E}
+
+\begin{widelist}
+\item[$N_1$] is the positive element node,
+\item[$N_2$] is the negative element  node, and
+\item[{\tt ModelName}]  is  the optional  model name.
+\item[{\it ResistorValue}]  is  the  resistance.
+               (Units: F; Required; Symbol: $ResistorValue$;
+\item[{\tt IC}] is the optional  initial condition specification
+      Using {\tt IC=}$V_C$ is intended for use with the {\tt UIC} option
+      on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+      with an initial voltage $V_C$ across the capacitor
+      rather than the quiescent operating point.
+      Specification of the transient initial conditions using the {\tt .IC}
+      statement (see page \pageref{.ICstatement}) is preferred and is more
+      convenient.
+\end{widelist}
+\example{ R1 1 2 12.3MEG }
+
+\modeltype{RES}
+{
+
+\modelx{RES}{\spicethree\ Only}{Resistor Model}
+\label{RESmodelsp3}
+
+\form{ {\tt .MODEL} ModelName {\tt RES(} \B  \B keyword = value\E  ... \E
+{\tt )}}
+
+\example{ .MODEL SMALLRES RES( ) }
+
+\modelkeyword{
+{\tt DEFW}    &default device width\sym{W_{\ms{DEF}}}&meters     &1e-6  \X
+{\tt NARROW}  &narrowing due to side etching\sym{X_{\ms{NARROW}}}&meters     &0.0\X
+	}
+
+The \spicethree\ resistor model is a process model for a monolithicly
+fabricated resistor enabling the capacitance to be determined from geometric
+information.  If the parameter {\tt W} is not specified on the element
+line then $Width$
+defaults to {\tt DEFW} = $W_{\ms{DEF}}$. The effective dimensions are reduced
+by etching so that the effective length of the capacitor is
+\begin{equation}
+L_{\ms{EFF}} = Length - X_{\ms{NARROW}}
+\end{equation}
+and the effective width is
+\begin{equation}
+W_{\ms{EFF}} = Width - X_{\ms{NARROW}}
+\end{equation}
+The value of the capacitance
+\begin{equation}
+{\it CapacitorValue} = C_J L_{\ms{EFF}} W_{\ms{EFF}}
+          + C_{J,\ms{SW}} L_{\ms{EFF}} +  W_{\ms{EFF}} + L_{\ms{EFF}} + W_{\ms{EFF}})
+\end{equation}
+}
+
+\modelx{RES}{\pspice\ Only}{Resistor Model}
+\label{RESmodelpspice}
+The resistor model consists of  process-related  device
+data  that  allow  the  resistance  to  be  calculated  from
+geometric information and to be corrected  for  temperature.
+The parameters available are:
+
+\keyword{
+{\tt R}   & resistance multiplier\sym{R_{\ms{MULTIPLIER}}}&-    &  1  \X
+{\tt TC1} & first order temperature coefficient\sym{T_{C1}} &$^{\circ}\mbox{C}^{-1}$    &  0\X
+{\tt TC2} & second order temperature coefficient\sym{T_{C2}}
+    &$^{\circ}\mbox{C}^{-2}$ &  0\X
+{\tt TCE} & exponential temperature coefficient\sym{T_{CE}}
+       &$\%/^{\circ}\mbox{C}^{-2}$ &  0\X
+  }
+
+
+The sheet resistance is used with the narrowing parameter and L and W from the
+resistor line to determine the nominal resistance by the formula
+
+\begin{equation}
+R = \left\{ \begin{array}{ll}
+   ResistorValue & \mbox{no model specified}\\ \\
+   ResistorValue \,R_{\ms{MULTIPLIER}} \\
+   \times \left[ 1 + T_{C1} (T - T_{\ms{{NOM}}}) + T_{C2}(T-T_{\ms{NOM}})^2 \right]
+		    & \mbox{model specified and}\\
+		    & \mbox{{\tt TCE} not specified}\\ \\
+   ResistorValue\,R_{\ms{MULTIPLIER}} 1.01^{\textstyle [T_{CE} (T - T_{\ms{{NOM}}})]}
+		    & \mbox{model and {\tt TCE} specified}
+    \end{array} \right. %}
+\end{equation}\\[0.2in]
+
+\clearpage
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{MOSFET, Noise Model}
+\index{MOSFET, Noise Analysis}
+The resistor noise model accounts for thermal noise generated in the resistance.
+The rms (root-mean-square) values of
+thermal noise current generators shunting the resistance is
+\begin{equation}
+I_n = \sqrt{4kT/R}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{equation}

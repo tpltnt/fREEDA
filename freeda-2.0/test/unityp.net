@@ -1,0 +1,43 @@
+*** Unit Cell Folded Slot Antenna ***
+
+.ac start = 3.6GHz stop = 4.8GHz n_freqs = 30
+
+* Local reference nodes
+.ref 100
+.ref 200
+
+* CPW structure
+nport:cpw_2 10 20 100 200 filename = "unitcell.yp" 
+
+* Transistor small signal model
+nport:amplifier 1 2 0 filename = "ne3210s1.yp" 
+
+* Field excitation
+gridex:iin 10 100 20 200 ifilename = "unitcell.i" 
++ efilename = "dummy.e" 
+
+* current meters
+vsource:amp1 10 11 
+vsource:amp2 20 22
+
+* CPW Transmission lines
+.model fsa1 cpw (s=.369m w=1m t=10u er=10.8 tand=.001)
+cpw:t1 11 100 1 0 model="fsa1" length=8.5m
+cpw:t2 22 200 2 0 model="fsa1" length=17.5m
+
+.out write element "vsource:amp1" 0 if in "i1.out"
+.out write element "vsource:amp2" 0 if in "i2.out"
+
+.out plot element "vsource:amp1" 0 if mag in "i1.outm"
+.out plot element "vsource:amp2" 0 if mag in "i2.outm"
+
+* Plot magnitude of current gain
+.out plot element "vsource:amp2" 0 if element "vsource:amp1" 0 if
++ div mag db in "igain.out"
+
+* Plot magnitude of voltage gain
+.out plot term 20 vf term 10 vf div mag db in "gain.out"
+
+.end
+
+

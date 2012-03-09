@@ -1,0 +1,17 @@
+Simple VCVS test
+
+.ac start=.01e9 stop=20e9 n_freqs=5
+
+vsource:v1 2 0 vac=1V 
+
+resistor:rs 2 1  r=50
+vcvs:vc1 3 4 1 0 k=10
+
+resistor:rl 3 4 r=50
+
+.ref 0
+.ref 4
+
+.out plot term 3 vf mag in "result.dat"
+
+.end

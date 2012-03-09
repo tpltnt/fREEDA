@@ -1,0 +1,20 @@
+*diode.net
+.OPTIONS FREQ = 1e9 ftol=1e-8
+
+.trant	tstop=20.0ns tstep=10ps  im=0   abstol=0.001 gcomp=0 reltol =0.001 tm=0
+
+diode:d1 3 4 is=2.24e-12 n=1.8307 cj0=1.32767e-13 charge=0 rs=100
++ vj=1.27517 m=0.810205 ibv=1.e-5 bv=16. 
+
+resistor:RLOAD 4 0 r=50
+
+vsource:v1 2 1 f= freq vac=5. phase = -90
+*vpulse:v1 2 1 v1=0 v2=5 tr=1ps tf=1ps pw= 50ps per=100ps
+vsource:vdc 1 0 vdc=1.
+resistor:rin 2 3 r=50
+
+.out plot term 3 vt term 4 vt sub  in "vd1_c.out"
+.out plot term 4 vt in "load.out"
+.end
+
+

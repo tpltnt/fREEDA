@@ -1,0 +1,66 @@
+\element{L}{Inductor}
+
+\begin{figure}[h]
+\centering
+\ \pfig{l_spice.ps}
+\caption{L --- Inductor element.\label{l:fig}}
+\end{figure}
+
+{\form{{\tt L}name  $N_1$ $N_2$ InductorValue \B {\tt IC=}$I_L$\E}}
+
+\pspiceform{{\tt L}name $N_1$ $N_2$ \B ModelName \E
+            InductorValue \B {\tt IC=}$I_L$\E }
+
+\begin{widelist}
+\item[$N_1$] is the positive element node,
+\item[$N_2$] is the negative element  node, and
+\item[{\it ModelName}]  is  the optional  model name.
+\item[{\it InductorValue}]  is  the  inductance.
+               (Units: H; Required; Symbol: $InductorValue$)
+\item[{\tt IC}] is the optional  initial condition specification
+      Using {\tt IC=}$I_L$ is intended for use with the {\tt UIC} option
+      on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+      with an initial current $I_L$ through the inductor
+      rather than the quiescent operating current.
+      Specification of the transient initial conditions using the {\tt .IC}
+      statement (see page \pageref{.ICstatement}) is preferred and is more
+      convenient.
+\end{widelist}
+\example{ IND1 1 2 1.3N \\
+          IND1 1 2 1.3NH IC=1M}
+
+\modeltype{IND\hfill\pspice\ only}
+
+\marginid{}
+\marginid{IND}
+{\modelx{IND}{\pspice\ Only}{Inductor Model}}
+\label{INDmodelpspice}
+
+\form{ {\tt .MODEL} ModelName {\tt IND(} \B  \B keyword = value\E  ... \E
+{\tt )}}
+
+\example{ .MODEL SMALLIND IND(L=4.5 IL1=0.1 IL2 = 0.01 TC1=0.01 TC2=0.001) }
+
+\modelkeyword{
+{\tt L} &inductance multiplier\sym{L_{\ms{MULTIPLIER}}}&-    &1 \X
+{\tt IL1} &linear current coefficient\sym{I_{C1}}&1/A        &0\X
+{\tt IL2} &quadratic current coefficient\sym{I_{C2}}&1/A        &0\X
+{\tt TC1} &linear temperature coefficient\sym{T_{C1}}&1/$^{\circ}C$       &0\X
+{\tt TC2} &quadratic temperature coefficient\sym{T_{C1}}&$^{\circ}C^{-2}$ &0\X
+	}
+
+The \pspice\ inductance model is a nonlinear temperature dependent inductor
+model.  It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}C$) specified in the most recent {\tt .OPTIONS} statement
+preceding the {\tt .MODEL} statement.
+
+The inductance is
+\begin{eqnarray}
+L & = & InductorValue\,L_{\ms{MULTIPLIER}}
+  \left[ 1 + I_{L1} I_L + I_{L2} I_L^2 \right] \nonumber \\
+&& \times
+  \left[ 1 + T_{C1} (T-T_{\ms{NOM}}) + T_{C2} (T-T_{NOM})^2 \right]
+\end{eqnarray}
+where $I_L$ is the current flowing through the inductor as in figure
+\ref{l:fig} and $T$ is the current temperature.

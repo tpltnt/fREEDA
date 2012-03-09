@@ -1,0 +1,116 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Example circuit and corresponding input file.}}{6}
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Portions of the {\sc Spice}\ output file.}}{9}
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Example of output produced by the {\tt .plot} control statement.}}{10}
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Results plotted graphically.}}{11}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces TTL Circuit Description.}}{15}
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Example of a MOSFET element specification.}}{16}
+\contentsline {figure}{\numberline {3.3}{\ignorespaces A CMOS inverter.}}{29}
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Example of a transmission line.}}{30}
+\contentsline {figure}{\numberline {3.5}{\ignorespaces DC response example. Two alternative analyses are presented at the bottom and are described in the text.}}{30}
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Output V-I characteristics for CMOS inverter.}}{31}
+\contentsline {figure}{\numberline {3.7}{\ignorespaces LC filter and the {\sc Spice}\ file specifying a frequency response analysis. (Comments in {\em emphasis} are not part of the file.)}}{31}
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Frequency response of the circuit shown in Figure\nobreakspace {}{3.7\hbox {}}.}}{32}
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Output impedance vs. frequency for LC circuit shown in in Figure\nobreakspace {}{3.7\hbox {}}.}}{32}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {4.1}{\ignorespaces Definition of networks: (a) {${\cal N}$}; and (b) {${\cal N}^{\prime }$}.}}{34}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {5.1}{\ignorespaces The {\sc Spice}\ circuit representation.}}{38}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {6.1}{\ignorespaces Signal and noise definitions for a two-port. }}{79}
+\contentsline {figure}{\numberline {6.2}{\ignorespaces Circuit used as an example for specifying noise analysis. }}{80}
+\contentsline {figure}{\numberline {6.3}{\ignorespaces Subcircuit.}}{103}
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {7.1}{\ignorespaces A --- convolution element.}}{117}
+\contentsline {figure}{\numberline {7.2}{\ignorespaces B --- GASFET element. }}{118}
+\contentsline {figure}{\numberline {7.3}{\ignorespaces Schematic of the GASFET model}}{119}
+\contentsline {figure}{\numberline {7.4}{\ignorespaces MESFET parasitic resistance parameter relationships. }}{128}
+\contentsline {figure}{\numberline {7.5}{\ignorespaces GASFET leakage current parameter dependencies. }}{128}
+\contentsline {figure}{\numberline {7.6}{\ignorespaces LEVEL 1 (Curtice model) I/V dependencies. }}{129}
+\contentsline {figure}{\numberline {7.7}{\ignorespaces LEVEL 1 (Curtice model) capacitance dependencies. }}{129}
+\contentsline {figure}{\numberline {7.8}{\ignorespaces LEVEL 2 (Raytheon model) I/V dependencies. }}{130}
+\contentsline {figure}{\numberline {7.9}{\ignorespaces LEVEL 2 (Raytheon model) capacitance dependencies. }}{131}
+\contentsline {figure}{\numberline {7.10}{\ignorespaces LEVEL 3 (TOM model) I/V dependencies. }}{133}
+\contentsline {figure}{\numberline {7.11}{\ignorespaces LEVEL 3 (TOM model) capacitance dependencies. }}{134}
+\contentsline {figure}{\numberline {7.12}{\ignorespaces LEVEL -1 (TOM-2 model) I/V dependencies. }}{135}
+\contentsline {figure}{\numberline {7.13}{\ignorespaces LEVEL 3 (TOM model) I/V dependencies. }}{136}
+\contentsline {figure}{\numberline {7.14}{\ignorespaces LEVEL 3 (TOM model) capacitance dependencies. }}{137}
+\contentsline {figure}{\numberline {7.15}{\ignorespaces LEVEL -1 (TOM-2 model) I/V dependencies. }}{138}
+\contentsline {figure}{\numberline {7.16}{\ignorespaces LEVEL 4 (Curtice cubic model) I/V dependencies. }}{139}
+\contentsline {figure}{\numberline {7.17}{\ignorespaces LEVEL 4 (Curtice Cubic model) capacitance dependencies. }}{139}
+\contentsline {figure}{\numberline {7.18}{\ignorespaces MESFET parasitic resistance parameter relationships. }}{142}
+\contentsline {figure}{\numberline {7.19}{\ignorespaces LEVEL 5 (Materka-Kacprzak model) I/V dependencies. }}{143}
+\contentsline {figure}{\numberline {7.20}{\ignorespaces LEVEL 5 (Materka-Kacprzak model) capacitance dependencies. }}{144}
+\contentsline {figure}{\numberline {7.21}{\ignorespaces MESFET parasitic resistance parameter relationships. }}{146}
+\contentsline {figure}{\numberline {7.22}{\ignorespaces LEVEL 6 (Angelov model) I/V dependencies. }}{147}
+\contentsline {figure}{\numberline {7.23}{\ignorespaces LEVEL 6 (Angelov model) capacitance dependencies. }}{148}
+\contentsline {figure}{\numberline {7.24}{\ignorespaces Small signal GASFET model}}{148}
+\contentsline {figure}{\numberline {7.25}{\ignorespaces C --- capacitor element. }}{150}
+\contentsline {figure}{\numberline {7.26}{\ignorespaces D --- diode element.}}{153}
+\contentsline {figure}{\numberline {7.27}{\ignorespaces Schematic of diode element model.}}{154}
+\contentsline {figure}{\numberline {7.28}{\ignorespaces E --- voltage-controlled voltage source element.}}{157}
+\contentsline {figure}{\numberline {7.29}{\ignorespaces F --- current-controlled current source element.}}{161}
+\contentsline {figure}{\numberline {7.30}{\ignorespaces G --- voltage-controlled current source element.}}{163}
+\contentsline {figure}{\numberline {7.31}{\ignorespaces H --- current-controlled voltage source element.}}{167}
+\contentsline {figure}{\numberline {7.32}{\ignorespaces I --- independent current source.}}{169}
+\contentsline {figure}{\numberline {7.33}{\ignorespaces Current source exponential ({\tt EXP}) waveform}}{171}
+\contentsline {figure}{\numberline {7.34}{\ignorespaces Current source single frequency frequency modulation ({\tt SFFM}) waveform}}{172}
+\contentsline {figure}{\numberline {7.35}{\ignorespaces Current source transient pulse ({\tt PULSE}) waveform}}{173}
+\contentsline {figure}{\numberline {7.36}{\ignorespaces Current source transient piece-wise linear ({\tt PWL}) waveform}}{174}
+\contentsline {figure}{\numberline {7.37}{\ignorespaces Current source transient sine ({\tt SIN}) waveform}}{175}
+\contentsline {figure}{\numberline {7.38}{\ignorespaces J --- Junction field effect transistor element}}{176}
+\contentsline {figure}{\numberline {7.39}{\ignorespaces Schematic of the JFET model}}{177}
+\contentsline {figure}{\numberline {7.40}{\ignorespaces JFET parasitic resistance parameter relationships. }}{179}
+\contentsline {figure}{\numberline {7.41}{\ignorespaces JFET leakage current parameter dependecies. }}{179}
+\contentsline {figure}{\numberline {7.42}{\ignorespaces I/V dependencies. }}{180}
+\contentsline {figure}{\numberline {7.43}{\ignorespaces JFET capacitance dependencies. }}{181}
+\contentsline {figure}{\numberline {7.44}{\ignorespaces K --- Mutual inductor element.}}{182}
+\contentsline {figure}{\numberline {7.45}{\ignorespaces L --- Inductor element.}}{188}
+\contentsline {figure}{\numberline {7.46}{\ignorespaces M --- MOSFET element}}{190}
+\contentsline {figure}{\numberline {7.47}{\ignorespaces Schematic of {\tt LEVEL} 1, 2 and 3 MOSFET models}}{194}
+\contentsline {figure}{\numberline {7.48}{\ignorespaces MOSFET {\tt LEVEL} 1, 2 and 3 parasitic resistance parameter relationships. }}{201}
+\contentsline {figure}{\numberline {7.49}{\ignorespaces MOSFET leakage current parameter dependecies. }}{201}
+\contentsline {figure}{\numberline {7.50}{\ignorespaces MOSFET {\tt LEVEL} 1, 2 and 3 depletion capacitance parameter relationships}}{203}
+\contentsline {figure}{\numberline {7.51}{\ignorespaces LEVEL 1 I/V dependencies. }}{204}
+\contentsline {figure}{\numberline {7.52}{\ignorespaces MOSFET {\tt LEVEL} 1 overlap capacitance parameter relationships. }}{204}
+\contentsline {figure}{\numberline {7.53}{\ignorespaces MOSFET {\tt LEVEL} 2 I/V parameter relationships. }}{208}
+\contentsline {figure}{\numberline {7.54}{\ignorespaces MOSFET {\tt LEVEL} 2 overlap capacitance parameter relationships. }}{211}
+\contentsline {figure}{\numberline {7.55}{\ignorespaces MOSFET {\tt LEVEL} 3 I/V parameter relationships. }}{214}
+\contentsline {figure}{\numberline {7.56}{\ignorespaces MOSFET {\tt LEVEL} 3 overlap capacitance parameter relationships. }}{217}
+\contentsline {figure}{\numberline {7.57}{\ignorespaces N --- Digital input interface element. Converts from a digital (state) signal to an analog signal.}}{222}
+\contentsline {figure}{\numberline {7.58}{\ignorespaces Digital input interface model.}}{223}
+\contentsline {figure}{\numberline {7.59}{\ignorespaces O --- Digital output interface element.}}{225}
+\contentsline {figure}{\numberline {7.60}{\ignorespaces P --- port element.}}{227}
+\contentsline {figure}{\numberline {7.61}{\ignorespaces Example of the usage of a P element with a pulse voltage source. }}{227}
+\contentsline {figure}{\numberline {7.62}{\ignorespaces Q --- bipolar junction transistor element}}{228}
+\contentsline {figure}{\numberline {7.63}{\ignorespaces Schematic of bipolar junction transistor model}}{229}
+\contentsline {figure}{\numberline {7.64}{\ignorespaces R --- resistor element.}}{237}
+\contentsline {figure}{\numberline {7.65}{\ignorespaces S --- voltage controlled switch element.}}{240}
+\contentsline {figure}{\numberline {7.66}{\ignorespaces VSWITCH --- voltage controlled switch model. }}{241}
+\contentsline {figure}{\numberline {7.67}{\ignorespaces T --- transmission line element.}}{243}
+\contentsline {figure}{\numberline {7.68}{\ignorespaces URC --- lossy RC transmission line model}}{244}
+\contentsline {figure}{\numberline {7.69}{\ignorespaces V --- Independent voltage source.}}{247}
+\contentsline {figure}{\numberline {7.70}{\ignorespaces Voltage source exponential ({\tt EXP}) waveform}}{251}
+\contentsline {figure}{\numberline {7.71}{\ignorespaces Voltage source single frequency frequency modulation ({\tt SFFM}) waveform}}{251}
+\contentsline {figure}{\numberline {7.72}{\ignorespaces Voltage source transient pulse ({\tt PULSE}) waveform}}{253}
+\contentsline {figure}{\numberline {7.73}{\ignorespaces Voltage source transient piece-wise linear ({\tt PWL}) waveform}}{253}
+\contentsline {figure}{\numberline {7.74}{\ignorespaces Voltage source transient sine ({\tt SIN}) waveform}}{254}
+\contentsline {figure}{\numberline {7.75}{\ignorespaces W --- current controlled switch.}}{255}
+\contentsline {figure}{\numberline {7.76}{\ignorespaces ISWITCH --- current controlled switch model. }}{256}
+\contentsline {figure}{\numberline {7.77}{\ignorespaces X --- subcircuit call element.}}{258}
+\contentsline {figure}{\numberline {7.78}{\ignorespaces Z --- distributed discontinuity.}}{259}
+\contentsline {figure}{\numberline {7.79}{\ignorespaces LBEND --- microstrip right-angle bend model.}}{260}
+\contentsline {figure}{\numberline {7.80}{\ignorespaces MBEND --- microstrip mitered right-angle bend model.}}{261}
+\contentsline {figure}{\numberline {7.81}{\ignorespaces TJUNC --- microstrip T-junction model.}}{262}
+\contentsline {figure}{\numberline {7.82}{\ignorespaces XJUNC --- microstrip X-junction.}}{263}
+\contentsline {figure}{\numberline {7.83}{\ignorespaces ZSTEP --- microstrip impedance step model.}}{264}
+\contentsline {figure}{\numberline {7.84}{\ignorespaces Z --- GASFET element. }}{265}
+\contentsline {figure}{\numberline {7.85}{\ignorespaces Schematic of the {\sc Spice3}\ GASFET model}}{266}
+\contentsline {figure}{\numberline {7.86}{\ignorespaces MOSFET parasitic resistance parameter relationships. }}{268}
+\contentsline {figure}{\numberline {7.87}{\ignorespaces GASFET leakage current parameter dependencies. }}{269}
+\contentsline {figure}{\numberline {7.88}{\ignorespaces LEVEL 2 (Raytheon model) I/V dependencies. }}{270}
+\contentsline {figure}{\numberline {7.89}{\ignorespaces Capacitance dependencies. }}{271}
+\addvspace {10\p@ }
+\addvspace {10\p@ }

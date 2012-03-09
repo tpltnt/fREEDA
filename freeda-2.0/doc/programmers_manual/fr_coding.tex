@@ -1,0 +1,1352 @@
+\chapter{THE CODING STANDARD}
+
+\section{INTRODUCTION AND FOREWORD}
+
+The objective of the fREEDA$^{\mathrm{TM}}$ Coding Standard is to ensure that fREEDA$^{\mathrm{TM}}$
+is readable and professional in appearance.
+
+It requires programmers to adopt a common approach in certain aspects
+of their work.  This makes it easier (possible?) for a group of
+programmers to examine, understand and modify one another's work.
+
+It describes an ``official'' method for code development, release and
+maintenance that can be passed on reliably from one person to another.
+
+Last, but not least, it also teaches a little of what is hopefully
+good programming practice.  It is directed, at least partially, toward
+less-experienced C programmers.  C is probably the most difficult to
+learn of the common programming languages, and is by far the most
+difficult to use with purpose and precision.  We hope that the
+existence of a well-defined coding standard will help newer
+programmers adopt a coherent, productive approach to coding.
+
+The current Draft Version is the product of months of my experience
+and effort.  It draws heavily, in places, from a set of standards
+written by Dean Thompson for the Camelot project at Carnegie-Mellon
+University.\footnote{Mr.  Thompson's standards draw heavily in places
+on the "Coding Style Conventions for Sprite," from Berkeley
+University.}
+
+The basic tenets of the Standard are simple.  Code must be
+consistently and efficiently organized.  Code should be simple and
+purposeful.
+\vspace{0.125 in}
+
+Joseph Hall\vspace{.10 in}
+\hfill
+Michael Steer
+
+\newpage
+\section{ORGANIZING A LARGE C PROGRAM}
+\subsection{Modular Organization}
+A ``module'' is a component of a program.  Any well-thought-out
+program of substantial length will be broken down into several
+modules.
+
+A module performs some well-defined function, or a set of related
+functions, for a program or for specific parts of a program.  For
+example, a collection of useful I/O routines might constitute an ``I/O
+module.''  The ``main function'' and a few attendant high-level
+functions will constitute the ``main module.''
+
+
+Given this definition, there are still a variety of possible meanings
+for the word ``module.''  In the Standard, however, we will require
+that a module has these properties:
+\begin{itemize}
+\item it comprises one or more files--two modules can't fit in the same file;
+\item it is practical to test it (at least partially) in isolation;
+\item it has a well-defined ``interface,'' that is,
+     a restricted set of functions that are called to invoke the module; and
+\item it (likely) contains private data and/or functions that are not
+available to other modules.
+\end{itemize}
+
+\subsection{``.c" Files vs. ``.h" Files}
+
+Although there is an infinite variety of possible methods of
+organizing the functions and declarations that make up C programs, by
+convention C programs are written as a collection of {\tt .h} and {\tt
+.c} files.  ({\tt .h} files are those whose names end in {\tt .h};
+{\tt .c} files are those whose names end in {\tt .c} ) In general, the
+{\tt .c} files contain code that actually does something (variable and
+function definitions) while the {\tt .h} files contain declarations,
+macro definitions, etc.  (Below, we will usually refer to {\tt .h}
+files as ``header'' files, and to {\tt .c} files as ``source'' files.)
+Source files ``include'' header files through the use of the
+preprocessor directive {\tt \#include}.
+
+Beyond this basic convention, one won't find much agreement on exactly
+what goes in which file, nor how those files are to be organized.
+This leads to mayhem when several people with different notions of how
+their programs should be organized attempt to collaborate on a complex
+project.  Though there may be dozens of viable schemes for structuring
+source and header files, rarely are two of them happily mated.
+
+You will see below, however, that the Standard {\em is} pretty
+specific about what goes where.  You may find it restrictive and
+contrary to your nature at first, but it is for the best--even if
+there seems to be a better way in your particular case.
+
+\subsection{Developing and Maintaining a Large Program}
+Once a program has grown large enough to span several files, it is
+convenient (and sometimes essential) to use software-development tools
+to handle the chores of compiling, linking, distributing and
+maintaining the source and header files.
+
+The most important and useful tool one can have is the utility called
+{\tt make}, which is a component of the UNIX operating system.  {\tt
+make} is used most often to compile and link large programs that
+consist of many files; in particular, one can use {\tt make} to
+recompile only those files that have been changed (or affected by
+changes to other files) since the previous compilation.  {\tt make}
+can also be used to perform a variety of other maintenance-related
+tasks.
+
+There is a unix tool called SCCS that automates the ``librarian''
+process for large programs.  During the development process, only one
+programmer can be working on a given file at any one instant;
+otherwise, it becomes difficult or impossible to incorporate changes
+into a new release of the program.  SCCS provides a reliable mechanism
+that enforces this rule.  Programmers must ``check-out'' files before
+they are allowed to modify them.  A given file may be checked out by
+at most
+
+In regard to {\tt lint}, the Standard requires that all code for
+working or final release pass lint with no errors or warnings (with
+certain exceptions).  See ``lint'' in {\bf ``lint,"} below.
+
+\subsection{Adherence to the Coding Standard}
+Adherence to the fREEDA$^{\mathrm{TM}}$ Coding Standard will be strictly enforced for
+all code submitted as part of a final release.  Programmers will be
+required to bring their code into complete compliance for these
+releases; code that does not comply will simply not be accepted.
+
+Adherence to the Standard will not be strictly enforced with regard to
+working or development releases of software, especially when there is
+significant time pressure involved...but of course everyone is
+encouraged to code according to the Standard whenever possible.
+
+\section{THE DEVELOPMENT PROCESS}
+\subsection{Releases}
+The Standard recognizes three levels of release: final, working and
+development.
+
+A final release is a fully functional version of a program.  It
+includes both a user's manual and a programmer's manual.  All code is
+in strict compliance with the Standard.  The program has been as
+thoroughly exercised and debugged as is practical.  A final release is
+a {\em quality} product, suitable for commercial release.\footnote{It
+goes without saying that a lot of software developed at HFEL will
+never reach the final release stage.  That's perfectly okay, as long
+as everyone involved knows that, and no one tries to pretend
+otherwise.}
+
+
+A working release is a more-or-less fully functional version of a
+program.  It should include a draft user's manual and programmer's
+manual.  Most code is in compliance with the Standard, and the program
+has been through significant debugging.  A working release is
+sufficiently functional that it can be distributed to clients or
+members without the need for nursemaiding, or the fear of
+embarrassment.
+
+A development release is an approximately functional version of a
+program.  (It's what you can put together given a week of notice.)  If
+everybody has been writing neat code, then it should be more or less
+in compliance with the Standard.  It's possibly documented and
+possibly partially debugged, but no one trusts it.  It's a horror to
+have to install this at a member's site since it tends to crash,
+doesn't really do what it purports to do, and is generally a mediocre
+reflection on the efforts of the Center.
+
+Development releases are suitable for internal use, demonstrations
+in-house, and for a few other purposes, but they are not really
+suitable for clients.  Unfortunately, we will wind up distributing
+them to clients unless we have the foresight and energy to plan
+regular working and/or final releases.
+
+\subsection{The Check-Out Procedure}
+In order to avoid mayhem in the situation where more than one person
+is working on a program at a particular time, there is a file
+check-out procedure.  What the specific procedure is will vary over
+time, and from project to project, but the general idea remains the
+same.
+
+For every project (generally speaking, a program) there will be a
+designated project librarian.  He will be someone very familiar with
+the project; he must understand the workings of the program and be
+able to fix minor problems anywhere within it.  He will also be
+responsible for verifying that code submitted to him complies with the
+Standard.
+
+Whenever someone wishes to modify one or more of the program's files,
+he will ``check out'' the appropriate files from the librarian.  The
+files will be ``locked'' while he has them so that no one else will be
+permitted to check them out.  When he is done, he will return the
+files to the librarian.  The librarian will check the modified files
+for compliance with the Standard, and then will return them to the
+project directory (or directories), thus superseding the originals.
+The check-out lock will then be removed.
+
+Anyone may obtain copies of files that are checked out.  The purpose
+of the lock is to serialize modification, and nothing else.  It is
+obviously not good to have two people working on different copies of
+the same file at the same time, and that is what the system prevents.
+
+\subsection{Generating a Release}
+The project librarian will ordinarily generate releases.
+
+The librarian will try to recall all checked-out files before a
+compilation.  Hopefully, there will be at least 24 hours of immediate
+notice before each generation; there should also be a regular schedule
+so that everyone programming for a particular project knows when the
+newest versions of his files are ``due.''
+
+Once the librarian has a suitable set of the files, he will attempt
+the compilation.  Some minor actions may be necessary beforehand; for
+example, the dependencies list for the makefile may have to be edited
+or recalculated.
+
+If the compilation succeeds, then the librarian will distribute the
+release as necessary.
+
+If it fails, he will try to correct the problem.
+
+It is considered {\em extremely} bad form to check in a file that does
+not compile with the release for some reason or another.  This is much
+worse than checking in a file that compiles but doesn't work properly,
+and is not a good way to remain friends with your project librarian.
+
+\newpage
+\section{ORGANIZING FILES}
+
+\subsection{Hierarchical Structure Applied to Files}
+The organization of source and header files that make up a program
+should reflect the program's actual structure.  The Standard
+prescribes naming conventions for file names in order to show which
+files belong to which modules.  The Standard also defines the content
+of header files for a variety of reasons, among them:
+\begin{itemize}
+\item so that they will accurately reflect the hierarchical structure of the program,
+\item so that programmers will know intuitively which header files to include
+where, and
+\item to lessen certain burdens on the compiler.
+\end{itemize}
+
+\subsection{The Function of Header Files vs. the Function of Source Files}
+A program, {\em per se}, is a mixture of both declarations and
+definitions.  Understanding the difference between declarations and
+definitions is crucial to understanding the Standard's approach to
+separating programs into header and source files.
+
+To refresh your memory: a {\em declaration} is a statement or
+instruction that defines the characteristics (type, size, structure,
+storage class, etc.) of an object in a program.  It does not specify
+the contents of an item.  A {\em definition}, on the other hand, is a
+statement or instruction (or series of statements) that defines the
+content of an object.  A definition, generally speaking, also
+allocates space for an object.  To wit:
+
+C declarations:
+
+\begin{verbatim}
+extern float x, y;
+
+extern int TestFunction();
+\end{verbatim}
+
+C definitions:
+\begin{verbatim}
+float x = 0.5;
+float y;
+
+int TestFunction(x)
+int x;
+{
+return(x < 0 ? -1 : 1);
+}
+\end{verbatim}
+
+The C language requires that all functions and variables be defined
+{\em once and only once} in each program.  They may be declared,
+however, as many times as necessary.\footnote {Many compilers will
+consider {\tt float y} to be something called a ``tentative
+definition."  Multiple occurrences of this type of uninitialized
+definition are permitted within a program; multiple occurrences of an
+initialized definition ({\tt float x = 2.0}) are not permitted,
+however.  It is sometimes quite difficult for the beginning ``C"
+programmer to tell what is a declaration and what is a definition, as
+the semantics are not entirely clear.  If you're not sure what the
+difference is, you might re-read the appropriate parts of Appendix A
+of K\&R.}
+
+And now, the first rule:\vspace{.25 in}
+
+{\bf RULE \#1:}
+
+{\bf Declarations go in header files.  Definitions go in source
+files.}\vspace{ .25 in}
+
+We expound on this later.
+
+\subsection{Length of Source Files}
+The absolute drop-dead limit for the length of a source file is 1000
+lines, including comments, blank lines, etc.
+
+Any source file longer than this must be divided into two or more
+smaller files.
+
+The recommended length of source files is 250-750 lines.
+
+
+\subsection{Organizing Source Files}
+Source files are grouped according to module.  A module comprises one
+or more files, and a program, in turn, comprises one or more modules.
+
+A program will have one and only one module called the ``main
+module,'' that is, the module that contains the definition of the
+function {\tt main}.
+
+A program will typically contain other modules as well.
+
+Both the main module and other modules may, as mentioned above,
+comprise one or more files.  Within each module there will be one file
+designated as the ``module's main source file.''  This file should be
+the one containing the highest-level routines in that module, and
+should contain most, if not all, of the interface routines in that
+module.
+
+The main module's main source file will be, obviously, the one that
+contains the definition of {\tt main}.
+
+Whenever a module comprises more than one source file, those source
+files other than the module's main source file will be called simply
+``module source files.''
+
+\subsection{Organizing Header Files}
+Header files are grouped according to module, and also according to
+their position in the program's hierarchy.
+
+First, every source file conforming to the Standard will include the
+file {\tt standard.h}, which contains macro and constant definitions
+required by the Standard.  There are four other types of header files
+to consider:
+\begin{itemize}
+\item There will be a header file included by all source files in a
+particular program, which we will call the ``main header file.''  This
+will contain global declarations, macro definitions, etc., that are to
+be available to all source files within that program.  There should be
+only one of these per program.
+\item For each module, there will be a header file included by all
+source files within that module.  We will call this the ``module's
+main header file.''  This will contain declarations, etc., that are to
+be available to all source files within that module.  There should be
+only one of these per module.
+\item Each source file may also have a header file of its own.
+\item Last, there may be specialized header files containing
+declarations, macro definitions, etc., that are used by several, but
+not all, files within a module or group of modules.
+\end{itemize}
+
+\subsection{Module Names and Prefixes}
+Each module will have associated with it a ``module name.''  This name
+should be of reasonable length, say six to twelve characters, and
+should describe the general function or purpose of the module.  For
+example, a module might be named {\tt analysis} or {\tt disk\_io}.
+
+Each module name will also have an abbreviation, which will be used as
+the ``module prefix.''  The prefix should be two to four characters in
+length, two being strongly preferred.  The module names in the above
+example could be abbreviated {\tt an} and {\tt di}.
+
+The program also has a name and a prefix, which are the same as the
+``main module name'' and ``main module prefix.''
+
+As you will see below, these prefixes wind up at the beginnings of
+file names.  This is to advance the cause of:\vspace{.25 in}
+
+{\bf RULE \#2:}
+
+{\bf You should be able to tell what a file does and where it belongs
+just by looking at the file name.}
+
+\subsection{The Naming Conventions for Source Files}
+All source files ``belong'' to some module.  All files belonging to a
+particular module have file names beginning with that module's prefix
+followed by an underscore.
+
+A module's main source file is named {\em pp\_modname}.c, where {\em
+pp} is the module prefix and {\em modname} is the module name.  The
+other files in the module are named {\em pp\_fname}.c, where {\em pp}
+is the module prefix and {\em fname} is a suitable name describing the
+general purpose of the file.
+
+If the main module contains only one source file, that file is named
+{\em pname.}c, where {\em pname} is the program name.  If there are
+more source files in the main module, they are named {\em
+pp\_fname}.c, where {\em pp} is the program prefix and {\em fname} is
+a suitable name describing the purpose of the file.
+
+Here are some examples:
+\begin{tabbing}
+tab hereXXXXXXXXXXXXX\= \kill
+\underline{FILE NAME} \> \underline{FILE FUNCTION} \\
+{\tt circuit.c} \>main source file for a program called ``circuit''\\
+{\tt cir\_init.c} \>another source file in the main module\\
+{\tt ed\_edit.c} \>the main source file in a module called ``edit''\\
+{\tt ed\_refresh.c} \>another source file in the module ``edit''\\
+{\tt ed\_input.c} \>ditto\\
+{\tt ca\_calc.c} \>the main source file in a module called ``calc''\\
+{\tt ca\_complex.c} \>another source file in the module ``calc''\\
+\end{tabbing}
+
+\subsection{The Naming Conventions for Header Files}
+The header file that is included by all source files in a particular
+program (the main header file) is named {\em pp}.h, where {\em pp} is
+the program prefix.
+
+The header file that is included by all source files within a
+particular module (the module's main header file) is named {\em mm}.h,
+where {\em mm} is the module prefix.
+
+A header file that is included by only one source file (and which
+includes declarations specifically for that source file) is named {\em
+sfname}.h, where {\em sfname} is the source file's name (without the
+.c).
+
+Header files that are included by some, but not all, source files
+within a single module are named {\em mm\_fname}.h, where {\em mm} is
+the module prefix and {\em fname} is a suitably descriptive name.
+
+Other header files that are included by some, but not all, source
+files from several modules are named {\em pp\_fname}.h, where {\em pp}
+is the program prefix and {em fname} is a suitably descriptive name.
+
+Here are some examples (continuing from above):
+
+\begin{tabbing}
+tab hereXXXXXXXXXXXXXX\= \kill
+\underline{FILE NAME}  \>\underline{FILE FUNCTION } \\
+{\tt cir.h} \>the program's main header file\\
+{\tt circuit.h} \>the header file included by the file {\tt circuit.c}\\
+{\tt cir\_misc.h} \>a header file included by several files (in \\
+\> different modules) in the program ``circuit" \\
+{\tt ed.h} \>the header file included by every file in\\
+\>the module ``edit"\\
+{\tt ed\_edit.h} \>the header file included by the file {\tt ed\_edit.c} \\
+{\tt ed\_refresh.h} \>the header file included by
+the file {\tt ed\_refresh.c}\\
+{\tt ed\_misc\_io.h} \>a header file included by several,\\
+\>but not all, files in the module
+``edit''\\
+\end{tabbing}
+
+\subsection{Segregating Files by Subdirectory}
+The Standard does not presently require or recommend any particular
+scheme for putting source and header files into subdirectories.  A
+``flat'' scheme is perfectly functional for most programs of under
+10,000 lines; by the time a program gets that large, its author(s)
+will probably already have some subdirectories set up.
+
+A future version of the Standard may address this issue.
+\newpage
+
+\section{WHAT GOES IN WHICH HEADER FILE}
+\subsection{General}
+It is entirely possible to write large, functioning C programs without
+any use of header files whatsoever.  It would be a tricky and wasteful
+endeavor, though.  It is also possible to write such programs without
+the use of hierarchical header files, as described above.  One could
+use just a single enormous header file that is included by every file
+constituting a program, for example.  But this is still wasteful.
+
+The use of hierarchical header files, as required by the Standard,
+serves several purposes:
+\begin{itemize}
+\item declarations are repeated a minimum number of times
+(hopefully, never),
+\item the compiler is subjected to a minimum of both lines of code and
+extraneous symbols,
+\item it is easy to modify declarations, macro definitions,
+etc., for the whole program, a
+particular module, or just a single source file, and
+\item programmers know where to put their declarations, and where to look
+for them.
+\end{itemize}
+
+As stated above, {\em all} declarations are to go into header files,
+even if they apply to only one source file.\footnote{It may seem
+odious to have to put, say, a single {\tt extern} in a header file all
+its own.  You might be forgven for just leaving it at the beginning of
+the source file (wink).} If this is not the practice you're used to,
+you will nonetheless have to get accustomed to it.
+
+The basic, overriding idea behind the Standard's hierarchical header
+files is this:\vspace{.25 in}
+
+{\bf RULE \#3:}
+
+{\bf Declarations are to appear once, at the lowest level of hierarchy possible.}\vspace{.25 in}
+
+This is to say, a declaration should be put into a header file that a)
+is included by {\em all} of the source files that use it, and b) is
+included by the {\em least} number of other source files.  Requirement
+a) ensures that one only has a single instance of the declaration to
+be concerned with, for example, when modifying the declaration in
+question.  Requirement b) ensures that the compiler is burdened with
+as few extraneous declarations as possible.
+
+Below, we list the possible contents of the various types of header
+files.  While this listing is intended to be comprehensive, it is not
+anticipated that it will be complete.  There may occasionally be items
+other than those listed that must be put into your header files.  Be
+sure you need them there, then go ahead.
+
+\subsection{The Main Header File}
+The main header file contains:
+\begin{itemize}
+\item any {\tt struct} declarations and {\tt typedef} that are to be
+available to the entire program,
+\item macro definitions that are to be available to the entire program,  and
+
+\item {\tt extern} declarations of all {\tt GLOBAL} variables and functions (
+from the
+program's modules) that are to be available to the entire program (there are
+exceptions to this).
+\end{itemize}
+
+Certainly globally available macro definitions, declarations, etc.,
+may be used by only a few of a program's modules.  If there are a
+large number of these, they should be taken out of the main header
+file and put into a different (or new) header file that is included
+only by the files that require these declarations.
+
+\subsection{A Module's Main Header File}
+A module's  main header file contains:
+\begin{itemize}
+\item any {\tt struct} declarations and {\tt typedef} that are to be
+available to the entire module,
+\item macro definitions that are to be available to the entire module,  and
+
+\item {\tt extern} declarations of all {\tt PUBLIC} variables and functions
+that are to be available to the entire module.
+\end{itemize}
+
+If the module is isolated from the rest of the pogram (does not depend
+on it, does not call it, etc.,), and either is or could be used as is
+with another program, then this file may also include {\tt extern}
+declarations of all the module's {\tt GLOBAL} variables and functions
+(and those declarations will therefore not appear in the main header
+file).  Source files that require this module's global variables
+and/or functions will include this header file.
+
+Another option in the above case is the creation of a second header
+file that contains only the {\em interface} declarations for the
+module, to be included by that module's clients in lieu of the
+module's own unabridged header file.  (The module's header file will
+usually contain many ``private'' declarations that are not of interest
+to the other modules.)  This is a cleaner approach, but one we don't
+require unless the header files in question are large.
+
+And, as above, certain publicly available macro definitions,
+declarations, etc., may be used by only some of a module's files.  If
+there are a large number of these, they should be put into a different
+(or new) header file that is included only by the files that require
+these declarations.
+
+\subsection{A Source File's Own Header File}
+A source file's own header file contains:
+\begin{itemize}
+\item any {\tt struct} declarations and {\tt typedefs} that are used
+by that file alone,
+\item macro definitions that are used by that file
+alone, and
+\item any needed {\tt extern} declarations of functions and/or
+variables originating from other modules or source files (these should
+be rare; include that module's header file, if possible, instead of
+doing this).
+\end{itemize}
+
+As stated above, {\em all} declarations are to go into header files.  The presence of more
+than one or two declarations or macro definitions in a source file is not acceptable.
+
+\subsection{Other Header Files}
+Other header files, which may be included by one or more source files
+in one or more modules, will contain the same types of declarations
+and definitions as those in the main header file or in module header
+files.  (See above.)
+
+\subsection{Header Files Including Header Files}
+We don't advise doing this unless there is a pressing need for it.
+With very long programs, though, and in certain applications, it may
+be necessary.  Use your judgment.
+
+If you do allow your header files to include other header files, you
+should protect your header files against multiple inclusion.  Surround
+the definitions and declarations of the header with an {\tt \#ifndef},
+like this:
+\begin{verbatim}
+#ifndef _A_NAME_
+#define _A_NAME_
+.
+.
+.
+#endif _A_NAME_
+\end{verbatim}
+
+Typically, {\tt A\_NAME} will be the file name.
+
+\newpage
+\section{\bf THE NAMING CONVENTIONS FOR IDENTIFIERS}
+\subsection{The Purpose of the Naming Conventions}
+{\bf RULE \#4:}
+
+{\bf You should be able to tell where an identifier originates and
+what it does by looking at its name.}\vspace{.25 in}
+
+The naming conventions detailed in this chapter do three things:
+\begin{itemize}
+\item they compensate somewhat for the typelessness of C by providing
+a means for distinguishing between different types of identifiers
+(since the compiler can't),
+\item they make it easy to figure out what module an identifier is defined
+in, and
+\item they make it easier to avoid naming conflicts between modules.
+\end{itemize}
+
+\subsection{Choosing Names}
+Identifiers should be kept reasonably short, but under no
+circumstances should they be cryptic.  Names of over 15 characters
+length can be unwieldy.  We don't worry about the use of a few long
+identifiers, though; they are a real problem only when they must be
+used frequently.  (Or when there are so many of them that they clog up
+the compiler's symbol table.)
+
+
+
+Do avoid giving your interface functions or variables (that is, {\tt
+GLOBAL} identifiers) names that are excessively long.  Fifteen
+characters {\em is} an upper limit here, ten, or even eight, is
+better.
+
+
+
+Be aware, also, that while identifiers with internal linkage (i.e.,
+those used in only one file) are guaranteed to be distinguished by
+case and at least the first 31 characters, those with {\em external}
+linkage are not guaranteed to be distinguished by case, and may be
+distinguished by as few as the first six (!) characters.  The VMS
+linker, while supporting longer identifiers, does {\em not}, in fact,
+distinguish externally linked symbols by case.
+
+All identifier names (except macro names) should not contain
+underscores other than those prescribed by the Standard.  Likewise,
+each word, abbreviation or part of a word in an identifier name is to
+be capitalized.  However, this specifically {\em excludes} the {\em
+first} character of the identifier name, which is to be capitalized
+according to the rules of the Standard (see below).  If an identifier
+name contains acronyms, or something else exceptional, capitalize it
+in whatever sensible way you prefer.
+
+The above conflicts with a common practice of using lower case only,
+with words separated by underscores, for identifier names.  We think
+you will appreciate the results, and that your eyes will, too.  (Ours
+do!)
+
+Use the singular case in names unless you have a good reason to do
+otherwise.  This will save you and others a lot of head- and
+memory-aches.
+
+For some suggestions about choosing parameter names, see ``Choosing Parameter
+Names" in {\bf ``Functions,"} below.
+
+\subsection{The Naming Conventions (Example)}
+
+We use a system of capitalization, prefixes, underscores and suffixes
+to distinguish the various types, uses, scopes and origins of
+identifiers.  Before you start to worry, though, take a look at the
+following chart of examples (assuming an identifier name of ``foo" and
+a module name of ``xx"):
+
+\begin{verbatim}
+TYPE
+SCOPE    Variable     Function     Type       Pointer     File
+_______________________________________________________________
+
+Local    foo          Foo          Foo_t      foo_P       foo_F
+Public   xxFoo        xxFoo        xxFoo_t    xxFoo_P     xxFoo_F
+Global   Xx_Foo       xx_Foo_T     xx_Foo_t   xx_Foo_P    xx_Foo_F
+\end{verbatim}
+
+And now, the actual list of rules:
+
+\subsection{The Naming Conventions (Rules)}
+
+\begin{enumerate}
+\item Function names start with an uppercase letter.  The one
+exception to this is that pointers to functions (which are treated as
+variables) begin with a lowercase letter.
+
+\begin{verbatim}
+void DoThis();
+\end{verbatim}
+
+\item Everything else starts with a lowercase letter.  (Almost
+everything.  Macros are treated specially.)
+
+\begin{verbatim}
+int x, y;
+\end{verbatim}
+
+\item Macros are all capitals, except when they qualify for
+function-style naming.  (See {\bf ``Style,"} below.)  They may or may
+not incorporate a prefix, depending on whether it seems appropriate.
+Underscores may be used to break a name up into words.
+\begin{verbatim}
+#define XX_MAX_COUNT    20
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
+\end{verbatim}
+
+\item Names of types end in an underscore
+followed by a lowercase ``t."  These are {\em always} {\tt typedefs}
+(see ``Style," below.)
+
+\begin{verbatim}
+yy_Node_t nodeTemp;
+\end{verbatim}
+
+\item Names of pointers end in an underscore
+followed by an uppercase ``P."
+Strings are spared this requirement.
+
+\begin{verbatim}
+yy_Node_Pt      node_P;
+char            *imAString;
+\end{verbatim}
+
+\item Names of file
+descriptors end in an underscore followed by an uppercase ``f'
+
+\begin{verbatim}
+FILE            *input_F;
+\end{verbatim}
+
+\item Names of
+arrays end in an underscore followed by an
+uppercase ``a."  Character strings are spared this requirement (see 10.
+above).
+
+\begin{verbatim}
+int             dat_A[MAX_DATA];
+\end{verbatim}
+
+\item Names of
+pointers to functions end in an underscore followed by an uppercase
+``n."
+
+\begin{verbatim}
+float          (*xFun_N)();
+\end{verbatim}
+
+\item Names of pointers to
+pointers end in an underscore followed by ``PP."
+
+\begin{verbatim}
+node_Pt node_P, *nodeHan_PP;
+\end{verbatim}
+
+\item Names of pointer types, array types, etc., end
+in an underscore, followed by the appropriate type letter, followed by
+a lowercase ``t."
+
+\begin{verbatim}
+progXDat_At    xDat_A;
+\end{verbatim}
+
+\item Enumerators end in an
+underscore followed by a capital ``e."  Enumeration types
+end in an underscore followed by ``Et."
+
+\begin{verbatim}
+typedef enum {
+RED GREEN BLUE
+} primaryColor_Et;
+primaryColor_Et color_E;
+\end{verbatim}
+
+\item Union names end in an underscore
+followed by a capital ``u."  Union types end in an
+underscore followed by ``Ut."
+
+\begin{verbatim}
+typedef union {
+Floatf  Val;
+int   iVal;
+} fOrI_Ut;
+\end{verbatim}
+
+\item Names of arrays of pointers,
+arrays of pointers  to functions, etc., end in an underscore followed
+by the expected list of type letters.
+
+\begin{verbatim}
+float *arrayOfPtrs_AP[];
+float (*ptrToArray_PA)[];
+\end{verbatim}
+\end{enumerate}
+
+Some notes:
+
+The type suffixes (\_P, \_F, etc.) do apply to structure and union
+member names.  As mentioned above, however, member names are never
+prefixed with a module or program name.
+
+Identifier names beginning with an underscore are reserved in some
+implementations.  The Standard recommends they be used only to define
+certain identifiers that must be ``hidden" from the rest of the
+program (for debugging, etc.), and, in any event, they are not allowed
+under the naming rules above.
+
+\section {DECLARATIONS}
+
+\subsection{Function Parameters and Labels}
+Four ``parameter labels" are used to indicate how data flows in to and
+out of functions.  Their use is required when data exits a function
+through a parameter, rather than or in addition to its return value.
+
+{\tt IN} indicates that the parameter data is read only by the
+function, and never written.  This is the default label.  If the
+function treats all parameters like this, then the {\tt IN} label may
+be omitted.
+
+{\tt INOUT} indicates that the parameter data is read and written by the
+function.
+
+{\tt OUT} indicates that the parameter data is written by the function, without
+any reference to its previous value.
+
+{\tt INOUT} and {\tt OUT} apply only to pointer parameters, since
+there is no direct pass-by- reference mechanism in C.
+
+\begin{verbatim}
+char CharFunc(IN      readOnlyArg,
+INOUT         readWriteArg,
+OUT       writeOnlyArg, writeOnlyArg2,
+...
+\end{verbatim}
+
+The usual ordering is {\tt IN, INOUT, OUT}, as above.
+
+\subsection{Declarations Within Functions}
+
+Externally referenced functions and variables are {\em never} declared
+in functions.  All such declarations, when necessary, are made in
+header files.
+
+Use {\tt register} declarations sparingly.  The VAX C compiler should
+be able to do as good a job as you, or better, allocating registers to
+variables when the optimizer is turned on.\footnote {However, it
+seems, unfortunately, to be necessary to turn the optimizer off when
+compiling some programs.  We've associated this mostly with programs
+that extensively use {\tt malloc}.}
+
+Use {\tt static} variables within functions to hold the values of constants.
+
+\begin{verbatim}
+static int  yes = 1,
+no = 2,
+maybe = 3;
+\end{verbatim}
+
+(You may, of course, use {\tt static} variables for other things, too.)
+
+Use of the {\tt auto} specifier is discouraged since it is both
+redundant and rarely-seen.
+
+\subsection{Declarations within Header Files}
+
+All declarations of functions and variables within header files should
+have storage class {\tt extern}.  While this is a step not required by
+the VAX RCS compiler, a few compilers are, in fact, picky about
+multiple definitions of variables.  A declaration of a variable not
+preceded by {\tt extern} is considered to be a definition of that
+variable by these narrow-minded compilers.
+
+No initialized declarations (these are, of course, definitions) should
+ever appear in a header file.
+
+For a discussion of which declarations should appear where, see {\bf
+``What Goes In Which Header File,"} above.
+
+\subsection{Structures and Unions}
+
+All references to structure and union types are made through {\tt
+typedefs}.  Therefore, all structures are to be declared using {\tt
+typedef struct} ....There is generally no need for a structure tag to
+appear in a {\tt struct} declaration, and one should not be used when
+it is not required.
+
+\begin{verbatim}
+typdef struct {
+char   *op, *arg1, *arg2;
+} threeAddrCode_t;
+\end{verbatim}
+
+When defining self-referential or otherwise recursive
+structures, however, ones does need a tag.
+
+\begin{verbatim}
+typedef struct listStruct {
+struct listStruct   next_P, prev_P;
+char               *data_P;
+} list_t *list_Pt;
+\end{verbatim}
+
+One can envision similar instances in which a tag is required in a
+union declaration.
+
+\subsection{Enumerators}
+
+We feel that there is no advantage to using the enumerated type in C
+in lieu of one of its two competitors, {\tt \#defined } constants and
+{\tt static} variables.  Use of {\tt static} variables, however, does
+allow access to ``constants" via the debugger, as will {\tt enums}.
+
+There is a possibility that future C compilers (or existing ones) may
+offer type checking of enumerators.  This feature was not incorporated
+into the new ANSI standard, however, and we feel that it will not be a
+widespread feature, and thus not a useful one, in the near future.
+
+Use enums if you think it's worth the bother.  Use one of the other
+two options if you don't.  This is one of those rare cases where we
+don't much care either way.
+
+\subsection{Ordering Declarations}
+
+Declarations should be grouped logically wherever they appear.
+Variables and/or functions that have similar purposes and meanings
+should be grouped together.  The groups should be separated by a line
+of white space and possibly comments.
+
+Within those logical groups we prefer (but do not require) that they be
+alphabetized:  first by type, then by identifier.
+
+\begin{verbatim}
+char      *str1, *str2;
+float     x,   y, z;
+int       i, j;\end{verbatim}
+
+Use this system or any other sensible system that you can use consistently and
+reliably.
+
+\section{\bf FUNCTIONS}
+
+\subsection{Function Layout}
+
+Here is a ``template" for the typical function
+definition:
+
+\begin{verbatim}
+/*
+* FunctionName--
+*   what the function does, in a nutshell.
+*
+* Parameters:
+*   param1  description of param1
+*   param2  description of param2
+*   ...
+*
+* Results:
+*   returnVal       description of return value
+*   otherParm1      description of other returned value
+*                   (returned through parameters)
+*   otherParm2      description ...
+*   ...
+*
+* Side effects:
+*       description of side effects
+*/
+
+type_t FunctionName(IN param1, param2,
+OUT otherParm1, otherParm2)
+type_t  param1;         /* comment */
+type_t  param2;         /* comment */
+type_t  otherParm1;     /* comment */
+type_t  otherParm2;     /* comment */
+
+BEGIN("FunctionName")
+...
+RETURN(ReturnVal);
+END
+\end{verbatim}
+
+We will comment on the individual portions of this template below.
+
+\subsection{The Function Header}
+
+First of all, the importance of proper function headers cannot be
+overstated.  A software maintainer's worst nightmare is having to work
+on a program whose routines are not documented, or worse, improperly
+or incorrectly documented.
+
+
+Any code that you put into a working or final release must have
+complete, up-to- date function headers.
+
+A function should begin on a new page.  An exception may be made in
+the case of two or three very short, related functions, which may
+appear on the same page.  To start a function on a new page, insert a
+form feed on the line immediately before the first line of the header.
+
+A function header begins with the name of the routine followed by two
+dashes, as above.  Then, indented on the next line, is a brief
+description of the function's purpose and, if necessary, inner
+workings.  The following section lists parameters.  If there is any
+non-obvious way in which the parameters can be out of range or
+illegally valued, this is indicated.
+
+List results in the third section of the header.  Results include both
+the function's return value and any values returned by modifying areas
+pointed to by parameters.
+
+The fourth section describes possible side effects.  Here we take
+``side effects" to mean unanticipated, undesirable or otherwise
+unusual changes to the environment outside of the function.  If a
+function is intended to modify global data, then that is not a side
+effect.  If, say, the function normally performs some calculations,
+but occasionally also updates global data, then this updating {\em is}
+a side effect.  It is a side effect if the function produces output to
+{\tt stdio} or {\tt stderr} when it detects an error condition.  It is
+certainly a side effect if the function calls (directly or indirectly)
+{\tt exit()} as the result of an error.  If there is nothing notable
+to include in one or more of the sections, use ``none" in lieu of
+omitting the section(s) entirely.
+
+\subsection{The Parameters}
+
+Be sure to include the scope keywords ({\tt IN, INOUT, OUT}) if
+necessary.  See ``Function Parameters and Labels" in ``Declarations,"
+above.
+
+\subsection{Choosing Parameter Names}
+Our convention is that parameter names should reflect the nature of
+the data being passed through that parameter.
+
+For example, a parameter named {\tt x} is okay as a name for a
+``generic" float value.  It is not appropriate, however, as a name
+for, say, a normalization factor that ranges from 0.0 to 1.0.  In this
+case, you should call it {\tt normFactor} or something similar.
+
+We suggest strongly (but do not require) that you use the following
+names for ``generic" parameters:
+
+\begin{verbatim}
+NAME                    PARAMETER TYPE
+j, k, ...               ints (loop variables, counters, etc.)
+y, z ...                floats in mathematical functions
+x0, y0, x1, y1          pair of coordinates
+s1, s2, ...             strings
+c                       a single char
+\end{verbatim}
+
+You may also use these names for internally-defined variables.
+
+\subsection{The Function Body}
+
+Functions always begin with {\tt BEGIN}("...") and end with {\tt END}.
+They always exit through {\tt RET} or {\tt RETURN}(...).
+
+The one exception is the {\tt main} function, which may {\em not} use
+the {\tt BEGIN} and {\tt END} macros.  It should begin and end with
+braces, like a ``normal" (non- Standard) function.
+
+A function should perform one well-defined action or set of actions.
+If you have written a function that is doing several unrelated things,
+break it up into smaller pieces that do one thing at a time.
+
+Try to keep functions as short as possible.  If a function is two or
+three pages long, chances are that it needs to be broken down into
+smaller parts, or rewritten to be less space-consuming.
+
+Some functions do need to be long, however; for example, a function
+that implements a menu with ten or fifteen complicated items can
+stretch out over a couple of pages.  There is no need to break
+something like this down into smaller parts.
+
+Comment your code where needed.  If you think your code is so obtuse
+that it needs a lot of explaining, however, you may need to rewrite
+your code instead of writing comments.  You will occasionally
+implement algorithms that are difficult to understand, but this is
+different than writing code that is ``cute" or ``tricky."  In the long
+run, writing code that is plain, simple, and understandable will
+ingratiate you to your successors more than writing code that is
+maximally efficient but minimally comprehensible.
+
+See ``Style," below, for more discussion of coding style.
+
+\section{STYLE}
+\subsection{Comments}
+
+Comments should normally be ``blocks" that occupy
+entire lines.
+
+\begin{verbatim}
+/*
+* This is a comment.  Note that the first line is
+* occupied by the start comment symbol, and that the
+* last line is occupied by the end comment symbol.
+*/
+
+/*
+* This is a one-liner, but it still uses three lines.
+*/
+\end{verbatim}
+
+However, when declaring structures, lists of variables, etc., it is
+better to align comments horizontally, next to the objects being
+described.
+\begin{verbatim}
+typedef {
+float             re,             /* real part */
+im;             /* imaginary part */
+} cx_t;
+\end{verbatim}
+
+This is the only instance where comments should be mixed with program text.
+
+\subsection{Comments Within the Body of a Function}
+
+Use them whenever necessary.  Normally, a short function will be
+well-documented by its header, and will not require any additional
+comments within the actual code.
+
+Longer functions (20+ lines) should include comments as necessary to point out
+the purpose of the various parts of the code.
+
+Be sure to include comments explaining particularly tricky or
+intricate algorithms.  To give you a sense of proportion here, an
+implementation of a doubly-linked list or binary tree does not qualify
+as tricky, but a good implementation of a B-tree does.  If you don't
+feel like explaining the whole thing, summarize it and include one or
+more references to the appropriate text(s).
+
+\subsection{Macros}
+
+Macros that evaluate their arguments exactly {\em once} qualify for
+function-style naming; that is, they may be named according to the
+rules for functions, above.  For example:
+\begin{verbatim}
+#define WriteInt(n)     (void) printf("%d", n)
+\end{verbatim}
+
+On the other hand,
+\begin{verbatim}
+#define MIN(a, b)       ((a) > (b) ? (b) : (a))
+\end{verbatim}
+does not qualify for function-style naming.  Look what happens in this situation:
+\begin{verbatim}
+MIN(a++, b++);
+\end{verbatim}
+
+This expands to:
+\begin{verbatim}
+((a++) > (b++) ? (b++) : (a++))
+\end{verbatim}
+which has the effect of incrementing the greater of the two arguments
+{\em twice}, and
+returning a value one greater than expected.
+
+\subsection{Typedefs}
+
+As mentioned above, all structures and unions are to be declared using
+typedefs.  See {\bf ``The Naming Conventions for Identifiers,"} above,
+for examples.
+
+Do not {\tt typedef} something to be an array.  Arrays are passed by
+reference and this can produce unexpected results.  If you need a {\tt
+typedef}-ed array, put the array in a structure so that it will be
+passed by value.
+\begin{verbatim}
+typedef struct {
+float        data[DAT_SIZE];
+} data_t;
+\end{verbatim}
+
+You can also pass the above structure by reference, but this requires
+the explicit use of the \& (ampersand) operator.
+
+Unique scalar types can be created by encapsulating scalars in {\tt
+structs}.  For example:
+\begin{verbatim}
+typedef struct {
+int         val;
+} unique_t;
+\end{verbatim}
+
+Consider the following, in addition to the declaration immediately above:
+\begin{verbatim}
+typedef struct {
+int         val;
+} unique2_t;
+
+typedef int notUnique_t;
+
+unique_t            a;
+unique2_t           b;
+notUnique_t         c;
+int                 d;
+
+a.val = 1;
+b.val = 1;
+c = 1;
+d = 1;
+
+a.val = b.val;
+c = d;
+a.val = c;
+\end{verbatim}
+
+So far, so good.  All of the preceding code is legal.  But the
+following assignments are {\em illegal}:
+\begin{verbatim}
+a = b;
+a = d;
+\end{verbatim}
+The types unique\_t and unique2\_t are just that: unique types holding
+scalar values.  This code is a little ugly but it works, and offers
+the programmer some ability to typecheck scalars.  On the other hand,
+there is no point in using typedefs to declare synonyms for ordinary
+types, and this practice can actually be destructive.  The typedef
+mechanism is really only a preprocessor expansion, and does not offer
+any increased type-checking.  Suppose, for example, that you have a
+{\tt typedef-}ed {\tt int} called {\tt color\_t}.  Somehow you have
+slipped up, though, and assigned ordinary {\tt ints} to variables of
+type {\tt color\_t} in places throughout your program.  Later on in
+your program's development, you change {\tt color\_t} to a typedefed
+struct.  Lo, your code breaks unexpectedly at the places where you
+used to assign {\tt ints} to an {\tt int color\_t}, but where you are
+now attempting to assign an {\tt int} to a {\tt struct}.  You won't
+get into this predicament if you use the scalar encapsulation
+technique above.
+
+\subsection{Arrays}
+
+Be careful passing arrays as parameters.  It is easy to
+unintentionally modify global data residing in arrays, since they are
+passed by reference, unlike all other data types in C.
+
+A convenient way of creating a copy of an array parameter (passing it
+by value) is to encapsulate the array in a structure.  (See
+``Typedefs," above.)
+
+{\em Always} label array variables with the ``\_A" suffix.
+
+\subsection{Inner Blocks}
+
+We encourage the use of declarations of loop variables, temporaries,
+etc., in inner blocks.  This shortens, and thus clarifies, the list of
+declarations at the beginning of functions.  It may also enable better
+optimization in certain cases, and it slightly reduces clutter in the
+compilerUs symbol table.
+
+\subsection{Indentation}
+We don't enforce any particular indentation style, but do have a few
+suggestions.
+
+Indentation should be either four or eight spaces.  Most Standardized
+code in existence is indented eight spaces, but the trend is now
+toward four-space indentation.
+
+Here, as an example, is the author's indentation style:
+\begin{verbatim}
+type_t Function(args)
+
+type_t  arg1, arg2;
+type_t  arg3;
+
+BEGIN("Function")
+type_t  local1,  local2;
+type_t  local3;
+
+if (expr) {
+...
+}
+else {
+...
+}
+
+for (init; expr; each) {
+...
+}
+
+switch (value) {
+case VAL1:
+...
+break;
+
+case VAL2:
+...
+break;
+...
+}
+
+while (expr) {
+...
+}
+
+do {
+...
+} while (expr);
+
+RETURN(retVal);
+
+END
+\end{verbatim}
+
+The only aspect of the above indentation that we absolutely require is
+that the closing brace preceding the while in a {\tt do ... while}
+loop come on the same line as the while.  Otherwise this can look
+pretty confusing.  The author's {\tt else} and {\tt switch}
+indentation are at odds with some styles of C indentation, but he
+prefers his style to the others.  Similarly, you may prefer your
+particular style to the one above, and this is perfectly okay, so long
+as you are reasonable and consistent.
+
+\subsection{Looping Structures}
+Do {\em not} construct ``cute" for and while loops.  In the author's
+opinion, even some of the constructs in K\&R are a little
+incomprehensible.
+
+In particular, avoid writing for loops that are more sensibly written as
+{\tt whiles}.
+
+\section{USING MAKE, SCCS and RCS}
+\subsection{Format of Makefiles}
+
+There is as of yet no standardized format for makefiles.  An example
+of a makefile currently in use is maketr.
+
+\subsection{make}
+
+make is integrated cleanly into the unix development environment.  In
+particular, it will retrieve files automatically from SCCS libraries.
+
+\section{USING LINT}
+
+\subsection{lint}
+
+{\tt lint} is a UNIX utility that adds certain type- and
+usage-checking features to the C programming environment.
+
+All code should pass lint with no errors.
+
+\section{USING SCCS and RCS}
+SCCS (Source Code Control System) and RCS  are
+``librarian'' utility for unix.
+
+SCCS automates the check-out/check-in procedure described above in
+{\bf ``The Development Process.''}  It also provides a record of
+changes to versions and includes features for automating release
+generation.
+\end{document}

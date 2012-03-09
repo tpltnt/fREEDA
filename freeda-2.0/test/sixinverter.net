@@ -1,0 +1,56 @@
+****Inverter netlist
+
+.tran2 tstop=6ns tstep=0.1ns im=0 deriv=0 cm=1 reltol=0.10 
+
+*.tran tstop=4ns tstep=0.01ns gcomp=1e-8
+*c:c1 2 0 c=1e-14
+*c:c2 3 0 c=1e-14
+*c:c3 4 0 c=1e-14
+*c:c4 5 0 c=1e-14
+*c:c6 6 0 c=1e-14
+*c:c7 7 0 c=1e-14
+*c:c8 8 0 c=1e-14
+
+vsource:vdd 3 0 vdc=5V
+
+vpulse:vgs 1 0 v1=0V v2=5V td=0 tr=0.1n tf=0.1n pw=1ns per=2ns
+
+Mosnbsim3:n1 2 1 0 0 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+Mospbsim3:p1 2 1 3 3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+Mosnbsim3:n2 4 2 0 0 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+Mospbsim3:p2 4 2 3 3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+Mosnbsim3:n3 5 4 0 0 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+Mospbsim3:p3 5 4 3 3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+Mosnbsim3:n4 6 5 0 0 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+Mospbsim3:p4 6 5 3 3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+Mosnbsim3:n5 7 6 0 0 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+Mospbsim3:p5 7 6 3 3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+Mosnbsim3:n6 8 7 0 0 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.067
+Mospbsim3:p6 8 7 3 3 l=2.2e-6 w = 10e-6 tnom = 573.15 temp = 373.15
++ u0=0.025
+
+.out plot term 8 vt in "vdsinv8.out"
+.out plot term 7 vt in "vdsinv7.out"
+.out plot term 6 vt in "vdsinv6.out"
+.out plot term 5 vt in "vdsinv5.out"
+.out plot term 4 vt in "vdsinv4.out"
+.out plot term 2 vt in "vdsinv2.out"
+.out plot term 1 vt in "vgsinv1.tran"
+
+.end

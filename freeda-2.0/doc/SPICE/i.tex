@@ -1,0 +1,280 @@
+%
+% I
+%
+\element{I}{Independent Current Source}
+\begin{figure}[h]
+\centering
+\ \pfig{i_spice.ps}
+\caption{I --- independent current source.}
+\end{figure}
+
+\form{{\tt I}name $N_{+}$ $N_{-}$ \B \B DC\E \B DCvalue\E \newline
+      {\tt +}\B {\tt AC} \B ACmagnitude \B ACphase\E \E \E  \newline
+      {\tt +} \B {\tt DISTOF1} \B F1Magnitude \B F1Phase\E \E \E
+      {\tt +} \B {\tt DISTOF2} \B F2Magnitude \B F2Phase\E \E \E }
+
+\spicethreeform{{\tt I}name $N_{+}$ $N_{-}$ \B \B DC\E \B DCvalue\E \newline
+      {\tt +}\B {\tt AC} \B ACmagnitude \B ACphase\E \E \E  \newline
+      {\tt +} \B TransientSpecification \E\newline
+      {\tt +} \B {\tt DISTOF1} \B F1Magnitude \B F1Phase\E \E \E\newline
+      {\tt +} \B {\tt DISTOF2} \B F2Magnitude \B F2Phase\E \E \E }
+
+\pspiceform{{\tt I}name $N_{+}$ $N_{-}$ \B \B DC\E  \B DCvalue\E
+      \B {\tt AC} \B ACmagnitude \B ACphase\E \E \E\\
+      {\tt +} \B TransientSpecification \E}
+
+\example{IBIAS 1 0 1.0M\\
+         ICLOCK 20 5 PULSE(0M 10M 1N 2N 1.5N 21.9N 5N 20N)\\
+         ISSIGNAL AC 1U 90}
+
+\begin{widelist}
+\item[$N_{+}$] is the positive current source node.
+                (Current flow is out of the positive to the negative node
+\item[$N_{-}$] is the negative current source node.
+
+\item[{\tt DC}] is the optional keyword for the \dc\ value of the source.
+
+\item[{\it DCvalue}] is the \dc\ current value of the source.\\
+               (Units: A; Optional; Default: 0; Symbol: $I_{DC}$)
+
+\item[{\tt AC}] is the keyword for the \ac\ value of the source.
+
+\item[{\it ACmagnitude}] is the \ac\ magnitude of the source used during
+\ac analysis. That is, it is the peak \ac\ current so that the
+\ac\ signal is $\mbox{{\it ACmagnitude}}\,\mbox{sin}(\omega t +
+\mbox{ACphase})$.
+ {\it ACmagnitude} is ignored for other types of analyses.\\
+               (Units: A; Optional; Default: 1; Symbol: $I_{AC}$)
+\item[{\it ACphase}] is the ac  phase of the source.  It is used only in
+               \ac\ analysis.\\
+               (Units: Degrees; Optional; Default: 0; Symbol: $\phi_{\ms{AC}}$)
+\end{widelist}
+
+\begin{widelist}
+\item[{\tt DISTOF1}] is the distortion keyword for distortion component 1
+              which hass frequency {\tt F1}.
+              (see  the  description  of  the {\tt .DISTO}  statement on
+              page \pageref{.DISTOstatement}).
+
+\item[{\it F1magnitude}] is the magnitude of the distortion component at
+              {\tt F1}. See {\tt .DISTOF1} keyword above.\\
+               (Units: A; Optional; Default: 1; Symbol: $I_{F1}$)
+
+\item[{\it F1phase}] is the phase of the distortion component at
+              {\tt F1}. See {\tt .DISTOF1} keyword above.\\
+               (Units: Degrees; Optional; Default: 0; Symbol: $\phi_{F1}$)
+
+
+\item[{\tt DISTOF2}] is the distortion keyword for distortion component 2
+              which hass frequency {\tt F2}.
+              (see  the  description  of  the {\tt .DISTO}  statement on
+              page \pageref{.DISTOstatement}).
+
+\item[{\it F2magnitude}] is the magnitude of the distortion component at
+              {\tt F2}. See {\tt .DISTOF2} keyword above.\\
+               (Units: A; Optional; Default: 1; Symbol: $I_{F2}$)
+
+\item[{\it F2phase}] is the phase of the distortion component at
+              {\tt F2}. See {\tt .DISTOF2} keyword above.\\
+               (Units: Degrees; Optional; Default: 0; Symbol: $\phi_{F2}$)
+\item[{\it TransientSpecification}] is the optional transient specification
+          described more fully below.
+\end{widelist}
+\note{
+\item
+The independent current source has three different sets of
+parameters to describe the source for
+DC analysis (see {\tt .DC} on page \pageref{.DCstatement}),
+AC analysis (see {\tt .AC} on page \pageref{.ACstatement}), and
+transient analysis (see {\tt .TRAN} on page \pageref{.TRANstatement}).
+The \dc\ value of the source is used during bias point evaluation and \dc\ analysis
+is {\it DCValue}. It is also the constant value of the current source if no
+{\it TransientSpecification} is supplied.
+It may also be used in conjunction with the {\tt PWL} transient specification
+if a time zero value is not provided as part of the transient specification.
+The \ac\ specification, indicated by the keyword {\tt AC} is independent
+of the \dc\ parameters and the {\it Transient Specification}.
+\item
+The original documentation distributed with \spicetwo\ and \spicethree\
+incorrectly stated that if a {\it TransientSpecification} was supplied then
+the time-zero transient current was used in \dc\ analysis and in determiniong
+the operating point.}
+
+\noindent{\large \bf  Transient Specification}
+
+Five transient specification forms are supported:
+pulse ({\tt PULSE}),  exponential ({\tt EXP}),  sinusoidal ({\tt SIN}),
+piece-wise  linear ({\tt PWL}),   and
+single-frequency FM ({\tt SFFM}).  The default values of some of the parameters
+of these transient specifications include
+{\tt TSTEP} which is the printing increment and {\tt TSTOP} which is the
+final time (see the {\tt .TRAN} statement on page \pageref{.TRANstatement}
+for further explanation of these quantities).
+In the following $t$ is the transient analysis time.
+
+\noindent{\underline{\bf Exponential:}}
+\\[0.2in]
+\form{{\tt EXP(} $I_1$ $I_2$ \B $T_{D1}$ \E \B $\tau_1$ \E
+       \B $T_{D2}$ \E \B$\tau_2$ \E {\tt )}}
+\vspace{-0.5in}
+\keywordtable{
+$I_1   $&initial current    & A &  \reqd   \X
+$I_2   $&pulsed current     & A &  \reqd   \X
+$T_{D1}$&rise delay time    & s &  0.0     \X
+$\tau_1$&rise time constant & s &  {\tt TSTEP}    \X
+$T_{D2}$&fall delay time    & s &  $T_{D1}$
+                 +\newline\hspace*{\fill}{\tt TSTEP}\X
+$\tau_2$&fall time constant & s &  {\tt TSTEP}\X
+}
+The exponential transient is a single-shot event specifying two exponentials.
+The current is
+$I_1$ for the first $T_{D1}$ seconds at which it begins increasing exponentially
+towards $I_2$ with a time constant of $\tau_1$ seconds.  At time
+$T_{D2}$ the current exponentially decays towards $I_1$ with a time constant
+of $\tau_2$. That is,
+\begin{equation}
+i = \left\{ \begin{array}{ll}
+     I_1                                           & t \le T_{D1}\\
+     I_1+(I_2-I_1)(1-e^{\textstyle (-(t-T_{D1})/\tau_1)})  & T_{D1} < t \le T_{D2}\\
+     I_1+(I_2-I_1)(1-e^{\textstyle (-(t-T_{D1})/\tau_1)})
+        +(I_1-I_2)(1-e^{\textstyle (-(t-T_{D2})/\tau_2)})  &  t > T_{D2}
+     \end{array} \right. %}
+\end{equation}
+\vspace*{-0.2in}
+\begin{figure}[hbp]
+\centering
+\input{iexp}
+\caption[Current source exponential ({\tt EXP}) waveform]
+{Current source exponential ({\tt EXP}) waveform for {\tt EXP(0.1 0.8 1 0.35 2 1)}
+\label{fig:iexp} }
+\end{figure}
+
+\noindent\underline{\bf Single-Frequency FM:}
+\\[0.2in]
+\form{{\tt SFFM(} $V_O$ $V_A$ $F_C$ $\mu$ $F_S$ {\tt )}}
+
+\keywordtable{
+$I_O$&offset current     & A  &        \X
+$I_A$& peak amplitude of \ac\ current& A  &        \X
+$F_C$&carrier frequency  & Hz &1/{\tt TSTOP} \X
+$\mu$&modulation index   & -  & 0      \X
+$F_S$&signal frequency   & Hz &1/{\tt TSTOP} \X
+}
+
+The single frequency frequency modulated transient response is described by
+\begin{equation}
+i = I_O + I_A\sin{(2 \pi \, F_C t +  \mu\sin{(2 \pi F_S t)})}
+\end{equation}
+\begin{figure}[hbp]
+\centering
+\input{isffm}
+\caption[Current source single frequency frequency modulation ({\tt SFFM})
+waveform]{Current source single frequency frequency modulation ({\tt SFFM})
+waveform for\newline
+\hspace*{\fill}{\tt SFFM(0.2 0.7 4 0.9 1)}\hspace*{\fill}.
+\label{fig:isffm}}
+\end{figure}
+
+\noindent{\underline{\bf Pulse:}}
+\\[0.2in]
+\form{{\tt PULSE(} $V_1$ $V_2$ \B $T_D$ \E \B $T_R$ \E \B $T_F$\E
+       \B $W$ \E \B $T$ \E {\tt )}}
+
+\keywordtable{
+$I_1  $&initial current & A &  \reqd   \X
+$I_2  $&pulsed current  & A &  \reqd   \X
+$T_D  $&delay time    & s &   0.0    \X
+$T_R  $&rise time     & s &{\tt TSTEP}  \X
+$T_F  $&fall time     & s &{\tt TSTEP}  \X
+$W    $&pulse width   & s &{\tt TSTOP}  \X
+$T    $&period        & s &{\tt TSTOP}  \X
+}
+The pulse transient waveform is defined by
+\begin{equation}
+i = \left\{ \begin{array}{ll}
+I_1                         & t \le T_D\\
+I_1 + {{\textstyle t'} \over {\textstyle T_R}} ({I_2}-{I_1})&0<t' \le T_R\\
+I_2                         &{T_R} < t'< (T_R+W)\\
+I_2 - {{\textstyle t'-W} \over {\textstyle T_F}} (I_1-I_2)
+                   &(T_R+W) < t' < (T_R+W+T_F)\\
+I_1           &(T_R+W+T_F) < t' < T
+     \end{array} \right. %}
+\end{equation}
+where
+\begin{equation}
+t' = t - T_D -(n-1)T
+\end{equation}
+and $t$ is the current analysis time and $n$ is the cycle index.  The effect
+of this is that after an initial time delay $T_D$ the transient waveform
+repeats itself every cycle.
+
+\begin{figure}[hbp]
+\centering
+\input{ipulse}
+\caption[Current source transient pulse ({\tt PULSE}) waveform]{Current source
+transient pulse ({\tt PULSE}) waveform for\newline \hspace*{\fill}
+{\tt PULSE(0.3 1.8 1 2.5 0.3 1 0.7)} \hspace*{\fill} \label{fig:ipulse}}
+\end{figure}
+
+\noindent{\underline{\bf Piece-Wise Linear:}}
+\\[0.2in]
+\form{{\tt PWL(} $T_1$ $I_1$\B $T_2$ $I_2$ ... $T_i$ $I_i$ ... $T_N$ $I_N$ \E )}
+Each pair of values ($T_i$, $I_i$) specifies that  the  value
+of  the  source  is $I_i$ at time = $T_i$. At times between $T_i$ and
+$T_{i+1}$ the values are linearly interpolated.
+If $T_1 >$ 0 then the current is constant at {\it DCValue}
+(specified on the element line) until time $T_1$.
+\begin{equation}
+i = \left\{ \begin{array}{ll}
+    {\it DCvalue}& t < T_1\\
+    I_i         & t = T_i\\
+    I_{i+1}     & t = T_{i+1}\\
+    I_i + \left({{t-T_i} \over {T_{i+1} - T_i}}\right)(I_{i+1}-I_i)
+                & T_i < t \le T_{i+1}\\
+    I_N         & t > T_N\\
+     \end{array} \right. %}
+\end{equation}
+\begin{figure}[hbp]
+\centering
+\input{ipwl}
+\caption[Current source transient piece-wise linear ({\tt PWL}) waveform]{Current
+source transient piece-wise linear ({\tt PWL}) waveform for\newline\hspace*{\fill}
+{\tt PWL(1 0.25  1 1 2 0.5 $\ldots$ 3 0.5 4 1 $\ldots$ 4.5 1.25 $\ldots$)} with
+{\it DCValue = 0.25}.  \hspace*{\fill} }
+\end{figure}
+
+
+\noindent{\underline{\bf Sinusoidal:}}
+\\[0.2in]
+\form{SIN( $V_O$ $V_A$ \B $F$ \E \B $T_D$ \E \B $\theta$ \E {\tt )}}
+
+\pspiceform{
+   SIN( $V_O$ $V_A$ \B $F$ \E \B $T_D$ \E \B $\theta$ $\phi$ \E {\tt )}}
+
+\pspiceninetytwoform{
+   SIN( $V_O$ $V_A$ \B $F$ \E \B $T_D$ \E \B $\theta$ $\phi$ \E {\tt )}}
+
+\keywordtable{
+$I_O     $&current offset   & A & \reqd    \X
+$I_A     $&current amplitude& A & \reqd    \X
+$F       $&frequency        & Hz&   1/{\tt TSTOP}\X
+$T_D     $&time delay       & s &   0    \X
+$\Theta  $&damping factor   &1/s&   0\X
+$\phi    $&phase            &degree&   0\X
+}
+The sinusoidal transient waveform is defined by
+\begin{equation}
+i = \left\{ \begin{array}{ll}
+I_0                         & t \le T_D\\
+I_0 + I_1 e^{-[\textstyle (t -T_D)\Theta]} \sin{2\pi[F(t-T_D) + \phi/360]}
+                            & t > T_D
+     \end{array} \right. %}
+\end{equation}
+
+\begin{figure}[hbp]
+\centering
+\input{isin}
+\caption[Current source transient sine ({\tt SIN}) waveform]{Current source
+transient sine ({\tt SIN}) waveform for\newline \hspace*{\fill}
+{\tt SIN(0.1 0.8 2 1 0.3 )}.  \label{fig:isin} \hspace*{\fill} }
+\end{figure}

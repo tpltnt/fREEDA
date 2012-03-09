@@ -1,0 +1,83 @@
+Simple Thermal VCSEL Diode (Mena et al. Model)
+* Time-marching Transient analysis "tran2" with a current pulse input
+**********************************************************************
+
+.options f0=1e9 f1=1.01e9
+
+*.tran2 tstop=5n tstep=.00008n im=0 out_steps=100
+*.svhb n_freqs=5 n_freqs2=5 fundamental=f0 fundamental2=f1 deriv=0 steps=0
+.svhb n_freqs=45 fundamental=f0 deriv=0 steps=0
+
+*vpulse:vs  1 0 v1=1m v2=15m  td=0n  tr=.1n  tf=.1n  pw=4n  per=5n
+
+*circuit to convert current to voltage since
+*fREEDA does not have a current pulse
+*vsource:vp 1 11 vac=0
+*g:g1 11 2 0 0 g=-1 ri=1e12 ro=1e12
+
+*vsource:vs 2 0 vdc=3 vac=.5 f=f0 phase=-90
+isource:is0 2 0 idc=18m iac=0.633m f=f0 phase=-90
+*isource:is1 2 0 idc=0m iac=0.633m f=f1 phase=-90
+
+vsource:vcurrs 2 103 vac=0v
+r:rin 3 0 r=1e5
+
+*c:c1 103 0 c=0.21p
+*l:l1 103 104 l=1.28n
+*r:r1 104 105 r=0.3
+*c:c2 105 0 c=0.35p
+
+*r:r2 105 106 r=47.07
+
+*c:c3 106 0 c=2.38p
+*l:l2 106 107 l=0.33n
+*r:r3 107 108 r=1.12
+
+*r:r4 108 109 r=1.21
+*c:c4 109 0 c=7.57p
+*r:r5 108 3 r=3.92
+
+l:lp 103 104 l=2.28n
+c:cp 104 0 c=0.39p
+r:rs 104 3 r=76
+
+vcsel:ld1 3 0 4 "nref" 5 "tref" 6 "oref" 7 "pref" 8 "lref" t0=20
+
+*open:o1 4 "nref"
+resistor:rnout 4 "nref" r=1e5
+
+*open:o2 5 "tref"
+*r:rth 5 55 r=2.6e3
+*c:cth 5 55 c=0.384615n
+*vsource:vt0 55 "tref" vdc=20
+resistor:rtout 5 "tref" r=1e5
+
+*open:o3 6 "oref"
+resistor:roout 6 "oref" r=1e5
+
+*open:o4 7 "pref"
+resistor:rpout 7 "pref" r=1
+
+*open:o5 8 "lref"
+resistor:rlout 8 "lref" r=1
+
+.ref "nref"
+.ref "tref"
+.ref "oref"
+.ref "pref"
+.ref "lref"
+
+.out plot term 3 vf mag in  "v_svcseld_hb_mag"
+.out plot term 7 vf mag in  "sn_svcseld_hb_mag"
+.out plot term 3 vf invfft 10 repeat in  "v_svcseld_hb_freeda"
+.out plot element "vsource:vcurrs" 0 if invfft 10 repeat in "i_svcseld_hb_freeda"
+.out plot term 7 vf invfft 10 repeat in  "sn_svcseld_hb_freeda"
+.out plot term 8 vf invfft 10 repeat in  "l_svcseld_hb_freeda"
+
+*.out plot term 3 vt in "SVCSELD_v_T0_20_pulse_freeda"
+*.out plot term 4 vt in "SVCSELD_n_T0_20_pulse_freeda"
+*.out plot term 5 vt in "SVCSELD_t_T0_20_pulse_freeda"
+*.out plot term 6 vt in "SVCSELD_o_T0_20_pulse_freeda"
+*.out plot term 7 vt in "SVCSELD_p_T0_20_pulse_freeda"
+*.out plot term 8 vt in "SVCSELD_l_T0_20_pulse_freeda"
+.end

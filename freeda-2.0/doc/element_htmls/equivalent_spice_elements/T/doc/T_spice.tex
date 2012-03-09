@@ -1,0 +1,212 @@
+%\documentclass{article}
+%\usepackage{epsf}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight 7.375in
+\evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[T \- Transmission Line]{\noindent{\LARGE \textbf{Transmission Line}} \hspace{70mm}\huge \textbf{T}}
+%\newline
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1.1in\pfig{t_spice.ps}} \caption{T ---
+transmission line element.}
+\end{figure}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+%\vspace{2mm}
+\linethickness{0.5mm}
+\line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form:}
+\newline
+{\tt T}name $n_1$ $n_2$ $n_3$ $n_4$
+    \B {\it ModelName} \E
+    {\tt Z0}={\it CharacteristicImpedance}
+    {\tt TD}={\it TimeDelay}
+    \B {\tt IC}=$V_1,I_1,V_2,I_2$\E  \\
+    \\
+    {\tt T}name $n_1$ $n_2$ $n_3$ $n_4$ \B {\it ModelName} \E
+       {\tt Z0}={\it CharacteristicImpedance} \newline
+    {\tt +}   {\tt F}={\it ReferenceFrequency}
+    {\tt +} \B {\tt NL}={\it NormalizedElectricalLength}\E
+    \B {\tt IC}=$V_1,I_1,V_2,I_2$\E
+\newline
+%\vspace{2mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+%\newline
+where
+\newline
+\begin{tabular}{r l}
+{\it $n_1$} & positive node at port 1.\\
+{\it $n_2$} & negative node at port 1.\\
+{\it $n_3$} & positive node at port 2.\\
+{\it $n_4$} & negative node at port 2.\\
+\notforsspice{{\it ModelName} & is the model name.}\\
+{\tt Z0} & is the characteristic impedance. (Z-zero)\\
+               & (Units: $\Omega$; Required; Symbol: $Z_0$; Default:
+               none)\\
+{\tt TD} & transmission line delay.\\
+               & (Units: s; Either {\tt TD} or {\tt F} Required;
+Symbol: $T_D$; Default: none)\\
+{\tt F} & reference frequency.\\
+               & (Units: Hz; Either {\tt TD} or {\tt F} Required;
+Symbol: $F$; Default: none)\\
+{\tt NL} & normalized electrical length. Normalization is with\\
+& respect to the wavelength in free space at the reference frequency {\tt F}.\\
+               & (Units: none; Optional; Symbol: $L_{\ms{NORMALIZED}}$; Default:
+0.25)\\
+\notforsspice{ {\tt IC} & is the optional  initial condition\\
+& specification using {\tt IC=} $V_1,I_1,V_2,I_2$ is intended
+for\\
+& use with the {\tt UIC} option on  the  {\tt .TRAN}  line, when\\
+& a transient analysis is desired starting from other than the\\
+& quiescent operating point. Specification of the transient\\
+& initial conditions using the {\tt .IC} statement is preferred\\
+& and is more convenient.}
+\end{tabular}
+%\newline
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in SPICE
+\textit{Example:}
+\newline
+\texttt{T1 1 0 2 0 Z0=50 TD=10NS\\ \\
+         TLONG 1 0 2 0 Z0=50 F=1G NL=10\\ \\
+         TLONG 1 0 2 0 Z0=50 F=1G}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+The length of the line may be expressed in either of two  forms.
+The  transmission  delay,  {\it TD}, may be specified directly (as
+TD=10ns, for example). Alternatively, a frequency F may  be given,
+together with NL, the normalized electrical length of the
+transmission line with respect to the wavelength in  the line at
+the frequency F. If a frequency is specified but NL is omitted,
+0.25 is  assumed (that is, the frequency is assumed to be the
+quarter-wave frequency). Note that although both forms for
+expressing the line length are indicated as optional, one of the
+two must be specified.
+
+Note that only 3 distinct nodes should be specified as this
+element describes a single  propagating mode.  With four distinct
+nodes specified, two propagating modes may exist on the actual
+line.  If there are four distinct nodes then two lines are
+required.
+
+The transmission line {\tt T} element is modeled as a
+bidirectional ideal delay element \notforsspice{as shown in figure
+\ref{t:model:fig}}. The maximum time step in \spice\ is limited to
+half of the time delay along the line.  Thus short transmission
+lines can result in many time steps in a transient analysis.
+Unnecessary short transmission lines should be
+avoided.\notforsspice{
+\begin{figure}[h]
+%\centerline{\epsfxsize=0.8in\pfig{tmodel.ps}}
+tmodel.ps
+%\caption[Ideal bidirectional delay element model of
+%transmission lines]{Ideal bidirectional delay element model of the
+%transmission line {\tt T} element. \label{t:model:fig}}
+\end{figure}
+
+\modeltype{URC}
+
+\model{URC}{Lossy RC Transmission Line Model}
+\begin{figure}[h]
+\centerline{\epsfxsize=1.4in\pfig{uurc.ps}}
+%\ \psfig{figure=urc.ps}
+\caption[URC --- lossy RC transmission line model]{URC --- lossy
+RC transmission line model. \label{urc:fig}}
+\end{figure}
+
+\form{ {\tt .MODEL} ModelName {\tt URC(} \B  \B keyword = value\E
+... \E {\tt )}}
+
+\example{ .MODEL LONGLINE URC( ) }
+
+
+\begin{table}[h]
+\caption{URC model parameters. \label{urctable}} \keywordtable{
+{\tt K} & Propagation Constant               & -     & 2.0\X {\tt
+FMAX} & Maximum Frequency of interest      & Hz    & 1.0G\X {\tt
+RPERL}&Resistance per unit length\sym{I_{S,\ms{PERL}}}& $\Omega$/m
+& 1000\X {\tt CPERL}&Capacitance per unit
+length\sym{I_{S,\ms{PERL}}}& F/m   & 1.0E-15\X {\tt
+ISPERL}&Saturation current per unit
+length\sym{I_{S,\ms{PERL}}}&A/m&\omit\X {\tt RSPERL}&Diode
+Resistance per unit length\sym{I_{S,\ms{PERL}}}
+       &$\Omega$/m&0\X
+   }
+\end{table}
+
+The URC model was originally proposed by Gertzberrg
+\cite{gertzberg:74}
+%L.  Gertzberrg in 1974.
+In this model a transmission line is represented by the cascade of
+a number of transmission line segments each of which is modeled by
+an RC or R-Diode subcircuit. The lengths of the line segments
+increases in a geometric progression towards the middle of the
+line. The number of line segments is
+\begin{equation}
+N =
+\end{equation}
+and the length of the $i$th line segment is
+\begin{equation}
+l_i =
+\end{equation}
+If {\tt ISPERL} is not specified \marginid{{\tt ISPERL} omitted}
+then a linear transmission line is modeled, see figure
+\ref{urc:fig}, with
+\begin{eqnarray}
+R_i &=& R_{\ms{PERL}} l_i\\
+C_i &=& C_{\ms{PERL}} l_i
+\end{eqnarray}
+If {\tt ISPERL} is not \marginid{{\tt ISPERL} specified} then a
+diode loaded nonlinear transmission line is modeled, see figure
+\ref{urc:fig}, with
+\begin{eqnarray}
+R_i &=& R_{\ms{PERL}} l_i\\
+R_{S,i} &=& R_{S,\ms{PERL}} l_i\\
+C_i &=& C_{J,i} \left(1 -
+      {{\textstyle \phi}\over{\textstyle V_{J,i}}}\right)^{\textstyle
+      -\frac{ 1}{2}}\\
+I_S &=& I_{S,i}
+        \left( e^{\textstyle{{\textstyle V_{J,i}}\over{\textstyle V_{\ms{TH}}}}
+         -1} \right)
+\end{eqnarray}
+where the zero-bias capacitance of the $i$th diode is
+\begin{eqnarray}
+C_{J,i} &=& C_{\ms{PERL}} l_i
+\end{eqnarray}
+its reverse saturation current is
+\begin{eqnarray}
+I_{S,i} &=& I_{S,\ms{PERL}}
+\end{eqnarray}
+}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{tlinp4} element. See
+\texttt{tlinp4} for full documentation. \\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu\\
+\end{tabular}
+%\end{document}

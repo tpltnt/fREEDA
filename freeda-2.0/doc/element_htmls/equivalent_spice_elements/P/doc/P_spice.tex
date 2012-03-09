@@ -1,0 +1,83 @@
+%\documentclass{article}
+%\usepackage{epsf,html}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight
+7.375in \evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+\section[P \- Port Element]{\noindent{\LARGE \textbf{Port Element}}
+\hspace{70mm}\huge\textbf{P}}
+\linethickness{1mm}\line(1,0){425} \normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1.5in\pfig{p_spice.ps}} \caption{P --- port
+element.\label{fig:port}}
+\end{figure}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+%\vspace{2mm}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form:}
+\newline
+{\tt P}{\it name} $N_{+}$ $N_{-}$ {\tt PNR=} {\it PortNumber}
+      \B{\tt ZL=} {\it ReferenceImpedance}\E
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+\newline
+\begin{tabular}{r l}
+$N_{+}$ & is the positive element node,\\
+$N_{-}$ & is the negative element node and \\
+{\it PNR} & is the integer index of the port. The port index
+must\\
+& be numbered sequentially beginning at 1. That is, the first\\
+& occurrence of a {\tt P} element in the input netlist must
+have\\
+& {\tt PNR=1} the second occurrence {\tt PNR=2}, etc.\\
+             & (Units: none; Required; Symbol: $PortNumber$;)\\
+{\it ZL} & is the reference impedance of port.\\
+              & (Units: $\Omega$; Optional; Default: 50~$\Omega$; Symbol: $Z_L$;)\\
+\end{tabular}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter table
+%\vspace{4mm}
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{PORT1 1 0 PNR=1 ZL=75}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+As an example of using the port specification with a source,
+consider the partial circuit in Fig. \ref{fig:port_source}. The
+spice code defining this is\\
+{\it {\tt P}name  $N_{+}$ $N_{-}$\ {\tt PNR=} PortNumber \B{\tt
+ZL=}\ ReferenceImpedance\E\\ \B{\tt VIN $N_{-}$ 0 {\tt PULSE}
+(Pulse Specification)\E}}
+\begin{figure}[h]
+\centering \ \pfig{pex.ps} \caption{Example of the usage of a P
+element with a pulse voltage source. \label{fig:port_source}}
+\end{figure}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent element in \FDA. $V_{AS}$ in Fig.
+\ref{fig:port} is not visible to the user and is used by the
+program to test for the S parameters.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

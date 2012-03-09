@@ -1,0 +1,22 @@
+# ifREEDA 0.1  /home/nmkripla/releases/freeda-1.3/simulator/projects/thermalMMIC_prj/thermalMMIC1_tr.sch
+
+.options deltat=1us nsteps=101 temp=300.
+
+
+
+
+thermalheatsinkmmic1:t1 1 2 ntimesteps=nsteps dt=deltat tambient=temp time_d=1
+vsource:v1 2 0 vdc=temp
+isource:i1 1 0 idc=0.4
+r:r1 1 2 r=1e5
+
+
+.svtr tstop=100us tstep=deltat n_freqs=8
+
+
+.out plot element "thermalheatsinkmmic1:t1" 0 it  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/thermalMMIC_prj/input.power"
+.out plot element "thermalheatsinkmmic1:t1" 0 ut  in "/home/nmkripla/releases/freeda-1.3/simulator/projects/thermalMMIC_prj/output.temperaturec"
+
+
+
+.end

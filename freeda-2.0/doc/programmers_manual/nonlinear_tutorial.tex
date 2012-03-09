@@ -1,0 +1,1370 @@
+%\documentclass[10pt,titlepage]{article}
+% \usepackage{epsf} - Already called in top-level "updated_freeda_programmers.tex"
+% Got rid of lgrind; used 'listings' package instead.  5/6/2003 FPH
+%%\usepackage[nolineno]{lgrind}
+%\usepackage{listings}
+    % Set up a set of common parameters for listings package to format C++ code...
+    % These settings are "too wide" for the standalone doc, but should be about
+    % right once integrated into the overall fREEDA doc again.
+%    \lstloadlanguages{[GNU]C++}
+%        \lstset{language={[GNU]C++}, % p 12 of listings.dvi
+%        numbers=left,           % p 29 of listings.dvi
+%        numberstyle=\tiny,      % p 29 of listings.dvi
+%        stepnumber=1,           % p 29 of listings.dvi
+%        numbersep=5pt,          % p 29 of listings.dvi
+%        showstringspaces=false  % p 29 of listings.dvi
+%        xrightmargin=10mm,      % p 31 of listings.dvi
+%        frame=lines,            % p 32 of listings.dvi
+%        framexleftmargin=5mm,   % p 32 of listings.dvi
+%        framexrightmargin=0mm,  % p 32 of listings.dvi change this to 15 when reintegrated?
+%        texcl=false,            % p 35 of listings.dvi
+%        mathescape=true,        % p 35 of listings.dvi
+%        escapeinside={(*@}{@*)},  % p 49 of listings.dvi
+%        basicstyle=\footnotesize}   % p 27 of listings.dvi
+    % End of adds for listings package
+
+% Remove this later when integrated in book. 5/6/2003 FPH
+%\input{C:/texmf/freedasty/freeda.sty}
+
+%\usepackage{graphicx}
+
+% figures in the current directory
+%\newcommand{\fig}[1]{#1}
+% figures in the erl space
+%\input{../freeda_manual/freeda_elements/common/freeda.sty}
+%\topmargin 0mm \oddsidemargin -2mm \evensidemargin -2mm \textwidth
+%173mm \textheight 210mm
+
+\chapter{Adding Nonlinear Elements to \FDA} \label{nonlinear:addition}
+%\title{Adding Nonlinear Elements to \FDA} \label{nonlinear:addition}
+%\author{Frank P. Hart}
+%\begin{document}
+%\maketitle
+%\section{}
+%----------------------------------------------------------------------
+\section{The \FDA Circuit Simulator}
+
+This tutorial describes the addition of nonlinear device models to
+\FDA \footnote{Further details may be found at
+http://www.freeda.org}. We assume the reader is familiar with C++
+syntax and basic concepts about object-oriented programming.
+
+Presently, there are two ways to write nonlinear element models,
+using two different base classes.  One class, AdolcElement, has
+been extensively used and is the base class of the case study
+to follow.  Unfortunately, a limitation recently discovered in
+the Adol-C library is reflected directly into a limitation on
+the elements that can be defined by the AdolcElement class.
+This class has three function prototypes for the \texttt{createTape()}
+function.  One of these prototype functions is designed to
+allow the declaration of a second derivative state variable
+intended to track one of the declared state variables.  \texttt{This
+second derivative capability has been found to be non-functional.}
+Usage of the function prototype is still permitted, as it is the
+only way to obtained delayed instances of state variables, but
+the argument for the second derivative IntVector to createTape() in
+this case should be 'novar' and this is noted herein.
+
+The \FDA team is engaged in the on-going development of a new
+nonlinear base class called NAdolcElement which is intended to
+alleviate the limitation in Adol-C and allow evaluation of
+second and third derivatives in models.  While NAdolcElement
+is subject to change, model writers requiring these higher
+order derivatives are invited to inspect the header files and
+source codes for NMOSx and PMOSx elements (where x is 1,2,3,
+or 14) and the CompactDiode element and use them as templates
+for writing a model based on the NAdolcElement class.  Model
+writers are encouraged to use NAdolcElement for writing all
+new elements, since over a period of time, AdolcElement will take
+on full legacy status and its continued use will be discouraged.
+
+A future revision of this document will also contain a case
+study of an element based on the NAdolcElement base class.
+
+
+%----------------------------------------------------------------------
+\section{Example: Adding a Nonlinear Electro-Thermal Resistor}
+
+We illustrate the addition of nonlinear device models using a
+step-by-step example with a simple model: a nonlinear electro-thermal
+resistor\footnote{Note that the electro-thermal resistor
+behaves as a linear resistor when the parameter ``pdr'' is set to
+\emph{false}}.
+
+\subsection{Netlist syntax}
+A brief description of the \FDA netlist syntax will assist in
+understanding of the details of model construction.  The standard
+\FDA netlist syntax is common to all elements. This differs from
+the \texttt{SPICE} syntax.  \texttt{SPICE} syntax is also supported
+but its grammar is less general than the standard \FDA netlist syntax.
+This is because the \FDA grammar is common to all elements while the
+grammar of the \texttt{SPICE} syntax is not consistent and
+each \texttt{SPICE} element must be handled separately in the
+netlist parser.
+
+The standard \FDA netlist syntax is\\
+
+$\langle \tt{netlist\ Name} \rangle$:$\langle \tt{element\
+ID}\rangle$ $\langle \tt{terminal1}\rangle \cdots \langle
+\tt{terminaln}\rangle$ $[\langle \tt{parameter} \rangle = \langle
+\tt{value} \rangle \cdots]$
+\newline
+\newline
+For example, the \FDA netlist syntax for the thermal resistor element
+(the {\bf tr} element), which will be shown here for tutorial
+purposes, is:
+\newline
+\newline
+\indent {\bf tr:tr1\ n1\ n2\ n3\ n4\ r0=100 l=1 w=1 t=35 rsh=100 pdr=true} \\
+\newline
+{\bf tr1} is the {\bf elementID} and {\bf n1} through {\bf n4} are the
+names of four terminals.  {\bf r0, l, w, t,} etc. are parameter syntax
+names, and the values on the right side of the $=$ symbol are parameter
+values specific to this instance of {\bf tr:1}.  Some optional parameters
+have been omitted in this example.
+
+\subsection{Class Name, Required Files, etc.}
+
+A good class name for the element is \textbf{Tresistor}. By
+convention (in \FDA), class names should begin with capital
+letters and contain no underscores. A netlist name is needed for
+the element. Assume we call it ``tr''.  \emph{The netlist name
+must always be given in lowercase letters because the \FDA netlist
+parser converts a netlist to lower case before attempting to
+identify elements or parameters.}
+
+The files containing the model description are located in the
+\texttt{elements/} directory. There is a header file
+(\texttt{Tresistor.h}) containing the declaration of the class that
+defines the element and a file containing the definition of the class
+with the actual model (\texttt{Tresistor.cc}). Those are the only files
+needed to define this element. They are described next.
+
+\newpage
+\subsection{The Header File}
+
+The header file starts with comment lines describing the element
+type and sometimes a simple ASCII drawing of the element schematic
+as shown in Listing \ref{nonlinear:hhdrcmts}. The figure can be used to
+describe terminal numbering.
+
+\begin{lstlisting}[firstnumber=1, label={nonlinear:hhdrcmts},
+    caption={Header Comments of Tresistor.h}]
+
+     // This may look like C code, but it is really -*- C++ -*-
+     //
+     // This is an electro-thermal resistor model
+     //
+     //           ++++++++++++++
+     //           +     tr     +
+     //     $t_0$  o------/\/\/\-------o  $t_1$
+     //           +            +
+     //           +  *      *  +
+     //           +  |      |  +
+     //           ++ | ++++ | ++
+     //              |      |
+     //           $t_3$   o      o  $t_2$
+     //             tref   tout
+     //
+     // by Houssam S. Kanj
+\end{lstlisting}
+%\linebreak 2
+
+Header files may be included more than once in C++ programs. To
+avoid multiple declarations of the classes defined in the body of
+the header file, the definitions in the header file are enclosed
+by following preprocessor directives as in Listing
+\ref{nonlinear:hpdirect}.
+
+\begin{lstlisting}[firstnumber=last, label={nonlinear:hpdirect},
+    caption={Preprocessor Directives of Tresistor.h}]
+
+#ifndef Tresistor_h
+#define Tresistor_h 1
+
+#include "../network/AdolcElement.h"
+
+
+class Tresistor : public AdolcElement
+
+\end{lstlisting}
+%\linebreak 2
+
+The \textbf{Tresistor} class is derived from the base class
+\textbf{AdolcElement}. This is so for all nonlinear elements in
+\FDA that rely upon ADOL-C for evaluating the first and higher
+derivatives of vector functions. For simple elements, the only
+public functions that must be declared are shown in Listing
+\ref{nonlinear:hclasspub}.
+
+\begin{lstlisting}[firstnumber=24, label={nonlinear:hclasspub},
+    caption={Class declaration and public functions of Tresistor.h}]
+
+class Tresistor : public AdolcElement
+{ public:
+
+  Tresistor(const string& iname);
+
+  ~Tresistor() {}
+
+  static const char* getNetlistName()
+  {
+    return einfo.name;
+  }
+
+  // Do some local initialization
+  virtual void init() throw(string&);
+
+  // Get a vector with the indexes of the local reference nodes.
+  // Get terminal pointers in term_list
+  // ordered by local reference node:
+  //
+  // $t_0$ $t_1$ $t_2$ $t_3$
+  //
+  //   ^    ^
+  //  LRN1 LRN2
+  //
+  // local_ref_vec contains: {1, 3}
+  //
+  virtual void getLocalRefIdx(UnsignedVector& local_ref_vec,//
+                  TerminalVector& term_list);//
+
+  // fill MNAM
+  virtual void fillMNAM(FreqMNAM* mnam);
+
+  virtual void fillMNAM(TimeMNAM* mnam);
+
+\end{lstlisting}
+%\linebreak 2
+
+The constructor always takes the same argument, \texttt{iname}. This
+is the name of the particular instance of the thermal resistor being created
+(\emph{e.g.} ``tr1'').  It is passed from the input netlist at the time
+\FDA is run.
+
+The destructor in this case is trivial. The next function,
+\texttt{getNetlistName()} must be defined in every \FDA element.
+It returns the netlist name of the element (``tres'' in our
+example) and it is used during the netlist parsing. It is declared
+static because this function is called before the actual element
+instance is created.
+
+The function \texttt{init()} must be defined for every nonlinear
+element based on Adol-C, since it is here where we create the
+Adol-C tape. It is also here where we perform some initializations
+that cannot be done by the constructor, \textit{\textbf{i.e.}}
+when some parameters are not known at construction time.
+
+The function \texttt{getLocalRefIdx()} must be defined whenever we
+want to implement an element with multiple reference nodes
+\textbf{\textit{e.g.}} spatially distributed elements or
+electro-thermal ones. It is important to know that this function
+has nothing to do with linearity. So we may have a linear element
+with one reference node, or with multiple reference nodes. We may
+also have a nonlinear element with one reference node, or with
+multiple reference nodes.  Local reference nodes are covered in
+further detail in Section \ref{nonlinear:locrefidx}.
+
+The last two functions are the declarations of the functions
+to fill the entries corresponding to this element in the
+\emph{modified nodal admittance matrix} (MNAM) of the circuit
+being simulated. Please refer to
+\cite{l_element} for a detailed
+explanation on how to implement a linear element.
+\newline
+\newline
+The private members of this class are shown in Listing
+\ref{nonlinear:hclasspri}.
+
+\begin{lstlisting}[firstnumber=last, label={nonlinear:hclasspri},
+    caption={Private functions of Tresistor.h}]
+
+private:
+
+
+  virtual void eval(adoublev& x, adoublev& vp, adoublev& ip);
+
+
+
+  // Element information
+  static ItemInfo einfo;
+
+  // Number of parameters of this element
+  static const unsigned n_par;
+
+  // Parameter variables
+  double r0, rsh, l, w, narrow, defw, t, tnom, tc1, tc2;
+  bool pdr;
+
+  // Parameter information
+  static ParmInfo pinfo[];
+
+  // The calculated resistor value
+     double r;
+};
+
+#endif
+\end{lstlisting}
+%\linebreak 2
+
+The netlist parameters of this element are declared as normal
+member variables. Here we have 11 parameters, and again we
+emphasize that \emph{parameter names must always be given in
+lowercase letters because the \FDA netlist parser converts a netlist
+to lower case before attempting to identify elements or parameters.}
+Please refer to reference \cite{etrcat} for a description of the
+parameters and the device equations. The variable ``r'' is a temporary
+variable used to compute the resistance value when the resistor is linear
+i.e. when pdr == \emph{false}. The last three variables can be left
+unchanged for any other element in \FDA. We will describe their use later.
+
+The only private function that must be defined is the \texttt{eval}
+function.
+It takes 3 arguments of type adoublev\&, the first one is an input argument,
+and the second and the third are output arguments. Things will be more clear
+when we discuss the \texttt{createTape} function.
+
+\subsection{The Class Source File}
+
+\subsubsection{Preprocessor Directives}
+
+The include preprocessor directives go first; see Listing
+\ref{nonlinear:spdirect}. The \texttt{ElementManager.h} file
+must be always included first. The next file to be included is
+\texttt{AdolcElement.h}. This file must be included in all nonlinear
+elements that are based on Adol-C.  Since our element is also a linear
+one, we also need to include the declarations for the MNAM classes.
+There are currently two implementations of the MNAM in \FDA.  One is
+the frequency domain (\texttt{FreqMNAM}) and the other is the
+time domain (\texttt{TimeMNAM}). The last included file is the
+declaration of the class for our element, \texttt{Tresistor.h}.
+
+\begin{lstlisting}[firstnumber=1, label={nonlinear:spdirect},
+    caption={Preprocessor directives of Tresistor.cc}]
+
+#include "../network/ElementManager.h"
+#include "../analysis/FreqMNAM.h"
+#include "../analysis/TimeMNAM.h"
+#include "Tresistor.h"
+\end{lstlisting}
+%\linebreak 2
+
+\subsubsection{Static Variables and Model Parameters}
+Now we must define the static member variables as in Listing
+\ref{nonlinear:ssparm}.
+
+\begin{lstlisting}[firstnumber=7, label={nonlinear:ssparm},
+    caption={Static members and Parameter info of Tresistor.cc}]
+
+// Static members
+const unsigned Tresistor::n_par = 11;
+
+// Element information
+ItemInfo Tresistor::einfo = {
+  "tr",
+  "Tresistor",
+  "Houssam S. Kanj",
+  DEFAULT_ADDRESS"elements/Tresistor.h.html"
+};
+
+// Parameter information
+ParmInfo Tresistor::pinfo[] = {
+  {"r0", "Resistance value (Ohms)", TR_DOUBLE, false},
+  {"l", "length (meters)", TR_DOUBLE, false},
+  {"w", "width (meters)", TR_DOUBLE, false},
+  {"t", "system Temperature (Celsius)", TR_DOUBLE, false},
+  {"rsh", "sheat resistance (Ohms/sq)", TR_DOUBLE, false},
+  {"defw", "default device width (meters)", TR_DOUBLE, false},
+  {"narrow", "narrowing due to side etching (meters)", TR_DOUBLE, false},
+  {"tnom", "initial Temperature (Celsius)", TR_DOUBLE, false},
+  {"tc1", "Temperature Coefficient (1/Celsius)", TR_DOUBLE, false},
+  {"tc2", "Temperature Coefficient (1/Celsius)", TR_DOUBLE, false},
+  {"pdr", "Power Depenent Resistor", TR_BOOLEAN, false}
+
+};
+\end{lstlisting}
+%\linebreak 2
+
+The \texttt{n\_par} variable must be equal to the number of
+parameters defined in our element. In our example, 11 parameters
+are defined. Note the use of the scope (::) operator. It is used to
+indicate that the \texttt{n\_par} variable is a member of the
+\textbf{Tresistor} class.  The \texttt{einfo} structure contains
+strings describing the element. The first string is the netlist
+name of the element (``tr''). \emph{This name must always be given in
+lowercase letters because the \FDA netlist parser converts a netlist
+to lower case before attempting to identify elements or parameters.}
+The second string is a more verbose description of the element. The third
+string should list the authors of the element code and the last
+string is used to store documentation information, see Section \ref{sec:doc:string}
+
+The \texttt{pinfo} vector contains the description of each parameter
+defined in the element. The first field (\emph{again, always in lowercase})
+is the netlist name of the parameter followed by a more verbose
+description. We recommend to include the units of the parameter (if
+any) in this description. The third field is a flag denoting the type
+of the parameter. The possible flags are defined in the
+\texttt{NetListItem.h} file.  The corresponding types for each flag are
+given in Table \ref{nltable1}.
+%
+\begin{table}[htpb]
+\centerline {
+\begin{tabular}{|l|l|}
+\hline
+Flag & Corresponding type \\
+\hline
+TR\_INT  & \texttt{int} \\
+TR\_LONG & \texttt{long int} \\
+TR\_FLOAT & \texttt{float} \\
+TR\_DOUBLE & \texttt{double} \\
+TR\_CHAR & \texttt{char} \\
+TR\_STRING & \texttt{string} \\
+TR\_COMPLEX & \texttt{double\_complex} \\
+TR\_BOOLEAN & \texttt{bool} \\
+TR\_INT\_VECTOR & \texttt{IntVector} \\
+TR\_DOUBLE\_VECTOR & \texttt{DoubleVector} \\
+TR\_INT\_MATRIX & \texttt{IntMatrix} \\
+TR\_DOUBLE\_MATRIX & \texttt{DoubleMatrix} \\
+\hline
+\end{tabular}}
+\caption{Possible parameter types. \label{nltable1}}
+\end{table}
+%
+The last field in the parameter description is a flag that is
+\emph{true} if the parameter is required in the netlist (\emph{i.e.}
+an error occurs if the parameter is not specified) and \emph{false}
+otherwise.
+
+\subsubsection{Constructor for a Nonlinear Instance of Tresistor}
+The constructor definition for a nonlinear instance of
+\texttt{Tresistor} (where pdr == \emph{true}) follows in
+Listing \ref{nonlinear:sconstr}.
+
+\begin{lstlisting}[firstnumber=35, label={nonlinear:sconstr},
+    caption={Constructor definition of Tresistor.cc}]
+
+Tresistor::Tresistor(const string& iname) : AdolcElement(&einfo,
+pinfo, n_par, iname) {
+
+  // Set parameters
+  paramvalue[0] = &(r0);
+  paramvalue[1] = &(l);
+  paramvalue[2] = &(w);
+  paramvalue[3] = &(t);
+  paramvalue[4] = &(rsh);
+  paramvalue[5] = &(defw = 1e-6);
+  paramvalue[6] = &(narrow = zero);
+  paramvalue[7] = &(tnom = 27);
+  paramvalue[8] = &(tc1= zero);
+  paramvalue[9] = &(tc2= zero);
+  paramvalue[10] = &(pdr=false);
+
+
+}
+\end{lstlisting}
+%\linebreak 2
+
+The constructor for the \textbf{AdolcElement} class takes the static
+member variables we defined before and the instance name
+(\texttt{iname}) as arguments. In the body of the \textbf{Tresistor}
+constructor we must point each element of the \texttt{paramvalue}
+vector to the address of the member variables corresponding to the
+netlist parameters. The order of the elements in the
+\texttt{paramvalue} vector must be the same order that we used in the
+description in \texttt{pinfo}.
+
+Then the \texttt{init()} function definition follows in Listing
+\ref{nonlinear:sinitpdrt}.
+
+\begin{lstlisting}[firstnumber=54, label={nonlinear:sinitpdrt},
+    caption={Initialization function of Tresistor.cc}]
+
+void Tresistor::init() throw(string&)
+{
+  if (!isSet(&w))
+    w = defw;
+  if (!isSet(&t))
+    t = tnom;
+
+  if (pdr){
+    // Set the number of terminals
+    setNumTerms(4);
+    // Set flags
+    setFlags(NONLINEAR | MULTI_REF | TR_TIME_DOMAIN);
+    // Set number of states
+    setNumberOfStates(2);
+
+    if (!isSet(&r0)) {
+      if (!isSet(&l))
+    throw("r0 or l must be specified for the resistance");
+      if (!isSet(&rsh))
+    throw("rsh must be specified for the resistance");
+    }
+    // create tape
+    IntVector var(2,0);
+    var[1] = 1;
+    createTape(var);
+  }
+\end{lstlisting}
+%\linebreak 2
+
+The \texttt{init()} function starts by doing some conditional assignments.
+The condition test cannot be carried out in the constructor since the
+parameters value are not known at construction time. Then if pdr == \emph{true},
+\texttt{i.e.}
+if it is an electro-thermal resistor, we use the member function
+\texttt{setnumTerms()},
+which is derived from the \textbf{Element} class, to set how many terminals
+our element
+has.
+
+The next function is used to sets some flags that are
+useful to classify the different elements in a circuit. Table
+\ref{nltable2} summarizes the meaning of each possible flag.
+%
+\begin{table}[htpb]
+\centerline {
+\begin{tabular}{|l|l|}
+\hline
+Flag & Meaning \\
+\hline
+LINEAR    &  Linear in HB and tran2 analyses. \\
+NONLINEAR &  Nonlinear in HB and tran2 analyses. \\
+\hline
+ONE\_REF   &  One internal reference node (\emph{e.g.} a normal element). \\
+MULTI\_REF &  Two or more internal reference nodes. \\
+\hline
+TR\_TIME\_DOMAIN & The element is treated in time domain in convolution \\
+               & transient analysis. This includes nonlinear elements). \\
+TR\_FREQ\_DOMAIN & The element is treated in frequency domain in convolution
+\\
+               & transient analysis. This includes linear elements). \\
+\hline
+SOURCE    & The element is a source in tran2 analysis. \\
+\hline
+\end{tabular}}
+\caption{Currently defined flags. \label{nltable2}}
+\end{table}
+%
+Function \texttt{setNumberOfStates()} is used to set the number of
+state variables used to implement the model.  It is important to
+know that the the functions \texttt{setnumTerms(), setFlags(), \&
+setNumberOfStates()} could be called from the constructor, but in
+our special case, we needed to put them in the \texttt{init()}
+function since we had to take some conditional decisions based on
+the parameters which are not known at construction time.  Note,
+for example, that it is vitally important to set the NONLINEAR
+flag when an element requires the Adolc library facilities to
+implement a nonlinear function.
+
+Next, the code makes some tests on the input parameters, and then
+throws an exception if some parameters are missing.
+
+The final thing that you need to do is to create the Adolc Tape.
+This is done by calling the \texttt{createTape()} function with
+the proper arguments. All nonlinear elements that are derived from
+the \texttt{AdolcElement} class must do this.
+
+First the statement \textit{IntVector var(2,0);} create a vector
+called \texttt{var} of two elements and initialize them to 0. Then
+the statement \textit{var[1] = 1;} initialize the second element
+to 1. Last, the statement \texttt{createTape(var)} creates the
+tape.
+
+\subsubsection{Building Arguments for \texttt{createTape(~)}}
+We will digress from the discussion of the \texttt{Tresistor}
+model for a moment in order to discuss the process of creating
+state variables in some detail.  The \texttt{createTape()}
+function is a member function of the \texttt{AdolcElement}
+class. There are three versions of it corresponding to three
+different valid function prototypes.  The choice of function
+prototype depends upon the function that the model is to implement.
+
+\begin{description}
+    \item[1:]\texttt{{createTape(IntVector\& var)}}
+    \begin{itemize}
+        \item Takes 1 argument, a vector of state variables.
+        \item This is the form used in the \textbf{Tresistor} model.
+    \end{itemize}
+    \item[2:]\texttt{{createTape(IntVector\& var, IntVector\& dvar)}}
+    \begin{itemize}
+        \item Takes 2 arguments -- a vector of state variables
+        and a vector corresponding to 1st derivatives of state
+        variables.
+        \item This is the most widely used form, since many physical
+        models use physical variables and their first derivatives.
+    \end{itemize}
+    \item[3:]\texttt{{createTape(IntVector\& var, IntVector\& dvar, IntVector\& d2var, \\
+        IntVector\& t\_var, DoubleVector\& delay)}}
+    \begin{itemize}
+        \item Takes 5 arguments -- a vector of state variables,
+        first derivatives, second derivatives, delayed state
+        variables, and a vector of state variable delays.
+        \item This form must be used 2nd derivatives or time delays
+        are required in models.
+    \end{itemize}
+\end{description}
+
+For example, suppose that we need to create a new \FDA element
+with the following description (\textbf{f}(~) can be \textbf{v}(~)
+or \textbf{i}(~)):
+\newline
+\newline
+\[\textbf{f}(x_0, x_1, x_2, \frac{dx_0}{dt}, \frac{dx_1}{dt}, \frac{dx_2}{dt},
+    \frac{d^2x_2}{dt^2}, x_0(t-\tau_0), x_2(t-\tau_2))\]
+\newline
+Then the arguments of the \texttt{createTape(~)} function would be as
+follows:
+\newline
+\[\textbf{createTape(i\_vec1, i\_vec2, i\_vec3, i\_vec4, d\_vec)}\]
+\newline
+In this case 4 vectors of type \texttt{IntVector\&} and one vector of type
+\texttt{DoubleVector\&} are needed. The first one, \texttt{i\_vec1}, consists of the
+indexes of the state variables. The second one, \texttt{i\_vec2}, consists
+of the indexes of the derivatives of the state variables. The
+third one, \texttt{i\_vec3}, consists of the indexes of the second derivatives
+of the state variables. The fourth one, \texttt{i\_vec4}, consists of the
+indexes of the state variables that are delayed.  The last vector,
+\texttt{d\_vec}, contains the value of the delays applied to the state
+variables created by passing \texttt{i\_vec4} to \texttt{createTape(~)}.
+For this example, let $\tau_0$ be 1 picosecond and $\tau_2$ be 0.1 picosecond.
+To prepare this set of vectors for passing to \texttt{createTape(~)},
+the portion of C++ code in Listing \ref{nonlinear:sinitctex}
+would appear in the \texttt{init(~)} function prior to the call
+to \texttt{createTape(~)}.
+
+\begin{lstlisting}[firstnumber=1, label={nonlinear:sinitctex},
+    caption={Example creating input vectors passed to createTape(~)}]
+// Set number of states
+setNumberOfStates(3);   // Three main state vars $x_0$, $x_1$, and $x_2$
+
+// Argument vector for creating main state variables
+IntVector i_vec1(3,0);  // Initialize 3-element integer array to 0
+i_vec1(1) = 1;          // Set elements for additional state variables
+i_vec1(2) = 2;
+
+// Argument vector for 1st derivatives of state variables
+IntVector i_vec2(3,0);  // Initialize 3-element integer array to 0
+i_vec2(1) = 1;          // Set elements for additional 1st derivatives
+i_vec2(2) = 2;
+
+// Argument vector for 2nd derivatives of state variables  (*@\label{nlsecderb}@*)
+IntVector i_vec3(1,0);  // Initialize 1-element integer array to 0
+i_vec3(0) = 2;          // Set element to get 2nd derivative of state var $x_2$! (*@\label{nlsecdere}@*)
+
+// Argument vector for delayed state variables
+IntVector i_vec4(2,0);  // Initialize 2-element integer array to 0
+i_vec4(1) = 2;          // Set elemement to get delayed copy of state var $x_2$!
+
+// Argument vector for time delays
+DoubleVector d_vec(2,0);    // Init. 2-element double array to 0
+d_vec(0) = 1e-12;           // Delay state variable $x_0$ by 1 picosecond
+d_vec(1) = 1e-13;           // Delay state variable $x_2$ by 0.1 picosecond
+\end{lstlisting}
+%\newline
+
+Notice that \texttt{i\_vec1} and \texttt{i\_vec2} are equivalent, so in this
+case it was not necessary to create \texttt{i\_vec2}, and one could instead
+have simply passed \texttt{i\_vec1} to \texttt{createTape(~)} twice, in succession:
+\newline
+\[\textbf{createTape(i\_vec1, i\_vec1, i\_vec3, i\_vec4, d\_vec)}\]
+\newline
+This emphasizes the point that the variables of type \texttt{IntVector\&}
+and \texttt{DoubleVector\&} are used only to create the collection of
+state variables and their derivatives and delayed versions.  A survey of
+the source code library for existing \FDA elements will reveal many instances
+of this sort of variable re-use in calls to \texttt{createTape(~)}.
+
+After the completion of the call to \texttt{createTape(~)}, a vector
+variable \texttt{x[]} of type \texttt{adoublev\&} will have been created.
+\texttt{x[]} is limited in scope to the instance of the model object.  The
+number of elements in \texttt{x[]} will be equal to the number of unique
+mathematical objects requested in the call to \texttt{createTape(~)}.
+For the example here, there are 3 state variables, 3 first derivatives
+of state variables, 1 second derivative of a state variable, and 2
+delayed state variables, so the total number of elements in \texttt{x[]}
+will be 9, with indices running from 0 to 8.  State variables and their
+derivatives or delays are assigned indices in \texttt{x[]} consistent with
+the order of argument passage to \texttt{createTape(~)}.  Table \ref{tab:state:var}
+summarizes the relationship between vector input variables to \texttt{createTape(~)}
+and the resulting state variables created by \texttt{createTape(~)} for the
+example call described here:
+\begin{table}[h]
+    \caption{State Variable representation in \FDA.}
+    \label{tab:state:var}
+    \begin{center}
+    \begin{tabular}{|c|c|}
+    \hline \multicolumn{2}{|c|}{\bf Physical to State Variable Mapping}\\
+%
+    \hline \multicolumn{1}{|c|}{Physical Variable} & \multicolumn{1}{|c|}{~$X$~Variable} \\
+%
+    \hline
+    \hline $x_0$ & x[$0$] \\
+    \hline $x_1$ & x[$1$] \\
+    \hline $x_2$ & x[$2$] \\
+    \hline ${dx_0}/{dt}$ & x[$3$] \\
+    \hline ${dx_1}/{dt}$ & x[$4$] \\
+    \hline ${dx_2}/{dt}$ & x[$5$] \\
+    \hline ${d^2x_2}/{dt^2}$ & x[$6$] \\
+    \hline $x_0(t-\tau_0)$ & x[$7$] \\
+    \hline $x_2(t-\tau_2)$ & x[$8$] \\
+    \hline
+    \end{tabular}
+    \end{center}
+\end{table}
+
+% Insert stuff about novar here.
+One final note on constructing the arguments to \texttt{createTape(~)}:
+There are times when the implementation of a complex function may not
+require the creation of state variables corresponding to each argument
+in the most complex function prototype for \texttt{createTape(~) }.
+For example, suppose in the previous example, that we did not need
+the second derivative of the second state variable, but we still needed
+the time-delayed variables.  Then instead of declaring an IntVector
+called \texttt{ivec\_3} of non-zero length, we would declare vector
+without a declared length, or a null vector, and pass this as an
+argument to \texttt{createTape(~)} instead of \texttt{ivec\_3}.  It
+is common in many \FDA elements for this null vector to be called
+\texttt{novar}.  For example, if indeed we wished to ignore second
+derivatives in the example in Listing \ref{nonlinear:sinitctex},
+then we would alter lines \ref{nlsecderb} through
+\ref{nlsecdere} as follows in Listing \ref{nonlinear:secderb} and
+then call \texttt{createTape(~)} as follows:
+\newline
+\[\textbf{createTape(i\_vec1, i\_vec2, novar, i\_vec4, d\_vec)}\]
+\newline
+\begin{lstlisting}[firstnumber=14, label={nonlinear:secderb},
+    caption={Declaring a null vector argument for createTape(~)}]
+// Argument vector for 2nd derivatives of state variables
+IntVector novar         // Initialize a null vector (no elements)
+                        // Nothing to set!
+\end{lstlisting}
+\emph{Notice: A limitation in the functionality of the Adol-C
+Library has recently been uncovered:  The second derivative
+of state variables, normally invoked by using the most complex
+form of the createTape prototype, has been determined to be
+non-functional.  Thus, the use of novar as noted in listing
+\ref{nonlinear:secderb} is mandatory.  The development of the
+NAdolcElement class is an attempt to work around this limitation.
+See section \ref{nonlinear:evalnote} for further information.}
+
+Returning our attention to the \texttt{Tresistor} element, the function being
+implemented was \texttt{f($x_0\,$,$\,x_1$)}, so that only one vector
+filled with 0, and 1 was needed.  To better understand
+the process of creating the Adolc Tape, model writers are advised to
+read the implementation of the \texttt{createTape()} function which is a
+member function of the \texttt{AdolcElement} Class.  Model writers
+are also advised to read the ADOL-C documentation \cite{adol-c}.
+
+\subsubsection{Constructor for Linear instance of Tresistor}
+The rest of the code in the \texttt{init()} function implements
+the linear part of the Constructor (invoked when pdr == \emph{false} in the
+netlist instantiation) and is shown in Listing \ref{nonlinear:sinitpdrf}.
+Please refer to \cite{l_element} for more details.
+
+\begin{lstlisting}[firstnumber=last, label={nonlinear:sinitpdrf},
+    caption={Init function of Tresistor.cc (continued)}]
+
+  else{  // pdr==false
+    // Set the number of terminals
+    setNumTerms(2);
+    // Set flags
+    setFlags(LINEAR | ONE_REF | TR_FREQ_DOMAIN);
+    // calculate the resistor value
+    if (isSet(&r0)){
+      r = r0*(1+tc1*(t-tnom)+tc2*(t-tnom)*(t-tnom));
+    }
+    else {
+      if (!isSet(&l))
+    throw("r0 or l must be specified for the resistance");
+      if (!isSet(&rsh))
+    throw("rsh must be specified for the resistance");
+      r = rsh*((l-narrow)/(w-narrow))*(1+tc1*(t-tnom)+tc2*(t-tnom)*(t-tnom));
+    }
+  }
+}
+\end{lstlisting}
+%\linebreak 2
+
+\subsubsection{Local Reference Nodes and the getLocalRefIdx(~) function} \label{nonlinear:locrefidx}
+We will digress again from the \texttt{Tresistor} model for a moment to
+discuss the local reference node concept and some related
+modelling conventions inherent in \FDA.
+
+A spatially distributed circuit is a circuit which, by definition,
+is much larger than the wavelengths of the signals it processes.
+In such circuits, the notion of a single reference node or ground
+terminal is inapt, since currents passing through such a reference
+node from one piece of spatially distributed circuitry to another
+cannot physically do so instantaneously.  To overcome this limitation
+and permit modelling of circuits which may be spatially distributed,
+the local reference node concept was developed.  Put adroitly (but
+in a way that should be widely understood), local reference nodes
+allow the definition of multiple "ground" terminals so that spatially
+distinct circuitry can reference their local circuits to these physically
+isolated reference nodes.  Readers interested in understanding more
+about the theory and the implementation of the local reference node
+concept should refer to \cite{lref1} and \cite{lref2}.
+
+The availability of local reference nodes in \FDA enables the
+definition of spatially distributed circuit models.  Before
+discussing the coding details, which are straightforward, some
+modelling conventions used in \FDA will first be described.  These
+conventions are familiar to researchers in the circuit simulation
+community, but may not be familiar to new \FDA users who wish to
+write \FDA models.
+
+Consider the ''Blob'' circuit shown in Figure
+\ref{nonlinear:blobfig}.  Blob is a circuit that has 5 terminals
+and is spatially distributed.  It has three circuit terminals
+with terminal numbers 0, 1, and 3, and two reference nodes which
+have terminal numbers 2 and 4, as shown in the figure.  Circuit
+terminals 0 and 1 use terminal 2 as a local reference node and
+circuit terminal 3 uses terminal 4 as a local reference node.
+Although details of the internal operation of ''Blob'' may not
+be known, it is clear that the circuits associated with
+terminals 0 and 1 are spatially distinct from the circuits
+associated with terminal 3.
+
+Note that in all \FDA model \emph{source code definitions},
+terminal number 0 is \emph{always} a circuit terminal.  This
+may seem incorrect to SPICE users familiar with using node 0 as
+the ground terminal in netlist definitions.  However, note that
+a \FDA netlist still permits the use of node 0 in the netlist
+for the ground terminal. Bear in mind the distinction
+between coding a model definition, which we are doing here,
+and instantiating a model, which is done in a netlist.
+
+\begin{figure}[h]
+\centerline{\epsfxsize=13cm \epsfbox{fREEDA_pgmman_blob.eps}}
+\caption{Spatially-distributed Blob circuit.
+\label{nonlinear:blobfig}}
+\end{figure}
+
+Figure \ref{nonlinear:blobfig} contains other information worth
+noting.  First, note that each state variable is assigned, in
+order, to each \emph{non-reference node} in the model.  Second,
+notice the mention of the voltage variables \texttt{vp[]}
+and the current variables \texttt{ip[]}.  These variables are
+also initially created in the call to \texttt{createTape(~)},
+and are made available to each model instance's \texttt{eval()}
+function.  (The \texttt{eval()} function will be discussed in detail
+in section \ref{nonlinear:eval} .)  For each state variable created
+by the first argument in the call to \texttt{createTape()}, a
+corresponding \texttt{vp[]} and \texttt{ip[]} variable is created.
+Third, note that by convention, the direction of the current
+variable \texttt{ip[]} is into the terminal, and the
+voltage \texttt{vp[]} is defined positively at the circuit terminal
+and negatively at the corresponding reference node.  Users wishing
+to define currents or voltages contrary to this convention may do
+so by simply negating the numerical expressions for \texttt{vp[]}
+and \texttt{ip[]} that appear in the model's \texttt{eval()}
+function.  Finally, note that there are no state variables associated
+with the reference nodes, since voltages are defined relative to
+them and Kirchoff's current law requires that the sum of the
+non-reference terminal currents associated with a particular reference
+node must flow into that reference node.
+
+Those accustomed to having a "port" perspective for models will
+notice that, in general, the number of ports is equal to the number
+of required state variables, even if local reference terminals
+are shared among one or more ports.
+
+Returning now to the model code, implementation of the
+\texttt{getLocalRefIdx()} function is very simple and straight
+forward.  Refer to Listing \ref{nonlinear:sglri}.  The first
+two lines must always be included. Then, we push back each
+terminal in the terminal list by writing
+\texttt{term\_list.push\_back(getTerminal(n));} where ''n'' is
+the index of the terminal.  When we push back a local reference
+node we must also push the node back into the local reference
+vector by writing
+\texttt{local\_ref\_vec.push\_back(m);} where ''m'' is the index
+of the terminal that we want it to be a local reference.
+
+The \texttt{getLocalRefIdx()} function definition follows in Listing
+\ref{nonlinear:sglri}.
+
+\begin{lstlisting}[firstnumber=122, label={nonlinear:sglri},
+    caption={getLocalRefIdx function of Tresistor.cc}]
+
+void Tresistor::getLocalRefIdx(UnsignedVector& local_ref_vec,
+                TerminalVector& term_list)
+{
+  // Make sure the vectors are empty
+  term_list.erase(term_list.begin(), term_list.end());
+  local_ref_vec.erase(local_ref_vec.begin(), local_ref_vec.end());
+
+  // Insert vector elements
+  term_list.push_back(getTerminal(0));
+  term_list.push_back(getTerminal(1)); // Local reference terminal
+  local_ref_vec.push_back(1); // Local reference index
+
+  if (pdr){
+    term_list.push_back(getTerminal(2));
+    term_list.push_back(getTerminal(3)); // Local reference terminal
+    local_ref_vec.push_back(3); // Local reference index
+  }
+
+}
+\end{lstlisting}
+Finally, note that if a model has only 1 local reference node, then it is not
+necessary to declare the getLocalRefIdx function at all in the header file and
+it may be omitted from the source code file.  Note that when getLocalRefIdx is
+not used, then the highest numbered terminal is defined as the local reference
+terminal.  Referring to listings \ref{nonlinear:sinitpdrt} and \ref{nonlinear:sinitpdrf}
+where the call to \texttt{setNumTerms()} appears, if \texttt{n} is the argument to
+\texttt{setNumTerms()}, then there will be \texttt{n} terminals numbered \texttt{0,1,..,n-1},
+and when getLocalRefIdx is not used, then \texttt{n-1} will be the terminal number
+of the reference node.
+
+\subsubsection{The Eval function and using \texttt{condassign()}} \label{nonlinear:eval}
+
+The \texttt{eval()} function definition for \texttt{Tresistor} is
+shown in Listing \ref{nonlinear:seval}.
+
+\begin{lstlisting}[firstnumber=100, label={nonlinear:seval},
+    caption={Eval function of Tresistor.cc}]
+
+void Tresistor::eval(adoublev& x,
+             adoublev& vp, adoublev& ip)
+{
+  // x[0]: resistor voltage
+  // x[1]: deltatemp in deg. Celsius
+
+  vp[0]=x[0];
+  vp[1]=x[1]+tnom+273; //vp[1]==tp[1] in Kelvin
+
+  adouble res;
+  if (isSet(&r0)){
+    res = r0 * (one + tc1 * x[1] + tc2 * x[1] * x[1]);
+  }
+  else {
+    res = rsh * ((l-narrow) / (w-narrow))
+      * (one + tc1*x[1] + tc2 * x[1] * x[1]);
+  }
+
+  ip[0] = x[0] / res;
+  ip[1] = - x[0] * ip[0]; //ip[1]==pp[0];
+}
+\end{lstlisting}
+%\linebreak 2
+
+The \texttt{eval()} function is the implementation of the device
+equations. It is in here where the voltages and currents are
+related to the state variables. The \texttt{eval()} function takes
+three vectors of type \texttt{adoublev\&}, the first one is the
+state variable vector, and it is considered as the input, the
+second and the third one are the voltages and the currents, and
+these two vectors are considered as output. The \texttt{eval()}
+function is  called from the \texttt{createTape()} function. In
+this way, the Adol-C library keeps track of all operations that
+are performed on the \texttt{adouble} variables so that it can
+evaluate the derivatives whenever needed. \newline
+%
+%subsubsection{Conditional Branching within eval() functions} \label{nonlinear:cassign}
+
+Due to encapsulation of most of the low-level handling of
+the state variables within AdolcElement, manipulation of the
+state variables within the \texttt{eval()} function for an element can
+be done in a straightforward fashion using the same operators
+as that for floating-point arithmetic.  These operators are all
+overloaded, but this is transparent in most cases.  However,
+when conditional branches affecting the assignment of active
+variables are to be made within an \texttt{eval()}
+function, it is mandatory to use a routine with the Adol-C
+library designed to facilitate conditional branching.  This
+routine is called \texttt{condassign(~)}.
+
+The \texttt{condassign(~)} routine normally takes 4 arguments
+which can be of type adouble or scalars.  For users familiar
+with C and C++, a function call such as \texttt{condassign(a,b,c,d)}
+corresponds with the syntax of the following conditional
+assignment:
+\newline
+\[\textbf{a = (b \textgreater$\,$ 0)? c : d}\]
+\newline
+%\newline
+%\[\textbf{createTape(i\_vec1, i\_vec2, novar, i\_vec4, d\_vec)}\]
+%\newline
+For those familiar with Matlab, Listing \ref{nonlinear:cond}
+shows how the same conditional branching statements might
+be implemented in that language.
+\lstset{language=Matlab} % Change to Matlab formatting...
+\begin{lstlisting}[firstnumber=1, label={nonlinear:cond},
+    caption={Matlab equivalent of \texttt{condassign()}}]
+if (b > 0)
+    a = c
+else
+    a = d
+end
+\end{lstlisting}
+\lstset{language={[GNU]C++}} % Back to C++ formatting.
+
+As an illustrative example, consider a rudimentary model
+for a semiconductor junction diode.  Define the current
+as being 0 whenever the voltage across the junction is
+less than, say, 0.7 volts, and let the current be
+non-zero above the threshold.  Let voltage be
+the parametric state variable, so $v(t)=x(t)$, and
+let the current be defined as follows:
+\newline
+\begin{displaymath}
+i(t) = \left\{ \begin{array}{ll}
+    I_s\,[exp(\frac{x(t)-0.7}{v_T})-1] & \textrm{if $x(t) > 0.7$ or $x(t) - 0.7 > 0$}\\
+    0 & \textrm{if $x(t) \le 0.7$}\\
+    \end{array} \right.
+\end{displaymath}
+\newline
+In this diode equation, $I_s$ is the reverse saturation
+current and $v_T$ is the "temperature voltage."  Both
+are constants.  Letting \texttt{x[$0$]} be the state
+variable parameter $x(t)$, \texttt{vp[$0$]} be the junction
+voltage $v(t)$, and \texttt{ip[$0$]} be the current $i(t)$
+across the junction, Listing \ref{nonlinear:condcall}
+shows how the conditional branch for the simple
+junction diode model would be implemented.
+\begin{lstlisting}[firstnumber=1, label={nonlinear:condcall},
+    caption={Example of branch for simple junction diode.}]
+vp[0] = x[0];                           \\ voltage equals parameter
+condassign(ip[0], x[0]-0.7,             \\ a, b with b's condition shifted to 0.7
+            Is*(exp((x[0]-0.7)/vt)-1),  \\ c == exponential characteristic
+            0);                         \\ d == 0
+\end{lstlisting}
+\subsubsection{The fillMNAM function}
+The last two methods in the source file, in Listing
+\ref{nonlinear:sfmnam}, are the routines used to
+fill the MNAM of the circuit. Please refer to \cite{l_element} for
+a detailed explanation on how to fill the MNAM.
+
+\begin{lstlisting}[firstnumber=144, label={nonlinear:sfmnam},
+    caption={fillMNAM function of Tresistor.cc}]
+
+void Tresistor::fillMNAM(FreqMNAM* mnam)
+{
+  // Ask my terminals the row numbers
+  mnam->setAdmittance(getTerminal(0)->getRC(), getTerminal(1)->getRC(),
+              one/r);
+}
+
+
+void Tresistor::fillMNAM(TimeMNAM* mnam)
+{
+  // Ask my terminals the row numbers
+  mnam->setMAdmittance(getTerminal(0)->getRC(), getTerminal(1)->getRC(),
+               one/r);
+}
+\end{lstlisting}
+%\linebreak 2
+
+\subsection{Using the \texttt{cout} routine for debugging}
+In the course of developing models, debugging will
+inevitably be necessary.  In this section we provide a few
+suggestions on using the C++ standard output routine
+\texttt{cout} to facilitate debugging.  Often in model
+development, modelling equations are valid over restricted
+portions of the input domain.  Considering the rudimentary
+p-n junction diode again, suppose the current is undefined
+for voltages below the threshold voltage, rather than set
+to zero.  We dispense entirely with the \texttt{condassign()}
+statement, but now it would be useful to have some sort of
+error notification to the user if voltages below the threshold
+are present.  Listing \ref{nonlinear:coutuse} shows an
+example of how the code for the rudimentary diode might
+be modified to use \texttt{cout} to print such a message.
+\begin{lstlisting}[firstnumber=1, label={nonlinear:coutuse},
+    caption={Using \texttt{cout} to facilitate model debugging.}]
+vp[0] = x[0];                           \\ voltage equals parameter
+if (x[0] < 0.7)
+    {
+    cout << "x =" << x[0] << ".. Invalid input voltage." << endl;
+    }
+ip[0] = Is*(exp((x[0]-0.7)/vt)-1);      \\ exponential characteristic
+\end{lstlisting}
+Another use for \texttt{cout} is to validate that model parameters
+are being passed as expected from the netlist into model instances.
+In these cases, \texttt{cout} statements would appear in the \texttt{init()}
+function call for the element and echo the parameter values of
+the model instance.
+
+Note that when an active variable is streamed to the standard
+output, the real value of the variable is followed by an "(a)"
+to indicate that the variable is active.  This is a result of
+the overloading of the "\textless\textless"  operator by the Adol-C library.
+
+\subsection{Modifications to the rest of the \FDA Source Files}
+
+To be completed.
+
+\subsection{Header File}
+
+The header file template is shown in Listing \ref{nonlinear:hex}.
+
+\begin{lstlisting}[firstnumber=1, label={nonlinear:hex},
+    caption={Element1.h}]
+
+// This may look like C code, but it is really -*- C++ -*-
+//
+// This is a generic element template
+//
+//              +-----+
+//         o----+     +----o
+//              +-----+
+//
+
+#ifndef Element1_h
+#define Element1_h 1
+
+class Element1 : public AdolcElement
+{
+public:
+
+  Element1(const string& iname);
+
+  ~Element1() {}
+
+  static const char* getNetlistName()
+  {
+    return einfo.name;
+  }
+
+  // Do some local initialization
+  virtual void init() throw(string&); // to perform initialization that
+                                      // cannot be done by the constructor
+                                      // and to create the Adolc Tape
+
+  // Implement the getLocalRefIdx function if you are creating
+  // an element with multiple reference nodes.
+  // Get a vector with the indexes of the local reference nodes.
+  // Get terminal pointers in term_list
+  // ordered by local reference node:
+  //
+  // $t_0$ $t_1$ $t_2$ $t_3$
+  //
+  //   ^    ^
+  //  LRN1 LRN2
+  //
+  // local_ref_vec contains: {1, 3}
+  //
+  virtual void getLocalRefIdx(UnsignedVector& local_ref_vec, // to implement a spatially
+                                TerminalVector& term_list);  // distributed element, or an
+                                                             // electro-thermal one with
+                                                             // multiple reference nodes.
+
+private:
+
+  // Implement the eval function. It is here where you write
+  // your device equations.
+  virtual void eval(adoublev& x, adoublev& vp, adoublev& ip);
+
+  // Parameter variables (replace by your parameter variables here)
+  double par1, par2, ...,parn;
+
+  // Element information
+  static ItemInfo einfo;
+
+  // Number of parameters of this element
+  static const unsigned n_par;
+
+  // Parameter information
+  static ParmInfo pinfo[];
+
+};
+
+#endif
+\end{lstlisting}
+%\linebreak 2
+
+\subsection{Class Source File}
+
+The class source file template is shown in Listing
+\ref{nonlinear:srcex}.
+
+\begin{lstlisting}[firstnumber=1, label={nonlinear:srcex},
+    caption={Element1.cc}]
+
+#include "../network/ElementManager.h"
+#include "../network/AdolcElement.h"
+#include "../analysis/FreqMNAM.h"
+#include "../analysis/TimeMNAM.h"
+#include "Element1.h"
+
+// Static members (set to the number of parameters of your element)
+const unsigned Element1::n_par = ;
+
+// Element information
+ItemInfo Element1::einfo = {
+  "tres",
+  "Element1",
+  "Your Name",
+  "Reserved for documentation use"
+};
+
+// Parameter information
+ParmInfo Element1::pinfo[] = {
+  {"par1", "Parameter 1 (Ohms)", TR_DOUBLE, true},
+  {"par2", "Parameter 2 (The Unit)", TR_DOUBLE, false}
+     .                                                 // Note that the sequence of
+     .                                                 // parameters here should be
+     .                                                 // the same as in the constructor
+  {"parn", "Parameter n (The Unit)", TR_BOOLEAN, false}
+};
+
+Element1::Element1(const string& iname) : AdolcElement(&einfo, pinfo, n_par, iname)
+{
+  // Set parameters
+  paramvalue[0] = &par1;
+  paramvalue[1] = &(par2 = 1e-12); // Example of how to set a default value.
+        .
+        .                           // Note that the sequence of parameters here
+        .                           // should be the same as in the struct pinfo[]
+  paramvalue[n] = &(parn = false);
+}
+
+void Element1::init() throw(string&)
+{
+    // Set the number of terminals (Set to the number of terminals of
+    // your element)
+    setNumTerms(4);
+
+    // Set flags. If your element has multiple reference nodes,
+    // set the second flag to MULTI_REF
+    setFlags(NONLINEAR | ONE_REF | TR_TIME_DOMAIN);
+
+    // Set number of states
+    setNumberOfStates(2);
+
+    // create the tape
+    IntVector var(2,0);
+    var[1] = 1;
+    createTape(var);
+}
+
+void Element1::eval(adoublev& x,
+                     adoublev& vp, adoublev& ip)
+{
+  // Implement the eval function
+  // write the device equations
+}
+
+void Element1::getLocalRefIdx(UnsignedVector& local_ref_vec,
+                            TerminalVector& term_list)
+{
+    // Make sure the vectors are empty
+    // always write these functions as they are
+    term_list.erase(term_list.begin(), term_list.end());
+    local_ref_vec.erase(local_ref_vec.begin(), local_ref_vec.end());
+
+    // Insert vector elements
+    // push_back all the terminals in the term_list
+    // push_back all the local reference terminal in the local_ref_vec
+    term_list.push_back(getTerminal(0));
+    term_list.push_back(getTerminal(1)); // Local reference terminal
+    local_ref_vec.push_back(1); // Local reference index
+    term_list.push_back(getTerminal(2));
+    term_list.push_back(getTerminal(3)); // Local reference terminal
+    local_ref_vec.push_back(3); // Local reference index
+}
+\end{lstlisting}
+%\linebreak 2
+
+\section{A Note on the Eval Routines in \FDA} \label{nonlinear:evalnote}
+
+\noindent Most nonlinear computations require the evaluation of first and higher
+derivatives of vector functions with $m$ components in $n$ real or complex
+variables. \FDA uses the package ADOL-C which automatically
+computes the derivatives of non-linear functions by successive implementation
+of the chain rule. These calculation occur at a fraction of the time and is
+relatively free of truncation errors. The interface details to the ADOL-C
+library from within \FDA can be found in
+path\_to\_freeda/simulator/network/NAdolcElement.cc.
+
+Every nonlinear element in \FDA has an eval function that describes the
+constitutive equations for the particular element at any instant. This
+function is called from within NAdolcElement.cc during evaluation of the tape.
+For more details on the tape, refer to ADOL-C documentation.
+
+\subsection{Parameterized Device Models}
+
+A non-linear device model can be described with the following set of equations
+\begin{equation}
+  \bf{v} ( t ) = \bf{v} ( x ( t ), dx / dt, \ldots,
+  d^m x / dt^{^m}, x_D ( t ))
+\end{equation}
+\begin{equation}
+  \bf{i} ( t ) = \bf{i} ( x ( t ), dx / dt, \ldots,
+  d^m x / dt^{^m}, x_D ( t ))
+\end{equation}
+where \textbf{v}(t) and \textbf{i}(t) are vectors of voltages and currents at
+the ports of the non-linear device, \textbf{x}(t) is a vector of parameters or
+state variables and $\bf{x_D}$(t) is a vector of time delayed state
+variables. There are several models like the microwave diode, the Gummel-Poon
+BJT and Berkeley's BSIM4 which for accurate modeling, require charge to be
+defined as a state variable. In some cases it may not be possible to find the
+voltage as a function of charge and the only alternative is to treat charge as
+a state variable.
+
+Consider a simplified model for the microwave diode shown in Figure~\ref{diode_schematic_eval}.
+\begin{figure}[h]
+\centerline{\epsfbox{diode.ps}}
+\caption{\label{diode_schematic_eval}Simplified schematic for a diode model}
+\end{figure}
+The corresponding equations for this model are
+\begin{equation}
+i(v) = I_s (\exp( \alpha v ) - 1 )
+\end{equation}
+and
+\begin{eqnarray}
+c_j(v) = & C_{t0}(1 - {v / \phi})^{-\gamma} + C_{d0} \exp{(\alpha^{'}v)} & if\; v \leq .8\phi\\
+         & C_{t0}(.2) ^{-\gamma} + C_{d0} \exp{(\alpha^{'}v)} & if\; v \geq .8\phi
+\end{eqnarray}
+where $v$ is the junction voltage. The capacitor voltage $q_j$ is given by
+\begin{equation}
+q_j ( v ) = \int_0^v c_j ( u ) du
+\end{equation}
+Accurate transient analysis requires $q_j$ to be chosen as a state variable.
+We need $v$ to calculate $i_1( v )$ . Since it is
+not possible to solve analytically
+for $v ( q )$, the alternative is to model the diode with two state
+variables, namely $v$ and $q$ . The diode equations
+can now be formulated in two stages. Hence for this case, we
+will have two \emph{eval} functions; \emph{eval}1 and \emph{eval}2 .
+In \emph{eval}1, we will calculate $i(v)$ and
+$q(v)$, both are which are functions of voltage $v$. In this case, the
+values of $q(v)$ are passed to \emph{eval}2, which automatically calculates $d q /
+d t$. Hence we now have the current through the capacitor as
+\begin{equation}
+i_c = \frac{d q}{d t}
+\end{equation}
+All the code that performs the actual derivatives is outside the nonlinear
+model and is handled automatically. Currently in \FDA, only three levels of
+eval are supported. This means that the highest order of derivatives possible
+is two. Most nonlinear elements do not require more than two levels of
+derivatives. The entire formulation can be generalized as follows:
+\begin{eqnarray}
+  \rm{stage} \, 1 & : & f_1 ( x, x_D ) \nonumber \\
+  &  & g_1 ( x, x_D )
+\end{eqnarray}
+\begin{eqnarray}
+  \rm{stage} \, 2 & : & f_2 ( f_1, d g_1 / d t ) \nonumber \\
+  &  & g_2 ( f_1, d g_1 / d t )
+\end{eqnarray}
+\begin{eqnarray}
+  \vdots &  & \nonumber
+\end{eqnarray}
+\begin{eqnarray}
+  \rm{stage} \, n & : & v_{} ( f_{n - 1}, d g_{n - 1} / d t ) \nonumber \\
+  &  & i ( f_{n - 1}, d g_{n - 1} / d t )
+\end{eqnarray}
+
+\section{Contributors}
+The following contributed to this chapter:
+\begin{itemize}
+\item[] Frank P. Hart
+\item[] Houssam S. Kanj
+\item[] Nikhil Kriplani
+\item[] Carlos Christoffersen
+\item[] Michael Steer.
+\end{itemize}
+
+%\end{document} % Comment this out for re-integration into larger doc.

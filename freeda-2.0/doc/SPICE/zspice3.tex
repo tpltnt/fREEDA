@@ -1,0 +1,505 @@
+\element{Z}{MESFET}
+\label{ZSPICE3element}
+\begin{figure}[h]
+\centering
+\ \pfig{zspice3.ps}
+\caption{Z --- GASFET element.
+\label{zspice3.ps}}
+\end{figure}
+
+
+\form{{\tt Z}name NDrain NGate NSource ModelName
+\B AREA\E  \B OFF\E  \B IC=VDS,VGS\E }
+
+\example{Z1 7 2 3 ZM1 OFF}
+
+\begin{widelist}
+\item[{\it NDrain}] is the drain node.
+\item[{\it NGate}] is the gate node.
+\item[{\it NSource}] is the source node.
+\item[{\tt ModelName}]  is  the  model name.
+\item[{\tt OFF}] indicates an (optional) initial condition on the device for
+\dc\ analysis.  If specified the \dc\ operating point is calculated with the
+terminal voltages set to zero.  Once convergence is obtained, the
+program continues to iterate to obtain the exact  value of
+the  terminal  voltages.  The OFF option is used to enforce the solution
+to  correspond  to  a  desired  state if the circuit has more than one stable
+state.
+\item[{\tt IC}] is the optional  initial condition specification.
+Using {\tt IC=}$V_{DS},V_{GS}, V_{BS}$
+is intended for use with the {\tt UIC} option
+on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+starting from other than the quiescent operating point.
+Specification of the transient initial conditions using the {\tt .IC}
+statement (see page \pageref{.ICstatement}) is preferred and is more
+convenient.
+\end{widelist}
+
+\modeltype{GASFET}
+
+%
+% GASFET
+%
+\modelx{GASFET}{}{GaAs MESFET Model}\label{ZGASFETmodel}
+\label{GASFETmodelsp3}
+\begin{figure}[h]
+\centering
+\ \epsfxsize=2.75in\pfig{sp3gaas.ps}
+\caption[Schematic of the \spicethree\ GASFET model]{Schematic of the \spicethree
+GASFET model. \label{zspice3gasfet} $V_{GS}$, $V_{DS}$, and $V_{GD}$ are intrinsic
+gate-source, drain-source and gate-drain voltages
+between the internal gate, drain, and source terminals designated
+$G$, $D$, and $S$ respectively.  }
+\end{figure}
+\vfill
+\form{{\tt .MODEL} ModelName {\tt GASFET(} \B\B keyword {\tt =} value\E  ... \E
+{\tt )}}
+
+\example{.MODEL GAAS12 GASFET() }
+
+Raytheon model\newline
+This model is also known as the Statz model and
+model was developed at Raytheon for the modeling of GaAs
+MESFETs used in digital circuits.  It is based on empirical
+fits to measured data \cite{statz:87}.
+
+The parameters of the {\tt GASFET} model for \pspice are given in table
+\ref{zsp3table}.
+
+It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}$C) specified in the most recent {\tt .OPTIONS} statement
+preceeding the {\tt .MODEL} statement.
+\begin{table}[h]
+\caption{\spicethree GASFET model keywords. \label{zsp3table}}
+\keywordtwo{Area}{
+\raggedright
+{\tt VTO}   &pinch-off voltage $V_{T0}$\sym{T_{C,VT0}}& V      &-2.0   &\X
+{\tt BETA}
+  &transconductance parameter \sym{\beta}       & $\mbox{A/V}^2$&1.0E-4 &  \STAR\X
+{\tt B}
+     &\raggedright doping tail extending parameter\sym{B}
+     & 1/V    &0.3    &  \STAR\X
+{\tt ALPHA}
+ &saturation voltage parameter\sym{alpha}& 1/V    &2      &  \STAR\X
+{\tt LAMBDA} &\raggedright channel length modulation parameter
+    \sym{\lambda}
+    & 1/V    &0      &   \X
+{\tt RD}
+    &drain ohmic resistance \sym{R_D}   & $\Omega$&0      &  \STAR\X
+{\tt RS}
+    &source ohmic resistance \sym{R_S}  & $\Omega$&0      &  \STAR\X
+{\tt CGS}
+   &\raggedright zero-bias G-S junction capacitance  \sym{C'_{GS}}
+   & F      &0      &  \STAR\X
+{\tt CGD}
+   &\raggedright zero-bias G-D junction capacitance \sym{C'_{GD}}
+   & F      &0      &  \STAR\X
+{\tt PB}    &gate junction potential  \sym{V_{\ms{BI}}}   & V      &1      &\X
+{\tt KF}    &flicker noise coefficient\sym{K_F} & -      &0      &\X
+{\tt AF}    &flicker noise exponent \sym{A_F}   & -      &1      &\X
+{\tt FC}    &coefficient for forward-bias depletion capacitance formula
+      &  -   &    0.5      &\X
+}
+\end{table}
+The physical constants used in the model evaluation are
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+$k$ & Boltzman's constant           &  $1.3806226\,10^{-23}$~J/K\\
+$q$ & electronic charge             & $1.6021918\,10^{-19}$~C\\
+\hline
+\end{tabular}
+\end{center}
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+Absolute temperatures (in kelvins, K) are used.
+The thermal voltage
+\begin{equation}
+V_{\ms{TH}} = {{kT_{\ms{NOM}}} \over q} .
+\end{equation}
+
+\noindent and the band gap energy at the nominal temperature is
+\begin{equation}
+E_G(T_{\ms{NOM}})=E_G(0)-0.000702{{4T_{\ms{NOM}}^2}\over{T_{\ms{NOM}}+1108}}.
+\end{equation}
+Here $E_G(0)$ is the parameter {\tt EG} --- the band gap energy at 0~K.\\[0.2in]
+\noindent\underline{\sl \large Temperature Dependence}
+\index{GASFET, Temperature Dependence}
+\index{Temperature Dependence, see GASFET}
+
+Temperature effects are incorporated as follows where $T$ and $T_{\ms{NOM}}$
+are absolute temperatures in Kelvins (K).
+\begin{eqnarray}
+\beta(T) & = & \beta 1.01^{\textstyle(T_{C,\beta}(T-T_{\ms{NOM}}}\\
+I_S (T) & = & I_S e^{\left( \textstyle E_g(T) {T \over {T_{\ms{NOM}}}}
+ - E_G(T) \right) /(nV_{\ms{TH}})}
+    \left({{\textstyle T}\over{\textstyle T_{\ms{NOM}}}}
+    \right)^{(\textstyle X_{TI}/n)}\\
+C'_{GS} (T)&=&C_{GS}\left\{1 + M \left[0.0004(T-T_{\ms{NOM}})+\left(1-
+   {{\textstyle V_{BI} (T)} \over {V_{BI}}}\right) \right]\right\} \\
+C'_{GD} (T)&=&C_{GD}\left\{1 + M \left[0.0004(T-T_{\ms{NOM}})+\left(1-
+   {{\textstyle V_{BI} (T)} \over {V_{BI}}}\right) \right]\right\} \\
+E_G(T) & = & E_G(0) - 0.000702{{4T_{\ms{NOM}}^2} \over {T_{\ms{NOM}}+1108}}\\
+V_{BI} (T) & = & V_{BI} {T \over {T_{\ms{NOM}}}}
+ - 3V_{\ms{TH}} \ln{\left( {{T} \over {T_{\ms{NOM}}}}\right) }
+              + E_G (T_{\ms{NOM}}) {T \over {T_{\ms{NOM}}}} -E_G(T)\\
+V_{T0}(T)&=&V_{T0} + T_{C,VT0}(T- T_{NOM})\\
+V_{\ms{TH}} & = & {{kT} \over q}
+\end{eqnarray}
+\noindent\underline{\sl \large Parasitic Resistances}\\[0.1in]
+\index{Parasitic Resistances, see GASFET, \pspice}
+\index{GASFET, \pspice\ Parasitic Resistance}
+\index{GASFET, \pspice\ $R_S$}
+\index{GASFET, \pspice\ $R_G$}
+\index{GASFET, \pspice\ $R_D$}
+\index{MESFET, see GASFET (\pspice)}
+
+The resistive parasitics
+$R_S$, $R_G$ and $R_D$ are
+are calculated from the sheet resistivities
+{\tt RS} (= $R'_S$), {\tt RG} (= $R'_G$) and {\tt RD} (= $R'_D$), and the
+$Area$ specified on the element line.
+\begin{eqnarray}
+R_D & = & R'_D Area\\
+R_G & = & R'_G Area\\
+R_S & = & R'_S Area
+\end{eqnarray}
+\notforsspice{The parasitic resistance parameter dependencies are summarized in
+figure \ref{zsp3para}.
+%\\[0.2in]
+
+\begin{figure}[h]
+\parbox[t]{1.3in}{
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt RD} \hfill $R'_D$\\
+{\tt RG} \hfill $R'_G$\\
+{\tt RS} \hfill $R'_S$\\
+\hline
+\end{tabular}
+}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE}\\
+\multicolumn{1}{|c|}{PARAMETERS}\\
+\hline
+\hspace*{\fill} $R_D = f(Area, R'D)$\\
+\hspace*{\fill} $R_G = f(Area, R'G)$\\
+\hspace*{\fill} $R_S = f(Area, R'S)$\\
+\hline
+\end{tabular}
+\caption{MOSFET parasitic resistance parameter
+relationships. \label{zsp3para}}
+\end{figure}
+}
+
+\noindent\underline{\bf Leakage Currents}\\[0.1in]
+
+\index{Leakage Currents, see GASFET}
+\index{GASFET, I/V Characteristics, Leakage Currents}
+\index{GASFET, Leakage Currents}
+Current flows across the normally reverse biased gate-source and gate-drain
+junctions.
+The gate-source leakage current
+\begin{equation}
+I_{GS} = Area\,I_{S}e^{(\textstyle V_{GS}/V_{\ms{TH}} -1)}
+\end{equation}
+and the gate-drain leakage current
+\begin{equation}
+I_{GD} = Area\,I_{S}e^{(\textstyle V_{GD}/V_{\ms{TH}} -1)}
+\end{equation}
+\notforsspice{The dependencies of the parameters describing the leakage current
+are summarized in figure \ref{zsp3leakage}.\\[0.2in]
+\begin{figure}[b]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt IS} \hfill $I_S$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill}$I_{GS} = f(I_S, Area)$\\
+\hspace*{\fill}$I_{GD} = f(I_S, Area)$\\
+\hline
+\end{tabular}
+\caption{GASFET leakage current parameter dependencies. \label{zsp3leakage}}
+\end{figure}
+}
+
+\noindent\underline{\sl I/V Characteristics}\\[0.1in]
+
+\index{GASFET, \spicethree (Raytheon) Model, I/V}
+\index{GASFET, \spicethree  (Raytheon) Model, I/V}
+\index{I/V Characteristics, see GASFET}
+\index{GASFET, I/V Characteristics}
+\index{I-V characteristics, see GASFET}
+The current/voltage characteristics are evaluated after first
+determining the mode (normal: $V_{DS} \ge 0$ or inverted:
+$V_{DS} < 0$) and the region (cutoff,
+linear or saturation) of the current
+$(V_{DS}, V_{GS})$ operating point.\\[0.1in]
+
+\noindent{\sl Normal Mode: ($V_{DS} \ge 0$)}\\[0.2in]
+The regions are as follows:\\[0.1in]
+\hspace*{\fill}\offsetparbox{
+\begin{tabular}{ll}
+cutoff region:&$V_{GS}(t-\tau) < V_{T0}$\\
+linear region:&$V_{GS}(t-\tau) > V_{T0} \mbox{ and } V_{DS} \le 3/\alpha$\\
+saturation region:&$V_{GS}(t-\tau) > V_{T0} \mbox{ and } V_{DS} > 3/\alpha$\\
+\end{tabular}}\\[0.1in]
+Then
+\begin{equation}
+I_{DS} = \left\{ \begin{array}{ll}
+      0  & \mbox{cutoff region} \\ \\
+      Area\,\beta
+      \left(1 + \lambda V_{DS}\right)
+      {{\textstyle\left[V_{GS}(t-\tau)-V_{T0}\right]^2}\over
+      {\textstyle 1 + B[{V_{GS}(t-\tau)-V_{T0}]}}}
+      \mbox{Ktanh}
+         &\mbox{linear and saturation}\\
+         &\mbox{regions} \end{array} \right. %}
+      \label{zsp3id}
+\end{equation}
+where
+\begin{equation}
+\mbox{Ktanh} = \left\{ \begin{array}{ll}
+       1 - \left(1 - V_{DS} \frac{\alpha}{3}\right)^3
+        & \mbox{linear region} \\ \\
+      1
+         &\mbox{saturation regions} \end{array} \right. %}
+\end{equation}
+is a taylor series approximation to the tanh function.
+\noindent{\sl Inverted Mode: ($V_{DS} < 0)$}\\[0.2in]
+In the inverted mode the MOSFET I/V characteristics are evaluated as in the
+normal mode (\ref{zsp3id}) but with the drain and source subscripts
+exchanged.
+
+\notforsspice{The relationships of the parameters describing the I/V
+characteristics of the model are summarized in figure
+\ref{zsp3i/v}.\\[0.1in]
+\begin{figure}[b]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt B} \hfill $B$\\
+{\tt BETA} \hfill $\beta$\\
+{\tt LAMBDA} \hfill $\lambda$\\
+{\tt VTO} \hfill $V_{T0}$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\{$I_{DS} =$\newline\hspace*{\fill}$f(Area, \alpha, B, \beta, \lambda, V_{T0})$\}\\
+\hline
+\end{tabular}
+\caption{LEVEL 2 (Raytheon model) I/V dependencies. \label{zsp3i/v}}
+\end{figure}
+}
+
+\noindent\underline{\sl Capacitances}
+
+\noindent
+The drain-source capacitance
+\begin{equation}
+C_{DS} = Area\,C'_{DS}
+\end{equation}
+The gate-source capacitance
+\begin{equation}
+C_{GS} = Area\left[C'_{GS}F_1F_2\left(1 - {{\textstyle V_{\ms{new}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C'_{GD}F_3\right]
+\end{equation}
+The gate-source capacitance
+\begin{equation}
+C_{GD} = Area\left[C'_{GS}F_1F_3\left(1 - {{\textstyle V_{\ms{new}}}
+   \over{\textstyle V_{BI}}}\right)^{\textstyle - \frac{1}{2}}
+   + C'{GD}F_2\right]
+\end{equation}
+where
+\begin{eqnarray}
+F_1 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{\ms{eff}}-V_{T0}}
+    \over{\textstyle\sqrt{\left( V_e-V_{T0}\right)^2+\delta^2}}}\right\}\\
+F_2 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 +
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+F_3 & = & {{\textstyle 1}\over{\textstyle 2}} \left\{ 1 -
+    {{\textstyle V_{GS}-V_{GD}}
+    \over{\textstyle\sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}}}\right\}\\
+V_{\ms{eff}} & = & {{\textstyle 1}\over{\textstyle 2}} \left\{V_{GS}+V_{GD}+
+    \sqrt{\left( V_{GS}-V_{GD}\right)^2+\alpha^{-2}}\right\}\\
+\end{eqnarray}
+\begin{equation}
+V_{\ms{new}} = \left\{ \begin{array}{ll}
+    A_1 & A_1 < V_{\ms{MAX}} \\ \\
+    V_{\ms{MAX}} & A_1 \ge V_{\ms{MAX}} \\
+      \end{array} \right. %}
+\end{equation}
+and
+\begin{equation}
+    A_1 = \frac{1}{2}\left[V_e + V_{T0}
+          + \sqrt{(V_e+V_{T0})^2+\delta^2}\right]
+\end{equation}
+In the model $\delta$ and $V_{\ms{MAX}}$ are not
+settable by the
+user.  Empirically they were determined to be\\[0.1in]
+\hspace*{\fill}
+$V_{\ms{MAX}} = 0.5$
+\hspace*{\fill}
+$delta = 0.2$
+\hspace*{\fill}\\[0.1in]
+\notforsspice{
+The capacitance parameter dependencies are summarized in figure
+\ref{zsp3cap}.\\[0.2in]
+
+\begin{figure}[b]
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{PROCESS} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hline
+{\tt ALPHA} \hfill $\alpha$\\
+{\tt CGD} \hfill $C'_{GD}$\\
+{\tt CGS} \hfill $C'_{GS}$\\
+{\tt CDS} \hfill $C'_{DS}$\\
+{\tt VBI} \hfill $V_{BI}$\\
+{\tt VT0} \hfill $V_{T0}$\\
+{\tt M} \hfill $B$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline +}
+\hfill
+\begin{tabular}[t]{|p{1in}|}
+\hline
+\multicolumn{1}{|c|}{GEOMETRY} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\hspace*{\fill}$Area$\\
+\hline
+\end{tabular}
+\hfill
+\parbox{0.2in}{\ \vspace*{0.2in}\newline $\rightarrow$}
+\hfill
+\begin{tabular}[t]{|p{1.8in}|}
+\hline
+\multicolumn{1}{|c|}{DEVICE} \\
+\multicolumn{1}{|c|}{PARAMETERS} \\
+\hline
+\{$C_{DS} = f(Area, C'_{DS})$\}\\
+\{$C_{GD} = f(Area, C'_{GD}, \alpha,$\newline\hspace*{\fill}$ B, F_C,
+V_{BI}, V_{T0})$\}\\
+\{$C_{GS} = f(Area, C'_{GS}, \alpha,$\newline\hspace*{\fill}$ B, F_C,
+V_{BI}, V_{T0})$\}\\
+\hline
+\end{tabular}
+\caption{Capacitance dependencies. \label{zsp3cap}}
+\end{figure}
+}
+
+\noindent\underline{\sl \large AC Analysis}\\[0.1in]
+\index{GASFET, AC Analysis}
+
+The AC analysis uses the model of figure  \ref{zsp3.ps} with the capacitor values
+evaluated at the \dc\ operating point with
+\begin{equation}
+g_m = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{GS}}}
+\end{equation}
+and
+\begin{equation}
+R_{DS} = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{DS}}}
+\end{equation}\\[0.1in]
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{GASFET, Noise Model}
+\index{GASFET, Noise Analysis}
+
+The MOSFET noise model accounts for thermal noise generated in the
+parasitic resistamces and shot and flicker noise generated in the
+drain source current generator.  The rms (root-mean-square) values of
+thermal noise current generators shunting the four parasitic resistance
+$R_D$, $R_G$ and $R_S$ are
+
+\begin{eqnarray}
+I_{n,D} &=& \sqrt{4kT/R_D}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,G} &=& \sqrt{4kT/R_G}~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{n,S} &=& \sqrt{4kT/R_S}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+Shot and flicker noise are modeled by
+a noise current generator in series with the drain-source current generator.
+The rms value of this noise generator is
+\begin{equation}
+I_{n,DS} = \sqrt{I_{\ms{SHOT},DS}^2 + I_{\ms{FLICKER},DS}^2}
+\end{equation}
+\begin{eqnarray}
+I_{\ms{SHOT},DS} &=& \sqrt{4kTg_m\frac{2}{3}} ~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+~\mbox{A/}\sqrt{\mbox{Hz}}\\
+I_{\ms{FLICKER},DS} &=& \sqrt{{{\textstyle\KF I_{DS}^{\AF}}
+                         \over {\textstyle f }}}
+~~~~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{eqnarray}
+where the transconductance
+\begin{equation}
+g_m = {{\textstyle\partial I_{DS}} \over {\textstyle\partial V_{GS}}}
+\end{equation}
+is evaluated at the \dc\ operating point and $f$ is the analysis frequency.

@@ -1,0 +1,178 @@
+%\documentclass{article}
+%\usepackage{epsf,html}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight
+7.375in \evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+\section[W \- Current Controlled Switch]{\noindent{\LARGE \textbf{Current Controlled Switch}}
+\hspace{50mm}\huge\textbf{W}} \linethickness{1mm}\line(1,0){425}
+\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=2.4in\pfig{w_spice.ps}} \caption{W ---
+current controlled switch.\label{fig:port}}
+\end{figure}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+%\vspace{2mm}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form:}
+\newline
+{\tt W}name $N_1$ $N_2$ {\it VoltageSourceName ModelName} \B ON\E
+\B OFF \E
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+\newline
+\begin{tabular}{r l}
+$N_{+}$ & is the positive node of the switch.\\
+$N_{-}$ & is the negative node of the switch.\\
+{\it VoltageSourceName} & is the name of the voltage source the\\
+& current through which is the controlling current. The voltage\\
+& source must be a {\tt V} element.\\
+\notforsspice{{\tt ON} & is the optional initial condition. It
+is\\
+& intended for use with the {\tt UIC} option on  the  {\tt
+.TRAN}\\
+& line, when  a transient analysis is desired starting from
+other\\
+& than the quiescent operating point. It is also the initial\\
+& condition on the device for \dc\ analysis.\\
+{\tt OFF} & is the optional initial condition. If specified the\\
+& \dc\ operating point is calculated with the terminal voltages\\
+& set to zero.  Once convergence is obtained, the program\\
+& continues to iterate to obtain the exact  value of the
+terminal\\
+& voltages. The OFF option is used to enforce the solution to\\
+& correspond  to a desired  state if the circuit has more than
+one\\
+& stable state.}
+\end{tabular}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter table
+%\vspace{4mm}
+%\linethickness{0.5mm} \line(1,0){425}
+%\newline
+%\textit{Example:}
+%\newline
+%\texttt{PORT1 1 0 PNR=1 ZL=75}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+\modeltype{ISWITCH} \eskip{W} \model{ISWITCH}{Current-Controlled
+Switch Model}
+\begin{figure}[h]
+\centerline{\epsfxsize=1.5in\pfig{iswitch.ps}} \caption{ISWITCH
+--- current controlled switch model. \label{iswitch}}
+\end{figure}
+
+\notforsspice{The current-controlled switch model is supported by
+both \spicethree\ and \pspice. However the model keywords differ slightly.\\[0.1in]
+
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+{\tt IT}   & threshold current\sym{I_{\ms{ON}}}& A     & 0.0 \\
+\hline
+{\tt IH}   & hysteresis current\sym{I_{\ms{OFF}}} & A     & 0.0\\
+\hline
+{\tt RON} & on resistance      \sym{R_{\ms{ON}}}&$\Omega$&1.0 \\
+\hline {\tt ROFF} & off resistance
+\sym{R_{\ms{OFF}}}&$\Omega$&1/GMIN\X }
+\end{tabular}
+\newline
+
+Care must be exercised in using the switch.  An instantaneous
+switch is highly nonlinear and will very likely lead to
+convergence problems. This problem is alleviated in the {\tt
+ISWITCH} model by ramping the resistance of the switch from its
+off value to its on value.  For this ramping action to be
+effective the difference between $I_{\ms{ON}}$ and $I_{\ms{OFF}}$
+must not be too small. Also the values of $R_{\ms{ON}}$ and
+$R_{\ms{OFF}}$ should not be extreme. The ration
+$R_{\ms{ON}}/R_{\ms{OFF}}$ should be be as small as possible.
+
+If $R_{\ms{ON}}/R_{\ms{OFF}}$  is large, e.g.
+$R_{\ms{ON}}/R_{\ms{OFF}}$ $>$ $10^{12}$, then the default error
+tolerances {\tt TRTOL} and {\tt CHGTOL}, specified in a {\tt
+.OPTIONS} statement (see page \pageref{.OPTIONSstatement}) may
+need to be changed.
+\begin{widelist}
+\item[{\tt TRTOL}] Change to 1.0 from 7.0 idf there are convergence problems
+during transient analysis.
+\item[{\tt CHGTOL}] If a switch is across a capacitor then {\tt CHGTOL} should be
+reduced to $10^{-16}$ if there are convergence problems during
+transient analysis.
+\end{widelist}
+\eskip{W}
+\noindent\underline{\bf \large Switch Model}\\[0.1in]
+
+The switch is modeled by a current variable resistor $R$, see
+figure \ref{iswitch}.
+
+\noindent\underline{\sl \large Standard Calculations}\\[0.1in]
+\begin{eqnarray}
+R_{\ms{MEAN}} & = & \sqrt{R_{\ms{ON}} + R_{\ms{OFF}}} \\
+R_{\ms{RATIO}}& = &       R_{\ms{ON}}/ R_{\ms{OFF}} \\
+I_{\ms{MEAN}} & = & \sqrt{I_{\ms{ON}} + I_{\ms{OFF}}} \\
+I_{\Delta}& = & \left({{\textstyle i - I_{\ms{MEAN}}} \over
+              {\textstyle I_{\ms{ON}}- I_{\ms{OFF}}}}\right)
+\end{eqnarray}
+If $I_{\ms{ON}}> I_{\ms{OFF}}$ the switch resistance
+\begin{equation}
+R = \left\{
+\begin{array}{ll}
+R_{\ms{ON}}                            & i \ge I_{\ms{ON}} \\
+R_{\ms{OFF}}                            & i \le I_{\ms{OFF}}\\
+R_{\ms{MEAN}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 I_{\Delta}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 I_{\Delta}^3}
+  & I_{\ms{OFF}} < i < I_{\ms{ON}} \\
+\end{array} \right. %}
+\end{equation}
+If $I_{\ms{ON}}< I_{\ms{OFF}}$ the switch resistance
+\begin{equation}
+R = \left\{
+\begin{array}{ll}
+R_{\ms{ON}}                            & i \le I_{\ms{ON}} \\
+R_{\ms{OFF}}                            & i \ge I_{\ms{OFF}}\\
+R_{\ms{MEAN}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 I_{\Delta}}\,
+  R_{\ms{RATIO}}^{\textstyle 1.5 I_{\Delta}^3}
+  & I_{\ms{OFF}} < i < I_{\ms{ON}} \\
+\end{array} \right. %}
+\end{equation}
+\noindent\underline{\sl \large Noise Analysis}\\[0.1in]
+\index{ISWITCH, Noise Model} \index{ISWITCH, Noise Analysis}
+\marginid{Noise Analysis} The current controlled switch noise
+model accounts for thermal noise generated in the switch
+resistance. The rms (root-mean-square) values of thermal noise
+current generators shunting the switch resistance is
+\marginid{Noise Model}
+\begin{equation}
+I_{n} = \sqrt{4kT/R}~\mbox{A/}\sqrt{\mbox{Hz}}
+\end{equation}
+where $T$ is the analysis temperature in kelvin (K), and $k$ (=
+$1.3806226\,10^{-23}$~J/K) is Boltzmanns constant.
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent element in \FDA.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

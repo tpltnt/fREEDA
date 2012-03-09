@@ -1,0 +1,46 @@
+*** 2-tone HB analysis for 1-port thermalGrid with thermal MESFET ***
+
+.options f0 = 1.0e9 f1 = 1.000000001e9  temp=300. ndev=25
+
+.svhb n_freqs=3 n_freqs2=3 fundamental=f0 fundamental2=f1
+* steps=0 deriv=0
+
+inductor:l1 1 2 l=1e-9 time_d=0
+capacitor:c1 2 3 c=20e-11 time_d=0
+
+inductor:l2 3 7 l=15e-9 time_d=0 
+resistor:r2 7 8 r=100
+
+inductor:l3 4 5 l=15e-9 time_d=0 
+resistor:r3 5 6 r=10
+capacitor:cload 4 9 c=20e-12 time_d=0
+resistor:rload 9 0 r=50.
+
+vsource:vbias 8 0  vdc = -.2
+vsource:vdrain 6 0 vdc = 3.
+resistor:rin 11 1 r = 50
+vsource:vs0 11 111 f= f0 vac = .4
+vsource:vs1 111 0 f= f1 vac = .4
+
+resistor:rs 123 0 r=1.144
+
+*** Mesfet with power dissipation
+mesfetct:m1 3 4 123 1000 "tref"
++ a0 = .016542 a1 = .0500214 a2 = .02012 a3 = -.00806592
++ gama = 2.16505 t = 5e-12 beta = -.0394707 is = 1e-9
++ vbd = 15 nr = 10 ib0 = 1e-9 cgs0 = .52785e-12 cgd0 = .087e-12 
+
+*** Thermal circuit
+thermalheatsink1:test1 1000 1001 Tambient=temp ndevices=ndev
+vsource:t1 1001 "tref" vdc=temp
+.ref "tref"
+
+.out plot term 4 vf term 123 vf sub mag
++ "set logscale x; set data style i" in "mag.vds"
+.out plot term 1000 vf mag "set logscale x; set data style i" in "mag.temp"
+.out plot element "mesfetct:m1" 1 if mag
++ "set logscale x; set data style i" in "mag.ids"
+.out plot element "mesfetct:m1" 2 if mag
++ "set logscale x; set data style i" in "mag.power"
+
+.end

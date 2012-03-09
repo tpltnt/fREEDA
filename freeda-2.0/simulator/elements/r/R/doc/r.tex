@@ -1,0 +1,74 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{Resistor}
+\hspace{\fill}\textbf{r}}\\
+\hrulefill \linethickness{0.5mm}\line(1,0){425}
+%\newline
+%\hline
+\normalsize
+\newline
+% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\epsfbox{r_spice1.eps}} \caption{R ---
+Resistor Element.}
+\end{figure}
+\newline
+% form for \FDA
+\linethickness{0.5mm}\line(1,0){425}
+%\hrule \normalsize
+\newline
+\textit{Form:}
+%\newline
+$\tt r$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\ $ $\langle
+\tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+&  \\
+$n_1$ & is the positive element node, \\
+&  \\
+$n_2$ & is the negative element node. \\
+%&  \\
+%parameter list & see table 1 for parameter list
+\end{tabular}
+%Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+r: Resistance value (ohms) & DOUBLE & N/A & yes \\
+\par
+\hline
+\end{tabular}
+\end{table}
+%example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{r:1\ 11\ 1\ r=50}
+\newline
+\texttt{r9\ 5\ 6\ 1k}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+This is the \texttt{R} element in the SPICE compatible netlist.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

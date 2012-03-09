@@ -1,0 +1,256 @@
+%\documentclass{article}
+%\usepackage{epsf,html}
+%\newcommand{\fig}[1]{J:/eos.ncsu.edu/users/m/mbs/mbs_group/figures/#1}
+%\newcommand{\fig}[1]{../figures/#1}
+%\newcommand{\pfig}[1]{\epsfbox{\fig{#1}}}
+
+\oddsidemargin 10mm \topmargin 0.0in \textwidth 5.5in \textheight
+7.375in \evensidemargin 1.0in \headheight 0.18in \footskip 0.16in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% The title
+%\begin{document}
+\section[D \- Diode]{\noindent{\LARGE \textbf{Diode}} \hspace{120mm}\huge\textbf{D}}
+\linethickness{1mm}
+\line(1,0){425}
+\normalsize
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% the resistor figure
+\begin{figure}[h]
+\centerline{\epsfxsize=1in\pfig{diode_transim.ps}} \caption{D ---
+Diode Element.}
+\end{figure}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SPICE form
+%\vspace{2mm}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\texttt{SPICE} \textit{Form:}
+\newline
+\texttt{D}\textit{name} $n_1$ $n_2$
+\texttt{[}\textit{ModelName}\texttt{]} \ [\textit{Area}] \
+[\texttt{OFF}] \ [\texttt{IC}=$V_D$]
+\newline
+%\vspace{2mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% explanation of terms in the SPICE form
+\newline
+\begin{tabular}{r l}
+$n_1$ & is the positive element node, \\
+$n_2$ & is the negative element node, \\
+\textit{ModelName} & is the optional model name, (\textit{ModelType} is \texttt{diode}.)\\
+\textit {Area} & is an optional relative area factor,  \\
+                & (Units: none; Optional; Default: 1, Symbol:
+                \textit{Area})\\
+\texttt{OFF} & Indicates an optional starting condition on the device for DC operating point analysis.\\
+             & If specified, the DC operating point is calculated with the terminal voltages set to zero.\\
+             & Once convergence is obtained, the program continues to iterate to obtain the exact value\\
+             & of terminal voltages. The OFF option, is used to enforce the solution to correspond to a \\
+             & desired state if the circuit has more than one stable state.\\
+\texttt{IC}  & is the optional initial condition specification. Using \texttt{IC}=$V_D$ is used with \\
+             & the \textit{UIC} option on the .\textit{TRAN} line when a transient analysis is desired  \\
+             & with initial current $V_D$ across the diode rather than the quiescent  \\
+             & operating point. Specification of the transient initial condition using the  \\
+             & .\texttt{IC} is preferred and is more convenient.
+\end{tabular}
+%\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameter table
+%\vspace{4mm}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Diode Model:}\\
+\textit{Form:}\\
+.MODEL \ \textit{ModelName} \ \texttt{D}([[$\mathit{keyword} = \mathit{value}$]...])\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{DCLMP \ 3 \ 7 DMOD \ 3.0 IC=0.2}
+\newline
+\texttt{.MODEL DMOD D(\texttt{IS}=100pA \ \texttt{N}=1.68 \
+\texttt{BV}=10V \ \texttt{IBV}=1nA)}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Model Parameters:}
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Parameters
+\begin{tabular}{|r|l|c|c|}
+\hline
+\textbf{Name} & \textbf{Description} & \textbf{Units} & \textbf{Default} \\
+\hline
+\texttt{AF} & Flicker noise exponent ($AF$) & & 1 \\
+\hline
+\texttt{AFAC} & Temperature related coefficient ($AFAC$) & & 1 \\
+\hline
+\texttt{ALFA} & Slope factor of conduction current ($ALFA$) & /volt & 38.696 \\
+\hline
+\texttt{AR0} & R0 Linear temperature coefficient ($AR_0$) & K & 0 \\
+\hline
+\texttt{AREA} & Area multiplier ($AREA$) & & 1.0 \\
+\hline
+\texttt{BR0} & R0 Quadratic temperature coefficient ($BR_0$) & K$^2$ & 0 \\
+\hline
+\texttt{BV} & Magnitude of current at breakdown voltage ($V_B$) & & $10^-14$ \\
+\hline
+\texttt{CD0} & Zero bias diffusion capacitance ($C_{D0}$) & /volt & 0.0 \\
+\hline
+\texttt{CJ0} & Zero bias depletion capacitance ($C_{J0}$) & farad & 0 \\
+\hline
+\texttt{E} & Power law parameters of breakdown current ($E$) & & 10.0 \\
+\hline
+\texttt{EG} & Barrier height at 0K ($E_G$) & eV & 0.8 \\
+\hline
+\texttt{IS} & Saturation current ($I_S$) & amps & 0 \\
+\hline
+\texttt{KF} & Flicker noise coefficient ($K_F$) & & 1.0 \\
+\hline
+\texttt{M} & Grading coefficient ($M$) & & 0.5 \\
+\hline
+\texttt{N} & Emission coefficient ($n$) & & 1.0 \\
+\hline
+\texttt{R0} & Bias dependent part of series resistance in the forward bias ($R_0$) & ohms & 0\\
+\hline
+\texttt{TT} & Intrinsic time constant of depletion layer for abrupt junction ($\tau _t$) & secs & 0 \\
+\hline
+\texttt{VB} & Breakdown voltage ($V_B$)& volts & $\infty$ \\
+\hline
+\texttt{VJ} & Junction potential ($\phi$) & volts & 1.0 \\
+\hline
+\texttt{XTI} & IS temperature coefficient ($XTI$) & & 1 \\
+\hline
+\end{tabular}
+%\vspace{4mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% example in SPICE
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{DCLMP \ 3 \ 7 DMOD \ 3.0 IC=0.2}
+\newline
+\texttt{.MODEL DMOD D(\texttt{IS}=100pA \ \texttt{N}=1.68 \
+\texttt{BV}=10V \ \texttt{IBV}=1nA)}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Description:}\\
+%\centerline{Table 1}
+%\newpage
+%\linethickness{0.5mm}\line(1,0){425}
+%\vspace{2mm}
+%\newline
+DIODE MODEL:\\
+%\newline
+\begin{figure}[h]
+\centerline{\epsfxsize=1.5in\pfig{diode_fig2.ps}}
+\caption{Schematic of the Diode Element Model}
+\end{figure}
+\newline
+%\vspace{5mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Device equations start
+The physical constants used in the model evaluation are:
+\newline
+\begin{tabular}{c c c}
+$k$ & Boltzmann's constant & 1.3806226 $10^{-23} J/K$ \\
+$q$ & electron charge & 1.6021918 $10^{-19} C$
+\end{tabular}
+%\vspace{4mm}
+\newline
+\line(1,0){425}
+\newline
+DEVICE EQUATIONS:
+\newline
+%\vspace{4mm}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Current characteristics
+\underline{Current Characteristics}
+\newline
+\begin{equation}
+I_D = I_S(e^{ALFA \: V_D} - 1) - I_B
+\end{equation}
+\begin{equation}
+I_B = \left\{ \begin{array}{ll}
+                0 & V_D \geq (1+V_B) \\
+                I_{BV}{(1+V_B+V_D)}^E & V_D < (1+V_B)
+                \end{array}
+        \right.
+\end{equation}
+where $ALFA$ = 1/($n$ $V_{TH}$)
+\newline
+$V_{TH}$=$kT/q$
+\newline
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Capacitance equations
+\underline{Capacitance}
+\newline
+\begin{equation}
+C_J= \left\{ \begin{array}{ll}
+             C_{J0}(1-V_D/\phi)^{-M} + C_D & V_D \leq 0.8\phi \\
+             C_{J0} 0.2^{-M} + C_D & V_D > 0.8\phi
+             \end{array}
+    \right.
+\end{equation}
+where $C_D$ is the diffusion capacitance.
+\newline
+$C_D$ = $C_{D0}e^{AFAC V_D}$
+\newline
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Resistance equations
+%\newpage
+\underline{Parasitic Resistance}
+\newline
+\begin{equation}
+R_S= \left\{ \begin{array}{ll}
+             R_0 - \tau/C_J & R_0 > \tau/C_J \\
+             0 & R_0 \leq \tau/C_J
+             \end{array}
+    \right.
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Temperature related equations
+\underline{Temperature Dependence}
+\newline
+\newline
+$T$ is the analysis temperature
+\newline
+$T_NOM$ is the reference temperature (298 K)
+\newline
+$V_TH=kT/q$
+\newline
+\begin{equation}
+\begin{array}{l}
+I_S(T)=I_S[e^{(T/T_{NOM-1})E_G/V_{TH}}](T/T_{NOM})^{XTI} \\
+\\
+\phi(T) = \phi(T/T_NOM) -3V_{TH}\ln(T/T_{NOM}) - E_G(T_{NOM})(T/T_{NOM}) + E_G(T) \\
+\\
+E_G(T)=E_G-0.000702(T^2/T+1108) \\
+\\
+C_{J0}(T)=C_{J0}(1+M(0.0004(T-T_{NOM})+(1-\phi(T)/\phi))) \\
+\\
+R_0(T)=R_0(1+AR_0(T-T_{NOM})+BR_0(T-T_{NOM})^2) \\
+\\
+V_B(T)=V_B(1+AV_B(T-T_{NOM})+BV_B(T-T_{NOM})^2)
+\end{array}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+%\newline
+%\vspace{4mm}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+The actual element in \FDA is the \texttt{spdiode} element.
+%See \FDA element \texttt{diode} for full documentation.\\
+See
+\htmladdnormallink{diode}{J:/eos.ncsu.edu/users/m/mbs/mbs_group/transim_manual/transim_elements/diode/documentation/diode.tex}
+for full documentation.\\
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Credits
+%\newline
+%\vspace{4mm}
+%\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}
+\newline
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson & NC State University & Sept 2000 & \epsfxsize=1in\pfig{logo.eps} \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+%\end{document}

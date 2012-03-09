@@ -1,0 +1,25 @@
+Circulator Test 1 
+
+.ac start = .01e9 stop = 20e9 n_freqs = 100
+*.tran2 tstart=0.1e-6 tstop=5e-6 tstep=.01e-6
+
+vsource:vin 1 0 vac=2 f=1e6
+circulator:cir1 2 3 4 0 0 0 r=50
+open:o1 2 0
+resistor:rin 1 3 r=50
+resistor:rload1 2 0 r=50
+resistor:rload2 4 0 r=50
+
+.out plot term 2 vf mag in "v6.out"
+.out plot term 2 vf mag in "v5.out"
+.out plot term 2 vf mag in "v4.out"
+.out plot term 2 vf mag in "v3.out"
+.out plot term 2 vf mag in "v2.out"
+.out plot term 2 vf mag in "v1.out"
+
+*.out plot term 4 vt in "v4.out"
+*.out plot term 3 vt in "v3.out"
+*.out plot term 2 vt in "v2.out"
+*.out plot term 1 vt in "v1.out"
+*.out plot term 0 vt in "v0.out"
+.end

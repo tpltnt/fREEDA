@@ -1,0 +1,391 @@
+%
+% .PRINT
+%
+\statement{.PRINT}{Print Specification}
+
+The print specification controls the information that is reported as the result
+of various analyses.
+
+\form{{\tt .PRINT TRAN } OutputSpecification \B OutputSpecification $\ldots$
+      \E\\[0.1in]
+      {\tt .PRINT AC   } OutputSpecification \B OutputSpecification $\ldots$
+      \E\\[0.1in]
+      {\tt .PRINT DC   } OutputSpecification \B OutputSpecification $\ldots$
+      \E\\[0.1in]
+    {
+      {\tt .PRINT DISTO} DistortionOutputSpecification
+              {\tt ( }DistortionReportType{ \tt )}\\{\tt +}
+              \B DistortionOutputSpecification
+              {\tt ( }DistortionReportType{ \tt )} $\ldots$ \E}
+     }
+
+\begin{widelist}
+
+\item[{\tt TRAN}] is the keyword specifying that this {\tt .PRINT} statement
+     controls the reporting of results of a transient analysis initiated by the
+     {\tt .TRAN} statement.
+
+\item[{\tt AC}] is the keyword specifying that this {\tt .PRINT} statement
+     controls the reporting of results of a small-signal \ac\ analysis initiated by
+     the {\tt .AC} statement.
+
+\item[{\tt DC}] is the keyword specifying that this {\tt .PRINT} statement
+     controls the reporting of results of a \dc\ analysis initiated by the
+     {\tt .DC} statement.
+
+\item[{\tt NOISE}] is the keyword specifying that this {\tt .PRINT} statement
+     controls the reporting of results of a noise analysis initiated by the
+     {\tt .NOISE} statement.
+
+{
+\item[{\tt DISTO}] is the keyword specifying that this {\tt .PRINT} statement
+     controls the reporting of results of a small-signal \ac\ distortion analysis
+     initiated by the {\tt .DISTO} statement.
+     }
+
+\end{widelist}
+
+\begin{widelist}
+\item[{\it OutputSpecification}] specifies the voltage or current to be reported
+     in a tabular format of up to 8 columns plus an initial column with the
+     sweep variable.
+
+     Many forms of {\tt OutputSpecification} are supported by
+     \pspice\ .
+     {Below is a description of the basic forms that are
+     supported both by \spicetwo\ and \pspice\ .  }
+     A comprehensive
+     description of {\tt OutputSpecification} supported by
+     \pspice\ is given in the section on output specification
+     on page \pageref{.PRINToutputspecification}.
+     %Up to 8 {\it OutputSpecification}s
+     \\[0.1in]
+
+{
+     \underline{Voltages} may be specified as an absolute voltage at a node:
+     {\tt V({\it NodeName})} or
+     the voltage at one node with respect to that at another node,
+     e.g. {\tt V(Node1Name,Node2Name)}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt V} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt VR} &-&real part\\
+      {\tt VI} &-&imaginary part\\
+      {\tt VM} &-&magnitude\\
+      {\tt VP} &-&phase\\
+      {\tt VDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\
+      In \ac\  analysis the default is {\tt VM} for magnitude.\\[0.1in]
+
+     \underline{Currents} are specified by referencing the name of the voltage
+     source through which the current is measured, e.g.
+     {\tt I(V{\it VoltageSourceName})}.
+
+     For the reporting of the results of an \ac\ analysis the following outputs
+     can be specified by replacing the {\tt I} as follows:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt IR} &-&real part\\
+      {\tt II} &-&imaginary part\\
+      {\tt IM} &-&magnitude\\
+      {\tt IP} &-&phase\\
+      {\tt IDB} &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}
+      In \ac\  analysis the default is {\tt IM} for magnitude.
+      }
+
+\item[{\it NoiseOutputSpecification}]
+     specifies the noise measure to be reported. The two options are
+     {\tt ONOISE} which reports the output noise and
+     {\tt INOISE} which reports the equivalent input noise.
+     See the {\tt .NOISE} statement on page \pageref{.NOISEstatement}
+     for a detailed explanation.
+
+     It  must be one of the following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt ONOISE} &-&RMS output noise voltage\\
+      {\tt DB(ONOISE)} &-&output noise voltage in dB (= 20 log({\tt ONOISE})\\
+      {\tt INOISE} &-&RMS equivalent input noise voltage\\
+      {\tt DB(INOISE)} &-&equivalent input noise voltage in dB (= 20 log({\tt INOISE})\\
+      {\tt GAIN} &-&voltage gain\\
+      {\tt DB(GAIN)} &-&voltage gain in dB (= 20 log({\tt GAIN})\\
+      {\tt GT} &-&transducer gain\\
+      {\tt DB(GT)} &-&transducer gain in dB (= 10 log({\tt GT})\\
+      {\tt NF} &-&spot noise factor\\
+      {\tt DB(NF)} &-& spot noise figure (= 10 log({\tt NF})\\
+      {\tt SNR} &-&output signal-to-noise ratio\\
+      {\tt DB(SNR)} &-&output signal-to-noise ratio in dB (= 20 log({\tt SNR})\\
+      {\tt TNOISE} &-&output noise temperature.
+      \end{tabular}
+
+\item[{\it SParameterOutputSpecification}]
+      specifies the S-parameter output variables that are to be printed.
+      Each variable must have one of the following forms:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt S(i,j)} &-&Magnitude of $S_{ij}$\\
+      {\tt SR(i,j)} &-&Real part of $S_{ij}$\\
+      {\tt SI(i,j)} &-&Imaginary part of $S_{ij}$\\
+      {\tt SP(i,j)} &-&Phase of $S_{ij}$ in degrees\\
+      {\tt SDB(i,j)} &-&Magnitude of $S_{ij}$ in dB
+                         (= 20 log({\tt {\tt S(i,j)}}))\\
+      {\tt SG(i,j)} &-&Group delay of $S_{ij}$
+      \end{tabular}\\[0.1in]
+      The port numbers are $i,j$  which are specified using the {\tt PNR} keyword
+      when the port element is specified.
+
+\end{widelist}
+
+{
+\begin{widelist}
+\item[{\it DistortionOutputSpecification}]
+     specifies the distortion component to be reported
+     in a tabular format of up to 8 columns plus an initial column with the sweep
+     variable.  The {\it DistortionOutputSpecification} is one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt HD2} &-&the second harmonic distortion\\
+      {\tt HD3} &-&the second harmonic distortion\\
+      {\tt SIM2} &-&the sum frequency intermodulation component\\
+      {\tt DIM2} &-&the difference frequency intermodulation component\\
+      {\tt DIM3} &-&the third order intermodulation component
+      \end{tabular}\\[0.1in]
+      See the {\tt .DISTO} statement on page \pageref{.DISTOstatement} for
+      a description of these distortion components.
+
+\item[{\it DistortionReportType }]
+     specifies the format for reporting the distortion components.
+     It  must be one of the
+     following:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      R &-&real part\\
+      I &-&imaginary part\\
+      M &-&magnitude\\
+      P &-&phase\\
+      DB &-&$10\,\mbox{log}(10\,magnitude)$
+      \end{tabular}\\[0.1in]
+      The default is {\tt M} for magnitude.
+\end{widelist}
+      }
+
+\example{
+.PRINT TRAN V(10) V(5,3) I(VIN)\\
+.PRINT AC VM(10) VR(5,3) IP(VLOAD)\\
+.PRINT DC V(10) V(5,3) I(VIN)\\
+.PRINT NOISE ONOISE INOISE DB(ONOISE) DB(INOISE)\\
+.PRINT NOISE GAIN DB(GT) DB(NF) SNR TNOISE\\
+.PRINT AS SDB(1,1) SP(1,1) SDB(1,2) SP(1,2)\\
+{.PRINT DISTO HD2 HD3 SIM2(DB)}
+}
+
+\note{
+\item There can be any number of {\tt .PRINT} statements.
+
+\item The number of significant digits of the results reported is
+{\tt NUMDGT} which is set in a {\tt .OPTIONS} statement (see page
+\pageref{.OPTIONNUMDGT}).
+
+\item The current through any element can be found by inserting independent
+voltage sources in series with the elements.
+This is generally what is required in \spicetwo and \spicethree.
+However \pspice\ supports direct specification of the voltage and currents
+of most elements. See the section on page
+\pageref{.PRINToutputspecification}.
+}
+
+
+\specialnote{Output Specification{ for \pspice}}{}
+\vspace{0.1in}
+\label{.PRINToutputspecification}
+\pspice\ supports a relatively large variety of output specifications compared
+to that available with \spicetwo\ and \spicethree . The output
+specifications described in the following can be used {\tt .PRINT}
+and {\tt .PLOT} statements.  The various forms of output specifications
+enable the current and voltages of virtually all devices to be
+examined>\\[0.1in]
+\underline{{\tt DC} and {\tt TRAN} Reporting}\\
+The output specifications available for the \dc\ sweep and transient
+analyses are
+
+\begin{widelist}
+
+\item[{\tt I(}{\it DeviceName}{\tt )}]
+Current through a two terminal device (such as a resistor {\tt R} element) or
+the output of a controlled voltage or current source. e.g.
+{\tt I(R22)} is the current flowing through resistor {\tt R22}
+from node $N_1$ to $N_2$ of {\tt R22}.
+
+\item[{\tt I}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )}]
+Current flowing into terminal named {\it TerminalName} (such as {\tt B} for
+gate) from the device named {\it DeviceName} (such as {\tt Q12}).
+e.g. {\tt IB(Q12)}
+
+\item[{\tt I}{$\,$PortName}{\tt (}{\it TransmissionLineName}{\tt )}]
+Current at port named {\it PortName} (either {\tt A} or {\tt B}) of the
+transmission line device named   {\it TransmissionLineName}
+
+\item[{\tt V(}{\it NodeName}{\tt )}]
+Voltage at a node of name {\it NodeName}.
+
+\item[{\tt V(}{$n_1,n_2$}{\tt )}]
+Voltage at node $n_1$ with respect to the voltage
+ at node $n_2$.
+
+\item[{\tt V(}{\it DeviceName}{\tt )}]
+Voltage across a two terminal device (such
+as a resistor {\tt R} element) or
+at the output of a controlled voltage or current source.
+
+\item[{\tt V}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )}]
+Voltage at terminal named {\it TerminalName} (such as {\tt G} for gate) of the
+device named   {\it DeviceName} (such as {\tt M12}). e.g. {\tt VG(M12)}
+
+\item[{\tt V}{$\,$TerminalName1$\,$TerminalName2}{\tt (}{\it DeviceName}{\tt )}]
+Voltage at terminal named {\it TerminalName1} (such as {\tt G} for gate) th respect to the terminal name {\it TerminalName2} (such as {\tt S} for source) of the
+device named   {\it DeviceName} (such as {\tt M12}). e.g. {\tt VGS(M12)}
+
+\item[{\tt V}{$\,$PortName}{\tt (}{\it TransmissionLineName}{\tt )}]
+Voltage at port named {\it PortName} (either {\tt A} or {\tt B}) of the
+transmission line device named   {\it TransmissionLineName} (such as
+{\tt T5}). e.g. {\tt VA(M5)}
+
+\end{widelist}
+
+\hspace*{\fill}\\[0.1in]
+
+\noindent\underline{Two Terminal Device Types Supported for \dc and
+Transient Analysis Reporting}\\[0.1in]
+The single character identifier  for the following elements
+as well as the rest of the device name can be used as the {\it DeviceName}
+in the {\tt I(}{\it DeviceName}{\tt )}  and {\tt I(}{\it DeviceName}{\tt )}
+output specifications.\\
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline
+{\tt C} & capacitor\\
+{\tt D} & diode\\
+{\tt E} & voltage-controlled voltage source\\
+{\tt F} & current-controlled current source\\
+{\tt G} & voltage-controlled current source\\
+{\tt H} & current-controlled voltage source\\
+{\tt I} & independent current source\\
+{\tt L} & inductor\\
+{\tt R} & resistor\\
+{\tt V} & independent voltage source\\
+\hline
+\end{tabular}\\[0.1in]
+
+\noindent
+\underline{Multi-Terminal Device Types Supported for \dc and Transient Analysis
+Reporting}\\[0.1in]
+The single character identifier for the following elements as well as the rest
+of the device name can be used as the {\it DeviceName}
+in the
+{\tt I}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )},
+{\tt V}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )} and\newline
+{\tt V}{$\,$TerminalName1$\,$TerminalName2}{\tt (}{\it DeviceName}{\tt )}
+output specifications.\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline
+{\tt B} & GaAs MESFET\ \ \ Terminals:\newline
+\hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+{\tt J} & JFET\ \ \ Terminals:\newline
+\hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+{\tt M} & MOSFET\ \ \ Terminals:\newline
+\hspace*{1in}B --- bulk or substrate\newline
+\hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+{\tt Q} & BJT\ \ \ Terminals\newline
+\hspace*{1in}C --- collector\newline
+\hspace*{1in}B --- base\newline
+\hspace*{1in}E --- emitter\newline
+\hspace*{1in}S --- source\\
+\hline
+\end{tabular}\\[0.1in]
+
+\noindent
+\underline{{\tt AC} Reporting}\\
+The output specifications available for reporting the results of an
+\ac\ frequency sweep analysis includes all of the specification formats discussed
+above for \dc\ and transient analysis together with a number of possible
+suffixes:\\
+      \offset\begin{tabular}{lcp{3.5in}}
+      {\tt DB} &-&$10\,\mbox{log}(10\,magnitude)$\\
+      {\tt M} &-&magnitude\\
+      {\tt P} &-&phase\\
+      {\tt R} &-&real part\\
+      {\tt I} &-&imaginary part\\
+      {\tt G} &-&group delay = ${\partial \phi/ \partial f}$\newline
+                 where $\phi$ is the phase of the quantity being reported
+         and $f$ is the analysis frequency.
+      \end{tabular}\\
+In \ac\  analysis the default suffix is {\tt M} for magnitude.\\[0.1in]
+
+\noindent\underline{Two-Terminal Device Types Supported for
+\ac\ Reporting}\\[0.1in]
+
+The single character identifier  for the following elements
+as well as the rest of the device name can be used as the {\it DeviceName}
+in the {\tt I(}{\it DeviceName}{\tt )}  and {\tt I(}{\it DeviceName}{\tt )}
+output specifications.\\
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline
+{\tt C} & capacitor\\
+{\tt D} & diode\\
+{\tt I} & independent current source\\
+{\tt L} & inductor\\
+{\tt R} & resistor\\
+{\tt V} & independent voltage source\\
+\hline
+\end{tabular}\\[0.1in]
+
+\noindent
+\underline{Multi-Terminal Device Types Supported for \dc and Transient Analysis
+Reporting}\\[0.1in]
+The single character identifier for the following elements as well as the rest
+of the device name can be used as the {\it DeviceName}
+in the
+{\tt I}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )},
+{\tt V}{$\,$TerminalName}{\tt (}{\it DeviceName}{\tt )} and\newline
+{\tt V}{$\,$TerminalName1$\,$TerminalName2}{\tt (}{\it DeviceName}{\tt )}
+output specifications.\\[0.1in]
+\hspace*{\fill}
+\begin{tabular}{|p{1in}|p{3in}|}
+\hline
+Element Type & Description\\
+\hline
+{\tt B} & GaAs MESFET\ \ \ Terminals:\newline
+\hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+\hline
+{\tt J} & JFET\ \ \ Terminals:\newline
+\hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+\hline
+{\tt M} & MOSFET\ \ \ Terminals:\newline
+\hspace*{1in}B --- bulk or substrate\newline
+\hspace*{1in}D --- drain\newline
+\hspace*{1in}G --- gate\newline
+\hspace*{1in}S --- source\\
+\hline
+{\tt Q} & BJT\ \ \ Terminals\newline
+\hspace*{1in}C --- collector\newline
+\hspace*{1in}B --- base\newline
+\hspace*{1in}E --- emitter\newline
+\hspace*{1in}S --- source\\
+\hline
+\end{tabular}\\[0.1in]

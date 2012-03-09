@@ -1,0 +1,104 @@
+\documentclass{article}
+\usepackage{epsf}\usepackage{here}
+\input{freeda1.sty}
+\begin{document}
+\noindent{\LARGE \textbf{2-port MMIC die with variable base
+temperature (for interface matching and a single averaged surface
+heating element}
+\hspace{\fill} \textbf{thermalshunt}}\\
+\hrulefill\linethickness{0.5mm}\line(1,0){425}
+\normalsize
+\newline
+%\linethickness{0.5mm} \line(1,0){425}
+%\newline
+\textit{Form:}
+%\newline
+$\tt thermalshunt$:$\langle \tt{instance\ name}\rangle$ $n_1\ n_2\
+n_3$ $\langle \tt{parameter\ list}\rangle$
+\newline
+\begin{tabular}{r l}
+$n_1$, $n_2$ and $n_3$ & are the element nodes. \\
+\end{tabular}
+% Parameter list
+\newline
+\textit{Parameters:}
+\begin{table}[H]
+\begin{tabular}{|c|c|c|c|}
+\hline
+Parameter&Type&Default value&Required?\\
+\hline
+ntimesteps: Number of time steps & INTEGER & 0 & no \\
+in transient simulation & & & \\
+\hline
+dt: Length of timestep (s) & DOUBLE & 0 & no \\
+\hline
+tambient: Ambient temperature (K) & DOUBLE & 300 & no\\
+\hline
+time\_d: Flag, if true, calculate in the time domain. &
+BOOLEAN & false & no \\
+\hline
+read\_input: Flag, read\_input thermal & BOOLEAN & false & no \\
+resistance matrices from file. & & & \\
+\hline
+l: Substrate x-dimension in meters. & DOUBLE & 0.0004 & no \\
+\hline
+w: Substrate y-dimension in meters. & DOUBLE & 0.0004 & no \\
+\hline
+d: Substrate z-dimension in meters. & DOUBLE & 0.0004 & no \\
+\hline
+xl: x-coordinate of left edge of heating element. & DOUBLE
+& 0.00022 & no \\
+\hline
+xr: x-coordinate of right edge of heating element. & DOUBLE
+& 0.00018 & no \\
+\hline
+yu: y-coordinate of upper edge of heating element. & DOUBLE
+& 0.00022 & no \\
+\hline
+yd: y-coordinate of lower edge of heating element. & DOUBLE
+& 0.00018 & no \\
+\hline
+ks: Thermal conductivity of die material (W/m.K). & DOUBLE
+& 46 & no \\
+\hline
+rho: Density of die material (kg.m-3). & DOUBLE & 5320 & no \\
+\hline
+c: Specific heat of die material (J/kg.K). & DOUBLE & 350 & no \\
+\hline
+nfingers: Number of power transistor fingers & INTEGER & 1
+& no \\
+\hline
+b: Exponent in power law temperature & DOUBLE 1.22 no \\
+dependence of thermal conductivity & & & \\
+\par
+\hline
+\end{tabular}
+\end{table}
+%example in \FDA
+\noindent\linethickness{0.5mm}\line(1,0){425}
+\newline
+\textit{Example:}
+\newline
+\texttt{thermalshunt:\ t3\ 103\ 203\ 200\ model="t2"}
+\newline
+\texttt{.model\ t2\ thermalshunt\ (Ntimesteps=nsteps dt=deltat
+Tambient=temp time\_d=1 nfingers = 1)}
+\newline
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Notes:}\\
+There is no equivalent SPICE element.\\
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Version:}\\
+2000.09.01 \\
+% Credits
+\linethickness{0.5mm} \line(1,0){425}
+\newline
+\textit{Credits:}\\
+\begin{tabular}{l l l l}
+Name & Affiliation & Date & Links \\
+Carlos E. Christofferson, Bill Batty & NC State University & Sept 2000 & \epsfxsize=1in\epsfbox{logo.eps}  \\
+cechrist@ieee.org & & & www.ncsu.edu    \\
+\end{tabular}
+\end{document}

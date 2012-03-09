@@ -1,0 +1,22 @@
+***  Purely thermal turn-on transient for the 1-port thermalMMIC element ***
+
+.options deltat=1us nsteps=101 temp=300.
+
+.svtr  tstop = 100us n_freqs = 8 tstep = deltat deriv=0
+*.tran2  tstop = 100us tstep = deltat 
+
+* Input power source
+isource:pin 1 0 idc=0.4 
+
+thermalheatsinkmmic1:test1 1 10 Ntimesteps=nsteps dt=deltat Tambient=temp time_d=1 
++ nfingers = 1
+* We need some resistor in parallel, otherwise the MNAM would
+* be singular. 
+resistor:rdummy2 1 10 r=1e5
+
+vsource:t1 10 0 vdc=temp
+
+.out plot element "thermalheatsinkmmic1:test1" 0 it in "input.power"
+.out plot element "thermalheatsinkmmic1:test1" 0 ut in "output.temperaturec"
+
+.end

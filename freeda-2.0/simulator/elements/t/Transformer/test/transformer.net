@@ -1,0 +1,71 @@
+***** Ideal Transformer Test ************
+***** transformer.net
+***** transformer In LRT Out LRT n1=turns_primary n2=turns_second 
+
+.options gmin=0 ftol=1.e-10
+
+*.ac start=1 stop = 100 n_freqs=10
+.tran2 tstop = 50e-3 tstep = 10e-6 gcomp=0 im=2
+
+***** print detailed info to .OUT file
+.options verbose
+
+**************** Circuit **************************
+*++++++ source for ac analysis
+*vsource:v1 1 0 vac=10V 
+
+*++++++ source for transient analysis
+vsource:v1 1 0 vac=10V f=60
+r:rin 1 2 r=50
+
+*+++++for turn ratio 1-to-1 Vin=Vout: 10V=10V
+*transformer:t1 2 0 3 0 
+
+*+++++for turn ratio 10-to-1 -> Vin/t=Vout: 10V=0.1V
+*transformer:t1 2 0 3 0 n1=10
+
+*+++++for turn ratio 1-to-10 -> Vin/t=Vout: 10V=100V
+transformer:t1 2 0 3 0 n2=10
+
+r:rload 3 0 r=1e6
+
+*+++++ for output reference other then Ground
+*+++++ turn ratio=1-to-1 -> Vin=Vout
+*transformer:t1 2 0 3 4 
+*+++++ Define reference point for FREEDA
+*.ref 4
+*r:rload 3 4 r=1.e6
+
+***************** Simulation *******************************************
+.options gnuplot
+
+***************** Transient Simulation Results *************************
+*++++++ set up plot preamble with font and label information
+.options plotVT1Preample="set term x11 font 'helvetica,18';
+         set title 'Source Voltage';
+         set xlabel 'Time (milliseconds)'; set ylabel 'Voltage (V_ac)'"
+.out plot term 1 vt 1e3 scalex plotVT1Preample in "vsource.out" 
+
+.options plotVT1Preample="set term x11 font 'helvetica,18';
+         set title 'Voltage at Input Terminal';
+         set xlabel 'Time (milliseconds)'; set ylabel 'Voltage (V_ac)'"
+.out plot term 2 vt 1e3 scalex plotVT1Preample in "vprimary.out" 
+
+.options plotVT1Preample="set term x11 font 'helvetica,18';
+         set title 'Voltage at Output Terminal';
+         set xlabel 'Time (milliseconds)'; set ylabel 'Voltage (V_ac)'"
+.out plot term 3 vt 1e3 scalex plotVT1Preample in "vsecondary.out" 
+
+****************** Frequency Simulation Results (.AC analysis)************
+*.options plotVT1Preample="set term x11 font 'helvetica,18';
+*         set title 'Voltage at Input Terminal';
+*         set xlabel 'Frequency (Hz)'; set ylabel 'Voltage (V_ac)'"
+*.out plot term 2 vf mag plotVT1Preample in "vprimary.out" 
+
+*.options plotVT1Preample="set term x11 font 'helvetica,18';
+*         set title 'Voltage at Output Terminal';
+*         set xlabel 'Frequency (Hz)'; set ylabel 'Voltage (V_ac)'"
+*.out plot term 3 vf mag plotVT1Preample in "vsecondary.out" 
+
+.end
+

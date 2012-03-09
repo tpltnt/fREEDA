@@ -1,0 +1,57 @@
+This directory contains encapculated postscript versions of 
+LateX pictures created by gnuplot.
+
+The procedure was to you create a single page with just the diagram on it
+run dvips on the dvi file using the -E switch (Using Version 5.515A of dvips
+Finding the bounding box using labb Then editing the postscript file and adding
+the bounding box info.  There is one warning about this not being an EPS file but
+it seems to work.
+
+STEPS THAT WERE PERFORMED:
+
+1.
+_______
+
+
+\begin{document}
+\pagestyle{empty}
+%\TeXtoEPS
+%\input{iexp}
+\begin{center}
+\ \psfig{figure=temp1.ps,width=1in}
+\end{center}
+
+2.
+________
+
+dvips -E filename >! filename.ps
+
+
+3.
+_______
+copy filename.ps temp.ps
+prepend bb.ps to temp.ps
+and then view (print) temp.ps to obtain bounding box information.
+
+
+4.
+_______
+Add bounding box info to filename.ps  Then I had to fudge the bounding box a
+little.
+
+
+
+
+
+The folowing translations were performed
+
+  iexp.tex     --> iexp.eps
+  isffm.tex    --> isffm.eps
+  ipulse.tex   --> ipulse.eps
+  ipwl.tex     --> ipwl.eps
+  isin.tex     --> isin.eps
+  vexp.tex     --> vexp.eps
+  vsffm.tex    --> vsffm.eps
+  vpulse.tex   --> vpulse.eps
+  vpwl.tex     --> vpwl.eps
+  vsin.tex     --> vsin.eps

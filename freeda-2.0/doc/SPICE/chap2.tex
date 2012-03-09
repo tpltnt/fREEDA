@@ -1,0 +1,265 @@
+\chapter{Getting Started\label{chapter:chap2}}
+
+In this chapter, we simulate a small circuit in order to
+introduce you to \spice.  We describe the input file, or ``circuit''
+file, showing you the generic structure of the file, and
+giving a number of examples.   Though in each example we describe
+what is shown, we do not list all the options and variations
+for each item described.  The reader is referred to the reference
+sections
+(chapters \ref{chapter:statement} and \ref{chapter:element})
+for that.  We then show
+you how to run \spice\ and discuss the different features of the
+output file.
+
+\section{The Input File}
+
+A typical input file, and a schematic of the circuit and input
+waveform it is simulating, is shown in Figure~\ref{input}.
+%
+\begin{figure}
+\centerline{\pfig{simpleex.ps}}
+\par\noindent
+\begin{center}
+\begin{tabular}{ll}
+{\tt Simple RC Network} & {\em Title Line} \\
+{\tt * } & \\
+{\tt * This is a comment} & {\em Comments Lines} \\
+{\tt * } & \\
+{\tt R1 1 2 500} & {\em Element Lines} \\
+{\tt C1 2 0 5p } & \\
+{\tt vin 1 0 pulse (0 1.5 4ns 3ns 5ns 2ns 17ns)} & \\
+{\tt * } & \\
+{\tt .tran 500ps 34ns} & {\em Control Statement Lines} \\
+{\tt .print tran v(1) v(2) i(vin)} & \\
+{\tt * } & \\
+{\tt .end} & {\em End Line} 
+\end{tabular}
+\end{center}
+\caption{Example circuit and corresponding input file.}
+\label{input}
+\end{figure}
+%
+The input file is created with a text editor  and is typically
+named something like `test.cir'.  The file is made up of five
+types of lines:
+\begin{itemize}
+  \item A {\em title line}, up to 80 characters long, placed
+	at the start of the file.
+  \item An {\tt .end} statement at the end of the file.
+	\notforsspice{This statement can
+	be safely omitted in many simulators but its usage is recommended for
+	compatibility purposes.}
+  \item Any number of {\em comment lines}, each starting with {\em `*'}, can
+	be placed anywhere after the title and before the end.
+  \item Any number of {\em element lines} that describe the circuit
+	to be simulated.  The basic syntax of the element line is
+\begin{center}
+{\it name node node ... value}
+%  $<$name$>$ $<$node$>$ $<$node$>$ ... $<$value$>$
+\end{center}
+where  {\it name} is the name that you assign to the element.  The first
+character in the name identifies the type of circuit element being
+described, e.g.
+`{\tt R}' for a resistor.  From one to seven characters must then be added to
+the name to identify it uniquely, e.g. `{\tt R1}', or `{\tt Rpulldn}'.  Numbers are
+usually used.  The  {\it node}'s identify the nodes in the circuit
+to which the
+terminals or `leads' of the circuit element are connected.   For example,
+one terminal of the capacitor `{\tt C1}' is connected to the node numbered
+`{\tt 0}',
+which must be used for the ground (or common reference) node, and the
+other terminal is
+connected to node number `{\tt 2}'.  In \spice\ each circuit node is identified
+by a unique number.  {\it value} describes the value(s) needed to
+describe the element.
+
+  \item Any number of {\em control statement lines} that specify 
+	what type of circuit analysis is to be performed and how the
+	results are to be reported.
+\end{itemize}
+The elements and control statement lines can be written in any order,
+even intermixed.
+
+The first two element lines describe a 1~k$\Omega$ resistor and a 
+5~fF capacitor.  Almost-standard metric prefixes are used in
+\spice, the prefix abbreviation, the full metric name, and the represented
+scale factors being as follows:
+\begin{center}
+  \begin{tabular}{lll}
+{\bf Spice Prefix} & {\bf Metric equivalent} & {\bf Scale} \\
+  \ \ \ \ \ F & femto & $10^{-15}$ \\
+  \ \ \ \ \ P & pico  & $10^{-12}$ \\
+  \ \ \ \ \ N & nano  & $10^{-9}$ \\
+  \ \ \ \ \ U & micro & $10^{-6}$ \\
+  \ \ \ \ \ M & milli & $10^{-3}$ \\
+  \ \ \ \ \ K & kilo  & $10^{+3}$ \\
+  \ \ \ \ \ MEG & mega  & $10^{+6}$ \\
+  \ \ \ \ \ G & giga  & $10^{+9}$ \\
+  \ \ \ \ \ T & tera  & $10^{+12}$ \\
+  \end{tabular}
+\end{center}
+As \spice\ does not differentiate between upper and lower case, `{\tt MEG}'
+(or `{\tt meg}')
+is used for `mega' instead of the standard metric upper case `M'.
+
+The value of an element is specified in terms of the conventionally
+accepted units,
+e.g. resistance in Ohms, capacitance in Farads, and inductance in Henries.
+If you wish you can spell it out more fully, e.g.
+\begin{center}
+\begin{tabular}{ll}
+{\tt  C1  0  2  5f} & or \\
+{\tt  C1  0  2  5fF} & or \\
+{\tt C1  0  2  5fFarad}  &or even \\
+{\tt C1 0 2 5fthingies} &
+\end{tabular}
+\end{center}
+The last alternative is allowed as
+\spice\ actually ignores whatever follows the `{\tt f}' and assumes Farads.
+
+The element named `{\tt Vin}' is an example of an independent voltage source.
+In this case the voltage source produces a repeating pulse, as shown below:
+\par\noindent
+%\vspace{5mm}
+\par\noindent
+\centerline{\pfig{pulseex.ps}}
+\par\noindent
+{\tt vin 1 0 pulse (0 1 5 4ns 3ns 2ns 5ns 17ns)}
+\vspace{5mm}
+\par\noindent
+The general format for a pulse independent source is:
+\vspace{5mm}
+\par\noindent
+{\it {\tt V}name Node1 Node2 pulse (Initial-Value Pulsed-Value Delay-Time
+Rise-Time  Fall-Time Pulse-Width Period)}
+\vspace{5mm}
+\par\noindent
+The first control statement, {\tt .tran 200ps 34ns}, specifies that a 
+transient response simulation is to be run, i.e. we wish to know how
+the circuit behaves as a function of time.   The total length of
+the simulation is to be 34~ns and the outputs are to be obtained
+every 500ps.  The second control statement, {\tt .print tran v(1) v(2) i(vin)},
+specifies that the output is to be in the format of a printed table
+({\tt .print});
+that transient waveforms ({\tt tran}) are to be tabulated
+as a function of time; and that we wish to know the values for the voltage
+at the input (node 1 {\tt v(1)}, the output (node 2 {\tt v(2)}) and the
+current through the voltage source {\tt Vin}
+at the time steps specified in the {\tt .tran} statement.
+Note that all control statements start with a period `{\tt .}'.
+We are now ready to run the simulator.
+
+\section{Running Spice and Viewing the Output}
+
+\notforsspice{The details of how to run \spice\ vary from system to system.  On a 
+computer running the Unix operating system,}
+\spice\  can be run with a command line like the following:
+\begin{center}
+{\tt spice test.cir test.out}
+\end{center}
+\par\noindent
+This will cause \spice\ to read in the file and produce the output listing
+file `test.out'.  Parts of the test.out are shown in Figure~\ref{out}.
+%
+\begin{figure}
+\centerline{\epsfysize=15cm\pfig{simpout.ps}}
+\caption{Portions of the \spice\ output file.}
+\label{out}
+\end{figure}
+%
+The first part of the file is a header.  Then the input file
+is listed.  Just like a human circuit analyzer, \spice\ has to first 
+calculate the initial DC conditions before running the transient analysis.
+The results of this calculation are shown next.  Finally, the transient
+response is tabulated.
+
+In this output, `{\tt D}' and `{\tt E}' both indicate scientific
+notation, e.g. {\tt 4.500D-09}  means $4.5 \times 10^{-9}$.
+
+There are other ways to view the output.  For example if a {\tt .plot}
+control statement is used instead of a {\tt .print} statement, the
+voltages and currents are plotted using character `graphics', an
+example of which is given in Figure~\ref{cg}.
+%
+\begin{figure}
+{\tt
+\begin{verbatim}
+0LEGEND:
+
+ *: V(1)
+ +: V(2)
+ =: I(VIN)
+X
+     TIME      V(1)
+
+ ...
+
+(=)-----------------  -4.000D-06               -2.000D-06
+                           - - - - - - - - - - - - - - - - - - - - - - -
+ 0.000D+00    0.000D+00   *                        +
+ 5.000D-10    0.000D+00   *                        +
+ 1.000D-09    0.000D+00   *                        +
+ 1.500D-09    0.000D+00   *                        +
+
+ ....
+
+  4.500D-09    2.500D-01   .            *      =    .     +
+\end{verbatim}
+}
+(Only part of the file is shown here:  the legend, the `y-axis' scale for
+{\tt I(VIN)} (the `y-axis' is left to right across the page) and part of
+the plot with the `time' axis going down the page.)
+\caption{Example of output produced by the {\tt .plot} control statement.}
+\label{cg}
+\end{figure}
+
+\notforsspice{Using appropriate graphical packages, the output can also be plotted 
+as smooth curves.  For example, gnuplot was used to create the
+graph shown in Figure~\ref{op}.
+%
+\begin{figure}
+\centerline{\epsfxsize=6in\pfig{simple.ps}}
+\caption{Results plotted graphically.}
+\label{op}
+\end{figure}
+%
+%This will be discussed later.
+}
+
+\section{Error Messages}
+\label{err1}
+
+There are many ways to produce errors in \spice.  The most common error
+produced by novice users is to `connect the circuit' up incorrectly. 
+For example, in the \spice\ input file discussed above,
+if we connect one of the nodes of the capacitor to node 1 instead of
+node 2, viz.
+{\tt
+\begin{verbatim}
+r1 1 2 1k
+c1 0 1 5f
+vin 1 0 pulse (0 1.5 4ns 3ns 5ns 2ns 17ns)
+\end{verbatim}}
+\noindent then we have not specified our circuit as drawn.  In this case, we also
+leave one terminal of the resistor unconnected to anything else
+and \spice\ detects the error and reports it in the output file:
+{\tt
+\begin{verbatim}
+0*ERROR*:  LESS THAN 2 CONNECTIONS AT NODE      2
+\end{verbatim} } 
+However, life  is rarely so simple.  In a complex circuit it is always easy
+to get one node number wrong on one element but leave all of the nodes connected
+to two or more elements.  In this case \spice\ might detect no errors.  If the
+output looks `wrong' for any reason, the first thing to do is 
+to draw your circuit by looking at the \spice\ file as written and check
+that against your intended circuit.
+
+Another important thing to remember about error messages is that \justspice\
+is not very good at drawing attention to them.
+\justspice\ output files 
+tend to be long and are cryptic looking.  Error and Warning messages
+can be found almost anywhere within them.
+\notforsspice{Read the entire file.
+Errors are discussed further in Chapter \ref{chapter:chap3} and Appendix
+\ref{chapter:error}.}

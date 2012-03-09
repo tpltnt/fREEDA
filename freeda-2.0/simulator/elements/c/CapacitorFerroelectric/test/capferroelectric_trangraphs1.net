@@ -1,0 +1,55 @@
+*** Transient Analysis for the Ferroelectric capacitor
+
+.options verbose
+*.svtr  tstop = 2e-5 n_freqs = 70 tstep = 0.25e-6
+*.svtr  tstop = 1e-4 n_freqs = 70 tstep = 0.25e-6
+
+.tran2 tstop = 1e-4 tstep = 0.50e-6 out_steps=1 im=2
+
+
+*vsource:1 1 0 vac=1.0 f=0.3e5 phase=90
+
+vpulse:v1 1 0 v1=0 v2=5 td=0 tr=0.05e-5 tf=0.05e-5 pw=1.5e-5 per=3.5e-5
+capacitorferroelectric:cf1 1 2 a=6500e-12 d=150e-9 p=160e-9
+
+*RC time constant << T
+resistor:rin1 2 0 r=1000   
+
+*RC time constant ~ T 
+*resistor:rin1 2 0 r=25000
+
+*RC time constant >> T 
+*resistor:rin1 2 0 r=1000000
+
+
+
+.options gnuplot
+*.options postamble1 = "using 2:3"
+
+.options plotVT1Preamble="set term x11 font 'helvetica,13';
+set title 'Ferroelectric capacitor Voltage';
+set xlabel 'TIME (microseconds)'; set ylabel 'VOLTAGE (V)'"
+.out plot element "capacitorferroelectric:cf1" 0 ut 1e6 scalex plotVT1Preamble in "capacitorferroelectric_v.out"
+
+.options plotVT1Preamble="set term x11 font 'helvetica,13';
+set title 'Ferroelectric capacitor Current';
+set xlabel 'TIME (microseconds)'; set ylabel 'Current (A)'"
+.out plot element "capacitorferroelectric:cf1" 0 it 1e6 scalex plotVT1Preamble in "capacitorferroelectric_i.out"
+
+.options plotVT1Preamble="set term x11 font 'helvetica,13';
+set title 'Input Voltage Source';
+set xlabel 'TIME (microseconds)'; set ylabel 'Voltage (V)'"
+.out plot term 1 vt 1e6 scalex plotVT1Preamble in "source_v.out"
+
+.options plotVT1Preamble="set term x11 font 'helvetica,13';
+set title 'Voltage across resistor';
+set xlabel 'TIME (microseconds)'; set ylabel 'Voltage (V)'"
+.out plot term 2 vt 1e6 scalex plotVT1Preamble in "res_v.out"
+
+
+*pack in "capacitorferroelectric_combo.out"
+*.out plot "capacitorferroelectric_combo.out" postamble
+**.out plot element "capacitorferroelectric22:cf1" 0 xt in "capacitorferroelectric_x.out"
+*.out plot element "capacitorferroelectric22:cf1" 0 ut stripx in "capacitorferroelectric_v.out"
+.end
+

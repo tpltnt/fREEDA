@@ -1,0 +1,109 @@
+\element{C}{Capacitor}
+\begin{figure}[h]
+\centering
+\ \pfig{c_spice.ps}
+\caption{C --- capacitor element. \label{c:fig}}
+\end{figure}
+\form{ {\tt C}name  $N_1$ $N_2$ CapacitorValue \B {\tt IC=}$V_C$\E
+   \B{\tt L=} Length\E \B{\tt W=} Width\E }
+\spicethreeform{ {\tt C}name  $N_1$ $N_2$ \B ModelName \E CapacitorValue
+   \B {\tt IC=}$V_C$\E
+   \B{\tt L=} Length\E \B{\tt W=} Width\E }
+\pspiceform{ {\tt C}name  $N_1$ $N_2$ \B ModelName \E
+ ~CapacitorValue \B {\tt IC=}$V_C$\E }
+\begin{widelist}
+\item[$N_1$] is the positive element node,
+\item[$N_2$] is the negative element  node, and
+\item[{\it ModelName}]  is  the optional  model name.
+\item[{\it CapacitorValue}]  is  the  capacitance.  This is
+               modified if {\it ModelName} is specified.\\
+               (Units: F; Required; Symbol: $CapacitorValue$)
+
+\item[{\it L}] is the length {\it Length} of the integrated capacitor.\\
+               (Units: m; Required in \spicethree\ if {\it ModelName}
+               specified; Symbol: $\Length$;)
+\item[{\it W}] is the width {\it Length} of the integrated capacitor.\\
+               (Units: m; Optional; Default: Default width {\tt DEFW}
+               specified in model {\it ModelName}; Symbol: $\Length$;)\\
+
+\item[{\tt IC}] is the optional  initial condition specification
+      Using {\tt IC=}$V_C$ is intended for use with the {\tt UIC} option
+      on  the  {\tt .TRAN}  line,  when  a transient analysis is desired
+      with an initial voltage $V_C$ across the capacitor
+      rather than the quiescent operating point.
+      Specification of the transient initial conditions using the {\tt .IC}
+      statement (see page \pageref{.ICstatement}) is preferred and is more
+      convenient.
+\end{widelist}
+\example{ CAP1 1 GND 12.3PF \\
+          C1 node1 0 ((12.3 + 2.1)/2) }
+
+\modeltype{CAP}
+
+\modelx{CAP}{\spicethree\ Only}{Capacitor Model}
+\label{CAPmodelsp3}
+
+\form{ {\tt .MODEL} ModelName {\tt CAP(} \B  \B keyword = value\E  ... \E
+{\tt )}}
+
+\example{ .MODEL SMALLCAP CAP( CJ CJSW DEFW$10^{-6}$ NARROW) }
+
+\modelkeyword{
+{\tt CJ} &junction bottom capacitance\sym{C_J}&$\mbox{F/m}^2$    &\reqd \X
+{\tt CJSW}    &junction sidewall capacitance\sym{C_{J,\ms{SW}}}&F/m        &\reqd \X
+{\tt DEFW}    &default device width\sym{W_{\ms{DEF}}}&meters     &$10^{-6}$\X
+{\tt NARROW}  &narrowing due to side etching\sym{X_{\ms{NARROW}}}&meters   &0\X
+    }
+
+The \spicethree\ capacitance model is a process model for a monolithicly
+fabricated capacitor enabling the capacitance to be determined from geometric
+information.  If the parameter {\tt W} is not specified on the element
+line then $Width$
+defaults to {\tt DEFW} = $W_{\ms{DEF}}$. The effective dimensions are reduced
+by etching so that the effective length of the capacitor is
+\begin{equation}
+L_{\ms{EFF}} = (Length - X_{\ms{NARROW}})
+\end{equation}
+and the effective width is
+\begin{equation}
+W_{\ms{EFF}} = (Width - X_{\ms{NARROW}})
+\end{equation}
+The new value of the capacitance
+\begin{equation}
+{\it NewCapacitorValue} = C_J L_{\ms{EFF}} W_{\ms{EFF}}
+          + 2 C_{J,\ms{SW}}( L_{\ms{EFF}} +  W_{\ms{EFF}} )
+\end{equation}
+
+\modelx{CAP}{\pspice\ Only}{Capacitor Model}
+
+\label{CAPmodelpspice}
+
+\form{ {\tt .MODEL} ModelName {\tt CAP(} \B  \B keyword = value\E  ... \E
+{\tt )}}
+
+\example{ .MODEL SMALLCAP GASFET(C=2.5 VC1=0.01 VC2=0.001 TC1=0.02 TC2=0.005)}
+
+\modelkeyword{
+{\tt C} &capacitance multiplier\sym{C_{\ms{MULTIPLIER}}}&-    &1 \X
+{\tt VC1}    &linear voltage coefficient\sym{V_{C1}}&1/V        &0\X
+{\tt VC2}    &quadratic voltage coefficient\sym{V_{C2}}&1/V        &0\X
+{\tt TC1}    &linear temperature coefficient\sym{T_{C1}}&1/$^{\circ}C$     &0\X
+{\tt TC2}    &quadratic temperature coefficient\sym{T_{C1}}&1/$^{\circ}C$  &0\X
+    }
+
+The \pspice\ capacitance model is a nonlinear temperature dependent capacitor
+model.  It is assumed that the model parameters were determined or
+measured at the nominal temperature $T_{\ms{NOM}}$ (default
+$27^{\circ}$C) specified in the most recent {\tt .OPTIONS} statement
+preceeding the {\tt .MODEL} statement.
+
+If the CAP model is specified then a new capacitance is evaluated
+as
+\begin{eqnarray}
+C & = &CapacitorValue\,C_{\ms{MULTIPLIER}}
+  \left[ 1 + V_{C1} V_C + V_{C2} V_C^2 \right] \\
+  && \times\left[ 1 + T_{C1} (T-T_{\ms{NOM}}) + T_{C2} (T-T_{NOM})^2 \right]
+\end{eqnarray}
+where $V_C$ is the voltage across the capacitor as in figure \ref{c:fig} and
+$T$ is the current temperature.
+If \pspice\ CAP model is not specified then the capacitance specified on the element line is used.

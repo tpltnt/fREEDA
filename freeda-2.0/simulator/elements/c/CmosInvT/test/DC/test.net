@@ -1,0 +1,25 @@
+***** Test inverter
+.options initTmp=400
+.ref "tref"
+.ref 0
+.dc sweep="vsource:vin" start=0 stop=5 step=0.1
+mosnekvt:m1 30 20 10 10 2000 "tref" type=-1 tmp=initTmp
+mospekvt:m2 30 20 0  0 2005 "tref"  tmp=initTmp
+vsource:vin 20 0 vdc=0
+vsource:vdd 10 0 vdc=5
+
+***output
+r:Rout 30 0 r=1000000
+**c:Cout 30 0 c=1e-12
+
+** thermal
+r:r1 2000 2001 r=6e3
+r:r2 2005 2001 r =6e3
+c:c1 2000 2001 c=1e-12
+c:c2 2005 2001 c=1e-12
+vsource:vt1 2001 "tref" vdc=initTmp
+
+.options gnuplot
+.out plot term 30 vt in "v.out"
+.out plot element "vsource:vt1" 0 it in "i.out"
+.end
