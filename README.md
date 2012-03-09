@@ -40,6 +40,34 @@ For ifreeda
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
 
+#Adding a new element
+A new element contains a ElementName.cc and ElementName.h file. To read more
+about how to create an element, read the fREEDA programmer's manual in the
+doc directory.
+
+Once the element is created, add the element to fREEDA by doing the following:
+- Create a directory structure under the fREEDA-<version-number>/simulator/elements
+directory. For example, if you write name your model "Capacitor", you would create a
+Capacitor directory inside fREEDA-<version-number>/simulator/elements/c.
+
+This Capacitor directory should contain 4 sub-directories:
+i) src - which will contain the Capacitor.cc and Capacitor.h files you have just created
+ii) bitmap - which will contain a 32x32 pixel png image of the capacitor that goes into the GUI
+iii) doc - Documentation for your capacitor element detailing the theory of your element, its usage in a netlist, and simulation results using this element
+iv) history - this folder contains previous versions of your element in case you are updating your device model with new code and want to keep a copy of your previous versions.
+
+- In fREEDA-<version-number>/simulator/elements, edit a file called makefile.list.
+  You will add two lines to makefile.list. The first line point fREEDA to the .cc file,
+  while the second line points fREEDA to the name of the element. See the already existing
+  entries of that and follow that format.
+ 
+- Go to fREEDA-<version-number>/simulator, type "make dep". Then type "make". 
+
+- Your element file will be compiled again and the fREEDA binary file  will be re-built,
+  after which you can use your new element in a netlist.
+
+- To add this element to the fREEDA GUI (ifreeda), see the file README_GUI.
+
 #Developers
 fREEDA has evolved because of the work of many people. Below is a list of
 people, many of whom are still actively involved. Please email Nikhil Kriplani
