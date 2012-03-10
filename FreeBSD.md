@@ -30,8 +30,11 @@ status
 - not in ports collection
 - building gfortran: [wiki instructions](http://gcc.gnu.org/wiki/GFortranSource) and [Installing GCC](http://gcc.gnu.org/install/)
 
-  1. download source
-  ```wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2```
+  1. download sources
+  ```
+  wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-4.2.1.tar.bz2
+  wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2
+  ```
 
   2. unpack it
   ```tar -xf gcc-fortran-4.2.1.tar.bz2```
