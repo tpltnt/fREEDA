@@ -9,3 +9,18 @@ Ports used
   
 - [BLAS](http://www.freshports.org/math/blas/) - Basic Linear Algebra Subroutines: cd /usr/ports/math/blas/ && make install clean
 - [LAPACK](http://www.freshports.org/math/lapack/) - A library of Fortran 77 subroutines for linear algebra: cd /usr/ports/math/lapack/ && make install clean
+
+useful links
+------------
+
+- http://gcc.gnu.org/fortran/
+
+status
+------
+
+- building trilinos fails
+
+  - /usr/local/bin/g95 CMakeFiles/cmTryCompileExec.dir/testFortranCompiler.f.o -o cmTryCompileExec
+  - ld: cannot find -lf95
+  - gmake[1]: *** [cmTryCompileExec] Error 1
+  - gmake: *** [cmTryCompileExec/fast] Error 2
