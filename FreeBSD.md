@@ -22,13 +22,16 @@ status
 ------
 
 - not in ports collection
-- building gfortran: [Installing GCC](http://gcc.gnu.org/install/)
+- building gfortran: [wiki instructions](http://gcc.gnu.org/wiki/GFortranSource) and [Installing GCC](http://gcc.gnu.org/install/)
 
   1. download source
   ```wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2```
 
   2. unpack it
   ```tar -xf gcc-fortran-4.2.1.tar.bz2```
+
+  3. change into source directory
+  ```cd gcc-4.2.1```
 
 - building trilinos fails
 
