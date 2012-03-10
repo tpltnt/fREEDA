@@ -45,7 +45,7 @@ tested.
 
 Installation
 ------------
-see [Install.md](fREEDA/Install.md)
+see Install.md
 
 Documentation
 =============
