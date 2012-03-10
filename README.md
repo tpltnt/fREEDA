@@ -43,6 +43,9 @@ For ifreeda
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
 
+Installation
+------------
+see Install.md
 
 Documentation
 =============
