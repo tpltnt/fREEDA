@@ -32,8 +32,7 @@ status
 
   1. download sources
   ```
-  wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-4.2.1.tar.bz2
-  wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2
+  wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-4.2.1.tar.bz2 http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2
   ```
 
   2. unpack it
