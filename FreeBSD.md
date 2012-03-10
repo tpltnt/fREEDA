@@ -16,9 +16,15 @@ useful links
 - http://www.netlib.org/lapack95/
 - http://gcc.gnu.org/fortran/
 - http://gcc.gnu.org/wiki/GFortran
+- http://gfortran.com/
 
 status
 ------
+
+- building gfortran
+
+  1. download source
+  ```wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2```
 
 - building trilinos fails
 
