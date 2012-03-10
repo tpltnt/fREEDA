@@ -45,7 +45,7 @@ tested.
 
 Installation
 ------------
-see [Install.md]()
+see [Install.md](Install.md)
 
 Documentation
 =============
