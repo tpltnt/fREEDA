@@ -13,6 +13,7 @@ Ports used
 useful links
 ------------
 
+- http://www.netlib.org/lapack95/
 - http://gcc.gnu.org/fortran/
 - http://gcc.gnu.org/wiki/GFortran
 
