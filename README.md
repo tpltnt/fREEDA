@@ -43,9 +43,6 @@ For ifreeda
 It is encouraged to use Qt 4.5.0 only. Newer versions of Qt have not been
 tested.
 
-Notes for FreeBSD
------------------
-- Fortran compiler g95: cd /usr/ports/lang/g95/ && make install clean
 
 Documentation
 =============
