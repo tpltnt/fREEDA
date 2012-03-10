@@ -26,6 +26,9 @@ status
   1. download source
   ```wget http://www.artfiles.org/gnu.org/gcc/gcc-4.2.1/gcc-fortran-4.2.1.tar.bz2```
 
+  2. unpack it
+  ```tar -xf gcc-fortran-4.2.1.tar.bz2```
+
 - building trilinos fails
 
   - /usr/local/bin/g95 CMakeFiles/cmTryCompileExec.dir/testFortranCompiler.f.o -o cmTryCompileExec
